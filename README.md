@@ -10,10 +10,10 @@ yarn install
 yarn global add expo
 
 # Login to expo
-expo login
+yarn expo login
 
 # Run dev server
-expo start
+yarn expo start
 ```
 
 ## 2. Branch Convention

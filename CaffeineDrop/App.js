@@ -5,13 +5,14 @@ import { StyleSheet, Text, View } from "react-native";
 
 // 각 페이지 임포트
 import DetailPage from "./pages/detailpage";
-
+import HomePage from "./pages/homepage";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="HomePage" component={HomePage} />
         <Stack.Screen name="DetailPage" component={DetailPage} />
       </Stack.Navigator>
     </NavigationContainer>

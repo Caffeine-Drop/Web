@@ -13,9 +13,28 @@ export default function EventPage02({ navigation }) {
                     </IconWrapper>
                     <Title>원두 진단하기</Title>
                 </Navbar>
-                <StatusContainer></StatusContainer>
+                <StatusContainer>
+                    <CurrentState></CurrentState>
+                </StatusContainer>
 
-                <Content></Content>
+                <Content>
+                    <TextContainer>
+                        <HeaderContainer>
+                            <HeaderText>
+                                나는 향이 강한
+                                <br />
+                                원두가 좋다
+                            </HeaderText>
+                        </HeaderContainer>
+
+                        <ContentContainer>
+                            <ContentText>
+                                원두의 향은 네 가지로 구성돼요.
+                                <HighlightText1> 프레그런스, 아로마, 노즈, 애프터 테이스트</HighlightText1>가 있어요. 카페인 드롭은 이 중<HighlightText2>애프터 테이스트 혹은 아로마를 테이스팅 노트에 반영했어요.</HighlightText2>
+                            </ContentText>
+                        </ContentContainer>
+                    </TextContainer>
+                </Content>
 
                 <Footer>
                     <ButtonWrapper>
@@ -59,13 +78,74 @@ const Title = styled.Text`
     letter-spacing: -0.02813rem;
 `;
 const StatusContainer = styled.View`
+    display: flex;
     height: 0.1875rem;
-    flex-shrink: 0;
+    flex-direction: row;
     background: #f1f1f1;
 `;
+const CurrentState = styled.View`
+    width: 5.625rem;
+    height: 0.1875rem;
+    flex-shrink: 0;
+    background: #756555;
+`;
+
 const Content = styled.View`
     flex: 1;
     width: 100%;
+`;
+
+const TextContainer = styled.View`
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+`;
+const HeaderContainer = styled.View`
+    margin-top: 2.62rem;
+`;
+const HeaderText = styled.Text`
+    color: #000;
+    text-align: center;
+    font-family: Pretendard;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 138%; /* 2.76rem */
+    letter-spacing: -0.05rem;
+`;
+const ContentContainer = styled.View`
+    text-align: left;
+`;
+const ContentText = styled.Text`
+    color: #000;
+    font-family: Pretendard;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 1.3125rem */
+    letter-spacing: -0.02188rem;
+`;
+const HighlightText1 = styled.Text`
+    color: #000;
+    font-family: Pretendard;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: -0.02188rem;
+`;
+const HighlightText2 = styled.Text`
+    color: #000;
+    font-family: Pretendard;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: -0.02188rem;
 `;
 
 const Footer = styled.View`

@@ -1,11 +1,13 @@
 import React from "react";
 import { View, Text, Button } from "react-native";
 import styled from "styled-components/native";
+import BackIcon from "../../assets/Components/BackIcon";
 
 export default function EventPage01({ navigation }) {
     return (
         <Container>
             <Navbar>
+                <BackIcon />
                 <Title>원두 진단하기</Title>
             </Navbar>
         </Container>

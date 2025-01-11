@@ -23,7 +23,7 @@ const HomeScreen = () => {
         if (gesture.dy < -100) {
           // 완전히 올리기
           Animated.timing(translateY, {
-            toValue: GNB_HEIGHT, // GNB 바로 아래로 이동
+            toValue: 0, // GNB 바로 아래로 이동
             duration: 300,
             useNativeDriver: true,
           }).start();
@@ -53,14 +53,15 @@ const HomeScreen = () => {
       <AnimatedBottomSheet
         style={{
           transform: [{ translateY }],
+          height: SCREEN_HEIGHT - GNB_HEIGHT,
           borderTopLeftRadius: translateY.interpolate({
             inputRange: [GNB_HEIGHT, SCREEN_HEIGHT * 0.5],
-            outputRange: [0, 16], // 완전히 올리면 radius 제거
+            outputRange: [0, 24], // 완전히 올리면 radius 제거
             extrapolate: "clamp",
           }),
           borderTopRightRadius: translateY.interpolate({
             inputRange: [GNB_HEIGHT, SCREEN_HEIGHT * 0.5],
-            outputRange: [0, 16], // 완전히 올리면 radius 제거
+            outputRange: [0, 24], // 완전히 올리면 radius 제거
             extrapolate: "clamp",
           }),
         }}

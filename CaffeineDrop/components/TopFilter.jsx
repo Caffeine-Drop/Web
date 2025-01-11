@@ -1,7 +1,7 @@
 import React from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
-import HeartIcon from "../assets/home/HeartIcon.svg"; // SVG 아이콘 불러오기
+import HeartIcon from "../assets/home/HeartIcon.svg";
 
 const filters = ["좋아요", "무인", "프랜차이즈", "주차장", "대형카페", "운영 중", "스페셜티 커피", "드립커피 전문점"];
 
@@ -14,7 +14,7 @@ const TopFilter = ({ panHandlers }) => {
         {filters.map((filter, index) => (
           <FilterButton key={index}>
             <FilterContent>
-              {filter === "좋아요" && <HeartIcon width={15} height={15} style={{ marginRight: 5 }} />}
+              {filter === "좋아요" && <HeartIcon style={{ marginRight: 5 }} />}
               <FilterText>{filter}</FilterText>
             </FilterContent>
           </FilterButton>

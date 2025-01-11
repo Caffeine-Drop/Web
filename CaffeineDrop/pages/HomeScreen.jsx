@@ -12,6 +12,7 @@ import CafeListItem from "../components/CafeListItem";
 import CurrentLocationIcon from "../assets/home/CurrentLocationIcon.svg";
 import DownIcon from "../assets/home/DownIcon.svg";
 import LogoIcon from "../assets/home/LogoIcon.svg";
+import CafeLocationIcon from "../assets/home/CafeLocationIcon.svg";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const GNB_HEIGHT = 94; // GNB 높이
@@ -53,6 +54,13 @@ const HomeScreen = () => {
       {/* 지도 (MapView 대신 ImageBackground 사용) */}
       <MapBackground source={require("../assets/home/MapImage.png")}>
         <MapView />
+
+         {/* 🏷️ 4개의 카페 위치 아이콘 추가 */}
+         <CafeLocation top={76} left={170} />
+        <CafeLocation top={126} left={100} />
+        <CafeLocation top={146} left={230} />
+        <CafeLocation top={196} left={160} />
+
         <CurrentLocationMarker>
           <CurrentLocationIcon width={43} height={43} />
         </CurrentLocationMarker>
@@ -194,3 +202,22 @@ const CurrentLocationMarker = styled.View`
   left: 24px;
   right: 293px;
 `;
+
+const CafeLocationContainer = styled.View`
+  position: absolute;
+  align-items: center;
+`;
+
+const CafeLabel = styled.Text`
+  font-size: 10px;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+`;
+
+const CafeLocation = ({ top, left }) => (
+  <CafeLocationContainer style={{ top, left }}>
+    <CafeLocationIcon width={30} height={30} />
+    <CafeLabel>언힙 커피로</CafeLabel>
+  </CafeLocationContainer>
+);

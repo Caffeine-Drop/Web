@@ -1,10 +1,10 @@
 import React from "react";
 import { Image } from "react-native";
 import styled from "styled-components/native";
-import CoffeePng4 from "../../event02png/coffee4.png";
+import CoffeePng1 from "../../EventImg/coffee1.png";
 
-const Coffee4Image = () => {
-    return <StyledImage source={CoffeePng4} />;
+const Coffee1Image = () => {
+    return <StyledImage source={CoffeePng1} />;
 };
 
 const StyledImage = styled.Image`
@@ -12,4 +12,4 @@ const StyledImage = styled.Image`
     height: 11rem;
 `;
 
-export default Coffee4Image;
+export default Coffee1Image;

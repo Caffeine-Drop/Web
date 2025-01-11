@@ -2,11 +2,10 @@ import React from "react";
 import { View, Text, Button, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import BackIcon from "../../assets/Components/BackIcon";
-import Ellipse203Img from "../../assets/Components/Ellipse203Img";
-import Coffee1Image from "../../assets/Components/event02Image/Coffee1Image";
-import Coffee2Image from "../../assets/Components/event02Image/Coffee2Image";
-import Coffee3Image from "../../assets/Components/event02Image/Coffee3Image";
-import Coffee4Image from "../../assets/Components/event02Image/Coffee4Image";
+import Coffee1Image from "../../assets/Components/EventComponents/Coffee1Image";
+import Coffee2Image from "../../assets/Components/EventComponents/Coffee2Image";
+import Coffee3Image from "../../assets/Components/EventComponents/Coffee3Image";
+import Coffee4Image from "../../assets/Components/EventComponents/Coffee4Image";
 
 export default function EventPage02({ navigation }) {
     return (
@@ -23,9 +22,7 @@ export default function EventPage02({ navigation }) {
                 </StatusContainer>
 
                 <Content>
-                    <BlurIcon>
-                        <Ellipse203Img />
-                    </BlurIcon>
+                    <BlurIcon></BlurIcon>
 
                     <TextContainer>
                         <HeaderContainer>

@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Button, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import BackIcon from "../../assets/Components/BackIcon";
-import Event01Image from "../../assets/Components/Event01Image";
+import Event01Image from "../../assets/Components/EventComponents/Event01Image";
 
 export default function EventPage01({ navigation }) {
     return (

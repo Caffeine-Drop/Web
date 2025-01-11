@@ -11,6 +11,7 @@ import EventPage02 from "./pages/eventPages/eventPage02";
 import EventPage03 from "./pages/eventPages/eventPage03";
 import EventPage04 from "./pages/eventPages/eventPage04";
 import EventPage05 from "./pages/eventPages/eventPage05";
+import EventPage12 from "./pages/eventPages/eventPage12";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,7 @@ export default function App() {
                 <Stack.Screen name="EventPage03" component={EventPage03} />
                 <Stack.Screen name="EventPage04" component={EventPage04} />
                 <Stack.Screen name="EventPage05" component={EventPage05} />
+                <Stack.Screen name="EventPage12" component={EventPage12} />
             </Stack.Navigator>
         </NavigationContainer>
     );

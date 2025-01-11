@@ -2,13 +2,8 @@ import React from "react";
 import { View, Text, Button, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import BackIcon from "../../assets/Components/BackIcon";
-import Ellipse203Img from "../../assets/Components/Ellipse203Img";
-import Coffee1Image from "../../assets/Components/event02Image/Coffee1Image";
-import Coffee2Image from "../../assets/Components/event02Image/Coffee2Image";
-import Coffee3Image from "../../assets/Components/event02Image/Coffee3Image";
-import Coffee4Image from "../../assets/Components/event02Image/Coffee4Image";
 
-export default function EventPage02({ navigation }) {
+export default function EventPage04({ navigation }) {
     return (
         <Container>
             <InnerContainer>
@@ -23,41 +18,19 @@ export default function EventPage02({ navigation }) {
                 </StatusContainer>
 
                 <Content>
-                    <BlurIcon>
-                        <Ellipse203Img />
-                    </BlurIcon>
-
                     <TextContainer>
                         <HeaderContainer>
                             <HeaderText>
-                                나는 향이 강한
+                                나는 쓴맛이 강한
                                 <br />
-                                원두가 좋다
+                                원두를 싫어한다
                             </HeaderText>
                         </HeaderContainer>
 
                         <ContentContainer>
-                            <ContentText>
-                                원두의 향은 네 가지로 구성돼요.
-                                <HighlightText1> 프레그런스, 아로마, 노즈, 애프터 테이스트</HighlightText1>가 있어요. 카페인 드롭은 이 중 <HighlightText2>애프터 테이 스트 혹은 아로마를 테이스팅 노트에 반영했어요.</HighlightText2>
-                            </ContentText>
+                            <ContentText>쓴맛은 생두의 로스팅 정도에 따라 달라져요. 로스팅을 강하게 한 경우 쓴맛이 강해지기도 해요. 따라서 원두의 쓴맛이 싫다면 로스팅 정도가 약한 원두를 고르는 게 좋아요. 물론 로스팅 정도가 약하면 신맛이 올라오기도 해요.</ContentText>
                         </ContentContainer>
                     </TextContainer>
-
-                    <CoffeeContainer>
-                        <CoffeeType>
-                            <Coffee1Image />
-                        </CoffeeType>
-                        <CoffeeType>
-                            <Coffee2Image />
-                        </CoffeeType>
-                        <CoffeeType>
-                            <Coffee3Image />
-                        </CoffeeType>
-                        <CoffeeType>
-                            <Coffee4Image />
-                        </CoffeeType>
-                    </CoffeeContainer>
 
                     <SelectContainer>
                         <SelectOption>
@@ -73,7 +46,7 @@ export default function EventPage02({ navigation }) {
                 </Content>
 
                 <Footer>
-                    <ButtonWrapper onPress={() => navigation.navigate("EventPage03")}>
+                    <ButtonWrapper onPress={() => navigation.navigate("EventPage05")}>
                         <ButtonText>다음으로</ButtonText>
                     </ButtonWrapper>
                 </Footer>
@@ -120,7 +93,7 @@ const StatusContainer = styled.View`
     background: #f1f1f1;
 `;
 const CurrentState = styled.View`
-    width: 5.625rem;
+    width: 16.875rem;
     height: 0.1875rem;
     flex-shrink: 0;
     background: #756555;
@@ -130,11 +103,7 @@ const Content = styled.View`
     flex: 1;
     width: 100%;
 `;
-const BlurIcon = styled.View`
-    position: fixed;
-    width: 11.25rem;
-    height: 11.25rem;
-`;
+
 const TextContainer = styled.View`
     margin-top: 2.44rem;
     margin-left: 1.5rem;
@@ -143,7 +112,7 @@ const TextContainer = styled.View`
 
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    gap: 2rem;
 `;
 const HeaderContainer = styled.View``;
 const HeaderText = styled.Text`
@@ -165,7 +134,6 @@ const ContentText = styled.Text`
     font-weight: 400;
     line-height: 150%; /* 1.3125rem */
     letter-spacing: -0.02188rem;
-    text-align: left;
 `;
 const HighlightText1 = styled.Text`
     color: #000;
@@ -185,26 +153,11 @@ const HighlightText2 = styled.Text`
     line-height: 150%;
     letter-spacing: -0.02188rem;
 `;
-const CoffeeContainer = styled.View`
-    margin-left: 1.5rem;
-    width: 28.5rem;
-    height: 9rem;
-    display: flex;
-    flex-direction: row;
-    margin-top: 1.5rem;
 
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-`;
-const CoffeeType = styled.View`
-    width: 6.85rem;
-    height: 9.9rem;
-`;
 const SelectContainer = styled.View`
     margin-left: 1.5rem;
     margin-right: 1.5rem;
-    margin-top: 2.5rem;
+    margin-top: 4.19rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -251,9 +204,6 @@ const Footer = styled.View`
     padding: 0rem 1.5rem 1rem 1.5rem;
     flex-direction: column;
     gap: 0.5rem;
-
-    position: relative;
-    margin-top: 41.12rem;
 `;
 
 const ButtonWrapper = styled(TouchableOpacity)`

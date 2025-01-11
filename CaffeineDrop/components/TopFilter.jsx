@@ -7,32 +7,34 @@ const filters = ["좋아요", "무인", "프랜차이즈", "주차장", "대형�
 
 const TopFilter = ({ panHandlers }) => {
   return (
-    <FilterContainer {...panHandlers}>
-      <DragHandle />
+    <>
+      <DragHandleWrapper>
+        <DragHandle />
+      </DragHandleWrapper>
 
-      <FilterScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {filters.map((filter, index) => (
-          <FilterButton key={index}>
-            <FilterContent>
-              {filter === "좋아요" && <HeartIcon style={{ marginRight: 5 }} />}
-              <FilterText>{filter}</FilterText>
-            </FilterContent>
-          </FilterButton>
-        ))}
-      </FilterScrollView>
-    </FilterContainer>
+      <FilterContainer {...panHandlers}>
+        <FilterScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {filters.map((filter, index) => (
+            <FilterButton key={index}>
+              <FilterContent>
+                {filter === "좋아요" && <HeartIcon style={{ marginRight: 5 }} />}
+                <FilterText>{filter}</FilterText>
+              </FilterContent>
+            </FilterButton>
+          ))}
+        </FilterScrollView>
+      </FilterContainer>
+    </>
   );
 };
 
 export default TopFilter;
 
 // 스타일 정의
-const FilterContainer = styled.View`
-  padding: 6px 12px;
-  margin-top: 10px;
-  margin-bottom: 11px;
-  margin-left: 24px;
-  margin-right: 24px;
+const DragHandleWrapper = styled.View`
+  align-items: center;
+  margin-bottom: 12px;
+  margin-top: 16px;
 `;
 
 const DragHandle = styled.View`
@@ -40,9 +42,10 @@ const DragHandle = styled.View`
   height: 5px;
   border-radius: 5px;
   background: #D9D9D9;
-  align-self: center;
-  margin-top: 16px;
-  margin-bottom: 12px;
+`;
+
+const FilterContainer = styled.View`
+  margin: 10px 24px 11px 24px;
 `;
 
 const FilterScrollView = styled.ScrollView`

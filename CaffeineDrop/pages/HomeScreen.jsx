@@ -10,6 +10,7 @@ import GNB from "../components/GNB";
 import TopFilter from "../components/TopFilter";
 import CafeListItem from "../components/CafeListItem";
 import CurrentLocationIcon from "../assets/home/CurrentLocationIcon.svg";
+import DownIcon from "../assets/home/DownIcon.svg";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const GNB_HEIGHT = 94; // GNB 높이
@@ -67,12 +68,12 @@ const HomeScreen = () => {
           transform: [{ translateY }],
           height: SCREEN_HEIGHT - GNB_HEIGHT,
           borderTopLeftRadius: translateY.interpolate({
-            inputRange: [GNB_HEIGHT, DEFAULT_POSITION],
+            inputRange: [Math.min(GNB_HEIGHT, DEFAULT_POSITION), Math.max(GNB_HEIGHT, DEFAULT_POSITION)],
             outputRange: [0, 24], // 완전히 올리면 radius 제거
             extrapolate: "clamp",
           }),
           borderTopRightRadius: translateY.interpolate({
-            inputRange: [GNB_HEIGHT, DEFAULT_POSITION],
+            inputRange: [Math.min(GNB_HEIGHT, DEFAULT_POSITION), Math.max(GNB_HEIGHT, DEFAULT_POSITION)],
             outputRange: [0, 24], // 완전히 올리면 radius 제거
             extrapolate: "clamp",
           }),
@@ -82,9 +83,16 @@ const HomeScreen = () => {
         <TopFilter panHandlers={panResponder.panHandlers} />
 
         <SortContainer>
-          <Text>인기순 ▼</Text>
-          <Text>전체 ▼</Text>
+          <SortOption>
+            <SortText>인기순</SortText>
+            <DownIcon width={17} height={17} style={{ marginLeft: 4 }} />
+          </SortOption>
+          <SortOption>
+            <SortText>전체</SortText>
+            <DownIcon width={17} height={17} style={{ marginLeft: 4 }} />
+          </SortOption>
         </SortContainer>
+
 
         {/* 카페 리스트 */}
         <CafeList>
@@ -134,7 +142,21 @@ const AnimatedBottomSheet = styled(Animated.View)`
 const SortContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding: 8px 24px;
+  border-bottom-width: 0.5px;
+  border-bottom-color: #D9D9D9;
+  background-color: #fafafa;
+`;
+
+const SortOption = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
+const SortText = styled.Text`
+  font-size: 12px;
+  font-weight: 400;
+  color: #000;
 `;
 
 const CafeList = styled.ScrollView`

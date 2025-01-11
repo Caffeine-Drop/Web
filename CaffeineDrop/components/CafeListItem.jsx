@@ -1,6 +1,7 @@
 import React from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
+import StarIcon from '../assets/home/StarIcon.svg';
 
 const CafeListItem = ({ cafe }) => {
   return (
@@ -16,7 +17,10 @@ const CafeListItem = ({ cafe }) => {
           <Location>{cafe.location}</Location>
           <Details>
             <Distance>{cafe.distance}</Distance>
-            <Rating>⭐ {cafe.rating} | {cafe.reviews}</Rating>
+            <RatingContainer>
+              <StarIcon width={12} height={12} style={{ marginRight: 5 }} />
+              <RatingText>{cafe.rating} | {cafe.reviews}</RatingText>
+            </RatingContainer>
           </Details>
         </Info>
       </TouchableOpacity>
@@ -26,9 +30,10 @@ const CafeListItem = ({ cafe }) => {
 
 export default CafeListItem;
 
+// 스타일 정의
 const Container = styled.View`
   margin: 16px 16px;
-  background-color: white;
+  background-color: #fafafa;
   border-radius: 10px;
   overflow: hidden;
 `;
@@ -66,7 +71,12 @@ const Distance = styled.Text`
   color: gray;
 `;
 
-const Rating = styled.Text`
+const RatingContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
+const RatingText = styled.Text`
   font-size: 12px;
   color: gray;
 `;

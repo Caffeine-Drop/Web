@@ -25,14 +25,19 @@ const Container = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
-  background-color: white;
-  height: 56px;
+  padding: 53px 20px 15px 20px;
+  background-color: #fafafa;
+  height: 94px;
+  shadow-color: rgba(0, 0, 0, 0.12);
+  shadow-offset: 0px 4px;
+  shadow-opacity: 1;
+  shadow-radius: 8px;
 `;
 
 const Title = styled.Text`
   font-size: 20px;
   font-weight: bold;
+  line-height: 27.44px;
 `;
 
 const Icons = styled.View`

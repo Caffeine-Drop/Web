@@ -1,22 +1,29 @@
 import React, { useRef } from "react";
-import { View, Text, Animated, PanResponder, Dimensions } from "react-native";
+import { View, Text, Animated, PanResponder, Dimensions, ImageBackground } from "react-native";
+import {
+  responsiveFontSize,
+  responsiveWidth,
+  responsiveHeight,
+} from "../utils/responsive";
 import styled from "styled-components/native";
 import GNB from "../components/GNB";
 import TopFilter from "../components/TopFilter";
 import CafeListItem from "../components/CafeListItem";
+import CurrentLocationIcon from "../assets/home/CurrentLocationIcon.svg";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
-const GNB_HEIGHT = 56; // GNB 높이
+const GNB_HEIGHT = 94; // GNB 높이
+const DEFAULT_POSITION = SCREEN_HEIGHT - GNB_HEIGHT - 350; // Bottom Sheet 기본 위치
 
 const HomeScreen = () => {
-  const translateY = useRef(new Animated.Value(SCREEN_HEIGHT * 0.5)).current; // 초반에 반만 보이도록 설정
+  const translateY = useRef(new Animated.Value(DEFAULT_POSITION)).current;
 
   const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
       onPanResponderMove: (_, gesture) => {
         if (gesture.dy < 0) {
-          translateY.setValue(SCREEN_HEIGHT * 0.5 + gesture.dy);
+          translateY.setValue(DEFAULT_POSITION + gesture.dy);
         }
       },
       onPanResponderRelease: (_, gesture) => {
@@ -30,7 +37,7 @@ const HomeScreen = () => {
         } else {
           // 원래 위치로 되돌리기
           Animated.timing(translateY, {
-            toValue: SCREEN_HEIGHT * 0.5,
+            toValue: DEFAULT_POSITION,
             duration: 300,
             useNativeDriver: true,
           }).start();
@@ -41,8 +48,13 @@ const HomeScreen = () => {
 
   return (
     <Container>
-      {/* 지도 */}
-      <MapView />
+      {/* 지도 (MapView 대신 ImageBackground 사용) */}
+      <MapBackground source={require("../assets/home/MapImage.png")}>
+        <MapView />
+        <CurrentLocationMarker>
+          <CurrentLocationIcon width={43} height={43} />
+        </CurrentLocationMarker>
+      </MapBackground>
 
       {/* GNB (고정) */}
       <GNBContainer>
@@ -55,12 +67,12 @@ const HomeScreen = () => {
           transform: [{ translateY }],
           height: SCREEN_HEIGHT - GNB_HEIGHT,
           borderTopLeftRadius: translateY.interpolate({
-            inputRange: [GNB_HEIGHT, SCREEN_HEIGHT * 0.5],
+            inputRange: [GNB_HEIGHT, DEFAULT_POSITION],
             outputRange: [0, 24], // 완전히 올리면 radius 제거
             extrapolate: "clamp",
           }),
           borderTopRightRadius: translateY.interpolate({
-            inputRange: [GNB_HEIGHT, SCREEN_HEIGHT * 0.5],
+            inputRange: [GNB_HEIGHT, DEFAULT_POSITION],
             outputRange: [0, 24], // 완전히 올리면 radius 제거
             extrapolate: "clamp",
           }),
@@ -91,9 +103,17 @@ const Container = styled.View`
   background-color: #fff;
 `;
 
+/* ImageBackground를 이용한 MapView */
+const MapBackground = styled(ImageBackground)`
+  width: ${responsiveWidth(360)}px;
+  height: ${responsiveHeight(349)}px;
+  top: ${GNB_HEIGHT}px;
+  flex-shrink: 0;
+  align-self: center;
+`;
+
 const MapView = styled.View`
   flex: 1;
-  background-color: lightgray;
 `;
 
 const GNBContainer = styled.View`
@@ -108,7 +128,7 @@ const AnimatedBottomSheet = styled(Animated.View)`
   width: 100%;
   height: 100%;
   top: ${GNB_HEIGHT}px;
-  background-color: #fff;
+  background-color: #fafafa;
 `;
 
 const SortContainer = styled.View`
@@ -120,4 +140,13 @@ const SortContainer = styled.View`
 const CafeList = styled.ScrollView`
   flex: 1;
   padding-bottom: 20px;
+`;
+
+/* 📍 현재 위치 아이콘의 정확한 위치 설정 */
+const CurrentLocationMarker = styled.View`
+  position: absolute;
+  top: 249px;
+  bottom: 57px;
+  left: 24px;
+  right: 293px;
 `;

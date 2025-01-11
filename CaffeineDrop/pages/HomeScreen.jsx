@@ -11,6 +11,7 @@ import TopFilter from "../components/TopFilter";
 import CafeListItem from "../components/CafeListItem";
 import CurrentLocationIcon from "../assets/home/CurrentLocationIcon.svg";
 import DownIcon from "../assets/home/DownIcon.svg";
+import LogoIcon from "../assets/home/LogoIcon.svg";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const GNB_HEIGHT = 94; // GNB 높이
@@ -62,6 +63,11 @@ const HomeScreen = () => {
         <GNB />
       </GNBContainer>
 
+      {/* 🏷️ LogoIcon (TopFilter 기준으로 배치) */}
+      <LogoContainer style={{ top: DEFAULT_POSITION + GNB_HEIGHT + 245}}>
+        <LogoIcon width={24} height={24} />
+      </LogoContainer>
+
       {/* Bottom Sheet (상단 필터 + 카페 리스트) */}
       <AnimatedBottomSheet
         style={{
@@ -92,7 +98,6 @@ const HomeScreen = () => {
             <DownIcon width={17} height={17} style={{ marginLeft: 4 }} />
           </SortOption>
         </SortContainer>
-
 
         {/* 카페 리스트 */}
         <CafeList>
@@ -130,6 +135,23 @@ const GNBContainer = styled.View`
   width: 100%;
   z-index: 10; /* GNB가 항상 위에 있도록 설정 */
 `;
+
+const LogoContainer = styled.View`
+  position: absolute;
+  top: ${DEFAULT_POSITION + GNB_HEIGHT + 245}px;
+  left: 293px;
+  right: 24px;
+  width: 43px;
+  height: 43px;
+  border-radius: 46px;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+  background-image: linear-gradient(90deg, #3F2D1E 0%, #6A331B 100%);
+`;
+
+
 
 const AnimatedBottomSheet = styled(Animated.View)`
   position: absolute;

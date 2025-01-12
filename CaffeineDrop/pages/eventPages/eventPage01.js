@@ -1,8 +1,12 @@
 import React from "react";
 import { View, Text, Button, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
+import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import BackIcon from "../../assets/Components/BackIcon";
-import Event01Image from "../../assets/Components/EventComponents/Event01Image";
+import Drip from "../../assets/Components/EventComponents/Drip";
+import Circle from "../../assets/Components/EventComponents/Circle";
+import Blur from "../../assets/Components/EventComponents/Blur";
+import Shadow from "../../assets/Components/EventComponents/Shadow";
 
 export default function EventPage01({ navigation }) {
     return (
@@ -16,18 +20,26 @@ export default function EventPage01({ navigation }) {
                 </Navbar>
 
                 <Content>
-                    <ImageWrapper>
-                        <Event01Image />
-                    </ImageWrapper>
+                    <DripWrapper>
+                        <Drip />
+                    </DripWrapper>
+                    <CircleWrapper>
+                        <Circle />
+                    </CircleWrapper>
+                    <BlurWrapper>
+                        <Blur />
+                    </BlurWrapper>
+                    <ShadowWrapper>
+                        <Shadow />
+                    </ShadowWrapper>
 
                     <TextContainer>
-                        <Header>
+                        <HeaderWrapper>
                             <HeaderText>나만의 원두 찾기</HeaderText>
-                        </Header>
-                        <InnerContent>
-                            <InnerText>쉽게 풀어쓴 테이스팅 노트로</InnerText>
-                            <InnerText>나만의 원두를 찾아보세요</InnerText>
-                        </InnerContent>
+                        </HeaderWrapper>
+                        <ContentWrapper>
+                            <ContentText>쉽게 풀어쓴 테이스팅 노트로 나만의 원두를 찾아보세요</ContentText>
+                        </ContentWrapper>
                     </TextContainer>
                 </Content>
 
@@ -48,109 +60,113 @@ const Container = styled.View`
 `;
 const InnerContainer = styled.View`
     flex: 1;
-    margin-top: 2.38rem;
-    margin-bottom: 2.63rem;
+    /*margin-top: ${responsiveHeight(20)}px;*/
+    margin-bottom: ${responsiveHeight(24)}px;
 `;
 
 const Navbar = styled.View`
-    height: 3.5rem;
+    height: ${responsiveHeight(56)}px;
     flex-shrink: 0;
     justify-content: center;
     align-items: center;
+    margin-top: ${responsiveHeight(38)}px;
 `;
 const IconWrapper = styled.View`
     position: absolute;
-    left: 1.5rem;
+    left: ${responsiveWidth(24)}px;
 `;
 const Title = styled.Text`
     color: #000;
     text-align: center;
     font-family: Pretendard;
-    font-size: 1.125rem;
+    font-size: ${responsiveFontSize(18)}px;
     font-style: normal;
     font-weight: 600;
-    line-height: 138%;
-    letter-spacing: -0.02813rem;
+    line-height: ${responsiveFontSize(24)}px;
+    letter-spacing: ${responsiveFontSize(-0.5)}px;
 `;
 
 const Content = styled.View`
     flex: 1;
     width: 100%;
 `;
-
-const ImageWrapper = styled.View`
-    width: 20.68519rem;
-    height: 22.28906rem;
-    flex-shrink: 0;
+const DripWrapper = styled.View`
     position: absolute;
-    top: 7rem;
-    left: -3.5rem;
+    top: ${responsiveHeight(109.56)}px;
+    right: ${responsiveWidth(26.04)}px;
 `;
-
+const CircleWrapper = styled.View`
+    position: absolute;
+    top: ${responsiveHeight(146.5)}px;
+    right: ${responsiveWidth(67.94)}px;
+    z-index: -1;
+`;
+const BlurWrapper = styled.View`
+    position: absolute;
+    width: ${responsiveHeight(180)}px;
+    height: ${responsiveWidth(180)}px;
+    top: ${responsiveHeight(248.5)}px;
+    right: ${responsiveWidth(146)}px;
+`;
+const ShadowWrapper = styled.View`
+    position: absolute;
+    top: ${responsiveHeight(311.03)}px;
+    right: ${responsiveWidth(40)}px;
+`;
 const TextContainer = styled.View`
-    display: inline-flex;
+    display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    padding-left: 4.91rem;
-    padding-right: 4.91rem;
-    margin-top: 27.53rem;
+    gap: ${responsiveFontSize(16)}px;
+
+    position: absolute;
+    top: ${responsiveHeight(478)}px;
 `;
-
-const Header = styled.View``;
-
+const HeaderWrapper = styled.View``;
 const HeaderText = styled.Text`
     color: #000;
     text-align: center;
     font-family: Pretendard;
-    font-size: 2rem;
+    font-size: ${responsiveFontSize(32)}px;
     font-style: normal;
     font-weight: 600;
-    line-height: 138%; /* 2.76rem */
-    letter-spacing: -0.05rem;
-    white-space: nowrap;
+    line-height: 138%; /* 44.16px */
+    letter-spacing: ${responsiveFontSize(-0.8)}px;
 `;
-
-const InnerContent = styled.View``;
-
-const InnerText = styled.Text`
+const ContentWrapper = styled.View``;
+const ContentText = styled.Text`
     color: #000;
     text-align: center;
     font-family: Pretendard;
-    font-size: 0.875rem;
+    font-size: 14px;
     font-style: normal;
     font-weight: 400;
-    line-height: 138%; /* 1.2075rem */
-    letter-spacing: -0.02188rem;
+    line-height: 138%; /* 19.32px */
+    letter-spacing: -0.35px;
 `;
-
 const Footer = styled.View`
-    height: 4.375rem;
-    display: inline-flex;
-    padding: 0rem 1.5rem 1rem 1.5rem;
+    height: ${responsiveHeight(70)}px;
+    display: flex;
+    padding: 0 ${responsiveWidth(24)}px ${responsiveHeight(16)}px ${responsiveWidth(24)}px;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: ${responsiveHeight(8)}px;
 `;
 
 const ButtonWrapper = styled(TouchableOpacity)`
     display: flex;
-    padding: 1rem 0rem;
+    padding: ${responsiveHeight(16)}px 0;
     justify-content: center;
     align-items: center;
-    gap: 0.625rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-
-    border-radius: 0.75rem;
+    gap: ${responsiveHeight(10)}px;
+    border-radius: ${responsiveWidth(12)}px;
     background: #756555;
 `;
 
 const ButtonText = styled.Text`
     color: #fafafa;
     font-family: Pretendard;
-    font-size: 1rem;
+    font-size: ${responsiveFontSize(16)}px;
     font-style: normal;
     font-weight: 700;
-    line-height: 138%;
-    letter-spacing: -0.025rem;
+    line-height: ${responsiveFontSize(22)}px;
+    letter-spacing: ${responsiveFontSize(-0.4)}px;
 `;

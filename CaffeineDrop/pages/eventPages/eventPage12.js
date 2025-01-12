@@ -2,7 +2,7 @@
 import React from "react";
 import { View, Text, Button, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
-import BackIcon from "../../assets/Components/BackIcon";
+import BackIcon from "../../Components/BackIcon";
 
 export default function EventPage12({ navigation }) {
     return (

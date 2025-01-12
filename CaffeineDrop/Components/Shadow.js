@@ -1,7 +1,7 @@
 import React from "react";
 import Svg, { G, Ellipse, Defs, Filter, FeFlood, FeBlend, FeGaussianBlur } from "react-native-svg";
 
-export default function Ellipse204(props) {
+export default function Shadow(props) {
     return (
         <Svg width="237" height="121" viewBox="0 0 237 121" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <G id="Ellipse 204" filter="url(#filter0_f_440_23665)">

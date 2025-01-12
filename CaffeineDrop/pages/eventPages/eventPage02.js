@@ -1,11 +1,8 @@
 import React from "react";
 import { View, Text, Button, TouchableOpacity } from "react-native";
+import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import styled from "styled-components/native";
-import BackIcon from "../../assets/Components/BackIcon";
-import Coffee1Image from "../../assets/Components/EventComponents/Coffee1Image";
-import Coffee2Image from "../../assets/Components/EventComponents/Coffee2Image";
-import Coffee3Image from "../../assets/Components/EventComponents/Coffee3Image";
-import Coffee4Image from "../../assets/Components/EventComponents/Coffee4Image";
+import BackIcon from "../../Components/BackIcon";
 
 export default function EventPage02({ navigation }) {
     return (
@@ -41,20 +38,7 @@ export default function EventPage02({ navigation }) {
                         </ContentContainer>
                     </TextContainer>
 
-                    <CoffeeContainer>
-                        <CoffeeType>
-                            <Coffee1Image />
-                        </CoffeeType>
-                        <CoffeeType>
-                            <Coffee2Image />
-                        </CoffeeType>
-                        <CoffeeType>
-                            <Coffee3Image />
-                        </CoffeeType>
-                        <CoffeeType>
-                            <Coffee4Image />
-                        </CoffeeType>
-                    </CoffeeContainer>
+                    <CoffeeContainer></CoffeeContainer>
 
                     <SelectContainer>
                         <SelectOption>

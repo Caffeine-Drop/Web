@@ -2,11 +2,11 @@ import React from "react";
 import { View, Text, Button, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
-import BackIcon from "../../assets/Components/BackIcon";
-import Drip from "../../assets/Components/EventComponents/Drip";
-import Circle from "../../assets/Components/EventComponents/Circle";
-import Blur from "../../assets/Components/EventComponents/Blur";
-import Shadow from "../../assets/Components/EventComponents/Shadow";
+import BackIcon from "../../Components/BackIcon";
+import Drip from "../../Components/Drip";
+import Circle from "../../Components/Circle";
+import Blur from "../../Components/Blur";
+import Shadow from "../../Components/Shadow";
 
 export default function EventPage01({ navigation }) {
     return (
@@ -38,7 +38,11 @@ export default function EventPage01({ navigation }) {
                             <HeaderText>나만의 원두 찾기</HeaderText>
                         </HeaderWrapper>
                         <ContentWrapper>
-                            <ContentText>쉽게 풀어쓴 테이스팅 노트로 나만의 원두를 찾아보세요</ContentText>
+                            <ContentText>
+                                쉽게 풀어쓴 테이스팅 노트로
+                                {"\n"}
+                                나만의 원두를 찾아보세요
+                            </ContentText>
                         </ContentWrapper>
                     </TextContainer>
                 </Content>
@@ -96,9 +100,11 @@ const DripWrapper = styled.View`
     right: ${responsiveWidth(26.04)}px;
 `;
 const CircleWrapper = styled.View`
+    width: ${responsiveHeight(179.967)}px;
+    height: ${responsiveWidth(179.705)}px;
     position: absolute;
     top: ${responsiveHeight(146.5)}px;
-    right: ${responsiveWidth(67.94)}px;
+    left: ${responsiveWidth(112.1)}px;
     z-index: -1;
 `;
 const BlurWrapper = styled.View`
@@ -117,31 +123,40 @@ const TextContainer = styled.View`
     display: flex;
     flex-direction: column;
     gap: ${responsiveFontSize(16)}px;
+    width: ${responsiveHeight(203)}px;
+    height: ${responsiveWidth(98)}px;
 
     position: absolute;
-    top: ${responsiveHeight(478)}px;
+    top: ${responsiveHeight(440.5)}px;
+    left: ${responsiveWidth(78.5)}px;
+    right: ${responsiveWidth(78.5)}px;
 `;
-const HeaderWrapper = styled.View``;
+const HeaderWrapper = styled.View`
+    justify-content: center;
+    align-items: center;
+`;
 const HeaderText = styled.Text`
-    color: #000;
-    text-align: center;
+    color: #000000;
     font-family: Pretendard;
     font-size: ${responsiveFontSize(32)}px;
-    font-style: normal;
     font-weight: 600;
-    line-height: 138%; /* 44.16px */
-    letter-spacing: ${responsiveFontSize(-0.8)}px;
+    line-height: ${responsiveFontSize(44.16)}px;
+    letter-spacing: ${responsiveFontSize(-0.5)}px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    white-space: nowrap;
 `;
 const ContentWrapper = styled.View``;
 const ContentText = styled.Text`
     color: #000;
     text-align: center;
     font-family: Pretendard;
-    font-size: 14px;
+    font-size: ${responsiveFontSize(14)}px;
     font-style: normal;
     font-weight: 400;
-    line-height: 138%; /* 19.32px */
-    letter-spacing: -0.35px;
+    line-height: ${responsiveFontSize(19.32)}px;
+    letter-spacing: ${responsiveFontSize(-0.35)}px;
 `;
 const Footer = styled.View`
     height: ${responsiveHeight(70)}px;

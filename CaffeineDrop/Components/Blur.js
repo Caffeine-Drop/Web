@@ -1,7 +1,7 @@
 import React from "react";
 import { Image } from "react-native";
 import styled from "styled-components/native";
-import blurpng from "../../EventImg/Blur.png";
+import blurpng from "../assets/EventPage/Blur.png";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../utils/responsive";
 
 const BlurImage = () => {

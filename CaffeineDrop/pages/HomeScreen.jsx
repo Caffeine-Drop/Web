@@ -55,11 +55,11 @@ const HomeScreen = () => {
       <MapBackground source={require("../assets/home/MapImage.png")}>
         <MapView />
 
-         {/* 🏷️ 4개의 카페 위치 아이콘 추가 */}
+         🏷️ 4개의 카페 위치 아이콘 추가
          <CafeLocation top={76} left={170} />
-        <CafeLocation top={126} left={100} />
-        <CafeLocation top={146} left={230} />
-        <CafeLocation top={196} left={160} />
+         <CafeLocation top={126} left={100} />
+         <CafeLocation top={146} left={230} />
+         <CafeLocation top={196} left={160} />
 
         <CurrentLocationMarker>
           <CurrentLocationIcon width={43} height={43} />

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
-import HeartIcon from "../../assets/home/HeartIcon.svg";
+import HeartIcon from "../../assets/home/HeartIcon.jsx";
 
 const FavoriteFilter = () => {
   const [selected, setSelected] = useState(false);
@@ -12,7 +12,7 @@ const FavoriteFilter = () => {
       selected={selected}
     >
       <FilterContent>
-        <HeartIcon style={{ marginRight: 5 }} />
+        <HeartIcon color="#E91111" size={15} style={{ marginRight: 5 }} />
         <FilterText selected={selected}>좋아요</FilterText>
       </FilterContent>
     </FilterButton>

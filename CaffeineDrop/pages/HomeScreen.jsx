@@ -109,8 +109,28 @@ const HomeScreen = () => {
 
         {/* 카페 리스트 */}
         <CafeList>
-          <CafeListItem cafe={{ name: "언힙커피로스터스", location: "인천 미추홀구", distance: "600m", rating: 4.0, reviews: 605 }} />
-          <CafeListItem cafe={{ name: "언힙커피로스터스", location: "서울 강남구", distance: "1.2km", rating: 4.2, reviews: 512 }} />
+          <CafeListItem
+            cafe={{
+              name: "언힙커피로스터스",
+              location: "인천 미추홀구 인하로67번길 6 2층",
+              distance: "600m",
+              rating: 4.0,
+              reviews: 605,
+              isFavorite: true,
+              isSpecialty: true,
+              isBothBadges: true
+            }}
+          />
+          <CafeListItem
+            cafe={{
+              name: "언힙커피로스터스",
+              location: "인천 미추홀구 인하로67번길 6 2층",
+              distance: "600m",
+              rating: 4.0,
+              reviews: 605,
+              isSpecialty: true,
+            }}
+          />
         </CafeList>
       </AnimatedBottomSheet>
     </Container>
@@ -158,8 +178,6 @@ const LogoContainer = styled.View`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
   background-image: linear-gradient(90deg, #3F2D1E 0%, #6A331B 100%);
 `;
-
-
 
 const AnimatedBottomSheet = styled(Animated.View)`
   position: absolute;

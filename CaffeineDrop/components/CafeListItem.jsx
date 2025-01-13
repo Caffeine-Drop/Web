@@ -1,17 +1,54 @@
 import React from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
+import HeartIcon from "../assets/home/HeartIcon.jsx";
 import StarIcon from '../assets/home/StarIcon.svg';
 
 const CafeListItem = ({ cafe }) => {
+  const isBothBadges = cafe.isFavorite && cafe.isSpecialty;
   return (
     <Container>
-      <ListContainer> {/* 새로운 컨테이너 추가 */}
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <ImagePlaceholder1 />
-          <ImagePlaceholder2 />
-          <ImagePlaceholder3 />
-        </ScrollView>
+      <ListContainer>
+        <ImageContainer>
+          {/* ✅ 배지 컨테이너 (ScrollView 외부) */}
+          {(cafe.isFavorite || cafe.isSpecialty) && (
+            <BadgeContainer>
+              {/* 좋아요 배지 */}
+              {cafe.isFavorite && (
+                <Badge
+                  style={{
+                    backgroundColor: "#E91111",
+                    borderTopRightRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 오른쪽 위 모서리 제거
+                    borderBottomRightRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 오른쪽 아래 모서리 제거
+                  }}
+                >
+                  <HeartIcon color="#FFFFFF" size={10} style={{ marginRight: 4 }} />
+                  <BadgeText>좋아요</BadgeText>
+                </Badge>
+              )}
+              {/* Specialty Coffee 배지 */}
+              {cafe.isSpecialty && (
+                <Badge
+                  style={{
+                    backgroundColor: "#321900",
+                    borderTopLeftRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 왼쪽 위 모서리 제거
+                    borderBottomLeftRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 왼쪽 아래 모서리 제거
+                  }}
+                >
+                  <BadgeText>Specialty Coffee</BadgeText>
+                </Badge>
+              )}
+            </BadgeContainer>
+          )}
+
+          {/* ✅ 이미지 스크롤 뷰 */}
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <ImagePlaceholder1 />
+            <ImagePlaceholder2 />
+            <ImagePlaceholder3 />
+          </ScrollView>
+        </ImageContainer>
+
         <TouchableOpacity>
           <Info>
             <Title>{cafe.name}</Title>
@@ -37,13 +74,17 @@ const Container = styled.View`
   margin: 0 24px;
   background-color: #fafafa;
   border-radius: 10px;
-  overflow: hidden;
+  overflow: visible;
 `;
 
 const ListContainer = styled.View`
   width: 312px;
   height: 274px;
-  padding: 16px 0; /* 위아래 패딩 16px */
+  padding: 16px 0;
+`;
+
+const ImageContainer = styled.View`
+  position: relative; /* 배지와 이미지가 같은 컨텍스트를 공유 */
 `;
 
 const ImagePlaceholder1 = styled.View`
@@ -68,6 +109,29 @@ const ImagePlaceholder3 = styled.View`
   background-color: #d9d9d9;
   margin-right: 4px;
   border-radius: 12px;
+`;
+
+/* ✅ 배지 컨테이너: 항상 고정 */
+const BadgeContainer = styled.View`
+  position: absolute;
+  bottom: -4px;
+  left: -4px;
+  flex-direction: row;
+  z-index: 10; /* 사진 위에 표시되도록 설정 */
+`;
+
+/* ✅ 배지 스타일 */
+const Badge = styled.View`
+  flex-direction: row;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+`;
+
+const BadgeText = styled.Text`
+  font-size: 10px;
+  font-weight: 500;
+  color: #FAFAFA;
 `;
 
 const Info = styled.View`

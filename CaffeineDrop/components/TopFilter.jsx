@@ -1,7 +1,6 @@
 import React from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
-import HeartIcon from "../assets/home/HeartIcon.svg";
 import FavoriteFilter from "./filters/FavoriteFilter";
 import UnmannedFilter from "./filters/UnmannedFilter";
 import FranchiseFilter from "./filters/FranchiseFilter";

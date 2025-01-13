@@ -7,7 +7,8 @@ export default function HomePage({ navigation }) {
         <Container>
             <Title>Home Page</Title>
             <Button title="Go to Details" onPress={() => navigation.navigate("DetailPage")} />
-            <Button title="Go to Events" onPress={() => navigation.navigate("EventPage01")} />
+            <Button title="Go to Events1" onPress={() => navigation.navigate("EventPage01")} />
+            <Button title="Go to Events2" onPress={() => navigation.navigate("EventPage02")} />
             <Button title="(임시)스폐셜티 커피란?" onPress={() => navigation.navigate("EventPage12")} />
         </Container>
     );

@@ -1,16 +1,16 @@
 import React from "react";
 import { Image } from "react-native";
 import styled from "styled-components/native";
-import blurpng from "../assets/EventPage/Blur.png";
+import CoffeePng from "../assets/EventPage/Coffee.png";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../utils/responsive";
 
-const BlurImage = () => {
-    return <StyledImage source={blurpng} />;
+const CoffeeImage = () => {
+    return <StyledImage source={CoffeePng} />;
 };
 
 const StyledImage = styled.Image`
-    width: ${responsiveHeight(180)}px;
-    height: ${responsiveWidth(180)}px;
+    width: ${responsiveWidth(456)}px;
+    height: ${responsiveHeight(169)}px;
 `;
 
-export default BlurImage;
+export default CoffeeImage;

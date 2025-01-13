@@ -4,9 +4,6 @@ import styled from "styled-components/native";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import BackIcon from "../../Components/BackIcon";
 import Drip from "../../Components/Drip";
-import Circle from "../../Components/Circle";
-import Blur from "../../Components/Blur";
-import Shadow from "../../Components/Shadow";
 
 export default function EventPage01({ navigation }) {
     return (
@@ -23,15 +20,6 @@ export default function EventPage01({ navigation }) {
                     <DripWrapper>
                         <Drip />
                     </DripWrapper>
-                    <CircleWrapper>
-                        <Circle />
-                    </CircleWrapper>
-                    <BlurWrapper>
-                        <Blur />
-                    </BlurWrapper>
-                    <ShadowWrapper>
-                        <Shadow />
-                    </ShadowWrapper>
 
                     <TextContainer>
                         <HeaderWrapper>
@@ -56,6 +44,12 @@ export default function EventPage01({ navigation }) {
         </Container>
     );
 }
+
+/*
+top: ${responsiveHeight(109.56)}px;
+right: ${responsiveWidth(26.04)}px;
+font-size: ${responsiveFontSize(18)}px;
+*/
 
 const Container = styled.View`
     width: 100%;
@@ -89,63 +83,48 @@ const Title = styled.Text`
     line-height: ${responsiveFontSize(24)}px;
     letter-spacing: ${responsiveFontSize(-0.5)}px;
 `;
-
+////////////////////////////////////////////////////
 const Content = styled.View`
     flex: 1;
     width: 100%;
 `;
 const DripWrapper = styled.View`
     position: absolute;
-    top: ${responsiveHeight(109.56)}px;
-    right: ${responsiveWidth(26.04)}px;
+    top: ${responsiveHeight(115)}px;
+    right: ${responsiveWidth(50)}px;
 `;
-const CircleWrapper = styled.View`
-    width: ${responsiveHeight(179.967)}px;
-    height: ${responsiveWidth(179.705)}px;
-    position: absolute;
-    top: ${responsiveHeight(146.5)}px;
-    left: ${responsiveWidth(112.1)}px;
-    z-index: -1;
-`;
-const BlurWrapper = styled.View`
-    position: absolute;
-    width: ${responsiveHeight(180)}px;
-    height: ${responsiveWidth(180)}px;
-    top: ${responsiveHeight(248.5)}px;
-    right: ${responsiveWidth(146)}px;
-`;
-const ShadowWrapper = styled.View`
-    position: absolute;
-    top: ${responsiveHeight(311.03)}px;
-    right: ${responsiveWidth(40)}px;
-`;
+//////////////////////////////////////////
 const TextContainer = styled.View`
-    display: flex;
-    flex-direction: column;
-    gap: ${responsiveFontSize(16)}px;
-    width: ${responsiveHeight(203)}px;
-    height: ${responsiveWidth(98)}px;
-
     position: absolute;
-    top: ${responsiveHeight(440.5)}px;
-    left: ${responsiveWidth(78.5)}px;
-    right: ${responsiveWidth(78.5)}px;
+    top: ${responsiveHeight(384)}px;
+
+    margin-left: ${responsiveWidth(61)}px;
+    margin-right: ${responsiveWidth(61)}px;
+
+    width: ${responsiveWidth(238)}px;
+    height: ${responsiveHeight(98)}px;
+
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
 `;
 const HeaderWrapper = styled.View`
+    width: auto; /* 가변 너비 */
+    height: auto; /* 가변 높이 */
     justify-content: center;
     align-items: center;
+    overflow: visible; /* 경계 바깥의 텍스트 표시 */
 `;
 const HeaderText = styled.Text`
-    color: #000000;
+    color: #000;
+    text-align: center;
     font-family: Pretendard;
     font-size: ${responsiveFontSize(32)}px;
+    font-style: normal;
     font-weight: 600;
-    line-height: ${responsiveFontSize(44.16)}px;
-    letter-spacing: ${responsiveFontSize(-0.5)}px;
-    text-align: center;
-    text-underline-position: from-font;
-    text-decoration-skip-ink: none;
-    white-space: nowrap;
+    line-height: ${responsiveHeight(44.16)}px;
+    letter-spacing: ${responsiveWidth(-0.8)}px;
 `;
 const ContentWrapper = styled.View``;
 const ContentText = styled.Text`
@@ -155,9 +134,11 @@ const ContentText = styled.Text`
     font-size: ${responsiveFontSize(14)}px;
     font-style: normal;
     font-weight: 400;
-    line-height: ${responsiveFontSize(19.32)}px;
-    letter-spacing: ${responsiveFontSize(-0.35)}px;
+    line-height: ${responsiveHeight(19.32)}px;
+    letter-spacing: ${responsiveWidth(-0.35)}px;
+    align-self: stretch;
 `;
+////////////////////////////////////////////////////
 const Footer = styled.View`
     height: ${responsiveHeight(70)}px;
     display: flex;

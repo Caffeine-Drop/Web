@@ -14,7 +14,7 @@ import DripCoffeeFilter from "./filters/DripCoffeeFilter";
 const TopFilter = ({ panHandlers }) => {
   return (
     <>
-      <DragHandleWrapper>
+      <DragHandleWrapper {...panHandlers}>
         <DragHandle />
       </DragHandleWrapper>
 

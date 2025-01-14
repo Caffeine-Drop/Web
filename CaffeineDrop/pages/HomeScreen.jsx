@@ -127,6 +127,7 @@ const HomeScreen = () => {
               rating: 4.0,
               reviews: 605,
               isSpecialty: true,
+              isClosed: true
             }
           ].map((cafe, index) => (
             <CafeListItem key={index} cafe={{ ...cafe, isFirst: index % 1 === 0 }} />

@@ -53,9 +53,18 @@ const CafeListItem = ({ cafe }) => {
               marginLeft: cafe.isFirst ? 24 : 0
             }}
           >
-            <ImagePlaceholder1 />
-            <ImagePlaceholder2 />
-            <ImagePlaceholder3 />
+            {/* ✅ 첫 번째 이미지에 '미운영 알림' 표시 (isClosed가 true일 때만) */}
+            <ImagePlaceholder1 isClosed={cafe.isClosed}>
+              {cafe.isClosed && (
+                <ClosedOverlay>
+                  <ClosedSubText>미운영 알림</ClosedSubText>
+                  <ClosedText>현재 영업</ClosedText>
+                  <ClosedText>준비중이에요!</ClosedText>
+                </ClosedOverlay>
+              )}
+            </ImagePlaceholder1>
+            <ImagePlaceholder2 isClosed={cafe.isClosed} />
+            <ImagePlaceholder3 isClosed={cafe.isClosed} />
           </ScrollView>
         </ImageContainer>
 
@@ -103,15 +112,18 @@ const ImageContainer = styled.View`
 const ImagePlaceholder1 = styled.View`
   width: ${responsiveWidth(150)}px;
   height: ${responsiveHeight(150)}px;
-  background-color: #d9d9d9;
+  background-color: ${(props) => (props.isClosed ? "rgba(0, 0, 0, 0.55)" : "#d9d9d9")}; /* ✅ 미운영이면 회색 */
   margin-right: 4px;
   border-radius: 12px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 `;
 
 const ImagePlaceholder2 = styled.View`
   width: ${responsiveWidth(112.5)}px;
   height: ${responsiveHeight(150)}px;
-  background-color: #d9d9d9;
+  background-color: ${(props) => (props.isClosed ? "rgba(0, 0, 0, 0.55)" : "#d9d9d9")}; /* ✅ 미운영이면 회색 */
   margin-right: 4px;
   border-radius: 12px;
 `;
@@ -119,9 +131,36 @@ const ImagePlaceholder2 = styled.View`
 const ImagePlaceholder3 = styled.View`
   width: ${responsiveWidth(113.5)}px;
   height: ${responsiveHeight(150)}px;
-  background-color: #d9d9d9;
+  background-color: ${(props) => (props.isClosed ? "rgba(0, 0, 0, 0.55)" : "#d9d9d9")}; /* ✅ 미운영이면 회색 */
   margin-right: 4px;
   border-radius: 12px;
+`;
+
+/* ✅ 미운영 알림 스타일 */
+const ClosedOverlay = styled.View`
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  border-radius: 8px;
+`;
+
+const ClosedSubText = styled.Text`
+  font-size: 12px;
+  color: #fafafa;
+  font-style: normal;
+  font-weight: 400;
+  padding-bottom: 8px;
+  line-height: 16.56px;
+  letter-spacing: -0.3px;
+`;
+
+const ClosedText = styled.Text`
+  font-size: 16px;
+  color: #fafafa;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 22.08px;
+  letter-spacing: -0.4px;
 `;
 
 /* ✅ 배지 컨테이너: 항상 고정 */

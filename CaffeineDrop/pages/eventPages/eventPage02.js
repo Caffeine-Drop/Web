@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Animated, PanResponder, StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import styled from "styled-components/native";
@@ -7,8 +7,108 @@ import BlackTextCircle from "../../Components/BlackTextCircle";
 import BlurIcon from "../../Components/BlurIcon";
 import CoffeeImage from "../../Components/Coffee";
 import { ScrollView } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+
+const SelectOption = ({ text, score, isSelected, onPress }) => {
+    const backgroundColor = useRef(new Animated.Value(0)).current;
+    const scoreBackgroundColor = useRef(new Animated.Value(0)).current;
+    const textColor = useRef(new Animated.Value(0)).current;
+    const scoreTextColor = useRef(new Animated.Value(0)).current;
+
+    React.useEffect(() => {
+        if (isSelected) {
+            Animated.timing(backgroundColor, {
+                toValue: 1,
+                duration: 600,
+                useNativeDriver: false,
+            }).start();
+            Animated.timing(scoreBackgroundColor, {
+                toValue: 1,
+                duration: 600,
+                useNativeDriver: false,
+            }).start();
+            Animated.timing(textColor, {
+                toValue: 1,
+                duration: 600,
+                useNativeDriver: false,
+            }).start();
+            Animated.timing(scoreTextColor, {
+                toValue: 1,
+                duration: 600,
+                useNativeDriver: false,
+            }).start();
+        } else {
+            Animated.timing(backgroundColor, {
+                toValue: 0,
+                duration: 600,
+                useNativeDriver: false,
+            }).start();
+            Animated.timing(scoreBackgroundColor, {
+                toValue: 0,
+                duration: 600,
+                useNativeDriver: false,
+            }).start();
+            Animated.timing(textColor, {
+                toValue: 0,
+                duration: 600,
+                useNativeDriver: false,
+            }).start();
+            Animated.timing(scoreTextColor, {
+                toValue: 0,
+                duration: 600,
+                useNativeDriver: false,
+            }).start();
+        }
+    }, [isSelected]);
+
+    const backgroundColorInterpolate = backgroundColor.interpolate({
+        inputRange: [0, 1],
+        outputRange: ["rgba(250, 250, 250, 0.65)", "rgba(200, 200, 200, 0.65)"],
+    });
+
+    const scoreBackgroundColorInterpolate = scoreBackgroundColor.interpolate({
+        inputRange: [0, 1],
+        outputRange: ["#ebebeb", "#321900"],
+    });
+
+    const textColorInterpolate = textColor.interpolate({
+        inputRange: [0, 1],
+        outputRange: ["#666666", "#000000"],
+    });
+
+    const scoreTextColorInterpolate = scoreTextColor.interpolate({
+        inputRange: [0, 1],
+        outputRange: ["#666666", "#FAFAFA"],
+    });
+
+    return (
+        <TouchableOpacity onPress={onPress}>
+            <AnimatedSelectOption
+                style={{
+                    backgroundColor: isSelected ? "transparent" : backgroundColorInterpolate,
+                    borderRadius: 8,
+                    shadowColor: "rgba(0, 0, 0, 0.04)",
+                    shadowOffset: { width: 0, height: 8 },
+                    shadowOpacity: 0.8,
+                    shadowRadius: 8,
+                    elevation: 5,
+                    backdropFilter: "blur(6px)",
+                }}
+            >
+                {isSelected && <LinearGradient colors={["rgba(233, 230, 227, 0.08)", "rgba(50, 25, 0, 0.08)", "rgba(255, 255, 255, 0.08)"]} start={{ x: 1, y: 1 }} end={{ x: 0, y: 0 }} style={{ ...StyleSheet.absoluteFillObject, borderRadius: 8 }} />}
+                <AnimatedSelectText style={{ color: textColorInterpolate }}>{text}</AnimatedSelectText>
+                <AnimatedSelectScore style={{ backgroundColor: scoreBackgroundColorInterpolate, color: scoreTextColorInterpolate }}>{score}</AnimatedSelectScore>
+            </AnimatedSelectOption>
+        </TouchableOpacity>
+    );
+};
 
 export default function EventPage02({ navigation }) {
+    const [selectedOption, setSelectedOption] = useState(null);
+
+    const handleSelectOption = (index) => {
+        setSelectedOption(index);
+    };
     return (
         <Container>
             <ScrollView
@@ -56,18 +156,9 @@ export default function EventPage02({ navigation }) {
                         </BlurWrapper2>
 
                         <SelectContainer>
-                            <SelectOption>
-                                <SelectText>매우 그렇다</SelectText>
-                                <SelectScore>5점</SelectScore>
-                            </SelectOption>
-                            <SelectOption>
-                                <SelectText>보통이다</SelectText>
-                                <SelectScore>4점</SelectScore>
-                            </SelectOption>
-                            <SelectOption>
-                                <SelectText>그렇지 않다</SelectText>
-                                <SelectScore>3점</SelectScore>
-                            </SelectOption>
+                            <SelectOption text="매우 그렇다" score="5점" isSelected={selectedOption === 0} onPress={() => handleSelectOption(0)} />
+                            <SelectOption text="보통이다" score="4점" isSelected={selectedOption === 1} onPress={() => handleSelectOption(1)} />
+                            <SelectOption text="그렇지 않다" score="3점" isSelected={selectedOption === 2} onPress={() => handleSelectOption(2)} />
                         </SelectContainer>
                     </Content>
 
@@ -234,17 +325,14 @@ const SelectContainer = styled.View`
     margin-right: ${responsiveWidth(24)}px;
     margin-bottom: ${responsiveHeight(40)}px;
 `;
-const SelectOption = styled.View`
+const AnimatedSelectOption = styled(Animated.View)`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding: 12px 16px;
     gap: 16px;
     align-self: stretch;
-
     border-radius: 8px;
-    background: rgba(250, 250, 250, 0.65);
-    /* box-shadow 대신 shadow 관련 속성 사용 */
     shadow-color: rgba(0, 0, 0, 0.04);
     shadow-offset: 0px 8px;
     shadow-opacity: 0.8;
@@ -252,21 +340,17 @@ const SelectOption = styled.View`
     elevation: 5; /* 안드로이드에서 그림자 적용 */
     backdrop-filter: blur(6px);
 `;
-const SelectText = styled.Text`
-    color: #666;
-    display: flex;
-    align-items: center;
-
-    /* 16-TI-B */
-    text-align: left;
+const AnimatedSelectText = styled(Animated.Text)`
     font-family: Pretendard;
     font-size: ${responsiveFontSize(16)}px;
     font-style: normal;
     font-weight: 700;
     line-height: ${responsiveHeight(22.08)}px;
     letter-spacing: ${responsiveWidth(-0.4)}px;
+    display: flex;
+    align-items: center;
 `;
-const SelectScore = styled.Text`
+const AnimatedSelectScore = styled(Animated.Text)`
     color: #666;
     font-family: Pretendard;
     font-size: ${responsiveFontSize(12)}px;
@@ -274,9 +358,7 @@ const SelectScore = styled.Text`
     font-weight: 500;
     line-height: ${responsiveHeight(16.56)}px;
     letter-spacing: ${responsiveWidth(-0.3)}px;
-
     border-radius: 35px;
-    background: #ebebeb;
     padding: 10px;
 `;
 //////////////////////////////////////////////

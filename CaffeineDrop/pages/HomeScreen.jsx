@@ -109,8 +109,8 @@ const HomeScreen = () => {
 
         {/* 카페 리스트 */}
         <CafeList>
-          <CafeListItem
-            cafe={{
+          {[
+            {
               name: "언힙커피로스터스",
               location: "인천 미추홀구 인하로67번길 6 2층",
               distance: "600m",
@@ -119,19 +119,20 @@ const HomeScreen = () => {
               isFavorite: true,
               isSpecialty: true,
               isBothBadges: true
-            }}
-          />
-          <CafeListItem
-            cafe={{
+            },
+            {
               name: "언힙커피로스터스",
               location: "인천 미추홀구 인하로67번길 6 2층",
               distance: "600m",
               rating: 4.0,
               reviews: 605,
               isSpecialty: true,
-            }}
-          />
+            }
+          ].map((cafe, index) => (
+            <CafeListItem key={index} cafe={{ ...cafe, isFirst: index % 1 === 0 }} />
+          ))}
         </CafeList>
+
       </AnimatedBottomSheet>
     </Container>
   );

@@ -1,5 +1,10 @@
 import React from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native';
+import {
+  responsiveFontSize,
+  responsiveWidth,
+  responsiveHeight,
+} from "../utils/responsive";
 import styled from 'styled-components/native';
 import HeartIcon from "../assets/home/HeartIcon.jsx";
 import StarIcon from '../assets/home/StarIcon.svg';
@@ -42,7 +47,12 @@ const CafeListItem = ({ cafe }) => {
           )}
 
           {/* ✅ 이미지 스크롤 뷰 */}
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <ScrollView
+            horizontal showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+              marginLeft: cafe.isFirst ? 24 : 0
+            }}
+          >
             <ImagePlaceholder1 />
             <ImagePlaceholder2 />
             <ImagePlaceholder3 />
@@ -71,15 +81,18 @@ export default CafeListItem;
 
 // 스타일 정의
 const Container = styled.View`
-  margin: 0 24px;
   background-color: #fafafa;
   border-radius: 10px;
   overflow: visible;
+  width: ${responsiveWidth(312)}px;
+  margin-left: ${(props) => (props.isFirst ? "24px" : "0px")}; /* ✅ 첫 번째 아이템만 왼쪽 여백 추가 */
+  margin-top: 16px; /* ✅ 아이템 간 간격 유지 */
 `;
 
+
 const ListContainer = styled.View`
-  width: 312px;
-  height: 274px;
+  width: ${responsiveWidth(360)}px;
+  height: ${responsiveHeight(274)}px;
   padding: 16px 0;
 `;
 
@@ -88,24 +101,24 @@ const ImageContainer = styled.View`
 `;
 
 const ImagePlaceholder1 = styled.View`
-  width: 150px;
-  height: 150px;
+  width: ${responsiveWidth(150)}px;
+  height: ${responsiveHeight(150)}px;
   background-color: #d9d9d9;
   margin-right: 4px;
   border-radius: 12px;
 `;
 
 const ImagePlaceholder2 = styled.View`
-  width: 112.5px;
-  height: 150px;
+  width: ${responsiveWidth(112.5)}px;
+  height: ${responsiveHeight(150)}px;
   background-color: #d9d9d9;
   margin-right: 4px;
   border-radius: 12px;
 `;
 
 const ImagePlaceholder3 = styled.View`
-  width: 113.5px;
-  height: 150px;
+  width: ${responsiveWidth(113.5)}px;
+  height: ${responsiveHeight(150)}px;
   background-color: #d9d9d9;
   margin-right: 4px;
   border-radius: 12px;

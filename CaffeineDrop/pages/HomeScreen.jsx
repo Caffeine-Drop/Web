@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { View, Text, Animated, PanResponder, Dimensions, ImageBackground } from "react-native";
+import React, { useState, useRef } from "react";
+import { View, Text, Animated, TouchableOpacity, PanResponder, Dimensions, ImageBackground, StyleSheet } from "react-native";
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -9,6 +9,8 @@ import styled from "styled-components/native";
 import GNB from "../components/GNB";
 import TopFilter from "../components/TopFilter";
 import CafeListItem from "../components/CafeListItem";
+import SortFilterModal from "../components/SortFilterModal";
+import TimeFilterModal from "../components/TimeFilterModal";
 import CurrentLocationIcon from "../assets/home/CurrentLocationIcon.svg";
 import DownIcon from "../assets/home/DownIcon.svg";
 import LogoIcon from "../assets/home/LogoIcon.svg";
@@ -20,6 +22,10 @@ const DEFAULT_POSITION = SCREEN_HEIGHT - GNB_HEIGHT - 350; // Bottom Sheet 기�
 
 const HomeScreen = () => {
   const translateY = useRef(new Animated.Value(DEFAULT_POSITION)).current;
+  const [sortModalVisible, setSortModalVisible] = useState(false);
+  const [timeModalVisible, setTimeModalVisible] = useState(false);
+  const [selectedSort, setSelectedSort] = useState("인기순");
+  const [selectedTime, setSelectedTime] = useState("전체");
 
   const panResponder = useRef(
     PanResponder.create({
@@ -97,15 +103,50 @@ const HomeScreen = () => {
         <TopFilter panHandlers={panResponder.panHandlers} />
 
         <SortContainer>
-          <SortOption>
-            <SortText>인기순</SortText>
+          <TouchableOpacity onPress={() => setSortModalVisible(true)} style={styles.filterButton}>
+            <SortText>{selectedSort}</SortText>
             <DownIcon width={17} height={17} style={{ marginLeft: 4 }} />
-          </SortOption>
-          <SortOption>
-            <SortText>전체</SortText>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => setTimeModalVisible(true)} style={styles.filterButton}>
+            <SortText>
+              {selectedTime === "전체" ? "전체" : selectedTime.replace("영업", "").replace("오픈", "").replace("마감", "")}
+            </SortText>
             <DownIcon width={17} height={17} style={{ marginLeft: 4 }} />
-          </SortOption>
+          </TouchableOpacity>
         </SortContainer>
+
+      <View style={styles.container}>
+      {/* 정렬 필터 버튼 */}
+      <TouchableOpacity onPress={() => setSortModalVisible(true)} style={styles.filterButton}>
+        <Text>{selectedSort}</Text>
+        <DownIcon width={17} height={17} />
+      </TouchableOpacity>
+
+      {/* 운영시간 필터 버튼 */}
+      <TouchableOpacity onPress={() => setTimeModalVisible(true)} style={styles.filterButton}>
+        <Text>
+          {selectedTime === "전체" ? "전체" : selectedTime.replace("영업", "").replace("오픈", "").replace("마감", "")}
+        </Text>
+        <DownIcon width={17} height={17} />
+      </TouchableOpacity>
+
+        {/* 정렬 필터 모달 */}
+        <SortFilterModal
+          visible={sortModalVisible}
+          onClose={() => setSortModalVisible(false)}
+          selectedSort={selectedSort}
+          setSelectedSort={setSelectedSort}
+        />
+
+        {/* 영업 시간 필터 모달 */}
+        <TimeFilterModal
+          visible={timeModalVisible}
+          onClose={() => setTimeModalVisible(false)}
+          selectedTime={selectedTime}
+          setSelectedTime={setSelectedTime}
+        />
+      </View>
 
         {/* 카페 리스트 */}
         <CafeList>
@@ -240,3 +281,20 @@ const CafeLocation = ({ top, left }) => (
     <CafeLabel>언힙 커피로</CafeLabel>
   </CafeLocationContainer>
 );
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    padding: 16,
+  },
+  filterButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    backgroundColor: "#f5f5f5",
+    marginBottom: 10,
+  },
+});

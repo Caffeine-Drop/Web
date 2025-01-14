@@ -1,73 +1,83 @@
 import React from "react";
-import { View, Text, Button, TouchableOpacity } from "react-native";
+import { Animated, PanResponder, StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import styled from "styled-components/native";
 import BackIcon from "../../Components/BackIcon";
 import BlackTextCircle from "../../Components/BlackTextCircle";
 import BlurIcon from "../../Components/BlurIcon";
 import CoffeeImage from "../../Components/Coffee";
+import { ScrollView } from "react-native";
 
 export default function EventPage02({ navigation }) {
     return (
         <Container>
-            <InnerContainer>
-                <Navbar>
-                    <IconWrapper>
-                        <BackIcon />
-                    </IconWrapper>
-                    <Title>원두 진단하기</Title>
-                </Navbar>
-                <StatusContainer>
-                    <CurrentState></CurrentState>
-                </StatusContainer>
+            <ScrollView
+                horizontal={false} // 좌우 스크롤 비활성화
+                showsHorizontalScrollIndicator={false} // 좌우 스크롤바 숨김
+            >
+                <InnerContainer>
+                    <Navbar>
+                        <IconWrapper>
+                            <BackIcon />
+                        </IconWrapper>
+                        <Title>원두 진단하기</Title>
+                    </Navbar>
+                    <StatusContainer>
+                        <CurrentState />
+                    </StatusContainer>
 
-                <Content>
-                    <BlurWrapper>
-                        <BlurIcon />
-                    </BlurWrapper>
+                    <Content>
+                        <BlurWrapper>
+                            <BlurIcon />
+                        </BlurWrapper>
 
-                    <TextContainer>
-                        <HeaderContainer>
-                            <CircleWrapper>
-                                <BlackTextCircle />
-                            </CircleWrapper>
-                            <HeaderText>나는 향이 강한{"\n"}원두가 좋다</HeaderText>
-                        </HeaderContainer>
+                        <TextContainer>
+                            <HeaderContainer>
+                                <CircleWrapper>
+                                    <BlackTextCircle />
+                                </CircleWrapper>
+                                <HeaderText>나는 향이 강한{"\n"}원두가 좋다</HeaderText>
+                            </HeaderContainer>
 
-                        <ContentContainer>
-                            <ContentText>
-                                원두의 향은 네 가지로 구성돼요.
-                                <HighlightText1> 프레그런스, 아로마, 노즈, 애프터 테이스트</HighlightText1>가 있어요. 카페인 드롭은 이 중 <HighlightText2>애프터 테이스트 혹은 아로마를 테이스팅 노트에 반영했어요.</HighlightText2>
-                            </ContentText>
-                        </ContentContainer>
-                    </TextContainer>
+                            <ContentContainer>
+                                <ContentText>
+                                    원두의 향은 네 가지로 구성돼요.
+                                    <HighlightText1> 프레그런스, 아로마, 노즈, 애프터 테이스트</HighlightText1>가 있어요. 카페인 드롭은 이 중 <HighlightText2>애프터 테이스트 혹은 아로마를 테이스팅 노트에 반영했어요.</HighlightText2>
+                                </ContentText>
+                            </ContentContainer>
+                        </TextContainer>
 
-                    <CoffeeContainer>
-                        <CoffeeImage />
-                    </CoffeeContainer>
+                        <CoffeeContainer>
+                            <CoffeeImage />
+                        </CoffeeContainer>
 
-                    <SelectContainer>
-                        <SelectOption>
-                            <SelectText>매우 그렇다</SelectText>
-                            <SelectScore>5점</SelectScore>
-                        </SelectOption>
-                        <SelectOption>
-                            <SelectText>보통이다</SelectText>
-                            <SelectScore>4점</SelectScore>
-                        </SelectOption>
-                        <SelectOption>
-                            <SelectText>그렇지 않다</SelectText>
-                            <SelectScore>3점</SelectScore>
-                        </SelectOption>
-                    </SelectContainer>
-                </Content>
+                        <BlurWrapper2>
+                            <BlurIcon />
+                        </BlurWrapper2>
 
-                <Footer>
-                    <ButtonWrapper onPress={() => navigation.navigate("EventPage03")}>
-                        <ButtonText>다음으로</ButtonText>
-                    </ButtonWrapper>
-                </Footer>
-            </InnerContainer>
+                        <SelectContainer>
+                            <SelectOption>
+                                <SelectText>매우 그렇다</SelectText>
+                                <SelectScore>5점</SelectScore>
+                            </SelectOption>
+                            <SelectOption>
+                                <SelectText>보통이다</SelectText>
+                                <SelectScore>4점</SelectScore>
+                            </SelectOption>
+                            <SelectOption>
+                                <SelectText>그렇지 않다</SelectText>
+                                <SelectScore>3점</SelectScore>
+                            </SelectOption>
+                        </SelectContainer>
+                    </Content>
+
+                    <Footer>
+                        <ButtonWrapper onPress={() => navigation.navigate("EventPage03")}>
+                            <ButtonText>다음으로</ButtonText>
+                        </ButtonWrapper>
+                    </Footer>
+                </InnerContainer>
+            </ScrollView>
         </Container>
     );
 }
@@ -76,6 +86,8 @@ const Container = styled.View`
     width: 100%;
     height: 100%;
     background: #fafafa;
+
+    overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */
 `;
 const InnerContainer = styled.View`
     flex: 1;
@@ -131,6 +143,13 @@ const BlurWrapper = styled.View`
     width: ${responsiveWidth(420)}px;
     right: ${responsiveWidth(-62)}px;
     top: ${responsiveWidth(-52)}px;
+`;
+const BlurWrapper2 = styled.View`
+    position: absolute;
+    height: ${responsiveHeight(234)}px;
+    width: ${responsiveWidth(420)}px;
+    right: ${responsiveWidth(-314)}px;
+    top: ${responsiveWidth(248)}px;
 `;
 
 //////////////////////////////////////////////
@@ -201,7 +220,7 @@ const HighlightText2 = styled.Text`
 `;
 //////////////////////////////////////////////
 const CoffeeContainer = styled.View`
-    margin-left: ${responsiveWidth(24)}px;
+    /*margin-left: ${responsiveWidth(24)}px;*/
 `;
 
 //////////////////////////////////////////////
@@ -220,13 +239,17 @@ const SelectOption = styled.View`
     flex-direction: row;
     justify-content: space-between;
     padding: 12px 16px;
-
     gap: 16px;
     align-self: stretch;
 
     border-radius: 8px;
     background: rgba(250, 250, 250, 0.65);
-    /*box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.04);*/
+    /* box-shadow 대신 shadow 관련 속성 사용 */
+    shadow-color: rgba(0, 0, 0, 0.04);
+    shadow-offset: 0px 8px;
+    shadow-opacity: 0.8;
+    shadow-radius: 8px;
+    elevation: 5; /* 안드로이드에서 그림자 적용 */
     backdrop-filter: blur(6px);
 `;
 const SelectText = styled.Text`

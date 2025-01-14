@@ -85,6 +85,7 @@ const Container = styled.View`
   border-radius: 10px;
   overflow: visible;
   width: ${responsiveWidth(312)}px;
+  height: ${responsiveHeight(242)}px;
   margin-left: ${(props) => (props.isFirst ? "24px" : "0px")}; /* ✅ 첫 번째 아이템만 왼쪽 여백 추가 */
   margin-top: 16px; /* ✅ 아이템 간 간격 유지 */
 `;
@@ -93,7 +94,6 @@ const Container = styled.View`
 const ListContainer = styled.View`
   width: ${responsiveWidth(360)}px;
   height: ${responsiveHeight(274)}px;
-  padding: 16px 0;
 `;
 
 const ImageContainer = styled.View`
@@ -128,7 +128,7 @@ const ImagePlaceholder3 = styled.View`
 const BadgeContainer = styled.View`
   position: absolute;
   bottom: -4px;
-  left: -4px;
+  left: 20px;
   flex-direction: row;
   z-index: 10; /* 사진 위에 표시되도록 설정 */
 `;
@@ -148,28 +148,28 @@ const BadgeText = styled.Text`
 `;
 
 const Info = styled.View`
-  padding: 10px;
+  padding-left: 24px;
+  padding-top: 12px;
 `;
 
 const Title = styled.Text`
   font-size: 16px;
   font-weight: bold;
+  padding-bottom: 8px;
 `;
 
 const Location = styled.Text`
   font-size: 14px;
-  color: gray;
+  padding-bottom: 8px;
 `;
 
 const Details = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 5px;
 `;
 
 const Distance = styled.Text`
   font-size: 12px;
-  color: gray;
 `;
 
 const RatingContainer = styled.View`
@@ -178,6 +178,7 @@ const RatingContainer = styled.View`
 `;
 
 const RatingText = styled.Text`
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: 400;
   color: gray;
 `;

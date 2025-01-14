@@ -169,7 +169,6 @@ const GNBContainer = styled.View`
 const LogoContainer = styled.View`
   position: absolute;
   top: ${DEFAULT_POSITION + GNB_HEIGHT + 245}px;
-  left: 293px;
   right: 24px;
   width: 43px;
   height: 43px;

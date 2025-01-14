@@ -188,6 +188,7 @@ const BadgeText = styled.Text`
 
 const Info = styled.View`
   padding-left: 24px;
+  padding-right: 24px;
   padding-top: 12px;
 `;
 

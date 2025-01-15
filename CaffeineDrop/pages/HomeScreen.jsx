@@ -116,21 +116,6 @@ const HomeScreen = () => {
           </TouchableOpacity>
         </SortContainer>
 
-      <View style={styles.container}>
-      {/* 정렬 필터 버튼 */}
-      <TouchableOpacity onPress={() => setSortModalVisible(true)} style={styles.filterButton}>
-        <Text>{selectedSort}</Text>
-        <DownIcon width={17} height={17} />
-      </TouchableOpacity>
-
-      {/* 운영시간 필터 버튼 */}
-      <TouchableOpacity onPress={() => setTimeModalVisible(true)} style={styles.filterButton}>
-        <Text>
-          {selectedTime === "전체" ? "전체" : selectedTime.replace("영업", "").replace("오픈", "").replace("마감", "")}
-        </Text>
-        <DownIcon width={17} height={17} />
-      </TouchableOpacity>
-
         {/* 정렬 필터 모달 */}
         <SortFilterModal
           visible={sortModalVisible}
@@ -146,7 +131,6 @@ const HomeScreen = () => {
           selectedTime={selectedTime}
           setSelectedTime={setSelectedTime}
         />
-      </View>
 
         {/* 카페 리스트 */}
         <CafeList>

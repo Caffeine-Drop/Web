@@ -66,47 +66,115 @@ export default function EventPage06({ navigation }) {
                         <ResultInnerBox>
                             <ResultName>
                                 <ResultText>향(Aroma, AfterTaste)</ResultText>
-                                <ResultScore>4.0/5</ResultScore>
+                                <ResultScore>
+                                    4.0
+                                    <Text style={{ color: "#666666" }}>/5</Text>
+                                </ResultScore>
                             </ResultName>
                             <ResultChartSpace>
-                                <ResultGrey></ResultGrey>
-                                <ResultBrown></ResultBrown>
+                                <ResultChart>
+                                    <LeftLine />
+                                    <ResultBrown></ResultBrown>
+                                    <ResultGrey></ResultGrey>
+                                    <RightLine />
+                                </ResultChart>
                             </ResultChartSpace>
                         </ResultInnerBox>
 
                         <ResultInnerBox>
                             <ResultName>
                                 <ResultText>산미(Acidity)</ResultText>
-                                <ResultScore>4.0/5</ResultScore>
+                                <ResultScore>
+                                    4.0
+                                    <Text style={{ color: "#666666" }}>/5</Text>
+                                </ResultScore>
                             </ResultName>
+
                             <ResultChartSpace>
-                                <ResultGrey></ResultGrey>
-                                <ResultBrown></ResultBrown>
+                                <ResultChart>
+                                    <LeftLine />
+                                    <ResultBrown></ResultBrown>
+                                    <ResultGrey></ResultGrey>
+                                    <RightLine />
+                                </ResultChart>
                             </ResultChartSpace>
                         </ResultInnerBox>
 
                         <ResultInnerBox>
                             <ResultName>
                                 <ResultText>바디감(Body)</ResultText>
-                                <ResultScore>4.0/5</ResultScore>
+                                <ResultScore>
+                                    4.0
+                                    <Text style={{ color: "#666666" }}>/5</Text>
+                                </ResultScore>
                             </ResultName>
                             <ResultChartSpace>
-                                <ResultGrey></ResultGrey>
-                                <ResultBrown></ResultBrown>
+                                <ResultChart>
+                                    <LeftLine />
+                                    <ResultBrown></ResultBrown>
+                                    <ResultGrey></ResultGrey>
+                                    <RightLine />
+                                </ResultChart>
                             </ResultChartSpace>
                         </ResultInnerBox>
 
                         <ResultInnerBox>
                             <ResultName>
-                                <ResultText>로스팅 정도(SCAA 기준) | 시나몬</ResultText>
-                                <ResultScore>4.0/5</ResultScore>
+                                <ResultText>
+                                    로스팅 정도(SCAA 기준) |<Text style={{ color: "#000000" }}> 시나몬</Text>
+                                </ResultText>
+                                <ResultScore>
+                                    2<Text style={{ color: "#666666" }}>/8</Text>
+                                </ResultScore>
                             </ResultName>
                             <ResultChartSpace>
-                                <ResultGrey></ResultGrey>
-                                <ResultBrown></ResultBrown>
+                                <ResultChart>
+                                    <LeftLine />
+                                    <ResultSmallBrownWrapper>
+                                        <ResultSmallBrown />
+                                        <SmallRightLine />
+                                    </ResultSmallBrownWrapper>
+                                    <ResultSmallBrownWrapper>
+                                        <ResultSmallBrown />
+                                        <SmallRightLine />
+                                    </ResultSmallBrownWrapper>
+
+                                    <ResultSmallGreyWrapper>
+                                        <ResultSmallGrey />
+                                        <SmallRightLine />
+                                    </ResultSmallGreyWrapper>
+                                    <ResultSmallGreyWrapper>
+                                        <ResultSmallGrey />
+                                        <SmallRightLine />
+                                    </ResultSmallGreyWrapper>
+                                    <ResultSmallGreyWrapper>
+                                        <ResultSmallGrey />
+                                        <SmallRightLine />
+                                    </ResultSmallGreyWrapper>
+                                    <ResultSmallGreyWrapper>
+                                        <ResultSmallGrey />
+                                        <SmallRightLine />
+                                    </ResultSmallGreyWrapper>
+                                    <ResultSmallGreyWrapper>
+                                        <ResultSmallGrey />
+                                        <SmallRightLine />
+                                    </ResultSmallGreyWrapper>
+                                    <ResultSmallGreyWrapper>
+                                        <ResultSmallGrey />
+                                        <SmallRightLine />
+                                    </ResultSmallGreyWrapper>
+                                </ResultChart>
                             </ResultChartSpace>
                         </ResultInnerBox>
                     </ResultChartWrapper>
+
+                    <ResultCardWrapper>
+                        <ResultHeaderBox>
+                            <InnerText>당신에게 가장 잘 어울리는{"\n"}원두는?</InnerText>
+                        </ResultHeaderBox>
+
+                        <ResultContentBox>{/* 여기에 카드 이미지 */}</ResultContentBox>
+                    </ResultCardWrapper>
                 </Content>
 
                 <Footer>
@@ -174,7 +242,7 @@ const TextContainer = styled.View`
     margin-top: ${responsiveWidth(39)}px;
     margin-left: ${responsiveWidth(24)}px;
     margin-right: ${responsiveWidth(24)}px;
-    margin-bottom: ${responsiveWidth(67)}px;
+    margin-bottom: ${responsiveWidth(32)}px;
 `;
 const HeaderContainer = styled.View``;
 
@@ -204,21 +272,140 @@ const ResultChartWrapper = styled.View`
     margin-left: ${responsiveWidth(24)}px;
     margin-right: ${responsiveWidth(24)}px;
     margin-bottom: ${responsiveWidth(24)}px;
+    display: flex;
+    gap: ${responsiveHeight(12)}px;
 `;
 
-const ResultInnerBox = styled.View``;
+//목록 상자
+const ResultInnerBox = styled.View`
+    display: flex;
+    gap: ${responsiveHeight(8)}px;
+`;
 
-const ResultName = styled.View``;
+//이름과 점수 공간 ///////////////////////
+const ResultName = styled.View`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`;
 
-const ResultText = styled.Text``;
+const ResultText = styled.Text`
+    color: #666;
+    font-family: Pretendard;
+    font-size: ${responsiveFontSize(12)}px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: ${responsiveHeight(16.56)}px;
+    letter-spacing: ${responsiveWidth(-0.3)}px;
+`;
 
-const ResultScore = styled.Text``;
+const ResultScore = styled.Text`
+    color: #321900;
+    text-align: right;
+    font-family: Pretendard;
+    font-size: ${responsiveFontSize(12)}px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: ${responsiveHeight(16.56)}px;
+    letter-spacing: ${responsiveWidth(-0.3)}px;
+`;
 
-const ResultChartSpace = styled.View``;
+//막대그래프 공간 ///////////////////////
+const ResultChartSpace = styled.View`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: ${responsiveHeight(12)}px;
+`;
 
-const ResultGrey = styled.View``;
+const ResultChart = styled.View`
+    width: ${responsiveWidth(224)}px;
+    height: ${responsiveHeight(24)}px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+`;
+const RightLine = styled.View`
+    position: absolute;
+    right: 0;
+    top: ${responsiveHeight(6)}px;
+    width: ${responsiveWidth(1)}px;
+    height: ${responsiveHeight(10)}px;
+    background-color: #d9d9d9;
+    z-index: 2;
+`;
+const SmallRightLine = styled.View`
+    position: absolute;
+    right: 0;
+    top: ${responsiveHeight(-2)}px;
+    width: ${responsiveWidth(1)}px;
+    height: ${responsiveHeight(10)}px;
+    background-color: #d9d9d9;
+    z-index: 5;
+`;
+const LeftLine = styled.View`
+    position: absolute;
+    left: -1.5px;
+    top: ${responsiveHeight(6)}px;
+    width: ${responsiveWidth(1)}px;
+    height: ${responsiveHeight(10)}px;
+    background-color: #d9d9d9;
+    z-index: 2;
+`;
+const ResultBrown = styled.View`
+    background-color: #000000;
+    width: ${responsiveWidth(154)}px;
+    height: ${responsiveHeight(5)}px;
+    z-index: 1;
+`;
+const ResultGrey = styled.View`
+    background-color: #ebebeb;
+    width: ${responsiveWidth(70)}px;
+    height: ${responsiveHeight(5)}px;
+    z-index: 0;
+`;
+const ResultSmallBrownWrapper = styled.View`
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+`;
+const ResultSmallGreyWrapper = styled.View`
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+`;
+const ResultSmallBrown = styled.View`
+    background-color: #000000;
+    width: ${responsiveWidth(28)}px;
+    height: ${responsiveHeight(5)}px;
+    z-index: 4;
+`;
+const ResultSmallGrey = styled.View`
+    background-color: #ebebeb;
+    width: ${responsiveWidth(28)}px;
+    height: ${responsiveHeight(5)}px;
+    z-index: 3;
+`;
 
-const ResultBrown = styled.View``;
+const ResultCardWrapper = styled.View`
+    display: flex;
+    flex-direction: column;
+    gap: ${responsiveHeight(32)}px;
+    margin-top: ${responsiveHeight(50)}px;
+    margin-left: ${responsiveWidth(24)}px;
+    margin-right: ${responsiveWidth(24)}px;
+    margin-bottom: ${responsiveHeight(40)}px;
+`;
+const ResultHeaderBox = styled.View``;
+const InnerText = styled.Text`
+    text-align: center;
+`;
+const ResultContentBox = styled.View`
+    justify-content: center;
+`;
 
 //////////////////////////////////////////////
 const Footer = styled.View`

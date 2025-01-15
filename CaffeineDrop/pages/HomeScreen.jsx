@@ -13,6 +13,7 @@ import SortFilterModal from "../components/SortFilterModal";
 import TimeFilterModal from "../components/TimeFilterModal";
 import CurrentLocationIcon from "../assets/home/CurrentLocationIcon.svg";
 import DownIcon from "../assets/home/DownIcon.svg";
+import UpIcon from "../assets/home/UpIcon.svg";
 import LogoIcon from "../assets/home/LogoIcon.svg";
 import CafeLocationIcon from "../assets/home/CafeLocationIcon.svg";
 
@@ -24,8 +25,8 @@ const HomeScreen = () => {
   const translateY = useRef(new Animated.Value(DEFAULT_POSITION)).current;
   const [sortModalVisible, setSortModalVisible] = useState(false);
   const [timeModalVisible, setTimeModalVisible] = useState(false);
-  const [selectedSort, setSelectedSort] = useState("인기순");
-  const [selectedTime, setSelectedTime] = useState("전체");
+  const [selectedSort, setSelectedSort] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
 
   const panResponder = useRef(
     PanResponder.create({
@@ -103,17 +104,15 @@ const HomeScreen = () => {
         <TopFilter panHandlers={panResponder.panHandlers} />
 
         <SortContainer>
-          <TouchableOpacity onPress={() => setSortModalVisible(true)} style={styles.filterButton}>
-            <SortText>{selectedSort}</SortText>
-            <DownIcon width={17} height={17} style={{ marginLeft: 4 }} />
-          </TouchableOpacity>
+          <FilterButton onPress={() => setSortModalVisible(!sortModalVisible)}>
+            <SortText selected={selectedSort !== ""}>{selectedSort || "인기순"}</SortText>
+            {sortModalVisible ? <UpIcon width={17} height={17} style={{ marginLeft: 4 }} /> : <DownIcon width={17} height={17} style={{ marginLeft: 4 }} />}
+          </FilterButton>
 
-          <TouchableOpacity onPress={() => setTimeModalVisible(true)} style={styles.filterButton}>
-            <SortText>
-              {selectedTime === "전체" ? "전체" : selectedTime.replace("영업", "").replace("오픈", "").replace("마감", "")}
-            </SortText>
-            <DownIcon width={17} height={17} style={{ marginLeft: 4 }} />
-          </TouchableOpacity>
+          <FilterButton onPress={() => setTimeModalVisible(!timeModalVisible)}>
+            <SortText selected={selectedTime !== ""}>{selectedTime || "전체"}</SortText>
+            {timeModalVisible ? <UpIcon width={17} height={17} style={{ marginLeft: 4 }} /> : <DownIcon width={17} height={17} style={{ marginLeft: 4 }} />}
+          </FilterButton>
         </SortContainer>
 
         {/* 정렬 필터 모달 */}
@@ -222,14 +221,16 @@ const SortContainer = styled.View`
   background-color: #fafafa;
 `;
 
-const SortOption = styled.View`
+const FilterButton = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
-`;
+  padding: 6px 12px;
+  background-color: #fafafa;
+`;  
 
 const SortText = styled.Text`
   font-size: 12px;
-  font-weight: 400;
+  font-weight: ${(props) => (props.selected ? "600" : "400")};
   color: #000;
 `;
 
@@ -265,20 +266,3 @@ const CafeLocation = ({ top, left }) => (
     <CafeLabel>언힙 커피로</CafeLabel>
   </CafeLocationContainer>
 );
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    padding: 16,
-  },
-  filterButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    backgroundColor: "#f5f5f5",
-    marginBottom: 10,
-  },
-});

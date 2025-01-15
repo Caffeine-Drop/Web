@@ -61,6 +61,52 @@ export default function EventPage06({ navigation }) {
                             </ContentText>
                         </ContentContainer>
                     </TextContainer>
+
+                    <ResultChartWrapper>
+                        <ResultInnerBox>
+                            <ResultName>
+                                <ResultText>향(Aroma, AfterTaste)</ResultText>
+                                <ResultScore>4.0/5</ResultScore>
+                            </ResultName>
+                            <ResultChartSpace>
+                                <ResultGrey></ResultGrey>
+                                <ResultBrown></ResultBrown>
+                            </ResultChartSpace>
+                        </ResultInnerBox>
+
+                        <ResultInnerBox>
+                            <ResultName>
+                                <ResultText>산미(Acidity)</ResultText>
+                                <ResultScore>4.0/5</ResultScore>
+                            </ResultName>
+                            <ResultChartSpace>
+                                <ResultGrey></ResultGrey>
+                                <ResultBrown></ResultBrown>
+                            </ResultChartSpace>
+                        </ResultInnerBox>
+
+                        <ResultInnerBox>
+                            <ResultName>
+                                <ResultText>바디감(Body)</ResultText>
+                                <ResultScore>4.0/5</ResultScore>
+                            </ResultName>
+                            <ResultChartSpace>
+                                <ResultGrey></ResultGrey>
+                                <ResultBrown></ResultBrown>
+                            </ResultChartSpace>
+                        </ResultInnerBox>
+
+                        <ResultInnerBox>
+                            <ResultName>
+                                <ResultText>로스팅 정도(SCAA 기준) | 시나몬</ResultText>
+                                <ResultScore>4.0/5</ResultScore>
+                            </ResultName>
+                            <ResultChartSpace>
+                                <ResultGrey></ResultGrey>
+                                <ResultBrown></ResultBrown>
+                            </ResultChartSpace>
+                        </ResultInnerBox>
+                    </ResultChartWrapper>
                 </Content>
 
                 <Footer>
@@ -114,13 +160,7 @@ const Title = styled.Text`
 const Content = styled.View`
     flex: 1;
     width: 100%;
-`;
-const BlurWrapper = styled.View`
-    position: absolute;
-    height: ${responsiveHeight(420)}px;
-    width: ${responsiveWidth(420)}px;
-    right: ${responsiveWidth(-50)}px;
-    top: ${responsiveWidth(-85)}px;
+    background: #f1f1f1;
 `;
 
 //////////////////////////////////////////////
@@ -130,7 +170,7 @@ const TextContainer = styled.View`
     align-items: center;
     justify-content: center;
 
-    gap: ${responsiveHeight(32)}px;
+    gap: ${responsiveHeight(12)}px;
     margin-top: ${responsiveWidth(39)}px;
     margin-left: ${responsiveWidth(24)}px;
     margin-right: ${responsiveWidth(24)}px;
@@ -157,20 +197,28 @@ const ContentText = styled.Text`
     line-height: ${responsiveHeight(21)}px;
     letter-spacing: -2px;
     font-size: ${responsiveFontSize(14)}px;
+    text-align: center;
 `;
 
-//////////////////////////////////////////////
-
-const SelectContainer = styled.View`
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-
-    margin-top: ${responsiveHeight(10)}px;
+const ResultChartWrapper = styled.View`
     margin-left: ${responsiveWidth(24)}px;
     margin-right: ${responsiveWidth(24)}px;
-    margin-bottom: ${responsiveHeight(40)}px;
+    margin-bottom: ${responsiveWidth(24)}px;
 `;
+
+const ResultInnerBox = styled.View``;
+
+const ResultName = styled.View``;
+
+const ResultText = styled.Text``;
+
+const ResultScore = styled.Text``;
+
+const ResultChartSpace = styled.View``;
+
+const ResultGrey = styled.View``;
+
+const ResultBrown = styled.View``;
 
 //////////////////////////////////////////////
 const Footer = styled.View`

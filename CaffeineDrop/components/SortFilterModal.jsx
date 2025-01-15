@@ -57,7 +57,8 @@ const Container = styled.View`
   shadow-offset: 0px -8px;
   shadow-opacity: 1;
   shadow-radius: 16px;
-  elevation: 4;`;
+  z-index: 1000;
+`;
 
 const Header = styled.View`
   flex-direction: row;

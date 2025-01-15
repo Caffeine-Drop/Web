@@ -35,9 +35,9 @@ const Container = styled.View`
 `;
 
 const Title = styled.Text`
-  font-size: 20px;
-  font-weight: bold;
-  line-height: 27.44px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24.84px;
 `;
 
 const Icons = styled.View`

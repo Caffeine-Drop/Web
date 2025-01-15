@@ -50,7 +50,7 @@ const CafeListItem = ({ cafe }) => {
           <ScrollView
             horizontal showsHorizontalScrollIndicator={false}
             contentContainerStyle={{
-              marginLeft: cafe.isFirst ? 24 : 0
+              marginLeft: cafe.isFirst ? `${responsiveWidth(24)}px` : 0
             }}
           >
             {/* ✅ 첫 번째 이미지에 '미운영 알림' 표시 (isClosed가 true일 때만) */}

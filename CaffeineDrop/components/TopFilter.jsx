@@ -1,5 +1,10 @@
 import React from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
+import {
+  responsiveFontSize,
+  responsiveWidth,
+  responsiveHeight,
+} from "../utils/responsive";
 import styled from "styled-components/native";
 import FavoriteFilter from "./filters/FavoriteFilter";
 import UnmannedFilter from "./filters/UnmannedFilter";
@@ -17,18 +22,20 @@ const TopFilter = ({ panHandlers }) => {
         <DragHandle />
       </DragHandleWrapper>
 
-      <FilterContainer {...panHandlers}>
-        <FilterScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <FavoriteFilter />
-          <UnmannedFilter />
-          <FranchiseFilter />
-          <ParkingFilter />
-          <LargeCafeFilter />
-          <OpenNowFilter />
-          <SpecialtyCoffeeFilter />
-          <DripCoffeeFilter />
-        </FilterScrollView>
-      </FilterContainer>
+      <FilterContainerWrapper>
+        <FilterContainer {...panHandlers}>
+          <FilterScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <FavoriteFilter />
+            <UnmannedFilter />
+            <FranchiseFilter />
+            <ParkingFilter />
+            <LargeCafeFilter />
+            <OpenNowFilter />
+            <SpecialtyCoffeeFilter />
+            <DripCoffeeFilter />
+          </FilterScrollView>
+        </FilterContainer>
+      </FilterContainerWrapper>
     </>
   );
 };
@@ -42,8 +49,8 @@ const DragHandleWrapper = styled.View`
 `;
 
 const DragHandle = styled.View`
-  width: 64px;
-  height: 5px;
+  width: ${responsiveWidth(64)}px;
+  height: ${responsiveHeight(5)}px;
   border-radius: 5px;
   background: #D9D9D9;
 `;
@@ -52,6 +59,14 @@ const FilterContainer = styled.View`
   margin: 10px 24px 11px 24px;
 `;
 
+const FilterContainerWrapper = styled.View`
+  background-color: #fafafa;
+  shadow-color: rgba(0, 0, 0, 0.02);
+  shadow-offset: 0px 4px;
+  shadow-opacity: 1;
+  shadow-radius: 4px;
+  z-index: 1000;
+`;
 const FilterScrollView = styled.ScrollView`
   flex-direction: row;
 `;

@@ -62,14 +62,14 @@ const HomeScreen = () => {
       <MapBackground source={require("../assets/home/MapImage.png")}>
         <MapView />
 
-         🏷️ 4개의 카페 위치 아이콘 추가
-         <CafeLocation top={76} left={170} />
-         <CafeLocation top={126} left={100} />
-         <CafeLocation top={146} left={230} />
-         <CafeLocation top={196} left={160} />
+         {/* 🏷️ 4개의 카페 위치 아이콘 추가 */}
+         <CafeLocation top={`${responsiveHeight(76)}px`} left={`${responsiveWidth(170)}px`} />
+         <CafeLocation top={`${responsiveHeight(126)}px`} left={`${responsiveWidth(100)}px`} />
+         <CafeLocation top={`${responsiveHeight(146)}px`} left={`${responsiveWidth(230)}px`} />
+         <CafeLocation top={`${responsiveHeight(196)}px`} left={`${responsiveWidth(160)}px`} />
 
         <CurrentLocationMarker>
-          <CurrentLocationIcon width={43} height={43} />
+          <CurrentLocationIcon width={`${responsiveHeight(43)}px`} height={`${responsiveWidth(43)}px`} />
         </CurrentLocationMarker>
       </MapBackground>
 
@@ -242,10 +242,8 @@ const CafeList = styled.ScrollView`
 /* 📍 현재 위치 아이콘의 정확한 위치 설정 */
 const CurrentLocationMarker = styled.View`
   position: absolute;
-  top: 249px;
-  bottom: 57px;
-  left: 24px;
-  right: 293px;
+  top: ${responsiveHeight(249)}px;
+  left: ${responsiveWidth(24)}px;
 `;
 
 const CafeLocationContainer = styled.View`
@@ -254,7 +252,7 @@ const CafeLocationContainer = styled.View`
 `;
 
 const CafeLabel = styled.Text`
-  font-size: 10px;
+  font-size: ${responsiveFontSize(10)}px;
   font-weight: bold;
   color: #000;
   text-align: center;
@@ -262,7 +260,7 @@ const CafeLabel = styled.Text`
 
 const CafeLocation = ({ top, left }) => (
   <CafeLocationContainer style={{ top, left }}>
-    <CafeLocationIcon width={30} height={30} />
+    <CafeLocationIcon width={`${responsiveWidth(30)}px`} height={`${responsiveHeight(30)}px`} />
     <CafeLabel>언힙 커피로</CafeLabel>
   </CafeLocationContainer>
 );

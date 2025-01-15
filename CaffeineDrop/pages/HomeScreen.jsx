@@ -11,6 +11,7 @@ import TopFilter from "../components/TopFilter";
 import CafeListItem from "../components/CafeListItem";
 import SortFilterModal from "../components/SortFilterModal";
 import TimeFilterModal from "../components/TimeFilterModal";
+import CafeLocation from "../components/CafeLocation";
 import CurrentLocationIcon from "../assets/home/CurrentLocationIcon.svg";
 import DownIcon from "../assets/home/DownIcon.svg";
 import UpIcon from "../assets/home/UpIcon.svg";
@@ -27,6 +28,7 @@ const HomeScreen = () => {
   const [timeModalVisible, setTimeModalVisible] = useState(false);
   const [selectedSort, setSelectedSort] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState(null);
 
   const panResponder = useRef(
     PanResponder.create({
@@ -62,11 +64,35 @@ const HomeScreen = () => {
       <MapBackground source={require("../assets/home/MapImage.png")}>
         <MapView />
 
-         {/* 🏷️ 4개의 카페 위치 아이콘 추가 */}
-         <CafeLocation top={`${responsiveHeight(76)}px`} left={`${responsiveWidth(170)}px`} />
-         <CafeLocation top={`${responsiveHeight(126)}px`} left={`${responsiveWidth(100)}px`} />
-         <CafeLocation top={`${responsiveHeight(146)}px`} left={`${responsiveWidth(230)}px`} />
-         <CafeLocation top={`${responsiveHeight(196)}px`} left={`${responsiveWidth(160)}px`} />
+          {/* 🏷️ 4개의 카페 위치 아이콘 추가 */}
+          <CafeLocation
+            id="cafe1"
+            top={`${responsiveHeight(76)}px`}
+            left={`${responsiveWidth(170)}px`}
+            isSelected={selectedLocation === "cafe1"}
+            onSelect={() => setSelectedLocation("cafe1")}
+          />
+          <CafeLocation
+            id="cafe2"
+            top={`${responsiveHeight(126)}px`}
+            left={`${responsiveWidth(100)}px`}
+            isSelected={selectedLocation === "cafe2"}
+            onSelect={() => setSelectedLocation("cafe2")}
+          />
+          <CafeLocation
+            id="cafe3"
+            top={`${responsiveHeight(146)}px`}
+            left={`${responsiveWidth(230)}px`}
+            isSelected={selectedLocation === "cafe3"}
+            onSelect={() => setSelectedLocation("cafe3")}
+          />
+          <CafeLocation
+            id="cafe4"
+            top={`${responsiveHeight(196)}px`}
+            left={`${responsiveWidth(160)}px`}
+            isSelected={selectedLocation === "cafe4"}
+            onSelect={() => setSelectedLocation("cafe4")}
+          />
 
         <CurrentLocationMarker>
           <CurrentLocationIcon width={`${responsiveHeight(43)}px`} height={`${responsiveWidth(43)}px`} />
@@ -251,22 +277,3 @@ const CurrentLocationMarker = styled.View`
   top: ${responsiveHeight(249)}px;
   left: ${responsiveWidth(24)}px;
 `;
-
-const CafeLocationContainer = styled.View`
-  position: absolute;
-  align-items: center;
-`;
-
-const CafeLabel = styled.Text`
-  font-size: ${responsiveFontSize(10)}px;
-  font-weight: bold;
-  color: #000;
-  text-align: center;
-`;
-
-const CafeLocation = ({ top, left }) => (
-  <CafeLocationContainer style={{ top, left }}>
-    <CafeLocationIcon width={`${responsiveWidth(30)}px`} height={`${responsiveHeight(30)}px`} />
-    <CafeLabel>언힙 커피로</CafeLabel>
-  </CafeLocationContainer>
-);

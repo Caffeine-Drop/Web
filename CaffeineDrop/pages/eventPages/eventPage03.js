@@ -182,7 +182,7 @@ export default function EventPage03({ navigation }) {
 
                 <Footer>
                     <AnimatedButtonWrapper style={{ backgroundColor: buttonBackgroundColorInterpolate }}>
-                        <TouchableOpacity onPress={() => navigation.navigate("EventPage03")}>
+                        <TouchableOpacity onPress={() => navigation.navigate("EventPage04")}>
                             <AnimatedButtonText style={{ color: buttonTextColorInterpolate }}>다음으로</AnimatedButtonText>
                         </TouchableOpacity>
                     </AnimatedButtonWrapper>

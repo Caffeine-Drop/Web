@@ -101,7 +101,7 @@ const SelectOption = ({ text, score, isSelected, onPress }) => {
     );
 };
 
-export default function EventPage03({ navigation }) {
+export default function EventPage04({ navigation }) {
     const [selectedOption, setSelectedOption] = useState(null);
     const buttonBackgroundColor = useRef(new Animated.Value(0)).current;
     const buttonTextColor = useRef(new Animated.Value(0)).current;
@@ -182,7 +182,7 @@ export default function EventPage03({ navigation }) {
 
                 <Footer>
                     <AnimatedButtonWrapper style={{ backgroundColor: buttonBackgroundColorInterpolate }}>
-                        <TouchableOpacity onPress={() => navigation.navigate("EventPage03")}>
+                        <TouchableOpacity onPress={() => navigation.navigate("EventPage05")}>
                             <AnimatedButtonText style={{ color: buttonTextColorInterpolate }}>다음으로</AnimatedButtonText>
                         </TouchableOpacity>
                     </AnimatedButtonWrapper>

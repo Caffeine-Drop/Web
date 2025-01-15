@@ -95,7 +95,7 @@ const SelectOption = ({ text, score, isSelected, onPress }) => {
                     backdropFilter: "blur(6px)",
                 }}
             >
-                {isSelected && <LinearGradient colors={["rgba(233, 230, 227, 0.08)", "rgba(50, 25, 0, 0.08)", "rgba(255, 255, 255, 0.08)"]} start={{ x: 1, y: 1 }} end={{ x: 0, y: 0 }} style={{ ...StyleSheet.absoluteFillObject, borderRadius: 8 }} />}
+                {isSelected && <LinearGradient colors={["rgba(0,0,0, 0.08)", "rgba(50, 25, 0, 0.08)", "rgba(255, 255, 255, 0.08)"]} start={{ x: 1, y: 1 }} end={{ x: 0, y: 0 }} style={{ ...StyleSheet.absoluteFillObject, borderRadius: 8 }} />}
                 <AnimatedSelectText style={{ color: textColorInterpolate }}>{text}</AnimatedSelectText>
                 <AnimatedSelectScore style={{ backgroundColor: scoreBackgroundColorInterpolate, color: scoreTextColorInterpolate }}>{score}</AnimatedSelectScore>
             </AnimatedSelectOption>
@@ -105,10 +105,35 @@ const SelectOption = ({ text, score, isSelected, onPress }) => {
 
 export default function EventPage02({ navigation }) {
     const [selectedOption, setSelectedOption] = useState(null);
+    const buttonBackgroundColor = useRef(new Animated.Value(0)).current;
+    const buttonTextColor = useRef(new Animated.Value(0)).current;
 
     const handleSelectOption = (index) => {
         setSelectedOption(index);
+
+        Animated.timing(buttonBackgroundColor, {
+            toValue: 1,
+            duration: 600,
+            useNativeDriver: false,
+        }).start();
+
+        Animated.timing(buttonTextColor, {
+            toValue: 1,
+            duration: 600,
+            useNativeDriver: false,
+        }).start();
     };
+
+    const buttonBackgroundColorInterpolate = buttonBackgroundColor.interpolate({
+        inputRange: [0, 1],
+        outputRange: ["#F1F1F1", "#E5E3E1"],
+    });
+
+    const buttonTextColorInterpolate = buttonTextColor.interpolate({
+        inputRange: [0, 1],
+        outputRange: ["#666666", "#756555"],
+    });
+
     return (
         <Container>
             <ScrollView
@@ -163,9 +188,11 @@ export default function EventPage02({ navigation }) {
                     </Content>
 
                     <Footer>
-                        <ButtonWrapper onPress={() => navigation.navigate("EventPage03")}>
-                            <ButtonText>다음으로</ButtonText>
-                        </ButtonWrapper>
+                        <AnimatedButtonWrapper style={{ backgroundColor: buttonBackgroundColorInterpolate }}>
+                            <TouchableOpacity onPress={() => navigation.navigate("EventPage03")}>
+                                <AnimatedButtonText style={{ color: buttonTextColorInterpolate }}>다음으로</AnimatedButtonText>
+                            </TouchableOpacity>
+                        </AnimatedButtonWrapper>
                     </Footer>
                 </InnerContainer>
             </ScrollView>
@@ -232,15 +259,15 @@ const BlurWrapper = styled.View`
     position: absolute;
     height: ${responsiveHeight(420)}px;
     width: ${responsiveWidth(420)}px;
-    right: ${responsiveWidth(-62)}px;
-    top: ${responsiveWidth(-52)}px;
+    right: ${responsiveWidth(-50)}px;
+    top: ${responsiveWidth(-85)}px;
 `;
 const BlurWrapper2 = styled.View`
     position: absolute;
     height: ${responsiveHeight(234)}px;
     width: ${responsiveWidth(420)}px;
-    right: ${responsiveWidth(-314)}px;
-    top: ${responsiveWidth(248)}px;
+    right: ${responsiveWidth(-305)}px;
+    top: ${responsiveWidth(265)}px;
 `;
 
 //////////////////////////////////////////////
@@ -374,7 +401,24 @@ const Footer = styled.View`
     background: #fafafa;
 `;
 
-const ButtonWrapper = styled(TouchableOpacity)`
+const AnimatedButtonText = styled(Animated.Text)`
+    color: #999;
+    font-family: Pretendard;
+    font-size: ${responsiveFontSize(16)}px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: ${responsiveHeight(22.08)}px;
+    letter-spacing: ${responsiveWidth(-0.4)}px;
+
+    font-family: Pretendard;
+    font-size: ${responsiveFontSize(16)}px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: ${responsiveHeight(22.08)}px;
+    letter-spacing: ${responsiveHeight(-0.4)}px;
+`;
+
+const AnimatedButtonWrapper = styled(Animated.View)`
     display: flex;
     width: ${responsiveWidth(312)}px;
     padding: 16px 0px;
@@ -383,14 +427,4 @@ const ButtonWrapper = styled(TouchableOpacity)`
     gap: 10px;
     border-radius: 12px;
     background: #f1f1f1;
-`;
-
-const ButtonText = styled.Text`
-    color: #999;
-    font-family: Pretendard;
-    font-size: ${responsiveFontSize(16)}px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: ${responsiveHeight(22.08)}px;
-    letter-spacing: ${responsiveWidth(-0.4)}px;
 `;

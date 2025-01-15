@@ -187,7 +187,7 @@ const GNBContainer = styled.View`
   position: absolute;
   top: 0;
   width: 100%;
-  z-index: 10; /* GNB가 항상 위에 있도록 설정 */
+  z-index: 10;
 `;
 
 const LogoContainer = styled.View`
@@ -210,6 +210,12 @@ const AnimatedBottomSheet = styled(Animated.View)`
   height: 100%;
   top: ${GNB_HEIGHT}px;
   background-color: #fafafa;
+  z-index: 20;
+  shadow-color: rgba(0, 0, 0, 0.02);
+  shadow-offset: 0px -4px;
+  shadow-opacity: 1;
+  shadow-radius: 4px;
+  elevation: 4;
 `;
 
 const SortContainer = styled.View`

@@ -18,10 +18,6 @@ import DripCoffeeFilter from "./filters/DripCoffeeFilter";
 const TopFilter = ({ panHandlers }) => {
   return (
     <>
-      <DragHandleWrapper {...panHandlers}>
-        <DragHandle />
-      </DragHandleWrapper>
-
       <FilterContainerWrapper>
         <FilterContainer {...panHandlers}>
           <FilterScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -41,19 +37,6 @@ const TopFilter = ({ panHandlers }) => {
 };
 
 export default TopFilter;
-
-const DragHandleWrapper = styled.View`
-  align-items: center;
-  margin-bottom: 12px;
-  margin-top: 16px;
-`;
-
-const DragHandle = styled.View`
-  width: ${responsiveWidth(64)}px;
-  height: ${responsiveHeight(5)}px;
-  border-radius: 5px;
-  background: #D9D9D9;
-`;
 
 const FilterContainer = styled.View`
   margin: 10px 24px 11px 24px;

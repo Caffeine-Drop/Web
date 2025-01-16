@@ -29,7 +29,8 @@ const HomeScreen = () => {
   const [timeModalVisible, setTimeModalVisible] = useState(false);
   const [selectedSort, setSelectedSort] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
-  
+  const [showFilters, setShowFilters] = useState(true);
+
   const initialLocations = [
     { id: "cafe1", top: responsiveHeight(76), left: responsiveWidth(170) },
     { id: "cafe2", top: responsiveHeight(126), left: responsiveWidth(100) },
@@ -105,6 +106,8 @@ const HomeScreen = () => {
       }).start();
     });
 
+    // 애니메이션으로 필터 숨기고 바텀시트를 위로 이동
+    setShowFilters(false);
     // Animate Bottom Sheet and CurrentLocationIcon
     Animated.timing(translateY, {
       toValue: DEFAULT_POSITION - 66, // 66px 위로 이동
@@ -187,20 +190,28 @@ const HomeScreen = () => {
           }),
         }}
       >
+        <DragHandleWrapper {...panResponder.panHandlers}>
+          <DragHandle />
+        </DragHandleWrapper>
+
         {/* 터치 가능한 TopFilter */}
-        <TopFilter panHandlers={panResponder.panHandlers} />
+        {showFilters && (
+          <>
+            <TopFilter panHandlers={panResponder.panHandlers} />
 
-        <SortContainer>
-          <FilterButton onPress={() => setSortModalVisible(!sortModalVisible)}>
-            <SortText selected={selectedSort !== ""}>{selectedSort || "인기순"}</SortText>
-            {sortModalVisible ? <UpIcon width={17} height={17} style={{ marginLeft: 4 }} /> : <DownIcon width={17} height={17} style={{ marginLeft: 4 }} />}
-          </FilterButton>
+            <SortContainer>
+              <FilterButton onPress={() => setSortModalVisible(!sortModalVisible)}>
+                <SortText selected={selectedSort !== ""}>{selectedSort || "인기순"}</SortText>
+                {sortModalVisible ? <UpIcon width={17} height={17} style={{ marginLeft: 4 }} /> : <DownIcon width={17} height={17} style={{ marginLeft: 4 }} />}
+              </FilterButton>
 
-          <FilterButton onPress={() => setTimeModalVisible(!timeModalVisible)}>
-            <SortText selected={selectedTime !== ""}>{selectedTime || "전체"}</SortText>
-            {timeModalVisible ? <UpIcon width={17} height={17} style={{ marginLeft: 4 }} /> : <DownIcon width={17} height={17} style={{ marginLeft: 4 }} />}
-          </FilterButton>
-        </SortContainer>
+              <FilterButton onPress={() => setTimeModalVisible(!timeModalVisible)}>
+                <SortText selected={selectedTime !== ""}>{selectedTime || "전체"}</SortText>
+                {timeModalVisible ? <UpIcon width={17} height={17} style={{ marginLeft: 4 }} /> : <DownIcon width={17} height={17} style={{ marginLeft: 4 }} />}
+              </FilterButton>
+            </SortContainer>
+          </>
+        )}
 
         {/* 정렬 필터 모달 */}
         <SortFilterModal
@@ -309,6 +320,19 @@ const AnimatedBottomSheet = styled(Animated.View)`
   shadow-opacity: 1;
   shadow-radius: 4px;
   elevation: 4;
+`;
+
+const DragHandleWrapper = styled.View`
+  align-items: center;
+  margin-bottom: 12px;
+  margin-top: 16px;
+`;
+
+const DragHandle = styled.View`
+  width: ${responsiveWidth(64)}px;
+  height: ${responsiveHeight(5)}px;
+  border-radius: 5px;
+  background: #D9D9D9;
 `;
 
 const SortContainer = styled.View`

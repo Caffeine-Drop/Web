@@ -47,6 +47,7 @@ const HomeScreen = () => {
   ).current;
 
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const [isCafeLocationSelected, setIsCafeLocationSelected] = useState(false);
 
   const panResponder = useRef(
     PanResponder.create({
@@ -77,6 +78,8 @@ const HomeScreen = () => {
   ).current;
 
   const handleSelectLocation = (id) => {
+    // 상태 업데이트
+    setIsCafeLocationSelected(true);
     // Find clicked icon's current location
     const clickedLocation = animatedLocations.find((loc) => loc.id === id);
     if (!clickedLocation) return;
@@ -252,7 +255,11 @@ const HomeScreen = () => {
               isClosed: true
             }
           ].map((cafe, index) => (
-            <CafeListItem key={index} cafe={{ ...cafe, isFirst: index % 1 === 0 }} />
+            <CafeListItem
+              key={index}
+              cafe={{ ...cafe, isFirst: index % 1 === 0 }}
+              isSelected={isCafeLocationSelected}
+            />
           ))}
         </CafeList>
 

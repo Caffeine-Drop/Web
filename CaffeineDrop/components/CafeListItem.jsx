@@ -9,10 +9,14 @@ import styled from 'styled-components/native';
 import HeartIcon from "../assets/home/HeartIcon.jsx";
 import StarIcon from '../assets/home/StarIcon.svg';
 
-const CafeListItem = ({ cafe }) => {
+const CafeListItem = ({ cafe, isSelected }) => {
   const isBothBadges = cafe.isFavorite && cafe.isSpecialty;
   return (
-    <Container>
+    <Container
+      style={{
+        backgroundColor: isSelected ? '#F1F1F1' : '#FAFAFA', // 동적 배경색 적용
+      }}
+    >
       <ListContainer>
         <ImageContainer>
           {/* ✅ 배지 컨테이너 (ScrollView 외부) */}
@@ -90,13 +94,11 @@ export default CafeListItem;
 
 // 스타일 정의
 const Container = styled.View`
-  background-color: #fafafa;
-  border-radius: 10px;
   overflow: visible;
-  width: ${responsiveWidth(312)}px;
-  height: ${responsiveHeight(242)}px;
+  width: ${responsiveWidth(360)}px;
+  height: ${responsiveHeight(274)}px;
   margin-left: ${(props) => (props.isFirst ? "24px" : "0px")}; /* ✅ 첫 번째 아이템만 왼쪽 여백 추가 */
-  margin-top: 16px; /* ✅ 아이템 간 간격 유지 */
+  padding-top: 16px; /* ✅ 아이템 간 간격 유지 */
 `;
 
 

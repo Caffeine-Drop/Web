@@ -1,12 +1,11 @@
 import React, { useRef, useState } from "react";
-import { Animated, PanResponder, StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
+import { ScrollView, Animated, PanResponder, StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import styled from "styled-components/native";
 import BackIcon from "../../Components/BackIcon";
 import BlackTextCircle from "../../Components/BlackTextCircle";
 import BlurIcon from "../../Components/BlurIcon";
 import CoffeeImage from "../../Components/Coffee";
-import { ScrollView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 const SelectOption = ({ text, score, isSelected, onPress }) => {
@@ -136,21 +135,21 @@ export default function EventPage02({ navigation }) {
 
     return (
         <Container>
-            <ScrollView
-                horizontal={false} // 좌우 스크롤 비활성화
-                showsHorizontalScrollIndicator={false} // 좌우 스크롤바 숨김
-            >
-                <InnerContainer>
-                    <Navbar>
-                        <IconWrapper>
-                            <BackIcon />
-                        </IconWrapper>
-                        <Title>원두 진단하기</Title>
-                    </Navbar>
-                    <StatusContainer>
-                        <CurrentState />
-                    </StatusContainer>
+            <InnerContainer>
+                <Navbar>
+                    <IconWrapper>
+                        <BackIcon />
+                    </IconWrapper>
+                    <Title>원두 진단하기</Title>
+                </Navbar>
+                <StatusContainer>
+                    <CurrentState />
+                </StatusContainer>
 
+                <ScrollView
+                    horizontal={false} // 좌우 스크롤 비활성화
+                    showsHorizontalScrollIndicator={false} // 좌우 스크롤바 숨김
+                >
                     <Content>
                         <BlurWrapper>
                             <BlurIcon />
@@ -194,8 +193,8 @@ export default function EventPage02({ navigation }) {
                             </TouchableOpacity>
                         </AnimatedButtonWrapper>
                     </Footer>
-                </InnerContainer>
-            </ScrollView>
+                </ScrollView>
+            </InnerContainer>
         </Container>
     );
 }
@@ -391,7 +390,7 @@ const AnimatedSelectScore = styled(Animated.Text)`
 //////////////////////////////////////////////
 const Footer = styled.View`
     position: absolute;
-    top: ${responsiveHeight(760)}px;
+    top: ${responsiveHeight(658)}px;
 
     display: inline-flex;
     padding: 0px 24px 16px 24px;

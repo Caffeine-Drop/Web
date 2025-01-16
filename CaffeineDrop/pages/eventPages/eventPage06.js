@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Animated, PanResponder, StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
+import { ScrollView, Animated, PanResponder, StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import styled from "styled-components/native";
 import BackIcon from "../../Components/BackIcon";
@@ -7,37 +7,16 @@ import BlackTextCircle from "../../Components/BlackTextCircle";
 import BlurIcon from "../../Components/BlurIcon";
 import { LinearGradient } from "expo-linear-gradient";
 
+import BrazilImage from "../../Components/Card_Brazil";
+import ColombiaImage from "../../Components/Card_Colombia";
+import CostaRicaImage from "../../Components/Card_CostaRica";
+import EthiopiaImage from "../../Components/Card_Ethiopia";
+import GuatemalaImage from "../../Components/Card_Guatemala";
+import IndonesiaImage from "../../Components/Card_Indonesia";
+import KenyaImage from "../../Components/Card_Kenya";
+import VietnamImage from "../../Components/Card_Vietnam";
+
 export default function EventPage06({ navigation }) {
-    const [selectedOption, setSelectedOption] = useState(null);
-    const buttonBackgroundColor = useRef(new Animated.Value(0)).current;
-    const buttonTextColor = useRef(new Animated.Value(0)).current;
-
-    const handleSelectOption = (index) => {
-        setSelectedOption(index);
-
-        Animated.timing(buttonBackgroundColor, {
-            toValue: 1,
-            duration: 600,
-            useNativeDriver: false,
-        }).start();
-
-        Animated.timing(buttonTextColor, {
-            toValue: 1,
-            duration: 600,
-            useNativeDriver: false,
-        }).start();
-    };
-
-    const buttonBackgroundColorInterpolate = buttonBackgroundColor.interpolate({
-        inputRange: [0, 1],
-        outputRange: ["#F1F1F1", "#E5E3E1"],
-    });
-
-    const buttonTextColorInterpolate = buttonTextColor.interpolate({
-        inputRange: [0, 1],
-        outputRange: ["#666666", "#756555"],
-    });
-
     return (
         <Container>
             <InnerContainer>
@@ -48,142 +27,149 @@ export default function EventPage06({ navigation }) {
                     <Title>원두 진단하기</Title>
                 </Navbar>
 
-                <Content>
-                    <TextContainer>
-                        <HeaderContainer>
-                            <HeaderText>나만의{"\n"}테이스팅 노트</HeaderText>
-                        </HeaderContainer>
+                {/* Scrollable Content */}
+                <ScrollView>
+                    <Content>
+                        <GreyColorBox>
+                            <TextContainer>
+                                <HeaderContainer>
+                                    <HeaderText>나만의{"\n"}테이스팅 노트</HeaderText>
+                                </HeaderContainer>
 
-                        <ContentContainer>
-                            <ContentText>
-                                로스팅 정도에 따라 향, 산미, 바디감, 쓴맛 등이{"\n"}
-                                강하게 나타날 수 있어요
-                            </ContentText>
-                        </ContentContainer>
-                    </TextContainer>
+                                <ContentContainer>
+                                    <ContentText>
+                                        로스팅 정도에 따라 향, 산미, 바디감, 쓴맛 등이{"\n"}
+                                        강하게 나타날 수 있어요
+                                    </ContentText>
+                                </ContentContainer>
+                            </TextContainer>
 
-                    <ResultChartWrapper>
-                        <ResultInnerBox>
-                            <ResultName>
-                                <ResultText>향(Aroma, AfterTaste)</ResultText>
-                                <ResultScore>
-                                    4.0
-                                    <Text style={{ color: "#666666" }}>/5</Text>
-                                </ResultScore>
-                            </ResultName>
-                            <ResultChartSpace>
-                                <ResultChart>
-                                    <LeftLine />
-                                    <ResultBrown></ResultBrown>
-                                    <ResultGrey></ResultGrey>
-                                    <RightLine />
-                                </ResultChart>
-                            </ResultChartSpace>
-                        </ResultInnerBox>
+                            <ResultChartWrapper>
+                                <ResultInnerBox>
+                                    <ResultName>
+                                        <ResultText>향(Aroma, AfterTaste)</ResultText>
+                                        <ResultScore>
+                                            4.0
+                                            <Text style={{ color: "#666666" }}>/5</Text>
+                                        </ResultScore>
+                                    </ResultName>
+                                    <ResultChartSpace>
+                                        <ResultChart>
+                                            <LeftLine />
+                                            <ResultBrown></ResultBrown>
+                                            <ResultGrey></ResultGrey>
+                                            <RightLine />
+                                        </ResultChart>
+                                    </ResultChartSpace>
+                                </ResultInnerBox>
 
-                        <ResultInnerBox>
-                            <ResultName>
-                                <ResultText>산미(Acidity)</ResultText>
-                                <ResultScore>
-                                    4.0
-                                    <Text style={{ color: "#666666" }}>/5</Text>
-                                </ResultScore>
-                            </ResultName>
+                                <ResultInnerBox>
+                                    <ResultName>
+                                        <ResultText>산미(Acidity)</ResultText>
+                                        <ResultScore>
+                                            4.0
+                                            <Text style={{ color: "#666666" }}>/5</Text>
+                                        </ResultScore>
+                                    </ResultName>
 
-                            <ResultChartSpace>
-                                <ResultChart>
-                                    <LeftLine />
-                                    <ResultBrown></ResultBrown>
-                                    <ResultGrey></ResultGrey>
-                                    <RightLine />
-                                </ResultChart>
-                            </ResultChartSpace>
-                        </ResultInnerBox>
+                                    <ResultChartSpace>
+                                        <ResultChart>
+                                            <LeftLine />
+                                            <ResultBrown></ResultBrown>
+                                            <ResultGrey></ResultGrey>
+                                            <RightLine />
+                                        </ResultChart>
+                                    </ResultChartSpace>
+                                </ResultInnerBox>
 
-                        <ResultInnerBox>
-                            <ResultName>
-                                <ResultText>바디감(Body)</ResultText>
-                                <ResultScore>
-                                    4.0
-                                    <Text style={{ color: "#666666" }}>/5</Text>
-                                </ResultScore>
-                            </ResultName>
-                            <ResultChartSpace>
-                                <ResultChart>
-                                    <LeftLine />
-                                    <ResultBrown></ResultBrown>
-                                    <ResultGrey></ResultGrey>
-                                    <RightLine />
-                                </ResultChart>
-                            </ResultChartSpace>
-                        </ResultInnerBox>
+                                <ResultInnerBox>
+                                    <ResultName>
+                                        <ResultText>바디감(Body)</ResultText>
+                                        <ResultScore>
+                                            4.0
+                                            <Text style={{ color: "#666666" }}>/5</Text>
+                                        </ResultScore>
+                                    </ResultName>
+                                    <ResultChartSpace>
+                                        <ResultChart>
+                                            <LeftLine />
+                                            <ResultBrown></ResultBrown>
+                                            <ResultGrey></ResultGrey>
+                                            <RightLine />
+                                        </ResultChart>
+                                    </ResultChartSpace>
+                                </ResultInnerBox>
 
-                        <ResultInnerBox>
-                            <ResultName>
-                                <ResultText>
-                                    로스팅 정도(SCAA 기준) |<Text style={{ color: "#000000" }}> 시나몬</Text>
-                                </ResultText>
-                                <ResultScore>
-                                    2<Text style={{ color: "#666666" }}>/8</Text>
-                                </ResultScore>
-                            </ResultName>
-                            <ResultChartSpace>
-                                <ResultChart>
-                                    <LeftLine />
-                                    <ResultSmallBrownWrapper>
-                                        <ResultSmallBrown />
-                                        <SmallRightLine />
-                                    </ResultSmallBrownWrapper>
-                                    <ResultSmallBrownWrapper>
-                                        <ResultSmallBrown />
-                                        <SmallRightLine />
-                                    </ResultSmallBrownWrapper>
+                                <ResultInnerBox>
+                                    <ResultName>
+                                        <ResultText>
+                                            로스팅 정도(SCAA 기준) |<Text style={{ color: "#000000" }}> 시나몬</Text>
+                                        </ResultText>
+                                        <ResultScore>
+                                            2<Text style={{ color: "#666666" }}>/8</Text>
+                                        </ResultScore>
+                                    </ResultName>
+                                    <ResultChartSpace>
+                                        <ResultChart>
+                                            <LeftLine />
+                                            <ResultSmallBrownWrapper>
+                                                <ResultSmallBrown />
+                                                <SmallRightLine />
+                                            </ResultSmallBrownWrapper>
+                                            <ResultSmallBrownWrapper>
+                                                <ResultSmallBrown />
+                                                <SmallRightLine />
+                                            </ResultSmallBrownWrapper>
 
-                                    <ResultSmallGreyWrapper>
-                                        <ResultSmallGrey />
-                                        <SmallRightLine />
-                                    </ResultSmallGreyWrapper>
-                                    <ResultSmallGreyWrapper>
-                                        <ResultSmallGrey />
-                                        <SmallRightLine />
-                                    </ResultSmallGreyWrapper>
-                                    <ResultSmallGreyWrapper>
-                                        <ResultSmallGrey />
-                                        <SmallRightLine />
-                                    </ResultSmallGreyWrapper>
-                                    <ResultSmallGreyWrapper>
-                                        <ResultSmallGrey />
-                                        <SmallRightLine />
-                                    </ResultSmallGreyWrapper>
-                                    <ResultSmallGreyWrapper>
-                                        <ResultSmallGrey />
-                                        <SmallRightLine />
-                                    </ResultSmallGreyWrapper>
-                                    <ResultSmallGreyWrapper>
-                                        <ResultSmallGrey />
-                                        <SmallRightLine />
-                                    </ResultSmallGreyWrapper>
-                                </ResultChart>
-                            </ResultChartSpace>
-                        </ResultInnerBox>
-                    </ResultChartWrapper>
+                                            <ResultSmallGreyWrapper>
+                                                <ResultSmallGrey />
+                                                <SmallRightLine />
+                                            </ResultSmallGreyWrapper>
+                                            <ResultSmallGreyWrapper>
+                                                <ResultSmallGrey />
+                                                <SmallRightLine />
+                                            </ResultSmallGreyWrapper>
+                                            <ResultSmallGreyWrapper>
+                                                <ResultSmallGrey />
+                                                <SmallRightLine />
+                                            </ResultSmallGreyWrapper>
+                                            <ResultSmallGreyWrapper>
+                                                <ResultSmallGrey />
+                                                <SmallRightLine />
+                                            </ResultSmallGreyWrapper>
+                                            <ResultSmallGreyWrapper>
+                                                <ResultSmallGrey />
+                                                <SmallRightLine />
+                                            </ResultSmallGreyWrapper>
+                                            <ResultSmallGreyWrapper>
+                                                <ResultSmallGrey />
+                                                <SmallRightLine />
+                                            </ResultSmallGreyWrapper>
+                                        </ResultChart>
+                                    </ResultChartSpace>
+                                </ResultInnerBox>
+                            </ResultChartWrapper>
+                        </GreyColorBox>
 
-                    <ResultCardWrapper>
-                        <ResultHeaderBox>
-                            <InnerText>당신에게 가장 잘 어울리는{"\n"}원두는?</InnerText>
-                        </ResultHeaderBox>
+                        <ResultCardWrapper>
+                            <ResultHeaderBox>
+                                <InnerText>당신에게 가장{"\n"}잘 어울리는 원두는?</InnerText>
+                            </ResultHeaderBox>
 
-                        <ResultContentBox>{/* 여기에 카드 이미지 */}</ResultContentBox>
-                    </ResultCardWrapper>
-                </Content>
+                            <ResultContentBox>
+                                <BrazilImage />
+                            </ResultContentBox>
+                        </ResultCardWrapper>
+                    </Content>
 
-                <Footer>
-                    <AnimatedButtonWrapper style={{ backgroundColor: buttonBackgroundColorInterpolate }}>
+                    <Footer>
                         <TouchableOpacity onPress={() => {}}>
-                            <AnimatedButtonText style={{ color: buttonTextColorInterpolate }}>완료하기</AnimatedButtonText>
+                            <ButtonWrapper>
+                                <ButtonText>완료하기</ButtonText>
+                            </ButtonWrapper>
                         </TouchableOpacity>
-                    </AnimatedButtonWrapper>
-                </Footer>
+                    </Footer>
+                </ScrollView>
             </InnerContainer>
         </Container>
     );
@@ -228,10 +214,12 @@ const Title = styled.Text`
 const Content = styled.View`
     flex: 1;
     width: 100%;
-    background: #f1f1f1;
 `;
 
 //////////////////////////////////////////////
+const GreyColorBox = styled.View`
+    background-color: #f1f1f1;
+`;
 const TextContainer = styled.View`
     display: flex;
     flex-direction: column;
@@ -250,11 +238,11 @@ const HeaderText = styled.Text`
     color: #000;
     text-align: center;
     font-family: Pretendard;
-    font-size: ${responsiveFontSize(32)}px;
+    font-size: ${responsiveFontSize(28)}px;
     font-style: normal;
     font-weight: 600;
-    line-height: ${responsiveHeight(44.16)}px;
-    letter-spacing: ${responsiveWidth(-0.8)}px;
+    line-height: ${responsiveHeight(38.64)}px;
+    letter-spacing: ${responsiveWidth(-0.7)}px;
 `;
 const ContentContainer = styled.View``;
 const ContentText = styled.Text`
@@ -262,10 +250,10 @@ const ContentText = styled.Text`
     font-family: Pretendard;
     font-style: normal;
     font-weight: 400;
-    line-height: ${responsiveHeight(21)}px;
-    letter-spacing: -2px;
+    line-height: ${responsiveHeight(19.32)}px;
     font-size: ${responsiveFontSize(14)}px;
     text-align: center;
+    letter-spacing: ${responsiveWidth(-1)}px;
 `;
 
 const ResultChartWrapper = styled.View`
@@ -389,10 +377,12 @@ const ResultSmallGrey = styled.View`
     height: ${responsiveHeight(5)}px;
     z-index: 3;
 `;
-
+////////////////////////////////////////////
 const ResultCardWrapper = styled.View`
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: ${responsiveHeight(32)}px;
     margin-top: ${responsiveHeight(50)}px;
     margin-left: ${responsiveWidth(24)}px;
@@ -402,6 +392,14 @@ const ResultCardWrapper = styled.View`
 const ResultHeaderBox = styled.View``;
 const InnerText = styled.Text`
     text-align: center;
+    color: #000;
+    text-align: center;
+    font-family: Pretendard;
+    font-size: ${responsiveFontSize(28)}px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: ${responsiveHeight(42)}px;
+    letter-spacing: ${responsiveHeight(-0.7)}px;
 `;
 const ResultContentBox = styled.View`
     justify-content: center;
@@ -410,8 +408,7 @@ const ResultContentBox = styled.View`
 //////////////////////////////////////////////
 const Footer = styled.View`
     position: absolute;
-    top: ${responsiveHeight(666)}px;
-
+    top: ${responsiveHeight(965)}px;
     display: inline-flex;
     padding: 0px 24px 16px 24px;
     flex-direction: column;
@@ -420,8 +417,8 @@ const Footer = styled.View`
     background: #fafafa;
 `;
 
-const AnimatedButtonText = styled(Animated.Text)`
-    color: #999;
+const ButtonText = styled.Text`
+    color: #fafafa;
     font-family: Pretendard;
     font-size: ${responsiveFontSize(16)}px;
     font-style: normal;
@@ -437,7 +434,7 @@ const AnimatedButtonText = styled(Animated.Text)`
     letter-spacing: ${responsiveHeight(-0.4)}px;
 `;
 
-const AnimatedButtonWrapper = styled(Animated.View)`
+const ButtonWrapper = styled.View`
     display: flex;
     width: ${responsiveWidth(312)}px;
     padding: 16px 0px;
@@ -445,5 +442,5 @@ const AnimatedButtonWrapper = styled(Animated.View)`
     align-items: center;
     gap: 10px;
     border-radius: 12px;
-    background: #f1f1f1;
+    background-color: #756555;
 `;

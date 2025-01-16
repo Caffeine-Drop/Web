@@ -49,6 +49,41 @@ const HomeScreen = () => {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [isCafeLocationSelected, setIsCafeLocationSelected] = useState(false);
 
+  const resetToInitialState = () => {
+    // 애니메이션 초기화
+    animatedLocations.forEach((loc, index) => {
+      Animated.timing(loc.top, {
+        toValue: initialLocations[index].top, // 초기 위치
+        duration: 300,
+        useNativeDriver: false,
+      }).start();
+  
+      Animated.timing(loc.left, {
+        toValue: initialLocations[index].left, // 초기 위치
+        duration: 300,
+        useNativeDriver: false,
+      }).start();
+    });
+  
+    // Bottom Sheet와 CurrentLocationIcon 초기화
+    Animated.timing(translateY, {
+      toValue: DEFAULT_POSITION,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  
+    Animated.timing(locationTranslateY, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  
+    // 상태 초기화
+    setShowFilters(true);
+    setSelectedLocation(null);
+    setIsCafeLocationSelected(false);
+  };
+  
   const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
@@ -159,11 +194,14 @@ const HomeScreen = () => {
             transform: [{ translateY: locationTranslateY }],
           }}
         >
-          <CurrentLocationIcon
-            width={`${responsiveHeight(43)}px`}
-            height={`${responsiveWidth(43)}px`}
-          />
+          <TouchableOpacity onPress={resetToInitialState}>
+            <CurrentLocationIcon
+              width={`${responsiveHeight(43)}px`}
+              height={`${responsiveWidth(43)}px`}
+            />
+          </TouchableOpacity>
         </Animated.View>
+
       </MapBackground>
 
       {/* GNB (고정) */}

@@ -213,10 +213,12 @@ const Navbar = styled.View`
     justify-content: center;
     align-items: center;
     margin-top: ${responsiveHeight(38)}px;
+    z-index: 5;
 `;
 const IconWrapper = styled.View`
     position: absolute;
     left: ${responsiveWidth(24)}px;
+    z-index: 5;
 `;
 const Title = styled.Text`
     font-size: ${responsiveFontSize(18)}px;
@@ -227,12 +229,14 @@ const Title = styled.Text`
     font-family: Pretendard;
     font-style: normal;
     font-weight: 600;
+    z-index: 5;
 `;
 const CurrentState = styled.View`
     height: ${responsiveHeight(3)}px;
     width: ${responsiveWidth(360)}px;
     flex-shrink: 0;
     background: #756555;
+    z-index: 5;
 `;
 //////////////////////////////////////////////
 const Content = styled.View`

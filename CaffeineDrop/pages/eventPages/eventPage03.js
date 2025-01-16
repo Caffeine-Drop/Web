@@ -6,6 +6,7 @@ import BackIcon from "../../Components/BackIcon";
 import BlackTextCircle from "../../Components/BlackTextCircle";
 import BlurIcon from "../../Components/BlurIcon";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
 
 const SelectOption = ({ text, score, isSelected, onPress }) => {
     const backgroundColor = useRef(new Animated.Value(0)).current;
@@ -211,10 +212,12 @@ const Navbar = styled.View`
     justify-content: center;
     align-items: center;
     margin-top: ${responsiveHeight(38)}px;
+    z-index: 5;
 `;
 const IconWrapper = styled.View`
     position: absolute;
     left: ${responsiveWidth(24)}px;
+    z-index: 5;
 `;
 const Title = styled.Text`
     font-size: ${responsiveFontSize(18)}px;
@@ -225,18 +228,21 @@ const Title = styled.Text`
     font-family: Pretendard;
     font-style: normal;
     font-weight: 600;
+    z-index: 5;
 `;
 const StatusContainer = styled.View`
     display: flex;
     height: ${responsiveHeight(3)}px;
     flex-direction: row;
     background: #f1f1f1;
+    z-index: 5;
 `;
 const CurrentState = styled.View`
     height: ${responsiveHeight(3)}px;
     width: ${responsiveWidth(180)}px;
     flex-shrink: 0;
     background: #756555;
+    z-index: 5;
 `;
 //////////////////////////////////////////////
 const Content = styled.View`

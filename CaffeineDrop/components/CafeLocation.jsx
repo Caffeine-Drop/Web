@@ -16,7 +16,7 @@ const CafeLocation = ({ top, left, isSelected, onSelect }) => {
       ) : (
         <>
           <CafeLocationIcon width={`${responsiveWidth(30)}px`} height={`${responsiveHeight(30)}px`} />
-          <CafeLabel>언힙 커피로</CafeLabel>
+          <CafeLabel numberOfLines={1} ellipsizeMode="tail">언힙 커피로</CafeLabel>
         </>
       )}
     </TouchableOpacity>
@@ -31,4 +31,7 @@ const CafeLabel = styled.Text`
   color: #000;
   text-align: center;
   margin-top: ${responsiveHeight(2)}px;
+  overflow: hidden; /* 텍스트 넘칠 경우 숨김 */
+  text-overflow: ellipsis; /* 말줄임표 처리 */
+  white-space: nowrap; /* 줄바꿈 방지 */
 `;

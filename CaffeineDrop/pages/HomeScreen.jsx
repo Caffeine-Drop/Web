@@ -102,7 +102,7 @@ const HomeScreen = () => {
     const clickedLocation = animatedLocations.find((loc) => loc.id === id);
     if (!clickedLocation) return;
   
-    const centerX = responsiveWidth(180);
+    const centerX = responsiveWidth(160);
     const centerY = responsiveHeight(116);
   
     const deltaY = centerY - clickedLocation.top.__getValue();

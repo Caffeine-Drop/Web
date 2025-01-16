@@ -54,47 +54,102 @@ const HomeScreen = () => {
   const [isCafeLocationSelected, setIsCafeLocationSelected] = useState(false);
 
   const resetToInitialState = () => {
-    // 애니메이션 초기화
-    animatedLocations.forEach((loc, index) => {
-      Animated.timing(loc.top, {
-        toValue: initialLocations[index].top, // 초기 위치
+    Animated.parallel([
+      // 아이콘 위치 초기화
+      ...animatedLocations.map((loc, index) =>
+        Animated.timing(loc.top, {
+          toValue: initialLocations[index].top,
+          duration: 300,
+          useNativeDriver: false,
+        })
+      ),
+      ...animatedLocations.map((loc, index) =>
+        Animated.timing(loc.left, {
+          toValue: initialLocations[index].left,
+          duration: 300,
+          useNativeDriver: false,
+        })
+      ),
+      // Bottom Sheet 초기화
+      Animated.timing(translateY, {
+        toValue: DEFAULT_POSITION,
         duration: 300,
-        useNativeDriver: false,
-      }).start();
-  
-      Animated.timing(loc.left, {
-        toValue: initialLocations[index].left, // 초기 위치
+        useNativeDriver: true,
+      }),
+      // CurrentLocationIcon 초기화
+      Animated.timing(locationTranslateY, {
+        toValue: 0,
         duration: 300,
-        useNativeDriver: false,
-      }).start();
+        useNativeDriver: true,
+      }),
+      // BottomContainer 아래로 숨김
+      Animated.timing(bottomContainerTranslateY, {
+        toValue: 66,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      // 애니메이션 완료 후 상태 초기화
+      setShowFilters(true);
+      setSelectedLocation(null);
+      setIsCafeLocationSelected(false);
+      setShowBottomContainer(false);
+      setShowLogo(true);
     });
+  };
   
-    // Bottom Sheet와 CurrentLocationIcon 초기화
-    Animated.timing(translateY, {
-      toValue: DEFAULT_POSITION,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
+  const handleSelectLocation = (id) => {
+    const clickedLocation = animatedLocations.find((loc) => loc.id === id);
+    if (!clickedLocation) return;
   
-    Animated.timing(locationTranslateY, {
-      toValue: 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-
-     // BottomContainer 초기화 애니메이션
-    Animated.timing(bottomContainerTranslateY, {
-      toValue: 66, // 아래로 이동
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
+    const centerX = responsiveWidth(180);
+    const centerY = responsiveHeight(116);
   
-    // 상태 초기화
-    setShowFilters(true);
-    setSelectedLocation(null);
-    setIsCafeLocationSelected(false);
-    setShowBottomContainer(false);
-    setShowLogo(true);
+    const deltaY = centerY - clickedLocation.top.__getValue();
+    const deltaX = centerX - clickedLocation.left.__getValue();
+  
+    // Bottom Sheet와 BottomContainer 애니메이션 병렬 실행
+    setShowBottomContainer(true); // 먼저 렌더링 활성화
+    Animated.parallel([
+      // 모든 아이콘 위치 이동
+      ...animatedLocations.map((loc) =>
+        Animated.timing(loc.top, {
+          toValue: loc.top.__getValue() + deltaY,
+          duration: 300,
+          useNativeDriver: false,
+        })
+      ),
+      ...animatedLocations.map((loc) =>
+        Animated.timing(loc.left, {
+          toValue: loc.left.__getValue() + deltaX,
+          duration: 300,
+          useNativeDriver: false,
+        })
+      ),
+      // Bottom Sheet 위로 이동
+      Animated.timing(translateY, {
+        toValue: DEFAULT_POSITION - 66,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      // CurrentLocationIcon 이동
+      Animated.timing(locationTranslateY, {
+        toValue: -66,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      // BottomContainer 위로 이동
+      Animated.timing(bottomContainerTranslateY, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  
+    setSelectedLocation(id);
+    setIsCafeLocationSelected(true);
+    setShowFilters(false);
+    setShowLogo(false);
   };
   
   const panResponder = useRef(
@@ -124,65 +179,6 @@ const HomeScreen = () => {
       },
     })
   ).current;
-
-  const handleSelectLocation = (id) => {
-    // 상태 업데이트
-    setIsCafeLocationSelected(true);
-    setShowBottomContainer(true); // 바로 true로 설정하여 동시에 애니메이션 실행
-    
-    // Find clicked icon's current location
-    const clickedLocation = animatedLocations.find((loc) => loc.id === id);
-    if (!clickedLocation) return;
-
-    // Calculate target center position
-    const centerX = responsiveWidth(180); // Screen horizontal center
-    const centerY = responsiveHeight(116); // 116px below the map start
-
-    // Calculate deltas
-    const currentTop = clickedLocation.top.__getValue(); // Get current value of Animated.Value
-    const currentLeft = clickedLocation.left.__getValue();
-    const deltaY = centerY - currentTop;
-    const deltaX = centerX - currentLeft;
-
-    // Animate all icons to maintain relative positions
-    animatedLocations.forEach((loc) => {
-      Animated.timing(loc.top, {
-        toValue: loc.top.__getValue() + deltaY,
-        duration: 300, // Animation duration in milliseconds
-        useNativeDriver: false,
-      }).start();
-
-      Animated.timing(loc.left, {
-        toValue: loc.left.__getValue() + deltaX,
-        duration: 300,
-        useNativeDriver: false,
-      }).start();
-    });
-    // 애니메이션으로 필터 숨기고 바텀시트를 위로 이동
-    setShowFilters(false);
-    // Animate Bottom Sheet and CurrentLocationIcon
-    Animated.timing(translateY, {
-      toValue: DEFAULT_POSITION - 66, // 66px 위로 이동
-      duration: 300,
-      useNativeDriver: true,
-    }).start(() => {
-      setShowBottomContainer(true);
-      Animated.timing(bottomContainerTranslateY, {
-        toValue: 0, // 위로 이동
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    });
-
-    Animated.timing(locationTranslateY, {
-      toValue: -66, // CurrentLocationIcon 이동
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-
-    setSelectedLocation(id); // Update selected location
-    setShowLogo(false);
-  };
 
   return (
     <Container>

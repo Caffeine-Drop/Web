@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { ScrollView, Animated, PanResponder, StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import styled from "styled-components/native";
@@ -12,6 +12,40 @@ import Loading2 from "../../Components/Loading2";
 import Loading3 from "../../Components/Loading3";
 
 export default function EventPage11({ navigation }) {
+    const [loadingStep, setLoadingStep] = useState(0);
+
+    // 3초 후에 EventPage06으로 전환
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            navigation.navigate("EventPage06");
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, [navigation]);
+
+    // 3초마다 로딩 컴포넌트 변경
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setLoadingStep((prevStep) => (prevStep + 1) % 3);
+        }, 150);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    //그리기
+    const renderLoadingComponent = () => {
+        switch (loadingStep) {
+            case 0:
+                return <Loading1 />;
+            case 1:
+                return <Loading2 />;
+            case 2:
+                return <Loading3 />;
+            default:
+                return <Loading1 />;
+        }
+    };
+
     return (
         <Container>
             <InnerContainer>
@@ -23,9 +57,7 @@ export default function EventPage11({ navigation }) {
                 </Navbar>
 
                 <Content>
-                    <LoadingBox>
-                        <Loading1 />
-                    </LoadingBox>
+                    <LoadingBox>{renderLoadingComponent()}</LoadingBox>
 
                     <TextContainer>
                         <HeaderContainer>

@@ -24,16 +24,19 @@ const DEFAULT_POSITION = SCREEN_HEIGHT - GNB_HEIGHT - 350; // Bottom Sheet 기�
 
 const HomeScreen = () => {
   const translateY = useRef(new Animated.Value(DEFAULT_POSITION)).current;
+  const locationTranslateY = useRef(new Animated.Value(0)).current; // CurrentLocationIcon 이동용
   const [sortModalVisible, setSortModalVisible] = useState(false);
   const [timeModalVisible, setTimeModalVisible] = useState(false);
   const [selectedSort, setSelectedSort] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
+  
   const initialLocations = [
     { id: "cafe1", top: responsiveHeight(76), left: responsiveWidth(170) },
     { id: "cafe2", top: responsiveHeight(126), left: responsiveWidth(100) },
     { id: "cafe3", top: responsiveHeight(146), left: responsiveWidth(230) },
     { id: "cafe4", top: responsiveHeight(196), left: responsiveWidth(160) },
   ];
+  
   const animatedLocations = useRef(
     initialLocations.map((loc) => ({
       id: loc.id,
@@ -102,14 +105,26 @@ const HomeScreen = () => {
       }).start();
     });
 
+    // Animate Bottom Sheet and CurrentLocationIcon
+    Animated.timing(translateY, {
+      toValue: DEFAULT_POSITION - 66, // 66px 위로 이동
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+
+    Animated.timing(locationTranslateY, {
+      toValue: -66, // CurrentLocationIcon 이동
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+
     setSelectedLocation(id); // Update selected location
   };
 
   return (
     <Container>
-      {/* 지도 (MapView 대신 ImageBackground 사용) */}
+      {/* 지도 */}
       <MapBackground source={require("../assets/home/MapImage.png")}>
-        <MapView />
 
         <MapContainer>
         {animatedLocations.map((loc) => (
@@ -127,41 +142,22 @@ const HomeScreen = () => {
             />
           </Animated.View>
         ))}
-      </MapContainer>
+        </MapContainer>
 
-          {/* 🏷️ 4개의 카페 위치 아이콘 추가
-          <CafeLocation
-            id="cafe1"
-            top={`${responsiveHeight(76)}px`}
-            left={`${responsiveWidth(170)}px`}
-            isSelected={selectedLocation === "cafe1"}
-            onSelect={() => setSelectedLocation("cafe1")}
+        {/* 현재 위치 아이콘 */}
+        <Animated.View
+          style={{
+            position: "absolute",
+            top: responsiveHeight(249),
+            left: responsiveWidth(24),
+            transform: [{ translateY: locationTranslateY }],
+          }}
+        >
+          <CurrentLocationIcon
+            width={`${responsiveHeight(43)}px`}
+            height={`${responsiveWidth(43)}px`}
           />
-          <CafeLocation
-            id="cafe2"
-            top={`${responsiveHeight(126)}px`}
-            left={`${responsiveWidth(100)}px`}
-            isSelected={selectedLocation === "cafe2"}
-            onSelect={() => setSelectedLocation("cafe2")}
-          />
-          <CafeLocation
-            id="cafe3"
-            top={`${responsiveHeight(146)}px`}
-            left={`${responsiveWidth(230)}px`}
-            isSelected={selectedLocation === "cafe3"}
-            onSelect={() => setSelectedLocation("cafe3")}
-          />
-          <CafeLocation
-            id="cafe4"
-            top={`${responsiveHeight(196)}px`}
-            left={`${responsiveWidth(160)}px`}
-            isSelected={selectedLocation === "cafe4"}
-            onSelect={() => setSelectedLocation("cafe4")}
-          /> */}
-
-        <CurrentLocationMarker>
-          <CurrentLocationIcon width={`${responsiveHeight(43)}px`} height={`${responsiveWidth(43)}px`} />
-        </CurrentLocationMarker>
+        </Animated.View>
       </MapBackground>
 
       {/* GNB (고정) */}

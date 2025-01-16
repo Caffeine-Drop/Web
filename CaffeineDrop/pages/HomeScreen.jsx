@@ -28,6 +28,20 @@ const HomeScreen = () => {
   const [timeModalVisible, setTimeModalVisible] = useState(false);
   const [selectedSort, setSelectedSort] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
+  const initialLocations = [
+    { id: "cafe1", top: responsiveHeight(76), left: responsiveWidth(170) },
+    { id: "cafe2", top: responsiveHeight(126), left: responsiveWidth(100) },
+    { id: "cafe3", top: responsiveHeight(146), left: responsiveWidth(230) },
+    { id: "cafe4", top: responsiveHeight(196), left: responsiveWidth(160) },
+  ];
+  const animatedLocations = useRef(
+    initialLocations.map((loc) => ({
+      id: loc.id,
+      top: new Animated.Value(loc.top),
+      left: new Animated.Value(loc.left),
+    }))
+  ).current;
+
   const [selectedLocation, setSelectedLocation] = useState(null);
 
   const panResponder = useRef(
@@ -58,13 +72,64 @@ const HomeScreen = () => {
     })
   ).current;
 
+  const handleSelectLocation = (id) => {
+    // Find clicked icon's current location
+    const clickedLocation = animatedLocations.find((loc) => loc.id === id);
+    if (!clickedLocation) return;
+
+    // Calculate target center position
+    const centerX = responsiveWidth(180); // Screen horizontal center
+    const centerY = responsiveHeight(116); // 116px below the map start
+
+    // Calculate deltas
+    const currentTop = clickedLocation.top.__getValue(); // Get current value of Animated.Value
+    const currentLeft = clickedLocation.left.__getValue();
+    const deltaY = centerY - currentTop;
+    const deltaX = centerX - currentLeft;
+
+    // Animate all icons to maintain relative positions
+    animatedLocations.forEach((loc) => {
+      Animated.timing(loc.top, {
+        toValue: loc.top.__getValue() + deltaY,
+        duration: 300, // Animation duration in milliseconds
+        useNativeDriver: false,
+      }).start();
+
+      Animated.timing(loc.left, {
+        toValue: loc.left.__getValue() + deltaX,
+        duration: 300,
+        useNativeDriver: false,
+      }).start();
+    });
+
+    setSelectedLocation(id); // Update selected location
+  };
+
   return (
     <Container>
       {/* 지도 (MapView 대신 ImageBackground 사용) */}
       <MapBackground source={require("../assets/home/MapImage.png")}>
         <MapView />
 
-          {/* 🏷️ 4개의 카페 위치 아이콘 추가 */}
+        <MapContainer>
+        {animatedLocations.map((loc) => (
+          <Animated.View
+            key={loc.id}
+            style={{
+              position: "absolute",
+              top: loc.top,
+              left: loc.left,
+            }}
+          >
+            <CafeLocation
+              isSelected={selectedLocation === loc.id}
+              onSelect={() => handleSelectLocation(loc.id)}
+            />
+          </Animated.View>
+        ))}
+      </MapContainer>
+
+          {/* 🏷️ 4개의 카페 위치 아이콘 추가
           <CafeLocation
             id="cafe1"
             top={`${responsiveHeight(76)}px`}
@@ -92,7 +157,7 @@ const HomeScreen = () => {
             left={`${responsiveWidth(160)}px`}
             isSelected={selectedLocation === "cafe4"}
             onSelect={() => setSelectedLocation("cafe4")}
-          />
+          /> */}
 
         <CurrentLocationMarker>
           <CurrentLocationIcon width={`${responsiveHeight(43)}px`} height={`${responsiveWidth(43)}px`} />
@@ -193,7 +258,7 @@ export default HomeScreen;
 
 const Container = styled.View`
   flex: 1;
-  background-color: #fff;
+  background-color: #fafafa;
 `;
 
 /* ImageBackground를 이용한 MapView */
@@ -207,6 +272,12 @@ const MapBackground = styled(ImageBackground)`
 
 const MapView = styled.View`
   flex: 1;
+`;
+
+const MapContainer = styled.View`
+  position: relative;
+  width: ${responsiveWidth(360)}px;
+  height: ${responsiveHeight(349)}px;
 `;
 
 const GNBContainer = styled.View`

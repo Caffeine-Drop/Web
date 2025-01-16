@@ -16,7 +16,7 @@ import CurrentLocationIcon from "../assets/home/CurrentLocationIcon.svg";
 import DownIcon from "../assets/home/DownIcon.svg";
 import UpIcon from "../assets/home/UpIcon.svg";
 import LogoIcon from "../assets/home/LogoIcon.svg";
-import CafeLocationIcon from "../assets/home/CafeLocationIcon.svg";
+import MapIcon from "../assets/home/MapIcon.svg";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const GNB_HEIGHT = 94; // GNB 높이
@@ -335,12 +335,13 @@ const HomeScreen = () => {
       >
         {showBottomContainer && (
           <BottomContainer>
-            <ActionButton>
-              <ActionText>카페 정보</ActionText>
-            </ActionButton>
-            <ActionButton secondary>
-              <ActionText secondary>길찾기</ActionText>
-            </ActionButton>
+            <CafeInfoButton>
+              <CafeInfoText>카페 정보</CafeInfoText>
+            </CafeInfoButton>
+            <DirectionsButton>
+              <MapIcon width={19} height={19} />
+              <DirectionsText>길찾기</DirectionsText>
+            </DirectionsButton>
           </BottomContainer>
         )}
       </Animated.View>
@@ -463,25 +464,36 @@ const BottomContainer = styled.View`
   z-index: 1000;
 `;
 
-const ActionButton = styled.TouchableOpacity`
+const CafeInfoButton = styled.TouchableOpacity`
   flex: 1;
-  height: 44px;
+  height: 43px;
   margin: 0 8px;
   justify-content: center;
   align-items: center;
-  background-color: ${(props) => (props.secondary ? "#6A331B" : "#F1F1F1")};
-  border-radius: 22px;
+  border-radius: 43px;
+  border: 1px solid #f1f1f1;
 `;
 
-const ActionText = styled.Text`
+const CafeInfoText = styled.Text`
   font-size: 14px;
   font-weight: 600;
-  color: ${(props) => (props.secondary ? "#FFFFFF" : "#000000")};
+  color: #000000;
 `;
 
-/* 📍 현재 위치 아이콘의 정확한 위치 설정 */
-const CurrentLocationMarker = styled.View`
-  position: absolute;
-  top: ${responsiveHeight(249)}px;
-  left: ${responsiveWidth(24)}px;
+const DirectionsButton = styled.TouchableOpacity`
+  flex: 1;
+  height: 43px;
+  margin: 0 8px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  background-image: linear-gradient(90deg, #3F2D1E 0%, #6A331B 100%);
+  border-radius: 43px;
+`;
+
+const DirectionsText = styled.Text`
+  font-size: 14px;
+  font-weight: 600;
+  color: #fafafa;
+  margin-left: 8px;
 `;

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { View, Text, Animated, TouchableOpacity, PanResponder, Dimensions, ImageBackground, StyleSheet } from "react-native";
+import { View, Text, Animated, TouchableOpacity, PanResponder, Dimensions, ImageBackground, TouchableWithoutFeedback, StyleSheet } from "react-native";
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -26,6 +26,7 @@ const HomeScreen = () => {
   const translateY = useRef(new Animated.Value(DEFAULT_POSITION)).current;
   const locationTranslateY = useRef(new Animated.Value(0)).current; // CurrentLocationIcon 이동용
   const bottomContainerTranslateY = useRef(new Animated.Value(66)).current;
+  const [isDirectionsPressed, setIsDirectionsPressed] = useState(false); // 버튼 눌림 상태 관리
   
   const [sortModalVisible, setSortModalVisible] = useState(false);
   const [timeModalVisible, setTimeModalVisible] = useState(false);
@@ -49,6 +50,14 @@ const HomeScreen = () => {
       left: new Animated.Value(loc.left),
     }))
   ).current;
+
+  const handleDirectionsPress = () => {
+    setIsDirectionsPressed(true);
+  };
+
+  const handleBackgroundPress = () => {
+    setIsDirectionsPressed(false);
+  };
 
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [isCafeLocationSelected, setIsCafeLocationSelected] = useState(false);
@@ -182,6 +191,13 @@ const HomeScreen = () => {
 
   return (
     <Container>
+      {/* 전체 화면 반투명 배경 */}
+      {isDirectionsPressed && (
+        <TouchableWithoutFeedback onPress={handleBackgroundPress}>
+          <View style={styles.backgroundOverlay} />
+        </TouchableWithoutFeedback>
+      )}
+
       {/* 지도 */}
       <MapBackground source={require("../assets/home/MapImage.png")}>
 
@@ -323,7 +339,7 @@ const HomeScreen = () => {
 
       </AnimatedBottomSheet>
 
-      {/* 새로운 하단 컨테이너 */}
+      {/* 하단 컨테이너 */}
       <Animated.View
         style={{
           transform: [{ translateY: bottomContainerTranslateY }],
@@ -338,9 +354,12 @@ const HomeScreen = () => {
             <CafeInfoButton>
               <CafeInfoText>카페 정보</CafeInfoText>
             </CafeInfoButton>
-            <DirectionsButton>
+            <DirectionsButton
+              pressed={isDirectionsPressed}
+              onPress={handleDirectionsPress}
+            >
               <MapIcon width={19} height={19} />
-              <DirectionsText>길찾기</DirectionsText>
+              <DirectionsText pressed={isDirectionsPressed}>길찾기</DirectionsText>
             </DirectionsButton>
           </BottomContainer>
         )}
@@ -458,9 +477,7 @@ const BottomContainer = styled.View`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  background-color: #ffffff;
-  border-top-width: 1px;
-  border-top-color: #e0e0e0;
+  background-color: #fafafa;
   z-index: 1000;
 `;
 
@@ -487,13 +504,26 @@ const DirectionsButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  background-image: linear-gradient(90deg, #3F2D1E 0%, #6A331B 100%);
   border-radius: 43px;
+  ${(props) =>
+    props.pressed
+      ? "background-color: #F1F1F1;"
+      : "background-image: linear-gradient(90deg, #3F2D1E 0%, #6A331B 100%);"}
 `;
 
 const DirectionsText = styled.Text`
   font-size: 14px;
   font-weight: 600;
-  color: #fafafa;
+  color: ${(props) => (props.pressed ? "#666" : "#fafafa")};
   margin-left: 8px;
 `;
+
+const styles = StyleSheet.create({
+  backgroundOverlay: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.12)",
+    zIndex: 1000,
+  },
+});

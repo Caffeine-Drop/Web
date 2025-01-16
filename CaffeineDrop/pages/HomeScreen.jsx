@@ -19,6 +19,8 @@ import LogoIcon from "../assets/home/LogoIcon.svg";
 import MapIcon from "../assets/home/MapIcon.svg";
 import NaverIcon from "../assets/home/NaverIcon.svg";
 import KakaoIcon from "../assets/home/KakaoIcon.svg";
+import SpecialtyCoffeeIcon from "../assets/home/SpecialtyCoffeeIcon.svg";
+import CoffeeBeansIcon from "../assets/home/CoffeeBeansIcon.svg";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const GNB_HEIGHT = 94; // GNB 높이
@@ -77,6 +79,12 @@ const HomeScreen = () => {
     console.log("카카오 지도로 연결"); // 나중에 카카오 지도 API 연결
   };
   
+  const [isLogoPressed, setIsLogoPressed] = useState(false); // LogoIcon 상태 관리
+
+  const handleLogoPress = () => {
+    setIsLogoPressed((prev) => !prev);
+  };
+
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [isCafeLocationSelected, setIsCafeLocationSelected] = useState(false);
 
@@ -219,6 +227,15 @@ const HomeScreen = () => {
         </TouchableWithoutFeedback>
       )}
 
+      {isLogoPressed && (
+        <TouchableWithoutFeedback
+          onPress={() => setIsLogoPressed(false)}
+          pointerEvents="box-none"
+        >
+          <View style={styles.backgroundOverlay} />
+        </TouchableWithoutFeedback>
+      )}
+
       {/* 지도 */}
       <MapBackground source={require("../assets/home/MapImage.png")}>
 
@@ -265,11 +282,40 @@ const HomeScreen = () => {
       </GNBContainer>
 
       {/* 로고 아이콘 */}
+      <TouchableOpacity
+        onPress={handleLogoPress}
+        style={[
+          styles.logoButton,
+          isLogoPressed && styles.logoButtonPressed, // 상태에 따른 스타일 변경
+        ]}
+      >
+        <LogoIcon
+          width={24}
+          height={24}
+          style={isLogoPressed ? styles.logoIconPressed : null}
+        />
+      </TouchableOpacity>
+
+      {/* 스페셜티 커피란? 및 원두 진단하기 버튼 */}
+      {isLogoPressed && (
+        <ButtonContainer>
+          <OptionButton>
+            <SpecialtyCoffeeIcon width={24} height={24} />
+            <OptionText>스페셜티 커피란?</OptionText>
+          </OptionButton>
+          <OptionButton>
+            <CoffeeBeansIcon width={24} height={24} />
+            <OptionText>원두 진단하기</OptionText>
+          </OptionButton>
+        </ButtonContainer>
+      )}
+
+      {/* 로고 아이콘
       {showLogo && (
         <LogoContainer style={{ top: DEFAULT_POSITION + GNB_HEIGHT + 245 }}>
           <LogoIcon width={24} height={24} />
         </LogoContainer>
-      )}
+      )} */}
 
       {/* Bottom Sheet (상단 필터 + 카페 리스트) */}
       <AnimatedBottomSheet
@@ -580,6 +626,14 @@ const OptionText = styled.Text`
   margin-left: 8px;
 `;
 
+const ButtonContainer = styled.View`
+  position: absolute;
+  bottom: 100px;
+  right: 16px;
+  z-index: 3002;
+  align-items: flex-end;
+`;
+
 const styles = StyleSheet.create({
   backgroundOverlay: {
     position: "absolute",
@@ -587,5 +641,23 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "rgba(0, 0, 0, 0.12)",
     zIndex: 1000,
+  },
+  logoButton: {
+    position: "absolute",
+    bottom: 24,
+    right: 16,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: "#3F2D1E", // 기본 갈색
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 3001,
+  },
+  logoButtonPressed: {
+    backgroundColor: "#FFFFFF", // 흰색 배경
+  },
+  logoIconPressed: {
+    tintColor: "#6A331B", // 커피 색상으로 변경
   },
 });

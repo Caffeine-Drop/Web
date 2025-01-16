@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { ScrollView, Animated, PanResponder, StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import styled from "styled-components/native";
@@ -103,6 +103,22 @@ const SelectOption = ({ text, score, isSelected, onPress }) => {
 };
 
 export default function EventPage02({ navigation }) {
+    const progress = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        // 페이지가 로드될 때 애니메이션 시작
+        Animated.timing(progress, {
+            toValue: 1, // 최종 값 (1 = 100%)
+            duration: 1000, // 애니메이션 지속 시간 (밀리초)
+            useNativeDriver: false, // width 애니메이션을 위해 false로 설정
+        }).start();
+    }, []);
+
+    const progressWidth = progress.interpolate({
+        inputRange: [0, 1],
+        outputRange: ["0%", "25%"], // 너비를 0%에서 100%로 애니메이션
+    });
+
     const [selectedOption, setSelectedOption] = useState(null);
     const buttonBackgroundColor = useRef(new Animated.Value(0)).current;
     const buttonTextColor = useRef(new Animated.Value(0)).current;
@@ -142,9 +158,10 @@ export default function EventPage02({ navigation }) {
                     </IconWrapper>
                     <Title>원두 진단하기</Title>
                 </Navbar>
-                <StatusContainer>
-                    <CurrentState />
-                </StatusContainer>
+
+                <ProgressBarContainer>
+                    <AnimatedProgressBar style={{ width: progressWidth }} />
+                </ProgressBarContainer>
 
                 <ScrollView
                     horizontal={false} // 좌우 스크롤 비활성화
@@ -233,18 +250,20 @@ const Title = styled.Text`
     font-style: normal;
     font-weight: 600;
 `;
-const StatusContainer = styled.View`
-    display: flex;
-    height: ${responsiveHeight(3)}px;
-    flex-direction: row;
-    background: #f1f1f1;
+const ProgressBarContainer = styled.View`
+    width: 100%;
+    height: ${responsiveHeight(4)}px;
+    background-color: #e0e0e0;
+    border-radius: ${responsiveHeight(4)}px;
+    overflow: hidden;
 `;
-const CurrentState = styled.View`
-    height: ${responsiveHeight(3)}px;
+
+const AnimatedProgressBar = styled(Animated.View)`
     width: ${responsiveWidth(90)}px;
-    flex-shrink: 0;
-    background: #756555;
+    height: ${responsiveHeight(4)}px;
+    background-color: #756555;
 `;
+
 //////////////////////////////////////////////
 const Content = styled.View`
     flex: 1;

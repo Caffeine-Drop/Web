@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Animated, PanResponder, StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import styled from "styled-components/native";
@@ -102,6 +102,22 @@ const SelectOption = ({ text, score, isSelected, onPress }) => {
 };
 
 export default function EventPage05({ navigation }) {
+    const progress = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        // 페이지가 로드될 때 애니메이션 시작
+        Animated.timing(progress, {
+            toValue: 1, // 최종 값 (1 = 100%)
+            duration: 1000, // 애니메이션 지속 시간 (밀리초)
+            useNativeDriver: false, // width 애니메이션을 위해 false로 설정
+        }).start();
+    }, []);
+
+    const progressWidth = progress.interpolate({
+        inputRange: [0, 1],
+        outputRange: ["75%", "100%"], // 너비를 0%에서 100%로 애니메이션
+    });
+
     const [selectedOption, setSelectedOption] = useState(null);
     const buttonBackgroundColor = useRef(new Animated.Value(0)).current;
     const buttonTextColor = useRef(new Animated.Value(0)).current;
@@ -141,7 +157,10 @@ export default function EventPage05({ navigation }) {
                     </IconWrapper>
                     <Title>원두 진단하기</Title>
                 </Navbar>
-                <CurrentState></CurrentState>
+
+                <ProgressBarContainer>
+                    <AnimatedProgressBar style={{ width: progressWidth }} />
+                </ProgressBarContainer>
 
                 <Content>
                     <BlurWrapper>
@@ -231,12 +250,17 @@ const Title = styled.Text`
     font-weight: 600;
     z-index: 5;
 `;
-const CurrentState = styled.View`
-    height: ${responsiveHeight(3)}px;
-    width: ${responsiveWidth(360)}px;
-    flex-shrink: 0;
-    background: #756555;
-    z-index: 5;
+const ProgressBarContainer = styled.View`
+    width: 100%;
+    height: ${responsiveHeight(4)}px;
+    background-color: #e0e0e0;
+    border-radius: ${responsiveHeight(4)}px;
+    overflow: hidden;
+`;
+
+const AnimatedProgressBar = styled(Animated.View)`
+    height: ${responsiveHeight(4)}px;
+    background-color: #756555;
 `;
 //////////////////////////////////////////////
 const Content = styled.View`

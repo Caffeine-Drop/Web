@@ -25,11 +25,15 @@ const DEFAULT_POSITION = SCREEN_HEIGHT - GNB_HEIGHT - 350; // Bottom Sheet 기�
 const HomeScreen = () => {
   const translateY = useRef(new Animated.Value(DEFAULT_POSITION)).current;
   const locationTranslateY = useRef(new Animated.Value(0)).current; // CurrentLocationIcon 이동용
+  const bottomContainerTranslateY = useRef(new Animated.Value(66)).current;
+  
   const [sortModalVisible, setSortModalVisible] = useState(false);
   const [timeModalVisible, setTimeModalVisible] = useState(false);
   const [selectedSort, setSelectedSort] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
   const [showFilters, setShowFilters] = useState(true);
+  const [showLogo, setShowLogo] = useState(true);
+  const [showBottomContainer, setShowBottomContainer] = useState(false);
 
   const initialLocations = [
     { id: "cafe1", top: responsiveHeight(76), left: responsiveWidth(170) },
@@ -77,11 +81,20 @@ const HomeScreen = () => {
       duration: 300,
       useNativeDriver: true,
     }).start();
+
+     // BottomContainer 초기화 애니메이션
+    Animated.timing(bottomContainerTranslateY, {
+      toValue: 66, // 아래로 이동
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
   
     // 상태 초기화
     setShowFilters(true);
     setSelectedLocation(null);
     setIsCafeLocationSelected(false);
+    setShowBottomContainer(false);
+    setShowLogo(true);
   };
   
   const panResponder = useRef(
@@ -115,6 +128,8 @@ const HomeScreen = () => {
   const handleSelectLocation = (id) => {
     // 상태 업데이트
     setIsCafeLocationSelected(true);
+    setShowBottomContainer(true); // 바로 true로 설정하여 동시에 애니메이션 실행
+    
     // Find clicked icon's current location
     const clickedLocation = animatedLocations.find((loc) => loc.id === id);
     if (!clickedLocation) return;
@@ -143,7 +158,6 @@ const HomeScreen = () => {
         useNativeDriver: false,
       }).start();
     });
-
     // 애니메이션으로 필터 숨기고 바텀시트를 위로 이동
     setShowFilters(false);
     // Animate Bottom Sheet and CurrentLocationIcon
@@ -151,7 +165,14 @@ const HomeScreen = () => {
       toValue: DEFAULT_POSITION - 66, // 66px 위로 이동
       duration: 300,
       useNativeDriver: true,
-    }).start();
+    }).start(() => {
+      setShowBottomContainer(true);
+      Animated.timing(bottomContainerTranslateY, {
+        toValue: 0, // 위로 이동
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    });
 
     Animated.timing(locationTranslateY, {
       toValue: -66, // CurrentLocationIcon 이동
@@ -160,6 +181,7 @@ const HomeScreen = () => {
     }).start();
 
     setSelectedLocation(id); // Update selected location
+    setShowLogo(false);
   };
 
   return (
@@ -209,10 +231,12 @@ const HomeScreen = () => {
         <GNB />
       </GNBContainer>
 
-      {/* 🏷️ LogoIcon (TopFilter 기준으로 배치) */}
-      <LogoContainer style={{ top: DEFAULT_POSITION + GNB_HEIGHT + 245}}>
-        <LogoIcon width={24} height={24} />
-      </LogoContainer>
+      {/* 로고 아이콘 */}
+      {showLogo && (
+        <LogoContainer style={{ top: DEFAULT_POSITION + GNB_HEIGHT + 245 }}>
+          <LogoIcon width={24} height={24} />
+        </LogoContainer>
+      )}
 
       {/* Bottom Sheet (상단 필터 + 카페 리스트) */}
       <AnimatedBottomSheet
@@ -302,6 +326,28 @@ const HomeScreen = () => {
         </CafeList>
 
       </AnimatedBottomSheet>
+
+      {/* 새로운 하단 컨테이너 */}
+      <Animated.View
+        style={{
+          transform: [{ translateY: bottomContainerTranslateY }],
+          position: "absolute",
+          bottom: 0,
+          width: "100%",
+          zIndex: 1000,
+        }}
+      >
+        {showBottomContainer && (
+          <BottomContainer>
+            <ActionButton>
+              <ActionText>카페 정보</ActionText>
+            </ActionButton>
+            <ActionButton secondary>
+              <ActionText secondary>길찾기</ActionText>
+            </ActionButton>
+          </BottomContainer>
+        )}
+      </Animated.View>
     </Container>
   );
 };
@@ -405,6 +451,36 @@ const SortText = styled.Text`
 const CafeList = styled.ScrollView`
   flex: 1;
   padding-bottom: 20px;
+`;
+
+const BottomContainer = styled.View`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 66px;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #ffffff;
+  border-top-width: 1px;
+  border-top-color: #e0e0e0;
+  z-index: 1000;
+`;
+
+const ActionButton = styled.TouchableOpacity`
+  flex: 1;
+  height: 44px;
+  margin: 0 8px;
+  justify-content: center;
+  align-items: center;
+  background-color: ${(props) => (props.secondary ? "#6A331B" : "#F1F1F1")};
+  border-radius: 22px;
+`;
+
+const ActionText = styled.Text`
+  font-size: 14px;
+  font-weight: 600;
+  color: ${(props) => (props.secondary ? "#FFFFFF" : "#000000")};
 `;
 
 /* 📍 현재 위치 아이콘의 정확한 위치 설정 */

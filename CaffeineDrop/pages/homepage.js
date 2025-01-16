@@ -13,6 +13,7 @@ export default function HomePage({ navigation }) {
             <Button title="Go to Events 5" onPress={() => navigation.navigate("EventPage05")} />
             <Button title="Go to Events 6" onPress={() => navigation.navigate("EventPage06")} />
 
+            <Button title="로딩 페이지 (event11)" onPress={() => navigation.navigate("EventPage11")} />
             <Button title="(임시)스폐셜티 커피란?" onPress={() => navigation.navigate("EventPage12")} />
         </Container>
     );

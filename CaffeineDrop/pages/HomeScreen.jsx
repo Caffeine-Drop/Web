@@ -17,6 +17,8 @@ import DownIcon from "../assets/home/DownIcon.svg";
 import UpIcon from "../assets/home/UpIcon.svg";
 import LogoIcon from "../assets/home/LogoIcon.svg";
 import MapIcon from "../assets/home/MapIcon.svg";
+import NaverIcon from "../assets/home/NaverIcon.svg";
+import KakaoIcon from "../assets/home/KakaoIcon.svg";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const GNB_HEIGHT = 94; // GNB 높이
@@ -57,8 +59,24 @@ const HomeScreen = () => {
 
   const handleBackgroundPress = () => {
     setIsDirectionsPressed(false);
+    setShowDirectionsOptions(false);
   };
 
+  const [showDirectionsOptions, setShowDirectionsOptions] = useState(false); // 길찾기 옵션 토글 상태
+
+  const handleToggleDirections = () => {
+    setShowDirectionsOptions((prev) => !prev);
+    setIsDirectionsPressed((prev) => !prev);
+  };
+
+  const handleNaverDirections = () => {
+    console.log("네이버 지도로 연결"); // 나중에 네이버 지도 API 연결
+  };
+
+  const handleKakaoDirections = () => {
+    console.log("카카오 지도로 연결"); // 나중에 카카오 지도 API 연결
+  };
+  
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [isCafeLocationSelected, setIsCafeLocationSelected] = useState(false);
 
@@ -193,7 +211,10 @@ const HomeScreen = () => {
     <Container>
       {/* 전체 화면 반투명 배경 */}
       {isDirectionsPressed && (
-        <TouchableWithoutFeedback onPress={handleBackgroundPress}>
+        <TouchableWithoutFeedback
+          onPress={handleBackgroundPress}
+          pointerEvents="box-none"
+        >
           <View style={styles.backgroundOverlay} />
         </TouchableWithoutFeedback>
       )}
@@ -339,16 +360,31 @@ const HomeScreen = () => {
 
       </AnimatedBottomSheet>
 
-      {/* 하단 컨테이너 */}
       <Animated.View
         style={{
           transform: [{ translateY: bottomContainerTranslateY }],
           position: "absolute",
           bottom: 0,
           width: "100%",
-          zIndex: 1000,
+          zIndex: 1500,
         }}
       >
+
+        {/* 네이버/카카오 길찾기 옵션 */}
+        {showDirectionsOptions && (
+          <OptionsContainer>
+            <OptionButton onPress={handleNaverDirections}>
+              <NaverIcon width={24} height={24} />
+              <OptionText>네이버 길찾기</OptionText>
+            </OptionButton>
+            <OptionButton onPress={handleKakaoDirections}>
+              <KakaoIcon width={24} height={24} />
+              <OptionText>카카오 길찾기</OptionText>
+            </OptionButton>
+          </OptionsContainer>
+        )}
+
+        {/* 하단 컨테이너 */}
         {showBottomContainer && (
           <BottomContainer>
             <CafeInfoButton>
@@ -356,7 +392,7 @@ const HomeScreen = () => {
             </CafeInfoButton>
             <DirectionsButton
               pressed={isDirectionsPressed}
-              onPress={handleDirectionsPress}
+              onPress={handleToggleDirections}
             >
               <MapIcon width={19} height={19} />
               <DirectionsText pressed={isDirectionsPressed}>길찾기</DirectionsText>
@@ -515,6 +551,32 @@ const DirectionsText = styled.Text`
   font-size: 14px;
   font-weight: 600;
   color: ${(props) => (props.pressed ? "#666" : "#fafafa")};
+  margin-left: 8px;
+`;
+
+const OptionsContainer = styled.View`
+  position: absolute;
+  bottom: 76px; /* 길찾기 버튼 바로 위 */
+  right: 16px;
+  align-items: flex-end;
+  z-index: 2000;
+  elevation: 10;
+`;
+
+const OptionButton = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 33px 33px 0px 33px;
+  padding: 12px;
+  margin-bottom: 8px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const OptionText = styled.Text`
+  font-size: 14px;
+  font-weight: 600;
+  color: #000000;
   margin-left: 8px;
 `;
 

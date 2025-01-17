@@ -1,10 +1,12 @@
 import React from "react";
 import { TouchableOpacity, Image } from "react-native";
 
-const BackButton = ({ onPress }) => {
+import BackButtonIcon from "../assets/DetailPage/BackButton.svg";
+
+const BackButton = ({ onPress, style }) => {
   return (
-    <TouchableOpacity style={{ marginRight: 10, position: "absolute", left: 10 }} onPress={onPress}>
-      <Image source={require("../assets/DetailPage/backButton.png")} />
+    <TouchableOpacity style={[{ marginLeft: 24, zIndex: 1000 }, style]} onPress={onPress}>
+      <BackButtonIcon />
     </TouchableOpacity>
   );
 };

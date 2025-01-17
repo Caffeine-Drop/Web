@@ -228,6 +228,7 @@ const Review = styled.View`
   display: flex;
   flex-direction: column;
   padding: ${responsiveHeight(16)}px 0;
+  gap: ${responsiveHeight(12)}px;
 `;
 
 const ReviewUserInfo = styled.View`

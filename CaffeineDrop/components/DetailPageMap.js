@@ -9,7 +9,7 @@ import {
 import styled from "styled-components/native";
 
 // 이미지 임포트
-import Map from "../assets/DetailPage/Map.svg";
+import MapImg from "../assets/DetailPage/MapImg.svg";
 import SubtractIcon from "../assets/DetailPage/SubtractIcon.svg";
 import SearchRoadButton from "../assets/DetailPage/SearchRoadButton.svg";
 import DistanceLogo from "../assets/DetailPage/DistanceLogo.svg";
@@ -22,16 +22,15 @@ export default function DetailPageMap() {
           fontSize: responsiveFontSize(20),
           fontWeight: 600,
           lineHeight: responsiveFontSize(27.6),
+          paddingBottom: responsiveHeight(20),
         }}
       >
         카페 이용 정보
       </Text>
       <MapContainer>
-        <Map
+        <MapImg
           style={{
-            paddingTop: responsiveHeight(20),
-            width: responsiveWidth(312),
-            height: responsiveHeight(130),
+            position: "absolute",
             left: responsiveWidth(0),
             top: responsiveHeight(0),
           }}
@@ -40,14 +39,14 @@ export default function DetailPageMap() {
           style={{
             position: "absolute",
             left: responsiveWidth(139),
-            top: responsiveHeight(60),
+            top: responsiveHeight(43),
           }}
         />
         <TouchableOpacity
           style={{
             position: "absolute",
             left: responsiveWidth(0),
-            bottom: responsiveHeight(0),
+            top: responsiveHeight(83),
           }}
         >
           <SearchRoadButton />
@@ -77,8 +76,7 @@ const Container = styled.View`
 const MapContainer = styled.View`
   position: relative;
   width: ${responsiveWidth(312)}px;
-  height: ${responsiveHeight(150)}px;
-  padding-top: ${responsiveHeight(20)}px;
+  height: ${responsiveHeight(130)}px;
 `;
 
 const MapImage = styled.Image`

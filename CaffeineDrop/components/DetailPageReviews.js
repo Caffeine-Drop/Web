@@ -3,11 +3,15 @@ import styled from "styled-components/native";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 
 // 이미지 임포트
-import ProfileImage from "../assets/DetailPage/Profile.png";
+import Profile from "../assets/DetailPage/Profile.svg";
+// import ProfileImage from "../assets/DetailPage/Profile.png";
+import ViewMoreButton from "../assets/DetailPage/ViewMoreButton.svg";
+import ReviewStarIcon from "../assets/DetailPage/ReviewStarIcon.svg";
 import BlankMenuImage from "../assets/DetailPage/blankMenuImg.png";
 import SignatureMenuImg1 from "../assets/DetailPage/signatureMenuImg1.png";
 import SignatureMenuImg2 from "../assets/DetailPage/signatureMenuImg2.png";
 import SignatureMenuImg3 from "../assets/DetailPage/signatureMenuImg3.png";
+import PlusIcon from "../assets/DetailPage/PlusIcon.svg";
 
 import {
   responsiveFontSize,
@@ -15,7 +19,10 @@ import {
   responsiveWidth,
 } from "../utils/responsive";
 
-export default function DetailPageReviews() {
+export default function DetailPageReviews({
+  selectedTab,
+  onViewMoreReviewPress,
+}) {
   return (
     <Container>
       <Header>
@@ -23,14 +30,17 @@ export default function DetailPageReviews() {
           <Title>이용자 리뷰</Title>
           <ReviewCount>15건</ReviewCount>
         </ReviewTitle>
-        <ReviewViewMoreButton>
-          <ReviewViewMoreButtonText>더보기 &gt;</ReviewViewMoreButtonText>
-        </ReviewViewMoreButton>
+        {selectedTab !== "review" && (
+          <ReviewViewMoreButton onPress={onViewMoreReviewPress}>
+            <ReviewViewMoreButtonText>더보기</ReviewViewMoreButtonText>
+            <ViewMoreButton />
+          </ReviewViewMoreButton>
+        )}
       </Header>
       <ReviewList>
         <Review>
           <ReviewUserInfo>
-            <ReviewUserProfileImage source={ProfileImage} />
+            <Profile />
             <ReviewUser>
               <ReviewUserNickName>닉네임</ReviewUserNickName>
               <View
@@ -41,18 +51,23 @@ export default function DetailPageReviews() {
                 }}
               >
                 <ReviewCreatedAt>2025.01.12</ReviewCreatedAt>
-                <ReviewRating>4.0</ReviewRating>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <ReviewStarIcon
+                    width={responsiveWidth(12)}
+                    height={responsiveHeight(12)}
+                  />
+                  <ReviewRating>4.0</ReviewRating>
+                </View>
               </View>
             </ReviewUser>
           </ReviewUserInfo>
-          <ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{
-              flexGrow: 1,
-              justifyContent: "center",
-            }}
-          >
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <ReviewPictures>
               <ReviewPictureImage
                 source={BlankMenuImage}
@@ -76,12 +91,14 @@ export default function DetailPageReviews() {
             <Text
               style={{
                 color: "#000",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
                 fontSize: responsiveFontSize(12),
                 fontWeight: "400",
-                lineHeight: responsiveFontSize(16),
+                lineHeight: responsiveFontSize(16.56),
                 letterSpacing: "-0.3",
-                marginVertical: 0,
-                paddingVertical: 0,
+                flexWrap: "wrap",
+                width: "100%",
               }}
             >
               도시 위에 소음 넘쳐나는 트러블 여유 없는 걸음 이건 마치 정글
@@ -92,7 +109,7 @@ export default function DetailPageReviews() {
         {/* 리뷰 추가 */}
         <Review>
           <ReviewUserInfo>
-            <ReviewUserProfileImage source={ProfileImage} />
+            <Profile />
             <ReviewUser>
               <ReviewUserNickName>닉네임</ReviewUserNickName>
               <View
@@ -103,47 +120,34 @@ export default function DetailPageReviews() {
                 }}
               >
                 <ReviewCreatedAt>2025.01.12</ReviewCreatedAt>
-                <ReviewRating>4.0</ReviewRating>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <ReviewStarIcon
+                    width={responsiveWidth(12)}
+                    height={responsiveHeight(12)}
+                  />
+                  <ReviewRating>4.0</ReviewRating>
+                </View>
               </View>
             </ReviewUser>
           </ReviewUserInfo>
-          <ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{
-              flexGrow: 1,
-              justifyContent: "center",
-            }}
-          >
-            <ReviewPictures>
-              <ReviewPictureImage
-                source={BlankMenuImage}
-                resizeMode="stretch"
-              />
-              <ReviewPictureImage
-                source={SignatureMenuImg1}
-                resizeMode="stretch"
-              />
-              <ReviewPictureImage
-                source={SignatureMenuImg2}
-                resizeMode="stretch"
-              />
-              <ReviewPictureImage
-                source={SignatureMenuImg3}
-                resizeMode="stretch"
-              />
-            </ReviewPictures>
-          </ScrollView>
           <ReviewContent>
             <Text
               style={{
                 color: "#000",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
                 fontSize: responsiveFontSize(12),
                 fontWeight: "400",
-                lineHeight: responsiveFontSize(16),
+                lineHeight: responsiveFontSize(16.56),
                 letterSpacing: "-0.3",
-                marginVertical: 0,
-                paddingVertical: 0,
+                flexWrap: "wrap",
+                width: "100%",
               }}
             >
               도시 위에 소음 넘쳐나는 트러블 여유 없는 걸음 이건 마치 정글
@@ -154,7 +158,7 @@ export default function DetailPageReviews() {
       </ReviewList>
       {/* 하단 리뷰 추가 버튼 */}
       <ReviewAddButton>
-        <ReviewAddButtonText>+</ReviewAddButtonText>
+        <PlusIcon />
       </ReviewAddButton>
     </Container>
   );
@@ -162,7 +166,8 @@ export default function DetailPageReviews() {
 
 const Container = styled.View`
   width: 100%;
-  padding: ${responsiveHeight(44.5)}px 24px 0 24px;
+  padding: ${responsiveHeight(28.5)}px 0 0;
+  background-color: #fafafa;
 `;
 
 const Header = styled.View`
@@ -170,6 +175,8 @@ const Header = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding: 0 ${responsiveWidth(24)}px ${responsiveHeight(12)}px
+    ${responsiveWidth(24)}px;
 `;
 
 const ReviewTitle = styled.View`
@@ -202,7 +209,6 @@ const ReviewViewMoreButton = styled.TouchableOpacity`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: ${responsiveWidth(8)}px;
 `;
 
 const ReviewViewMoreButtonText = styled.Text`
@@ -228,11 +234,7 @@ const ReviewUserInfo = styled.View`
   display: flex;
   flex-direction: row;
   gap: ${responsiveWidth(12)}px;
-`;
-
-const ReviewUserProfileImage = styled.Image`
-  width: ${responsiveWidth(34)}px;
-  height: ${responsiveWidth(34)}px;
+  padding: 0 ${responsiveWidth(24)}px 0 ${responsiveWidth(24)}px;
 `;
 
 const ReviewUser = styled.View`
@@ -255,21 +257,22 @@ const ReviewCreatedAt = styled.Text`
   font-weight: 500;
   line-height: ${responsiveFontSize(19.32)}px;
   letter-spacing: -0.35px;
+  margin-right: ${responsiveWidth(4)}px;
 `;
 
 const ReviewRating = styled.Text`
   color: #666;
-  font-size: ${responsiveFontSize(14)}px;
-  font-weight: 500;
-  line-height: ${responsiveFontSize(19.32)}px;
-  letter-spacing: -0.35px;
+  font-size: ${responsiveFontSize(12)}px;
+  font-weight: 400;
+  line-height: ${responsiveFontSize(16.56)}px;
+  letter-spacing: -0.3px;
 `;
 
 const ReviewPictures = styled.View`
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  padding: 12px 0;
+  padding: 12px 0 0 ${responsiveWidth(24)}px;
   gap: ${responsiveWidth(4)}px;
 `;
 
@@ -281,8 +284,9 @@ const ReviewPictureImage = styled.Image`
 
 const ReviewContent = styled.View`
   display: flex;
-  width: ${responsiveWidth(312)}px;
+  width: 100%;
   flex-wrap: wrap;
+  padding: 0 ${responsiveWidth(24)}px 0 ${responsiveWidth(24)}px;
 `;
 
 const ReviewAddButton = styled.TouchableOpacity`
@@ -294,6 +298,7 @@ const ReviewAddButton = styled.TouchableOpacity`
   border: 1px solid #d9d9d9;
   border-radius: ${responsiveWidth(1)}px;
   margin-bottom: ${responsiveHeight(107)}px;
+  margin-left: ${responsiveWidth(24)}px;
 `;
 
 const ReviewAddButtonText = styled.Text`

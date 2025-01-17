@@ -1,40 +1,46 @@
 import React from "react";
-import { View, Text, Image, Button, Dimensions, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  Button,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 
 import styled from "styled-components/native";
+import {
+  responsiveFontSize,
+  responsiveWidth,
+  responsiveHeight,
+} from "../utils/responsive";
 
 // 목업 이미지
-import mockupImg1 from "../assets/DetailPage/mockupImg1.png";
-import mockupImg2 from "../assets/DetailPage/mockupImg2.png";
-import mockupImg3 from "../assets/DetailPage/mockupImg3.png";
+import DetailPageMainImg from "../assets/DetailPage/DetailPageMainImg.svg";
+import DetailSubImg1 from "../assets/DetailPage/DetailSubImg1.svg";
+import DetailSubImg2 from "../assets/DetailPage/DetailSubImg2.svg";
+import ViewMoreButtonIcon from "../assets/DetailPage/ViewMoreButton.svg";
 
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
-
-const guidelineBaseWidth = 360; // Figma 디자인 기준 해상도
-const guidelineBaseHeight = 760; // Figma 디자인 기준 해상도
-
-const scaleWidth = (size) => (size / guidelineBaseWidth) * SCREEN_WIDTH;
-const scaleHeight = (size) => (size / guidelineBaseHeight) * SCREEN_HEIGHT;
-
-export default function DetailPageImg() {
+export default function DetailPageImg({ navigation, onViewMoreImgPress }) {
   return (
     <Container>
-      <View style={{ gap: scaleHeight(8) }}>
+      <View style={{ gap: responsiveHeight(8) }}>
         <TitleContainer>
           <MainText>등록된 이미지</MainText>
-          <ViewMoreButton>
-            <ViewMoreButtonText>더보기 &gt;</ViewMoreButtonText>
+          <ViewMoreButton onPress={onViewMoreImgPress}>
+            <ViewMoreButtonText>더보기</ViewMoreButtonText>
+            <ViewMoreButtonIcon />
           </ViewMoreButton>
         </TitleContainer>
         <SubText>이용자 후기와 업체 등록 사진을 같이 보여줍니다</SubText>
       </View>
       <ImgContainer>
-        <LargeImage source={mockupImg1} />
+        <DetailPageMainImg width={responsiveWidth(156)} height={responsiveHeight(156)} preserveAspectRatio="none" />
         <SmallImgContainer>
-          <SmallImage source={mockupImg2} />
-          <SmallImage source={mockupImg3} />
-          <SmallImage source={mockupImg3} />
-          <SmallImage source={mockupImg2} />
+          <DetailSubImg1 width={responsiveWidth(78)} height={responsiveHeight(78)} preserveAspectRatio="none" />
+          <DetailSubImg2 width={responsiveWidth(78)} height={responsiveHeight(78)} preserveAspectRatio="none" />
+          <DetailSubImg1 width={responsiveWidth(78)} height={responsiveHeight(78)} preserveAspectRatio="none" />
+          <DetailSubImg2 width={responsiveWidth(78)} height={responsiveHeight(78)} preserveAspectRatio="none" />
         </SmallImgContainer>
       </ImgContainer>
     </Container>
@@ -43,8 +49,11 @@ export default function DetailPageImg() {
 
 const Container = styled.View`
   width: 100%;
-  height: ${scaleHeight(271)}px;
-  padding: ${scaleHeight(36)}px 24px 0 24px;
+  height: ${responsiveHeight(271)}px;
+  padding: ${responsiveHeight(36)}px ${responsiveWidth(24)}px 0
+    ${responsiveWidth(24)}px;
+  gap: ${responsiveHeight(24)}px;
+  background-color: #fafafa;
 `;
 
 const TitleContainer = styled.View`
@@ -52,14 +61,15 @@ const TitleContainer = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: ${scaleWidth(10)}px;
+  gap: ${responsiveWidth(10)}px;
 `;
 
 const MainText = styled.Text`
-  width: ${scaleWidth(150)}px;
-  font-size: ${scaleWidth(20)}px;
+  width: ${responsiveWidth(150)}px;
+  font-size: ${responsiveFontSize(20)}px;
   font-weight: 600;
-  line-height: ${scaleHeight(27.6)}px;
+  line-height: ${responsiveHeight(27.6)}px;
+  letter-spacing: -0.5px;
   color: #000000;
 `;
 
@@ -67,21 +77,21 @@ const ViewMoreButton = styled.TouchableOpacity`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: ${scaleWidth(8)}px;
 `;
 
 const ViewMoreButtonText = styled.Text`
   color: #666;
-  font-size: ${scaleWidth(14)}px;
+  font-size: ${responsiveFontSize(14)}px;
   font-weight: 500;
-  line-height: ${scaleHeight(19.32)}px;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35px;
 `;
 
 const SubText = styled.Text`
-  font-size: ${scaleWidth(14)}px;
+  font-size: ${responsiveFontSize(14)}px;
   font-weight: 500;
-  line-height: ${scaleHeight(19.32)}px;
+  line-height: ${responsiveHeight(19.32)}px;
+  letter-spacing: -0.35px;
   color: #666666;
 `;
 
@@ -90,25 +100,16 @@ const ImgContainer = styled.View`
   flex-direction: row;
   width: 100%;
   justify-content: center;
-  margin-top: ${scaleHeight(24)}px;
-  border-radius: ${scaleWidth(15)}px;
-`;
-
-const LargeImage = styled.Image`
-  width: ${scaleWidth(156)}px;
-  height: ${scaleHeight(156)}px;
+  gap: ${responsiveWidth(1)}px;
+  border-radius: ${responsiveWidth(15)}px;
+  overflow: hidden;
 `;
 
 const SmallImgContainer = styled.View`
-  width: ${scaleWidth(158)}px;
-  height: ${scaleHeight(158)}px;
+  width: ${responsiveWidth(157)}px;
+  height: ${responsiveHeight(157)}px;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-`;
-
-const SmallImage = styled.Image`
-  width: ${scaleWidth(77)}px;
-  height: ${scaleHeight(77)}px;
-  margin: 0.5px 1px;
+  gap: ${responsiveWidth(1)}px;
 `;

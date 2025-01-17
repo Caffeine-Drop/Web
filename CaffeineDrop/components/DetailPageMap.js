@@ -1,6 +1,6 @@
 import React from "react";
 
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -9,10 +9,10 @@ import {
 import styled from "styled-components/native";
 
 // 이미지 임포트
-import map from "../assets/DetailPage/DetailPageMap.png";
-import subtract from "../assets/DetailPage/DetailPageSubtract.png";
-import DetailPageSearchRoad from "../assets/DetailPage/DetailPageSearchRoad.png";
-import distanceLogo from "../assets/DetailPage/distanceLogo.png";
+import Map from "../assets/DetailPage/Map.svg";
+import SubtractIcon from "../assets/DetailPage/SubtractIcon.svg";
+import SearchRoadButton from "../assets/DetailPage/SearchRoadButton.svg";
+import DistanceLogo from "../assets/DetailPage/DistanceLogo.svg";
 
 export default function DetailPageMap() {
   return (
@@ -27,13 +27,41 @@ export default function DetailPageMap() {
         카페 이용 정보
       </Text>
       <MapContainer>
-        <MapImage source={map} />
-        <SubtractImage source={subtract} />
-        <SearchRoadImage source={DetailPageSearchRoad} />
+        <Map
+          style={{
+            paddingTop: responsiveHeight(20),
+            width: responsiveWidth(312),
+            height: responsiveHeight(130),
+            left: responsiveWidth(0),
+            top: responsiveHeight(0),
+          }}
+        />
+        <SubtractIcon
+          style={{
+            position: "absolute",
+            left: responsiveWidth(139),
+            top: responsiveHeight(60),
+          }}
+        />
+        <TouchableOpacity
+          style={{
+            position: "absolute",
+            left: responsiveWidth(0),
+            bottom: responsiveHeight(0),
+          }}
+        >
+          <SearchRoadButton />
+        </TouchableOpacity>
       </MapContainer>
       <CaffeeAddress>인천 미추홀구 인하로67번길 6 2층</CaffeeAddress>
-      <View style={{ flexDirection: "row", alignItems: "center", paddingTop: responsiveHeight(8) }}>
-        <DistanceLogo source={distanceLogo} />
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          paddingTop: responsiveHeight(8),
+        }}
+      >
+        <DistanceLogo style={{ paddingRight: responsiveWidth(4) }} />
         <Distance>600m</Distance>
       </View>
     </Container>
@@ -42,21 +70,22 @@ export default function DetailPageMap() {
 
 const Container = styled.View`
   width: 100%;
-  height: ${responsiveHeight(271)}px;
   padding: ${responsiveHeight(40)}px 24px 0 24px;
+  background-color: #fafafa;
 `;
 
 const MapContainer = styled.View`
+  position: relative;
   width: ${responsiveWidth(312)}px;
   height: ${responsiveHeight(150)}px;
   padding-top: ${responsiveHeight(20)}px;
 `;
 
 const MapImage = styled.Image`
+  position: relative;
   width: ${responsiveWidth(312)}px;
   height: ${responsiveHeight(130)}px;
   border-radius: ${responsiveWidth(15)}px;
-  position: relative;
 `;
 
 const SubtractImage = styled.Image`
@@ -84,10 +113,10 @@ const CaffeeAddress = styled.Text`
   letter-spacing: -0.35px;
 `;
 
-const DistanceLogo = styled.Image`
-  width: ${responsiveWidth(26)}px;
-  height: ${responsiveHeight(18)}px;
-`;
+// const DistanceLogo = styled.Image`
+//   width: ${responsiveWidth(26)}px;
+//   height: ${responsiveHeight(18)}px;
+// `;
 
 const Distance = styled.Text`
   font-size: ${responsiveFontSize(12)}px;

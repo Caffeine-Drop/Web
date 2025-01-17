@@ -20,7 +20,7 @@ export default function DetailPageReviewOverView() {
         <ReviewOverViewRateText>1.0</ReviewOverViewRateText>
         <Text style={{ position: "absolute", top: 64, left: 15 }}>종합평점</Text>
         <View style={{ gap: responsiveHeight(5) }}>
-          <View style={{ display: "flex", flexDirection: "row" }}>
+          <View style={{ display: "flex", flexDirection: "row", gap: responsiveWidth(3), paddingBottom: responsiveHeight(5) }}>
             <Star width={responsiveWidth(20)} height={responsiveHeight(20)} />
             <BlankStar width={responsiveWidth(20)} height={responsiveHeight(20)} />
             <BlankStar width={responsiveWidth(20)} height={responsiveHeight(20)} />
@@ -118,6 +118,78 @@ export default function DetailPageReviewOverView() {
             </View>
             <ReviewOverViewDetailRateScore>4.0</ReviewOverViewDetailRateScore>
           </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <View style={{ display: "flex", flexDirection: "row", gap: 24 }}>
+              <ReviewOverViewDetailRateTheme>
+                <Text>청결도</Text>
+              </ReviewOverViewDetailRateTheme>
+              <ReviewOverViewDetailRateStars>
+                <Star
+                  width={responsiveWidth(20)}
+                  height={responsiveHeight(20)}
+                />
+                <Star
+                  width={responsiveWidth(20)}
+                  height={responsiveHeight(20)}
+                />
+                <Star
+                  width={responsiveWidth(20)}
+                  height={responsiveHeight(20)}
+                />
+                <BlankStar
+                  width={responsiveWidth(20)}
+                  height={responsiveHeight(20)}
+                />
+                <BlankStar
+                  width={responsiveWidth(20)}
+                  height={responsiveHeight(20)}
+                />
+              </ReviewOverViewDetailRateStars>
+            </View>
+            <ReviewOverViewDetailRateScore>3.0</ReviewOverViewDetailRateScore>
+          </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <View style={{ display: "flex", flexDirection: "row", gap: 24 }}>
+              <ReviewOverViewDetailRateTheme>
+                <Text>가심비</Text>
+              </ReviewOverViewDetailRateTheme>
+              <ReviewOverViewDetailRateStars>
+                <Star
+                  width={responsiveWidth(20)}
+                  height={responsiveHeight(20)}
+                />
+                <Star
+                  width={responsiveWidth(20)}
+                  height={responsiveHeight(20)}
+                />
+                <Star
+                  width={responsiveWidth(20)}
+                  height={responsiveHeight(20)}
+                />
+                <BlankStar
+                  width={responsiveWidth(20)}
+                  height={responsiveHeight(20)}
+                />
+                <BlankStar
+                  width={responsiveWidth(20)}
+                  height={responsiveHeight(20)}
+                />
+              </ReviewOverViewDetailRateStars>
+            </View>
+            <ReviewOverViewDetailRateScore>3.0</ReviewOverViewDetailRateScore>
+          </View>
         </View>
       </ReviewOverViewDetailRate>
     </ReviewOverViewContainer>
@@ -132,7 +204,7 @@ const ReviewOverViewContainer = styled.View`
   gap: ${responsiveHeight(24)}px;
   justify-content: center;
   align-items: center;
-  margin-bottom: ${responsiveHeight(100)}px;
+  background-color: #f1f1f1;
 `;
 
 const ReviewOverViewTitle = styled.Text`

@@ -16,7 +16,11 @@ export default function DetailPageWriteReviewButton() {
   return (
     <BlurWrapper>
       <GradientOverlay
-        colors={["rgba(233, 230, 227, 0.08)", "rgba(50, 25, 0, 0.08)", "rgba(255, 255, 255, 0.08)"]}
+        colors={[
+          "rgba(233, 230, 227, 0.08)",
+          "rgba(50, 25, 0, 0.08)",
+          "rgba(255, 255, 255, 0.08)",
+        ]}
         start={{ x: 0.85, y: 0 }}
         end={{ x: 0.27, y: 1 }}
       >
@@ -55,6 +59,8 @@ const TouchableOpacityWrapper = styled(TouchableOpacity)`
   gap: ${responsiveWidth(8)}px;
   width: 100%;
   height: 100%;
+  border-width: 1px;
+  border-color: rgba(233, 230, 227, 0.12);
 `;
 
 const WriteReviewText = styled(Text)`

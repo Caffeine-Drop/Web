@@ -10,11 +10,9 @@ import styled from "styled-components/native";
 
 export default function DetailPageCategory() {
   return (
-    <View>
+    <Container>
       <CategoryContainer>
-        <CategoryTitle>
-          <Text>카페 분류</Text>
-        </CategoryTitle>
+          <CategoryTitle>카페 분류</CategoryTitle>
         <CategoryList>
           <Category>
             {/* 여기 부분에 카테고리 가져오면 텍스트 길이에 따라 자동으로 감싸짐*/}
@@ -58,9 +56,14 @@ export default function DetailPageCategory() {
           </BusinessHour>
         </BusinessHourList>
       </BusinessHourContainer>
-    </View>
+    </Container>
   );
 }
+
+const Container = styled.View`
+  width: 100%;
+  background-color: #fafafa;
+`;
 
 const CategoryContainer = styled.View`
   width: 100%;
@@ -110,7 +113,6 @@ const TelContainer = styled.View`
   height: ${responsiveHeight(46)}px;
   padding: 16px 24px 0px 24px;
 `;
-
 
 const Tel = styled.View`
   display: flex;
@@ -186,7 +188,7 @@ const BusinessHourDay = styled.Text`
 `;
 
 const Separator = styled.Text`
-  color: #D9D9D9;
+  color: #d9d9d9;
   font-size: ${responsiveHeight(15)}px;
 `;
 

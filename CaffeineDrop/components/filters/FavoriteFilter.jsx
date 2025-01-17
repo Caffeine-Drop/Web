@@ -1,19 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import HeartIcon from "../../assets/home/HeartIcon.jsx";
 
-const FavoriteFilter = () => {
-  const [selected, setSelected] = useState(false);
-
+const FavoriteFilter = ({ isSelected, onSelect }) => {
   return (
-    <FilterButton
-      onPress={() => setSelected(!selected)}
-      selected={selected}
-    >
+    <FilterButton onPress={onSelect} selected={isSelected}>
       <FilterContent>
         <HeartIcon color="#E91111" size={15} style={{ marginRight: 5 }} />
-        <FilterText selected={selected}>좋아요</FilterText>
+        <FilterText selected={isSelected}>좋아요</FilterText>
       </FilterContent>
     </FilterButton>
   );
@@ -22,13 +17,15 @@ const FavoriteFilter = () => {
 export default FavoriteFilter;
 
 const FilterButton = styled(TouchableOpacity)`
-  padding: 6px 12px;
+  padding: 4px 14px;
   border-radius: 41px;
-  border: 0.5px solid #D9D9D9;
-  margin-right: 8px;
-  height: 30px;
+  border: 1px solid #EBEBEB;
+  margin-right: 6px;
+  height: 27px;
   justify-content: center;
   align-items: center;
+  background: ${({ selected }) =>
+    selected ? "rgba(117, 101, 85, 0.65)" : "transparent"};
 `;
 
 const FilterContent = styled.View`
@@ -38,9 +35,9 @@ const FilterContent = styled.View`
 
 const FilterText = styled.Text`
   font-size: 14px;
-  font-weight: 500;
+  font-weight: ${({ selected }) => (selected ? "600" : "500")};
+  color: ${({ selected }) => (selected ? "#FFF" : "#000")};
   font-style: normal;
   line-height: 19.32px;
   letter-spacing: -0.35px;
-  color: #666;
 `;

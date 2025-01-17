@@ -1,13 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 
-const UnmannedFilter = () => {
-  const [selected, setSelected] = useState(false);
-
+const UnmannedFilter = ({ isSelected, onSelect }) => {
   return (
-    <FilterButton onPress={() => setSelected(!selected)} selected={selected}>
-      <FilterText selected={selected}>무인</FilterText>
+    <FilterButton onPress={onSelect} selected={isSelected}>
+      <FilterText selected={isSelected}>무인</FilterText>
     </FilterButton>
   );
 };
@@ -15,20 +13,22 @@ const UnmannedFilter = () => {
 export default UnmannedFilter;
 
 const FilterButton = styled(TouchableOpacity)`
-  padding: 6px 12px;
+  padding: 4px 14px;
   border-radius: 41px;
   border: 0.5px solid #D9D9D9;
-  margin-right: 8px;
-  height: 30px;
+  margin-right: 6px;
+  height: 27px;
   justify-content: center;
   align-items: center;
+  background: ${({ selected }) =>
+    selected ? "rgba(117, 101, 85, 0.65)" : "transparent"};
 `;
 
 const FilterText = styled.Text`
   font-size: 14px;
-  font-weight: 500;
+  font-weight: ${({ selected }) => (selected ? "600" : "500")};
   font-style: normal;
   line-height: 19.32px;
   letter-spacing: -0.35px;
-  color: #666;
+  color: ${({ selected }) => (selected ? "#FFF" : "#666")};
 `;

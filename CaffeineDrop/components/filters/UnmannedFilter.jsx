@@ -15,7 +15,7 @@ export default UnmannedFilter;
 const FilterButton = styled(TouchableOpacity)`
   padding: 4px 14px;
   border-radius: 41px;
-  border: 0.5px solid #D9D9D9;
+  border: 1px solid #EBEBEB;
   margin-right: 6px;
   height: 27px;
   justify-content: center;
@@ -27,8 +27,8 @@ const FilterButton = styled(TouchableOpacity)`
 const FilterText = styled.Text`
   font-size: 14px;
   font-weight: ${({ selected }) => (selected ? "600" : "500")};
+  color: ${({ selected }) => (selected ? "#FFF" : "#000")};
   font-style: normal;
   line-height: 19.32px;
   letter-spacing: -0.35px;
-  color: ${({ selected }) => (selected ? "#FFF" : "#666")};
 `;

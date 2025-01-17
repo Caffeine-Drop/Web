@@ -346,12 +346,28 @@ const HomeScreen = () => {
             <SortContainer>
               <FilterButton onPress={() => setSortModalVisible(!sortModalVisible)}>
                 <SortText selected={selectedSort !== ""}>{selectedSort || "인기순"}</SortText>
-                {sortModalVisible ? <UpIcon width={17} height={17} style={{ marginLeft: 4 }} /> : <DownIcon width={17} height={17} style={{ marginLeft: 4 }} />}
+                {sortModalVisible ? (
+                  <UpIcon width={17} height={17} style={{ marginLeft: 4 }} />
+                ) : (
+                  <DownIcon width={17} height={17} style={{ marginLeft: 4 }} />
+                )}
               </FilterButton>
 
               <FilterButton onPress={() => setTimeModalVisible(!timeModalVisible)}>
-                <SortText selected={selectedTime !== ""}>{selectedTime || "전체"}</SortText>
-                {timeModalVisible ? <UpIcon width={17} height={17} style={{ marginLeft: 4 }} /> : <DownIcon width={17} height={17} style={{ marginLeft: 4 }} />}
+                <SortText selected={selectedTime !== ""}>
+                  {selectedTime === ""
+                    ? "전체"
+                    : selectedTime
+                        .replace("영업", "")
+                        .replace("오픈", "")
+                        .replace("마감", "")
+                        .trim()}
+                </SortText>
+                {timeModalVisible ? (
+                  <UpIcon width={17} height={17} style={{ marginLeft: 4 }} />
+                ) : (
+                  <DownIcon width={17} height={17} style={{ marginLeft: 4 }} />
+                )}
               </FilterButton>
             </SortContainer>
           </>

@@ -14,6 +14,7 @@ import TimeFilterModal from "../components/TimeFilterModal";
 import CafeLocation from "../components/CafeLocation";
 import BottomContainer from "../components/BottomContainer";
 import SpecialtyOptions from "../components/SpecialtyOptions";
+import NoResults from "../components/NoResults";
 
 import CurrentLocationIcon from "../assets/home/CurrentLocationIcon.svg";
 import DownIcon from "../assets/home/DownIcon.svg";
@@ -57,6 +58,27 @@ const HomeScreen = () => {
       left: new Animated.Value(loc.left),
     }))
   ).current;
+
+  const [selectedFilter, setSelectedFilter] = useState(null); // 선택된 필터 상태 관리
+  const [cafeList, setCafeList] = useState([
+    { id: 1, name: "카페1" },
+    { id: 2, name: "카페2" },
+  ]); // 카페 리스트 상태 (예시)
+  
+  // 필터 클릭 시 처리
+  const handleFilterSelect = (filterName) => {
+    setSelectedFilter(filterName);
+
+    // 예시: 무인 필터 선택 시 빈 리스트로 설정
+    if (filterName === "unmanned") {
+      setCafeList([]); // 조건에 맞는 카페가 없는 경우
+    } else {
+      setCafeList([
+        { id: 1, name: "카페1" },
+        { id: 2, name: "카페2" },
+      ]); // 조건에 맞는 카페가 있는 경우
+    }
+  };
 
   const handleBackgroundPress = () => {
     setIsDirectionsPressed(false);
@@ -332,8 +354,11 @@ const HomeScreen = () => {
         {/* 터치 가능한 TopFilter */}
         {showFilters && (
           <>
-            <TopFilter panHandlers={panResponder.panHandlers} />
-
+            <TopFilter 
+              panHandlers={panResponder.panHandlers} 
+              onFilterSelect={handleFilterSelect} // handleFilterSelect 전달
+              selectedFilter={selectedFilter} // 선택된 필터 상태 전달
+            />
             <SortContainer>
               <FilterButton onPress={() => setSortModalVisible(!sortModalVisible)}>
                 <SortText selected={selectedSort !== ""}>{selectedSort || "인기순"}</SortText>
@@ -380,38 +405,43 @@ const HomeScreen = () => {
           setSelectedTime={setSelectedTime}
         />
 
-        {/* 카페 리스트 */}
-        <CafeList>
-          {[
-            {
-              name: "언힙커피로스터스",
-              location: "인천 미추홀구 인하로67번길 6 2층",
-              distance: "600m",
-              hashtag: "#24시간",
-              rating: 4.0,
-              reviews: 605,
-              isFavorite: true,
-              isSpecialty: true,
-              isBothBadges: true
-            },
-            {
-              name: "언힙커피로스터스",
-              location: "인천 미추홀구 인하로67번길 6 2층",
-              distance: "600m",
-              hashtag: "#24시간",
-              rating: 4.0,
-              reviews: 605,
-              isSpecialty: true,
-              isClosed: true
-            }
-          ].map((cafe, index) => (
-            <CafeListItem
-              key={index}
-              cafe={{ ...cafe, isFirst: index % 1 === 0 }}
-              isSelected={isCafeLocationSelected}
-            />
-          ))}
-        </CafeList>
+        {/* 카페 리스트 또는 NoResults */}
+        {cafeList.length === 0 ? (
+          <NoResults /> // 카페 리스트가 없을 때 NoResults 표시
+        ) : (
+          <CafeList>
+            {[
+              {
+                name: "언힙커피로스터스",
+                location: "인천 미추홀구 인하로67번길 6 2층",
+                distance: "600m",
+                hashtag: "#24시간",
+                rating: 4.0,
+                reviews: 605,
+                isFavorite: true,
+                isSpecialty: true,
+                isBothBadges: true
+              },
+              {
+                name: "언힙커피로스터스",
+                location: "인천 미추홀구 인하로67번길 6 2층",
+                distance: "600m",
+                hashtag: "#24시간",
+                rating: 4.0,
+                reviews: 605,
+                isSpecialty: true,
+                isClosed: true
+              }
+            ].map((cafe, index) => (
+              <CafeListItem
+                key={index}
+                cafe={{ ...cafe, isFirst: index % 1 === 0 }}
+                isSelected={isCafeLocationSelected}
+              />
+            ))}
+          </CafeList>
+        )}
+      
 
       </AnimatedBottomSheet>
 

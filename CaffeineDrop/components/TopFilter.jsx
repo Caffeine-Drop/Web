@@ -15,48 +15,42 @@ import OpenNowFilter from "./filters/OpenNowFilter";
 import SpecialtyCoffeeFilter from "./filters/SpecialtyCoffeeFilter";
 import DripCoffeeFilter from "./filters/DripCoffeeFilter";
 
-const TopFilter = ({ panHandlers }) => {
-  const [selectedFilter, setSelectedFilter] = useState(null);
-
-  const handleFilterSelect = (filterName) => {
-    setSelectedFilter(filterName === selectedFilter ? null : filterName);
-  };
-
+const TopFilter = ({ panHandlers, onFilterSelect, selectedFilter }) => {
   return (
     <FilterContainerWrapper>
       <FilterContainer {...panHandlers}>
         <FilterScrollView horizontal showsHorizontalScrollIndicator={false}>
           <FavoriteFilter
             isSelected={selectedFilter === "favorite"}
-            onSelect={() => handleFilterSelect("favorite")}
+            onSelect={() => onFilterSelect("favorite")}
           />
           <UnmannedFilter
             isSelected={selectedFilter === "unmanned"}
-            onSelect={() => handleFilterSelect("unmanned")}
+            onSelect={() => onFilterSelect("unmanned")}
           />
           <FranchiseFilter
             isSelected={selectedFilter === "franchise"}
-            onSelect={() => handleFilterSelect("franchise")}
+            onSelect={() => onFilterSelect("franchise")}
           />
           <ParkingFilter
             isSelected={selectedFilter === "parking"}
-            onSelect={() => handleFilterSelect("parking")}
+            onSelect={() => onFilterSelect("parking")}
           />
           <LargeCafeFilter
             isSelected={selectedFilter === "largeCafe"}
-            onSelect={() => handleFilterSelect("largeCafe")}
+            onSelect={() => onFilterSelect("largeCafe")}
           />
           <OpenNowFilter
             isSelected={selectedFilter === "openNow"}
-            onSelect={() => handleFilterSelect("openNow")}
+            onSelect={() => onFilterSelect("openNow")}
           />
           <SpecialtyCoffeeFilter
             isSelected={selectedFilter === "specialtyCoffee"}
-            onSelect={() => handleFilterSelect("specialtyCoffee")}
+            onSelect={() => onFilterSelect("specialtyCoffee")}
           />
           <DripCoffeeFilter
             isSelected={selectedFilter === "dripCoffee"}
-            onSelect={() => handleFilterSelect("dripCoffee")}
+            onSelect={() => onFilterSelect("dripCoffee")}
           />
         </FilterScrollView>
       </FilterContainer>

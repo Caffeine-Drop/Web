@@ -2,14 +2,14 @@ import React, { useRef, useState, useEffect } from "react";
 import { ScrollView, Animated, PanResponder, StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import styled from "styled-components/native";
-import BackIcon from "../../Components/BackIcon";
-import BlackTextCircle from "../../Components/BlackTextCircle";
-import BlurIcon from "../../Components/BlurIcon";
+import BackIcon from "../../components/BackIcon";
+import BlackTextCircle from "../../components/BlackTextCircle";
+import BlurIcon from "../../components/BlurIcon";
 import { LinearGradient } from "expo-linear-gradient";
-import LoadingImg from "../../Components/LoadingImg";
-import Loading1 from "../../Components/Loading1";
-import Loading2 from "../../Components/Loading2";
-import Loading3 from "../../Components/Loading3";
+import LoadingImg from "../../components/LoadingImg";
+import Loading1 from "../../components/Loading1";
+import Loading2 from "../../components/Loading2";
+import Loading3 from "../../components/Loading3";
 
 export default function EventPage11({ navigation }) {
     const [loadingStep, setLoadingStep] = useState(0);

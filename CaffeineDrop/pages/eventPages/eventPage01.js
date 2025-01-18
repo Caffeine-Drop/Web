@@ -2,8 +2,8 @@ import React from "react";
 import { View, Text, Button, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
-import BackIcon from "../../Components/BackIcon";
-import Drip from "../../Components/Drip";
+import BackIcon from "../../components/BackIcon";
+import Drip from "../../components/Drip";
 
 export default function EventPage01({ navigation }) {
     return (

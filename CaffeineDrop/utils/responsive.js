@@ -14,11 +14,11 @@ const guidelineBaseHeight = 760; // Figma 디자인 기준 해상도
  */
 
 export function responsiveFontSize(fontSize) {
-    const scaleWidth = SCREEN_WIDTH / guidelineBaseWidth;
-    const scaleHeight = SCREEN_HEIGHT / guidelineBaseHeight;
+  const scaleWidth = SCREEN_WIDTH / guidelineBaseWidth;
+  const scaleHeight = SCREEN_HEIGHT / guidelineBaseHeight;
 
-    const scale = (scaleWidth + scaleHeight) / 2;
-    return Math.round(PixelRatio.roundToNearestPixel(fontSize * scale));
+  const scale = (scaleWidth + scaleHeight) / 2;
+  return Math.round(PixelRatio.roundToNearestPixel(fontSize * scale));
 }
 
 /**
@@ -27,8 +27,8 @@ export function responsiveFontSize(fontSize) {
  * @returns {number} 디바이스에 맞게 조정된 너비
  */
 export function responsiveWidth(width) {
-    const scale = SCREEN_WIDTH / guidelineBaseWidth;
-    return Math.round(PixelRatio.roundToNearestPixel(width * scale));
+  const scale = SCREEN_WIDTH / guidelineBaseWidth;
+  return Math.round(PixelRatio.roundToNearestPixel(width * scale));
 }
 
 /**
@@ -37,6 +37,6 @@ export function responsiveWidth(width) {
  * @returns {number} 디바이스에 맞게 조정된 높이
  */
 export function responsiveHeight(height) {
-    const scale = SCREEN_HEIGHT / guidelineBaseHeight;
-    return Math.round(PixelRatio.roundToNearestPixel(height * scale));
+  const scale = SCREEN_HEIGHT / guidelineBaseHeight;
+  return Math.round(PixelRatio.roundToNearestPixel(height * scale));
 }

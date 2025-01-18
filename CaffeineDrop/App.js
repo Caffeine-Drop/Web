@@ -12,28 +12,28 @@ import DetailPageImageDetail from "./pages/detailpageimageDetail";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  useEffect(() => {
-    if (Platform.OS === "web") {
-      document.body.style.overflow = "auto";
-    }
-  }, []);
-  return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {/* <Stack.Screen name="HomePage" component={HomePage} /> */}
-        <Stack.Screen name="DetailPage" component={DetailPage} />
-        <Stack.Screen name="DetailPageImage" component={DetailPageImage} />
-        <Stack.Screen name="DetailPageImageDetail" component={DetailPageImageDetail} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+    useEffect(() => {
+        if (Platform.OS === "web") {
+            document.body.style.overflow = "auto";
+        }
+    }, []);
+    return (
+        <NavigationContainer>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+                {/* <Stack.Screen name="HomePage" component={HomePage} /> */}
+                <Stack.Screen name="DetailPage" component={DetailPage} />
+                <Stack.Screen name="DetailPageImage" component={DetailPageImage} />
+                <Stack.Screen name="DetailPageImageDetail" component={DetailPageImageDetail} />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+    container: {
+        flex: 1,
+        backgroundColor: "#fff",
+        alignItems: "center",
+        justifyContent: "center",
+    },
 });

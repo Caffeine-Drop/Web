@@ -77,10 +77,16 @@ const CafeListItem = ({ cafe, isSelected }) => {
             <Title>{cafe.name}</Title>
             <Location>{cafe.location}</Location>
             <Details>
+              <DistanceBadge>거리</DistanceBadge>
               <Distance>{cafe.distance}</Distance>
+              <HashTag>{cafe.hashtag}</HashTag>
               <RatingContainer>
                 <StarIcon width={12} height={12} style={{ marginRight: 5 }} />
-                <RatingText>{cafe.rating} | {cafe.reviews}</RatingText>
+                <RatingText>
+                  <RatingNumber>{parseFloat(cafe.rating).toFixed(1)}</RatingNumber>
+                  <RatingSeparator> | </RatingSeparator>
+                  <RatingReviews>{cafe.reviews}</RatingReviews>
+                </RatingText>
               </RatingContainer>
             </Details>
           </Info>
@@ -207,20 +213,53 @@ const Location = styled.Text`
 
 const Details = styled.View`
   flex-direction: row;
-  justify-content: space-between;
+`;
+
+const DistanceBadge = styled.Text`
+  font-size: 10px;
+  font-weight: 400;
+  padding: 2px 4px;
+  margin-right: 4px;
+  border-radius: 8px;
+  background-color: #F1F1F1;
 `;
 
 const Distance = styled.Text`
   font-size: 12px;
+  margin-right: 12px;
 `;
 
+const HashTag = styled.Text`
+  font-size: 12px;
+  font-weight: 400;
+  color: #666;
+`;
 const RatingContainer = styled.View`
   flex-direction: row;
   align-items: center;
+  margin-left: auto;
 `;
 
 const RatingText = styled.Text`
   font-size: 14px;
   font-weight: 400;
   color: gray;
+`;
+
+const RatingNumber = styled.Text`
+  font-size: 14px;
+  font-weight: 400;
+  color: #000; /* cafe.rating 색상 */
+`;
+
+const RatingSeparator = styled.Text`
+  font-size: 14px;
+  font-weight: 400;
+  color: #666; /* 구분자 | 색상 */
+`;
+
+const RatingReviews = styled.Text`
+  font-size: 14px;
+  font-weight: 400;
+  color: #666; /* 리뷰 개수 색상 */
 `;

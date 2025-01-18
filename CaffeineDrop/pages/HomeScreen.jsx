@@ -58,10 +58,6 @@ const HomeScreen = () => {
     }))
   ).current;
 
-  const handleDirectionsPress = () => {
-    setIsDirectionsPressed(true);
-  };
-
   const handleBackgroundPress = () => {
     setIsDirectionsPressed(false);
     setShowDirectionsOptions(false);
@@ -391,6 +387,7 @@ const HomeScreen = () => {
               name: "언힙커피로스터스",
               location: "인천 미추홀구 인하로67번길 6 2층",
               distance: "600m",
+              hashtag: "#24시간",
               rating: 4.0,
               reviews: 605,
               isFavorite: true,
@@ -401,6 +398,7 @@ const HomeScreen = () => {
               name: "언힙커피로스터스",
               location: "인천 미추홀구 인하로67번길 6 2층",
               distance: "600m",
+              hashtag: "#24시간",
               rating: 4.0,
               reviews: 605,
               isSpecialty: true,

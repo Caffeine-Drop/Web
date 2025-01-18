@@ -12,6 +12,9 @@ import CafeListItem from "../components/CafeListItem";
 import SortFilterModal from "../components/SortFilterModal";
 import TimeFilterModal from "../components/TimeFilterModal";
 import CafeLocation from "../components/CafeLocation";
+import BottomContainer from "../components/BottomContainer";
+import SpecialtyOptions from "../components/SpecialtyOptions";
+
 import CurrentLocationIcon from "../assets/home/CurrentLocationIcon.svg";
 import DownIcon from "../assets/home/DownIcon.svg";
 import UpIcon from "../assets/home/UpIcon.svg";
@@ -62,6 +65,7 @@ const HomeScreen = () => {
   const handleBackgroundPress = () => {
     setIsDirectionsPressed(false);
     setShowDirectionsOptions(false);
+    setIsLogoPressed(false);
   };
 
   const [showDirectionsOptions, setShowDirectionsOptions] = useState(false); // 길찾기 옵션 토글 상태
@@ -87,6 +91,11 @@ const HomeScreen = () => {
 
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [isCafeLocationSelected, setIsCafeLocationSelected] = useState(false);
+
+  const handleOptionSelect = (option) => {
+    console.log(`${option} 선택됨`);
+    // 추가 로직 작성 가능
+  };
 
   const resetToInitialState = () => {
     Animated.parallel([
@@ -282,32 +291,25 @@ const HomeScreen = () => {
       </GNBContainer>
 
       {/* 로고 아이콘 */}
-      <TouchableOpacity
-        onPress={handleLogoPress}
-        style={[
-          styles.logoButton,
-          isLogoPressed && styles.logoButtonPressed, // 상태에 따른 스타일 변경
-        ]}
-      >
-        <LogoIcon
-          width={24}
-          height={24}
-          style={isLogoPressed ? styles.logoIconPressed : null}
-        />
-      </TouchableOpacity>
+      {!showBottomContainer && (
+        <TouchableOpacity
+          onPress={handleLogoPress}
+          style={[
+            styles.logoButton,
+            isLogoPressed && styles.logoButtonPressed, // 상태에 따른 스타일 변경
+          ]}
+        >
+          <LogoIcon
+            width={24}
+            height={24}
+            style={isLogoPressed ? styles.logoIconPressed : null}
+          />
+        </TouchableOpacity>
+      )}
 
       {/* 스페셜티 커피란? 및 원두 진단하기 버튼 */}
       {isLogoPressed && (
-        <ButtonContainer>
-          <OptionButton>
-            <SpecialtyCoffeeIcon width={24} height={24} />
-            <OptionText>스페셜티 커피란?</OptionText>
-          </OptionButton>
-          <OptionButton>
-            <CoffeeBeansIcon width={24} height={24} />
-            <OptionText>원두 진단하기</OptionText>
-          </OptionButton>
-        </ButtonContainer>
+        <SpecialtyOptions onOptionSelect={handleOptionSelect} />
       )}
 
       {/* Bottom Sheet (상단 필터 + 카페 리스트) */}
@@ -425,34 +427,13 @@ const HomeScreen = () => {
         }}
       >
 
-        {/* 네이버/카카오 길찾기 옵션 */}
-        {showDirectionsOptions && (
-          <OptionsContainer>
-            <OptionButton onPress={handleNaverDirections}>
-              <NaverIcon width={24} height={24} />
-              <OptionText>네이버 길찾기</OptionText>
-            </OptionButton>
-            <OptionButton onPress={handleKakaoDirections}>
-              <KakaoIcon width={24} height={24} />
-              <OptionText>카카오 길찾기</OptionText>
-            </OptionButton>
-          </OptionsContainer>
-        )}
-
-        {/* 하단 컨테이너 */}
         {showBottomContainer && (
-          <BottomContainer>
-            <CafeInfoButton>
-              <CafeInfoText>카페 정보</CafeInfoText>
-            </CafeInfoButton>
-            <DirectionsButton
-              pressed={isDirectionsPressed}
-              onPress={handleToggleDirections}
-            >
-              <MapIcon width={19} height={19} />
-              <DirectionsText pressed={isDirectionsPressed}>길찾기</DirectionsText>
-            </DirectionsButton>
-          </BottomContainer>
+          <BottomContainer
+            isDirectionsPressed={isDirectionsPressed}
+            setIsDirectionsPressed={setIsDirectionsPressed}
+            handleNaverDirections={handleNaverDirections}
+            handleKakaoDirections={handleKakaoDirections}
+          />
         )}
       </Animated.View>
     </Container>
@@ -560,64 +541,6 @@ const CafeList = styled.ScrollView`
   padding-bottom: 20px;
 `;
 
-const BottomContainer = styled.View`
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 66px;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  background-color: #fafafa;
-  z-index: 1000;
-`;
-
-const CafeInfoButton = styled.TouchableOpacity`
-  flex: 1;
-  height: 43px;
-  margin: 0 8px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 43px;
-  border: 1px solid #f1f1f1;
-`;
-
-const CafeInfoText = styled.Text`
-  font-size: 14px;
-  font-weight: 600;
-  color: #000000;
-`;
-
-const DirectionsButton = styled.TouchableOpacity`
-  flex: 1;
-  height: 43px;
-  margin: 0 8px;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  border-radius: 43px;
-  ${(props) =>
-    props.pressed
-      ? "background-color: #F1F1F1;"
-      : "background-image: linear-gradient(90deg, #3F2D1E 0%, #6A331B 100%);"}
-`;
-
-const DirectionsText = styled.Text`
-  font-size: 14px;
-  font-weight: 600;
-  color: ${(props) => (props.pressed ? "#666" : "#fafafa")};
-  margin-left: 8px;
-`;
-
-const OptionsContainer = styled.View`
-  position: absolute;
-  bottom: 76px; /* 길찾기 버튼 바로 위 */
-  right: 16px;
-  align-items: flex-end;
-  z-index: 2000;
-  elevation: 10;
-`;
-
 const OptionButton = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
@@ -633,14 +556,6 @@ const OptionText = styled.Text`
   font-weight: 600;
   color: #000000;
   margin-left: 8px;
-`;
-
-const ButtonContainer = styled.View`
-  position: absolute;
-  bottom: 100px;
-  right: 16px;
-  z-index: 3002;
-  align-items: flex-end;
 `;
 
 const styles = StyleSheet.create({

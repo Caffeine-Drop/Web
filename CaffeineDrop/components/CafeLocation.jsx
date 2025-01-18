@@ -34,4 +34,6 @@ const CafeLabel = styled.Text`
   overflow: hidden; /* 텍스트 넘칠 경우 숨김 */
   text-overflow: ellipsis; /* 말줄임표 처리 */
   white-space: nowrap; /* 줄바꿈 방지 */
+  -webkit-text-stroke-width: 0.5;
+  -webkit-text-stroke-color: #FAFAFA;
 `;

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components/native";
-import MapIcon from "../assets/home/MapIcon.svg";
+import MapIconBeforeClick from "../assets/home/MapIconBeforeClick.png";
+import MapIconAfterClick from "../assets/home/MapIconAfterClick.png";
 import NaverIcon from "../assets/home/NaverIcon.svg";
 import KakaoIcon from "../assets/home/KakaoIcon.svg";
 
@@ -32,7 +33,9 @@ const BottomContainer = ({
             pressed={isDirectionsPressed}
             onPress={() => setIsDirectionsPressed((prev) => !prev)} // 토글 처리
           >
-            <MapIcon width={19} height={19} />
+            <IconImage
+              source={isDirectionsPressed ? MapIconAfterClick : MapIconBeforeClick}
+            />
             <DirectionsText pressed={isDirectionsPressed}>길찾기</DirectionsText>
           </DirectionsButton>
         </BottomContainerWrapper>
@@ -116,4 +119,9 @@ const OptionText = styled.Text`
   font-weight: 600;
   color: #000000;
   margin-left: 8px;
+`;
+
+const IconImage = styled.Image`
+  width: 19px;
+  height: 19px;
 `;

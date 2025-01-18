@@ -20,11 +20,6 @@ import CurrentLocationIcon from "../assets/home/CurrentLocationIcon.svg";
 import DownIcon from "../assets/home/DownIcon.svg";
 import UpIcon from "../assets/home/UpIcon.svg";
 import LogoIcon from "../assets/home/LogoIcon.svg";
-import MapIcon from "../assets/home/MapIcon.svg";
-import NaverIcon from "../assets/home/NaverIcon.svg";
-import KakaoIcon from "../assets/home/KakaoIcon.svg";
-import SpecialtyCoffeeIcon from "../assets/home/SpecialtyCoffeeIcon.svg";
-import CoffeeBeansIcon from "../assets/home/CoffeeBeansIcon.svg";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const GNB_HEIGHT = 94; // GNB 높이

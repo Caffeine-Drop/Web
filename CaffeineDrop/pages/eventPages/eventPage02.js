@@ -126,6 +126,9 @@ export default function EventPage02({ navigation }) {
     const handleSelectOption = (index) => {
         setSelectedOption(index);
 
+        //사용자가 몇번을 골랐는지 출력해서 확인
+        console.log(`Selected index: ${index}`);
+
         Animated.timing(buttonBackgroundColor, {
             toValue: 1,
             duration: 600,

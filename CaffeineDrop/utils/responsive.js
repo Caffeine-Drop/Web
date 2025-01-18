@@ -40,19 +40,3 @@ export function responsiveHeight(height) {
     const scale = SCREEN_HEIGHT / guidelineBaseHeight;
     return Math.round(PixelRatio.roundToNearestPixel(height * scale));
 }
-
-/* 사용 방법은
-
-폰트 사이즈 적용
-responsiveFontSize(fontsize)
-ex ) responsiveFontSize(16)
-
-너비 적용(컨테이너 크기나 사진 파일 너비 변경 시 사용)
-responsiveWidth(width)
-ex ) responsiveWidth(250)
-
-높이 적용(컨테이너 크기나 사진 파일 너비 변경, 행간 변경 시 사용)
-responsiveHeight(height)
-ex ) responsiveHeight(200)
-
-이렇게 사용해주시면 됩니다 */

@@ -1,7 +1,8 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
-import { Ionicons } from '@expo/vector-icons';
+import SearchIcon from '../assets/home/SearchIcon.svg';
+import MypageIcon from '../assets/home/MypageIcon.svg';
 
 const GNB = () => {
   return (
@@ -9,10 +10,10 @@ const GNB = () => {
       <Title>Caffeine Drop</Title>
       <Icons>
         <TouchableOpacity>
-          <Ionicons name="search-outline" size={24} color="black" />
+          <SearchIcon width={24} height={24} />
         </TouchableOpacity>
         <TouchableOpacity>
-          <Ionicons name="person-outline" size={24} color="black" />
+          <MypageIcon width={24} height={24} />
         </TouchableOpacity>
       </Icons>
     </Container>

@@ -310,13 +310,6 @@ const HomeScreen = () => {
         </ButtonContainer>
       )}
 
-      {/* 로고 아이콘
-      {showLogo && (
-        <LogoContainer style={{ top: DEFAULT_POSITION + GNB_HEIGHT + 245 }}>
-          <LogoIcon width={24} height={24} />
-        </LogoContainer>
-      )} */}
-
       {/* Bottom Sheet (상단 필터 + 카페 리스트) */}
       <AnimatedBottomSheet
         style={{
@@ -629,7 +622,7 @@ const OptionButton = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   background-color: #ffffff;
-  border-radius: 33px 33px 0px 33px;
+  border-radius: 33px 22px 0px 33px;
   padding: 12px;
   margin-bottom: 8px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);

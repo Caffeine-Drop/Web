@@ -27,7 +27,7 @@ export default SpecialtyOptions;
 
 const OptionsContainer = styled.View`
   position: absolute;
-  bottom: ${responsiveHeight(79)}px;
+  bottom: ${responsiveHeight(66)}px;
   right: ${responsiveWidth(24)}px;
   z-index: 3002;
   align-items: flex-end;

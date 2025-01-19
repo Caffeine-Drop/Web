@@ -25,7 +25,7 @@ const TimeFilterModal = ({ visible, onClose, selectedTime, setSelectedTime }) =>
           <Header>
             <Title>영업 시간</Title>
             <TouchableOpacity onPress={onClose}>
-              <CloseIcon width={20} height={20} />
+              <CloseIcon width={`${responsiveWidth(24)}px`} height={`${responsiveHeight(24)}px`} />
             </TouchableOpacity>
           </Header>
           {timeOptions.map((option) => (
@@ -58,7 +58,8 @@ const Container = styled.View`
   padding: ${responsiveHeight(8)}px ${responsiveWidth(24)}px;
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
-box-shadow: 0px -4px 4px rgba(0, 0, 0, 0.12);
+  box-shadow: 0px -8px 16px rgba(0, 0, 0, 0.12);
+  margin-bottom: ${responsiveHeight(42)}px;
 `;
 
 const Header = styled.View`

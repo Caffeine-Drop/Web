@@ -25,7 +25,7 @@ const SortFilterModal = ({ visible, onClose, selectedSort, setSelectedSort }) =>
           <Header>
             <Title>정렬</Title>
             <TouchableOpacity onPress={onClose}>
-              <CloseIcon width={24} height={24} />
+              <CloseIcon width={`${responsiveWidth(24)}px`} height={`${responsiveHeight(24)}px`} />
             </TouchableOpacity>
           </Header>
           {sortOptions.map((option) => (
@@ -58,7 +58,8 @@ const Container = styled.View`
   padding: ${responsiveHeight(8)}px ${responsiveWidth(24)}px;
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
-  box-shadow: 0px -4px 4px rgba(0, 0, 0, 0.12);
+  box-shadow: 0px -8px 16px rgba(0, 0, 0, 0.12);
+  margin-bottom: ${responsiveHeight(42)}px;
 `;
 
 const Header = styled.View`

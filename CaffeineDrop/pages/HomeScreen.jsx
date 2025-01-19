@@ -298,8 +298,8 @@ const HomeScreen = () => {
         >
           <TouchableOpacity onPress={resetToInitialState}>
             <CurrentLocationIcon
-              width={`${responsiveWidth(43)}px`}
-              height={`${responsiveHeight(43)}px`}
+              width={`${responsiveWidth(50)}px`}
+              height={`${responsiveHeight(50)}px`}
             />
           </TouchableOpacity>
         </Animated.View>

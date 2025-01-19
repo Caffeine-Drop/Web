@@ -153,7 +153,7 @@ const ClosedOverlay = styled.View`
 `;
 
 const ClosedSubText = styled.Text`
-  font-size: 12px;
+  font-size: ${responsiveFontSize(12)}px;
   color: #fafafa;
   font-style: normal;
   font-weight: 400;
@@ -163,7 +163,7 @@ const ClosedSubText = styled.Text`
 `;
 
 const ClosedText = styled.Text`
-  font-size: 16px;
+  font-size: ${responsiveFontSize(16)}px;
   color: #fafafa;
   font-style: normal;
   font-weight: 700;
@@ -189,7 +189,7 @@ const Badge = styled.View`
 `;
 
 const BadgeText = styled.Text`
-  font-size: 10px;
+  font-size: ${responsiveFontSize(10)}px;
   font-weight: 500;
   color: #FAFAFA;
 `;
@@ -199,13 +199,13 @@ const Info = styled.View`
 `;
 
 const Title = styled.Text`
-  font-size: 18px;
+  font-size: ${responsiveFontSize(18)}px;
   font-weight: bold;
   padding-bottom: ${responsiveHeight(8)}px;
 `;
 
 const Location = styled.Text`
-  font-size: 14px;
+  font-size: ${responsiveFontSize(14)}px;
   padding-bottom: ${responsiveHeight(8)}px;
 `;
 
@@ -214,7 +214,7 @@ const Details = styled.View`
 `;
 
 const DistanceBadge = styled.Text`
-  font-size: 10px;
+  font-size: ${responsiveFontSize(10)}px;
   font-weight: 400;
   padding: ${responsiveHeight(2)}px ${responsiveWidth(4)}px;
   margin-right: ${responsiveWidth(4)}px;
@@ -223,12 +223,12 @@ const DistanceBadge = styled.Text`
 `;
 
 const Distance = styled.Text`
-  font-size: 12px;
+  font-size: ${responsiveFontSize(12)}px;
   margin-right: ${responsiveWidth(12)}px;
 `;
 
 const HashTag = styled.Text`
-  font-size: 12px;
+  font-size: ${responsiveFontSize(12)}px;
   font-weight: 400;
   color: #666;
 `;
@@ -239,25 +239,25 @@ const RatingContainer = styled.View`
 `;
 
 const RatingText = styled.Text`
-  font-size: 14px;
+  font-size: ${responsiveFontSize(14)}px;
   font-weight: 400;
   color: gray;
 `;
 
 const RatingNumber = styled.Text`
-  font-size: 14px;
+  font-size: ${responsiveFontSize(14)}px;
   font-weight: 400;
   color: #000; /* cafe.rating 색상 */
 `;
 
 const RatingSeparator = styled.Text`
-  font-size: 14px;
+  font-size: ${responsiveFontSize(14)}px;
   font-weight: 400;
   color: #666; /* 구분자 | 색상 */
 `;
 
 const RatingReviews = styled.Text`
-  font-size: 14px;
+  font-size: ${responsiveFontSize(14)}px;
   font-weight: 400;
   color: #666; /* 리뷰 개수 색상 */
 `;

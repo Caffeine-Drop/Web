@@ -38,7 +38,7 @@ const Container = styled.View`
 `;
 
 const Title = styled.Text`
-  font-size: 18px;
+  font-size: ${responsiveFontSize(18)}px;
   font-weight: 600;
   line-height: 24.84px;
   padding-left: ${responsiveWidth(24)}px;

@@ -34,13 +34,13 @@ const StyledImage = styled(Image)`
 `;
 
 const Title = styled.Text`
-  font-size: 20px;
+  font-size: ${responsiveFontSize(20)}px;
   font-weight: 600;
   color: #000;
 `;
 
 const Subtitle = styled.Text`
-  font-size: 14px;
+  font-size: ${responsiveFontSize(14)}px;
   font-weight: 500;
   color: #666;
   margin-top: ${responsiveHeight(16)}px;

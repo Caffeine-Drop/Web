@@ -1,5 +1,10 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
+import {
+  responsiveFontSize,
+  responsiveWidth,
+  responsiveHeight,
+} from "../../utils/responsive";
 import styled from "styled-components/native";
 
 const UnmannedFilter = ({ isSelected, onSelect }) => {
@@ -13,11 +18,11 @@ const UnmannedFilter = ({ isSelected, onSelect }) => {
 export default UnmannedFilter;
 
 const FilterButton = styled(TouchableOpacity)`
-  padding: 4px 14px;
+  padding: ${responsiveHeight(4)}px ${responsiveWidth(14)}px;
   border-radius: 41px;
   border: 1px solid #EBEBEB;
-  margin-right: 6px;
-  height: 27px;
+  margin-right: ${responsiveWidth(6)}px;
+  height: ${responsiveHeight(27)}px;
   justify-content: center;
   align-items: center;
   background: ${({ selected }) =>
@@ -25,7 +30,7 @@ const FilterButton = styled(TouchableOpacity)`
 `;
 
 const FilterText = styled.Text`
-  font-size: 14px;
+  font-size: ${responsiveFontSize(14)}px;
   font-weight: ${({ selected }) => (selected ? "600" : "500")};
   color: ${({ selected }) => (selected ? "#FFF" : "#000")};
   font-style: normal;

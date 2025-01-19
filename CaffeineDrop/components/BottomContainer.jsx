@@ -77,7 +77,7 @@ const CafeInfoButton = styled.TouchableOpacity`
 `;
 
 const CafeInfoText = styled.Text`
-  font-size: 14px;
+  font-size: ${responsiveFontSize(14)}px;
   font-weight: 600;
   color: #000000;
 `;
@@ -97,7 +97,7 @@ const DirectionsButton = styled.TouchableOpacity`
 `;
 
 const DirectionsText = styled.Text`
-  font-size: 14px;
+  font-size: ${responsiveFontSize(14)}px;
   font-weight: 600;
   color: ${(props) => (props.pressed ? "#666" : "#fafafa")};
   margin-left: ${responsiveWidth(8)}px;
@@ -123,7 +123,7 @@ const OptionButton = styled.TouchableOpacity`
 `;
 
 const OptionText = styled.Text`
-  font-size: 14px;
+  font-size: ${responsiveFontSize(14)}px;
   font-weight: 600;
   color: #000000;
   margin-left: ${responsiveWidth(8)}px;

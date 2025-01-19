@@ -1,5 +1,10 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
+import {
+  responsiveFontSize,
+  responsiveWidth,
+  responsiveHeight,
+} from "../utils/responsive";
 import styled from 'styled-components/native';
 import SearchIcon from '../assets/home/SearchIcon.svg';
 import MypageIcon from '../assets/home/MypageIcon.svg';
@@ -10,10 +15,10 @@ const GNB = () => {
       <Title>Caffeine Drop</Title>
       <Icons>
         <TouchableOpacity>
-          <SearchIcon width={24} height={24} />
+          <SearchIcon width={responsiveWidth(24)} height={responsiveHeight(24)} />
         </TouchableOpacity>
         <TouchableOpacity>
-          <MypageIcon width={24} height={24} />
+          <MypageIcon width={responsiveWidth(24)} height={responsiveHeight(24)} />
         </TouchableOpacity>
       </Icons>
     </Container>
@@ -26,22 +31,21 @@ const Container = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 53px 20px 15px 20px;
+  margin-top: ${responsiveHeight(38)}px;
   background-color: #fafafa;
-  height: 94px;
-  shadow-color: rgba(0, 0, 0, 0.12);
-  shadow-offset: 0px 4px;
-  shadow-opacity: 1;
-  shadow-radius: 8px;
+  height: ${responsiveHeight(56)}px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
 `;
 
 const Title = styled.Text`
   font-size: 18px;
   font-weight: 600;
   line-height: 24.84px;
+  padding-left: ${responsiveWidth(24)}px;
 `;
 
 const Icons = styled.View`
   flex-direction: row;
-  gap: 15px;
+  gap: ${responsiveWidth(16)}px;
+  padding-right: ${responsiveWidth(16)}px;
 `;

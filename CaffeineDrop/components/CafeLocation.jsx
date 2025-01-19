@@ -1,9 +1,13 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
+import {
+  responsiveFontSize,
+  responsiveWidth,
+  responsiveHeight,
+} from "../utils/responsive";
 import styled from "styled-components/native";
 import CafeLocationIcon from "../assets/home/CafeLocationIcon.svg";
 import LocationHereIcon from "../assets/home/LocationHereIcon.svg";
-import { responsiveWidth, responsiveHeight, responsiveFontSize } from "../utils/responsive";
 
 const CafeLocation = ({ top, left, isSelected, onSelect }) => {
   return (

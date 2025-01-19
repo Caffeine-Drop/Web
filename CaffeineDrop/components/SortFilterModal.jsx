@@ -1,5 +1,10 @@
 import React from "react";
 import { Modal, TouchableOpacity } from "react-native";
+import {
+  responsiveFontSize,
+  responsiveWidth,
+  responsiveHeight,
+} from "../utils/responsive";
 import styled from "styled-components/native";
 import CloseIcon from "../assets/home/CloseIcon.svg";
 
@@ -50,43 +55,40 @@ const Overlay = styled.View`
 
 const Container = styled.View`
   background-color: #fafafa;
-  padding: 24px;
+  padding: ${responsiveHeight(8)}px ${responsiveWidth(24)}px;
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
-  shadow-color: rgba(0, 0, 0, 0.04);
-  shadow-offset: 0px -8px;
-  shadow-opacity: 1;
-  shadow-radius: 16px;
-  z-index: 1000;
+  box-shadow: 0px -4px 4px rgba(0, 0, 0, 0.12);
 `;
 
 const Header = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  padding-top: ${responsiveHeight(12)}px;
+  padding-bottom: ${responsiveHeight(16)}px;
 `;
 
 const Title = styled.Text`
-  font-size: 16px;
+  font-size: ${responsiveFontSize(16)}px;
   font-weight: 600;
 `;
 
 const Option = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: space-between;
-  padding-vertical: 8px;
-  width: 312px;
-  height: 40px;
+  padding-vertical: ${responsiveHeight(8)}px;
+  width: ${responsiveWidth(312)}px;
+  height: ${responsiveHeight(40)}px;
 `;
 
 const OptionText = styled.Text`
-  font-size: 14px;
+  font-size: ${responsiveFontSize(14)}px;
   font-weight: ${(props) => (props.selected ? "bold" : "normal")};
   color: ${(props) => (props.selected ? "#000" : "#666")};
 `;
 
 const CheckMark = styled.Text`
-  font-size: 16px;
+  font-size: ${responsiveFontSize(16)}px;
   font-weight: 600;
 `;

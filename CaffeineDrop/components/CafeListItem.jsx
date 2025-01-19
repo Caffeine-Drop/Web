@@ -103,8 +103,8 @@ const Container = styled.View`
   overflow: visible;
   width: ${responsiveWidth(360)}px;
   height: ${responsiveHeight(274)}px;
-  margin-left: ${(props) => (props.isFirst ? "24px" : "0px")}; /* ✅ 첫 번째 아이템만 왼쪽 여백 추가 */
-  padding-top: 16px; /* ✅ 아이템 간 간격 유지 */
+  margin-left: ${(props) => (props.isFirst ? responsiveWidth(24) : responsiveWidth(0))}; /* ✅ 첫 번째 아이템만 왼쪽 여백 추가 */
+  padding-top: ${responsiveHeight(16)}px; /* ✅ 아이템 간 간격 유지 */
 `;
 
 
@@ -121,7 +121,7 @@ const ImagePlaceholder1 = styled.View`
   width: ${responsiveWidth(150)}px;
   height: ${responsiveHeight(150)}px;
   background-color: ${(props) => (props.isClosed ? "rgba(0, 0, 0, 0.55)" : "#d9d9d9")}; /* ✅ 미운영이면 회색 */
-  margin-right: 4px;
+  margin-right: ${responsiveWidth(4)}px;
   border-radius: 12px;
   justify-content: center;
   align-items: center;
@@ -132,23 +132,23 @@ const ImagePlaceholder2 = styled.View`
   width: ${responsiveWidth(112.5)}px;
   height: ${responsiveHeight(150)}px;
   background-color: ${(props) => (props.isClosed ? "rgba(0, 0, 0, 0.55)" : "#d9d9d9")}; /* ✅ 미운영이면 회색 */
-  margin-right: 4px;
+  margin-right: ${responsiveWidth(4)}px;
   border-radius: 12px;
 `;
 
 const ImagePlaceholder3 = styled.View`
-  width: ${responsiveWidth(113.5)}px;
+  width: ${responsiveWidth(112.5)}px;
   height: ${responsiveHeight(150)}px;
   background-color: ${(props) => (props.isClosed ? "rgba(0, 0, 0, 0.55)" : "#d9d9d9")}; /* ✅ 미운영이면 회색 */
-  margin-right: 4px;
+  margin-right: ${responsiveWidth(4)}px;
   border-radius: 12px;
 `;
 
 /* ✅ 미운영 알림 스타일 */
 const ClosedOverlay = styled.View`
   position: absolute;
-  top: 16px;
-  left: 16px;
+  top: ${responsiveHeight(16)}px;
+  left: ${responsiveWidth(16)}px;
   border-radius: 8px;
 `;
 
@@ -157,7 +157,7 @@ const ClosedSubText = styled.Text`
   color: #fafafa;
   font-style: normal;
   font-weight: 400;
-  padding-bottom: 8px;
+  padding-bottom: ${responsiveHeight(8)}px;
   line-height: 16.56px;
   letter-spacing: -0.3px;
 `;
@@ -174,8 +174,8 @@ const ClosedText = styled.Text`
 /* ✅ 배지 컨테이너: 항상 고정 */
 const BadgeContainer = styled.View`
   position: absolute;
-  bottom: -4px;
-  left: 20px;
+  bottom: ${responsiveHeight(-4)}px;
+  left: ${responsiveWidth(20)}px;
   flex-direction: row;
   z-index: 10; /* 사진 위에 표시되도록 설정 */
 `;
@@ -184,7 +184,7 @@ const BadgeContainer = styled.View`
 const Badge = styled.View`
   flex-direction: row;
   align-items: center;
-  padding: 4px 8px;
+  padding: ${responsiveHeight(4)}px ${responsiveWidth(8)}px;
   border-radius: 4px;
 `;
 
@@ -195,20 +195,18 @@ const BadgeText = styled.Text`
 `;
 
 const Info = styled.View`
-  padding-left: 24px;
-  padding-right: 24px;
-  padding-top: 12px;
+  padding: ${responsiveHeight(12)}px ${responsiveWidth(24)}px ${responsiveHeight(0)}px;
 `;
 
 const Title = styled.Text`
   font-size: 18px;
   font-weight: bold;
-  padding-bottom: 8px;
+  padding-bottom: ${responsiveHeight(8)}px;
 `;
 
 const Location = styled.Text`
   font-size: 14px;
-  padding-bottom: 8px;
+  padding-bottom: ${responsiveHeight(8)}px;
 `;
 
 const Details = styled.View`
@@ -218,15 +216,15 @@ const Details = styled.View`
 const DistanceBadge = styled.Text`
   font-size: 10px;
   font-weight: 400;
-  padding: 2px 4px;
-  margin-right: 4px;
+  padding: ${responsiveHeight(2)}px ${responsiveWidth(4)}px;
+  margin-right: ${responsiveWidth(4)}px;
   border-radius: 8px;
   background-color: #F1F1F1;
 `;
 
 const Distance = styled.Text`
   font-size: 12px;
-  margin-right: 12px;
+  margin-right: ${responsiveWidth(12)}px;
 `;
 
 const HashTag = styled.Text`

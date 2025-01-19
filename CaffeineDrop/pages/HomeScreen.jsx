@@ -405,35 +405,67 @@ const HomeScreen = () => {
           <NoResults /> // 카페 리스트가 없을 때 NoResults 표시
         ) : (
           <CafeList>
-            {[
-              {
-                name: "언힙커피로스터스",
-                location: "인천 미추홀구 인하로67번길 6 2층",
-                distance: "600m",
-                hashtag: "#24시간",
-                rating: 4.0,
-                reviews: 605,
-                isFavorite: true,
-                isSpecialty: true,
-                isBothBadges: true
-              },
-              {
-                name: "언힙커피로스터스",
-                location: "인천 미추홀구 인하로67번길 6 2층",
-                distance: "600m",
-                hashtag: "#24시간",
-                rating: 4.0,
-                reviews: 605,
-                isSpecialty: true,
-                isClosed: true
-              }
-            ].map((cafe, index) => (
-              <CafeListItem
-                key={index}
-                cafe={{ ...cafe, isFirst: index % 1 === 0 }}
-                isSelected={isCafeLocationSelected}
-              />
-            ))}
+            {isCafeLocationSelected && selectedLocation
+              ? [
+                  {
+                    name: "언힙커피로스터스",
+                    location: "인천 미추홀구 인하로67번길 6 2층",
+                    distance: "600m",
+                    hashtag: "#24시간",
+                    rating: 4.0,
+                    reviews: 605,
+                    isFavorite: true,
+                    isSpecialty: true,
+                    isBothBadges: true,
+                  },
+                  {
+                    name: "언힙커피로스터스",
+                    location: "인천 미추홀구 인하로67번길 6 2층",
+                    distance: "600m",
+                    hashtag: "#24시간",
+                    rating: 4.0,
+                    reviews: 605,
+                    isSpecialty: true,
+                    isClosed: true,
+                  },
+                ]
+                  .filter((_, index) => index === 0) // 선택된 카페 하나만 표시
+                  .map((cafe, index) => (
+                    <CafeListItem
+                      key={index}
+                      cafe={{ ...cafe, isFirst: true }}
+                      isSelected={true}
+                    />
+                  ))
+              : [
+                  {
+                    name: "언힙커피로스터스",
+                    location: "인천 미추홀구 인하로67번길 6 2층",
+                    distance: "600m",
+                    hashtag: "#24시간",
+                    rating: 4.0,
+                    reviews: 605,
+                    isFavorite: true,
+                    isSpecialty: true,
+                    isBothBadges: true,
+                  },
+                  {
+                    name: "언힙커피로스터스",
+                    location: "인천 미추홀구 인하로67번길 6 2층",
+                    distance: "600m",
+                    hashtag: "#24시간",
+                    rating: 4.0,
+                    reviews: 605,
+                    isSpecialty: true,
+                    isClosed: true,
+                  },
+                ].map((cafe, index) => (
+                  <CafeListItem
+                    key={index}
+                    cafe={{ ...cafe, isFirst: index % 1 === 0 }}
+                    isSelected={false}
+                  />
+                ))}
           </CafeList>
         )}
       
@@ -526,8 +558,8 @@ const AnimatedBottomSheet = styled(Animated.View)`
 
 const DragHandleWrapper = styled.View`
   align-items: center;
-  margin-bottom: 12px;
-  margin-top: 16px;
+  margin-bottom: ${responsiveHeight(12)}px;
+  margin-top: ${responsiveHeight(16)}px;
 `;
 
 const DragHandle = styled.View`
@@ -540,8 +572,8 @@ const DragHandle = styled.View`
 const SortContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  padding: 8px 24px;
-  border-bottom-width: 0.5px;
+  padding: ${responsiveHeight(8)}px ${responsiveWidth(24)}px;
+  border-bottom-width: ${responsiveWidth(0.5)}px;
   border-bottom-color: #D9D9D9;
   background-color: #fafafa;
 `;
@@ -549,7 +581,7 @@ const SortContainer = styled.View`
 const FilterButton = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
-  padding: 6px 12px;
+  padding: ${responsiveHeight(6)}px ${responsiveWidth(12)}px;
   background-color: #fafafa;
 `;  
 
@@ -561,24 +593,7 @@ const SortText = styled.Text`
 
 const CafeList = styled.ScrollView`
   flex: 1;
-  padding-bottom: 20px;
-`;
-
-const OptionButton = styled.TouchableOpacity`
-  flex-direction: row;
-  align-items: center;
-  background-color: #ffffff;
-  border-radius: 33px 22px 0px 33px;
-  padding: 12px;
-  margin-bottom: 8px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-`;
-
-const OptionText = styled.Text`
-  font-size: 14px;
-  font-weight: 600;
-  color: #000000;
-  margin-left: 8px;
+  padding-bottom: ${responsiveHeight(20)}px;
 `;
 
 const styles = StyleSheet.create({

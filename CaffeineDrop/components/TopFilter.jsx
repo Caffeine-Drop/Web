@@ -61,9 +61,9 @@ const TopFilter = ({ panHandlers, onFilterSelect, selectedFilter }) => {
 export default TopFilter;
 
 const FilterContainer = styled.View`
-  padding: 10px 24px 11px 24px;
+  padding: ${responsiveHeight(10)}px ${responsiveWidth(24)}px ${responsiveHeight(11)}px;
   display: flex;
-  height: 48px
+  height: ${responsiveHeight(48)}px;
 `;
 
 const FilterContainerWrapper = styled.View`

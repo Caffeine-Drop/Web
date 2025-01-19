@@ -2,19 +2,19 @@ import React, { useRef, useState } from "react";
 import { ScrollView, Animated, PanResponder, StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import styled from "styled-components/native";
-import BackIcon from "../../Components/BackIcon";
-import BlackTextCircle from "../../Components/BlackTextCircle";
-import BlurIcon from "../../Components/BlurIcon";
+import BackIcon from "../../components/BlackTextCircle";
+import BlackTextCircle from "../../components/BlackTextCircle";
+import BlurIcon from "../../components/BlurIcon";
 import { LinearGradient } from "expo-linear-gradient";
 
-import BrazilImage from "../../Components/Card_Brazil";
-import ColombiaImage from "../../Components/Card_Colombia";
-import CostaRicaImage from "../../Components/Card_CostaRica";
-import EthiopiaImage from "../../Components/Card_Ethiopia";
-import GuatemalaImage from "../../Components/Card_Guatemala";
-import IndonesiaImage from "../../Components/Card_Indonesia";
-import KenyaImage from "../../Components/Card_Kenya";
-import VietnamImage from "../../Components/Card_Vietnam";
+import BrazilImage from "../../components/Card_Brazil";
+import ColombiaImage from "../../components/Card_Colombia";
+import CostaRicaImage from "../../components/Card_CostaRica";
+import EthiopiaImage from "../../components/Card_Ethiopia";
+import GuatemalaImage from "../../components/Card_Guatemala";
+import IndonesiaImage from "../../components/Card_Indonesia";
+import KenyaImage from "../../components/Card_Kenya";
+import VietnamImage from "../../components/Card_Vietnam";
 
 export default function EventPage06({ navigation }) {
     return (

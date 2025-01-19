@@ -2,9 +2,9 @@ import React, { useRef, useState, useEffect } from "react";
 import { Animated, PanResponder, StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import styled from "styled-components/native";
-import BackIcon from "../../Components/BackIcon";
-import BlackTextCircle from "../../Components/BlackTextCircle";
-import BlurIcon from "../../Components/BlurIcon";
+import BackIcon from "../../components/BackIcon";
+import BlackTextCircle from "../../components/BlackTextCircle";
+import BlurIcon from "../../components/BlurIcon";
 import { LinearGradient } from "expo-linear-gradient";
 
 const SelectOption = ({ text, score, isSelected, onPress }) => {

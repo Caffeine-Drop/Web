@@ -2,10 +2,10 @@ import React, { useRef, useState, useEffect } from "react";
 import { ScrollView, Animated, PanResponder, StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import styled from "styled-components/native";
-import BackIcon from "../../Components/BackIcon";
-import BlackTextCircle from "../../Components/BlackTextCircle";
-import BlurIcon from "../../Components/BlurIcon";
-import CoffeeImage from "../../Components/Coffee";
+import BackIcon from "../../components/BackIcon";
+import BlackTextCircle from "../../components/BlackTextCircle";
+import BlurIcon from "../../components/BlurIcon";
+import CoffeeImage from "../../components/Coffee";
 import { LinearGradient } from "expo-linear-gradient";
 
 const SelectOption = ({ text, score, isSelected, onPress }) => {

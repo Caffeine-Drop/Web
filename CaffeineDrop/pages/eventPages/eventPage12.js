@@ -2,9 +2,9 @@
 import React from "react";
 import { ScrollView, View, Text, Button, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
-import BackIcon from "../../Components/BackIcon";
+import BackIcon from "../../components/BackIcon";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
-import SpecialPageCircle from "../../Components/SpecialPage_circle";
+import SpecialPageCircle from "../../components/SpecialPage_circle";
 
 export default function EventPage12({ navigation }) {
     return (

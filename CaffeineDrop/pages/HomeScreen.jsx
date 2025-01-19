@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { View, Text, Animated, TouchableOpacity, PanResponder, Dimensions, ImageBackground, TouchableWithoutFeedback, StyleSheet } from "react-native";
+import { View, Text, Animated, TouchableOpacity, PanResponder, Dimensions, Image, ImageBackground, TouchableWithoutFeedback, StyleSheet } from "react-native";
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -19,11 +19,10 @@ import NoResults from "../components/NoResults";
 import CurrentLocationIcon from "../assets/home/CurrentLocationIcon.svg";
 import DownIcon from "../assets/home/DownIcon.svg";
 import UpIcon from "../assets/home/UpIcon.svg";
-import LogoIcon from "../assets/home/LogoIcon.svg";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
-const GNB_HEIGHT = 94; // GNB 높이
-const DEFAULT_POSITION = SCREEN_HEIGHT - GNB_HEIGHT - 350; // Bottom Sheet 기본 위치
+const GNB_HEIGHT = responsiveHeight(94); // GNB 높이
+const DEFAULT_POSITION = responsiveHeight(316); // Bottom Sheet 기본 위치
 
 const HomeScreen = () => {
   const translateY = useRef(new Animated.Value(DEFAULT_POSITION)).current;
@@ -62,16 +61,25 @@ const HomeScreen = () => {
   
   // 필터 클릭 시 처리
   const handleFilterSelect = (filterName) => {
-    setSelectedFilter(filterName);
-
-    // 예시: 무인 필터 선택 시 빈 리스트로 설정
-    if (filterName === "unmanned") {
-      setCafeList([]); // 조건에 맞는 카페가 없는 경우
-    } else {
+    if (selectedFilter === filterName) {
+      // 동일한 필터 클릭 시 초기 상태로 복구
+      setSelectedFilter(null);
       setCafeList([
         { id: 1, name: "카페1" },
         { id: 2, name: "카페2" },
-      ]); // 조건에 맞는 카페가 있는 경우
+      ]);
+    } else {
+      // 새로운 필터 클릭 시 선택
+      setSelectedFilter(filterName);
+  
+      if (filterName === "unmanned") {
+        setCafeList([]); // 조건에 맞는 카페가 없는 경우
+      } else {
+        setCafeList([
+          { id: 1, name: "카페1" },
+          { id: 2, name: "카페2" },
+        ]); // 조건에 맞는 카페가 있는 경우
+      }
     }
   };
 
@@ -290,8 +298,8 @@ const HomeScreen = () => {
         >
           <TouchableOpacity onPress={resetToInitialState}>
             <CurrentLocationIcon
-              width={`${responsiveHeight(43)}px`}
-              height={`${responsiveWidth(43)}px`}
+              width={`${responsiveWidth(43)}px`}
+              height={`${responsiveHeight(43)}px`}
             />
           </TouchableOpacity>
         </Animated.View>
@@ -307,15 +315,19 @@ const HomeScreen = () => {
       {!showBottomContainer && (
         <TouchableOpacity
           onPress={handleLogoPress}
-          style={[
-            styles.logoButton,
-            isLogoPressed && styles.logoButtonPressed, // 상태에 따른 스타일 변경
-          ]}
+          style={styles.logoButton} // 배경 관련 스타일 제거
         >
-          <LogoIcon
-            width={24}
-            height={24}
-            style={isLogoPressed ? styles.logoIconPressed : null}
+          <Image
+            source={
+              isLogoPressed
+                ? require("../assets/home/LogoIconAfterClick.png") // 클릭 후 파일
+                : require("../assets/home/LogoIconBeforeClick.png") // 클릭 전 파일
+            }
+            style={{
+              width: responsiveWidth(50),
+              height: responsiveHeight(50),
+            }}
+            resizeMode="contain"
           />
         </TouchableOpacity>
       )}
@@ -329,7 +341,7 @@ const HomeScreen = () => {
       <AnimatedBottomSheet
         style={{
           transform: [{ translateY }],
-          height: SCREEN_HEIGHT - GNB_HEIGHT,
+          height: responsiveHeight(666),
           borderTopLeftRadius: translateY.interpolate({
             inputRange: [Math.min(GNB_HEIGHT, DEFAULT_POSITION), Math.max(GNB_HEIGHT, DEFAULT_POSITION)],
             outputRange: [0, 24], // 완전히 올리면 radius 제거
@@ -358,9 +370,9 @@ const HomeScreen = () => {
               <FilterButton onPress={() => setSortModalVisible(!sortModalVisible)}>
                 <SortText selected={selectedSort !== ""}>{selectedSort || "인기순"}</SortText>
                 {sortModalVisible ? (
-                  <UpIcon width={17} height={17} style={{ marginLeft: 4 }} />
+                  <UpIcon width={`${responsiveWidth(17)}px`} height={`${responsiveHeight(17)}px`} style={{ marginLeft: 4 }} />
                 ) : (
-                  <DownIcon width={17} height={17} style={{ marginLeft: 4 }} />
+                  <DownIcon width={`${responsiveWidth(17)}px`} height={`${responsiveHeight(17)}px`} style={{ marginLeft: 4 }} />
                 )}
               </FilterButton>
 
@@ -375,9 +387,9 @@ const HomeScreen = () => {
                         .trim()}
                 </SortText>
                 {timeModalVisible ? (
-                  <UpIcon width={17} height={17} style={{ marginLeft: 4 }} />
+                  <UpIcon width={`${responsiveWidth(17)}px`} height={`${responsiveHeight(17)}px`} style={{ marginLeft: 4 }} />
                 ) : (
-                  <DownIcon width={17} height={17} style={{ marginLeft: 4 }} />
+                  <DownIcon width={`${responsiveWidth(17)}px`} height={`${responsiveHeight(17)}px`} style={{ marginLeft: 4 }} />
                 )}
               </FilterButton>
             </SortContainer>
@@ -500,6 +512,7 @@ export default HomeScreen;
 const Container = styled.View`
   flex: 1;
   background-color: #fafafa;
+  margin-bottom: ${responsiveHeight(42)}px;
 `;
 
 /* ImageBackground를 이용한 MapView */
@@ -530,10 +543,10 @@ const GNBContainer = styled.View`
 
 const LogoContainer = styled.View`
   position: absolute;
-  top: ${DEFAULT_POSITION + GNB_HEIGHT + 245}px;
-  right: 24px;
-  width: 43px;
-  height: 43px;
+  top: ${responsiveHeight(655)}px;
+  right: ${responsiveWidth(24)}px;
+  width: ${responsiveWidth(43)}px;
+  height: ${responsiveHeight(43)}px;
   border-radius: 46px;
   justify-content: center;
   align-items: center;
@@ -546,7 +559,7 @@ const AnimatedBottomSheet = styled(Animated.View)`
   position: absolute;
   width: 100%;
   height: 100%;
-  top: ${GNB_HEIGHT}px;
+  top: ${responsiveHeight(94)}px;
   background-color: #fafafa;
   z-index: 20;
   shadow-color: rgba(0, 0, 0, 0.02);
@@ -586,7 +599,7 @@ const FilterButton = styled.TouchableOpacity`
 `;  
 
 const SortText = styled.Text`
-  font-size: 12px;
+  font-size: ${responsiveFontSize(12)}px;
   font-weight: ${(props) => (props.selected ? "600" : "400")};
   color: #000;
 `;
@@ -606,12 +619,8 @@ const styles = StyleSheet.create({
   },
   logoButton: {
     position: "absolute",
-    bottom: 24,
-    right: 16,
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: "#3F2D1E", // 기본 갈색
+    bottom: responsiveHeight(13),
+    right: responsiveWidth(23),
     justifyContent: "center",
     alignItems: "center",
     zIndex: 3001,

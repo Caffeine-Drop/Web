@@ -23,6 +23,7 @@ const TopFilter = ({ panHandlers, onFilterSelect, selectedFilter }) => {
           <FavoriteFilter
             isSelected={selectedFilter === "favorite"}
             onSelect={() => onFilterSelect("favorite")}
+            isFirst={true}
           />
           <UnmannedFilter
             isSelected={selectedFilter === "unmanned"}
@@ -61,7 +62,8 @@ const TopFilter = ({ panHandlers, onFilterSelect, selectedFilter }) => {
 export default TopFilter;
 
 const FilterContainer = styled.View`
-  padding: ${responsiveHeight(10)}px ${responsiveWidth(24)}px ${responsiveHeight(11)}px;
+  padding-top: ${responsiveHeight(10)}px;
+  padding-bottom: ${responsiveHeight(11)}px;
   display: flex;
   height: ${responsiveHeight(48)}px;
 `;

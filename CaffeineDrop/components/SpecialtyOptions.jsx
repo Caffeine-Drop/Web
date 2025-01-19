@@ -12,11 +12,11 @@ const SpecialtyOptions = ({ onOptionSelect }) => {
   return (
     <OptionsContainer>
       <OptionButton onPress={() => onOptionSelect("specialtyCoffee")}>
-        <SpecialtyCoffeeIcon width={24} height={24} />
+        <SpecialtyCoffeeIcon width={`${responsiveWidth(24)}px`} height={`${responsiveHeight(24)}px`} />
         <OptionText>스페셜티 커피란?</OptionText>
       </OptionButton>
       <OptionButton onPress={() => onOptionSelect("coffeeBeans")}>
-        <CoffeeBeansIcon width={24} height={24} />
+        <CoffeeBeansIcon width={`${responsiveWidth(24)}px`} height={`${responsiveHeight(24)}px`} />
         <OptionText>원두 진단하기</OptionText>
       </OptionButton>
     </OptionsContainer>
@@ -27,8 +27,8 @@ export default SpecialtyOptions;
 
 const OptionsContainer = styled.View`
   position: absolute;
-  bottom: ${responsiveHeight(100)}px;
-  right: ${responsiveWidth(16)}px;
+  bottom: ${responsiveHeight(79)}px;
+  right: ${responsiveWidth(24)}px;
   z-index: 3002;
   align-items: flex-end;
 `;

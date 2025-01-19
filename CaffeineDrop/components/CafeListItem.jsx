@@ -103,9 +103,10 @@ const Container = styled.View`
   overflow: visible;
   width: ${responsiveWidth(360)}px;
   height: ${responsiveHeight(274)}px;
-  margin-left: ${(props) => (props.isFirst ? responsiveWidth(24) : responsiveWidth(0))}; /* ✅ 첫 번째 아이템만 왼쪽 여백 추가 */
+  padding-left: ${(props) => (props.isFirst ? responsiveWidth(24) : responsiveWidth(0))}; /* ✅ 첫 번째 아이템만 왼쪽 여백 추가 */
   padding-top: ${responsiveHeight(16)}px; /* ✅ 아이템 간 간격 유지 */
-`;
+  margin-right: ${responsiveWidth(42)}px; /* ✅ 오른쪽 여백 추가 */
+  `;
 
 
 const ListContainer = styled.View`

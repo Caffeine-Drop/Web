@@ -21,11 +21,11 @@ const BottomContainer = ({
         {isDirectionsPressed && (
           <OptionsContainer>
             <OptionButton onPress={handleNaverDirections}>
-              <NaverIcon width={24} height={24} />
+              <NaverIcon width={`${responsiveWidth(24)}px`} height={`${responsiveHeight(24)}px`} />
               <OptionText>네이버 길찾기</OptionText>
             </OptionButton>
             <OptionButton onPress={handleKakaoDirections}>
-              <KakaoIcon width={24} height={24} />
+              <KakaoIcon width={`${responsiveWidth(24)}px`} height={`${responsiveHeight(24)}px`} />
               <OptionText>카카오 길찾기</OptionText>
             </OptionButton>
           </OptionsContainer>
@@ -62,7 +62,6 @@ const BottomContainerWrapper = styled.View`
   background-color: #fafafa;
   z-index: 1000;
   padding: ${responsiveHeight(12)}px ${responsiveWidth(24)}px;
-  margin-bottom: ${responsiveHeight(42)}px;
 `;
 
 const CafeInfoButton = styled.TouchableOpacity`
@@ -106,7 +105,7 @@ const DirectionsText = styled.Text`
 const OptionsContainer = styled.View`
   position: absolute;
   bottom: ${responsiveHeight(76)}px;
-  right: ${responsiveWidth(16)}px;
+  right: ${responsiveWidth(24)}px;
   align-items: flex-end;
   z-index: 2000;
   elevation: 10;

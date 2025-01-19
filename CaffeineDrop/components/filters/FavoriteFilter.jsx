@@ -8,9 +8,9 @@ import {
 import styled from "styled-components/native";
 import HeartIcon from "../../assets/home/HeartIcon.jsx";
 
-const FavoriteFilter = ({ isSelected, onSelect }) => {
+const FavoriteFilter = ({ isSelected, onSelect, isFirst }) => {
   return (
-    <FilterButton onPress={onSelect} selected={isSelected}>
+    <FilterButton onPress={onSelect} selected={isSelected} isFirst={isFirst}>
       <FilterContent>
         <HeartIcon color="#E91111" size={15} style={{ marginRight: 5 }} />
         <FilterText selected={isSelected}>좋아요</FilterText>
@@ -26,6 +26,7 @@ const FilterButton = styled(TouchableOpacity)`
   border-radius: 41px;
   border: 1px solid #EBEBEB;
   margin-right: ${responsiveWidth(6)}px;
+  margin-left: ${({ isFirst }) => (isFirst ? `${responsiveWidth(24)}px` : 0)};
   height: ${responsiveHeight(27)}px;
   justify-content: center;
   align-items: center;

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { View, Text, Animated, TouchableOpacity, PanResponder, Dimensions, Image, ImageBackground, TouchableWithoutFeedback, StyleSheet } from "react-native";
+import { View, Animated, TouchableOpacity, PanResponder, Dimensions, Image, ImageBackground, TouchableWithoutFeedback, StyleSheet } from "react-native";
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -20,7 +20,6 @@ import CurrentLocationIcon from "../assets/home/CurrentLocationIcon.svg";
 import DownIcon from "../assets/home/DownIcon.svg";
 import UpIcon from "../assets/home/UpIcon.svg";
 
-const SCREEN_HEIGHT = Dimensions.get("window").height;
 const GNB_HEIGHT = responsiveHeight(94); // GNB 높이
 const DEFAULT_POSITION = responsiveHeight(316); // Bottom Sheet 기본 위치
 
@@ -89,7 +88,7 @@ const HomeScreen = () => {
     setIsLogoPressed(false);
   };
 
-  const [showDirectionsOptions, setShowDirectionsOptions] = useState(false); // 길찾기 옵션 토글 상태
+  const [setShowDirectionsOptions] = useState(false); // 길찾기 옵션 토글 상태
 
   const handleToggleDirections = () => {
     setShowDirectionsOptions((prev) => !prev);
@@ -253,7 +252,7 @@ const HomeScreen = () => {
           onPress={handleBackgroundPress}
           pointerEvents="box-none"
         >
-          <View style={styles.backgroundOverlay} />
+          <BackgroundOverlay />
         </TouchableWithoutFeedback>
       )}
 
@@ -262,7 +261,7 @@ const HomeScreen = () => {
           onPress={() => setIsLogoPressed(false)}
           pointerEvents="box-none"
         >
-          <View style={styles.backgroundOverlay} />
+          <BackgroundOverlay />
         </TouchableWithoutFeedback>
       )}
 
@@ -313,15 +312,12 @@ const HomeScreen = () => {
 
       {/* 로고 아이콘 */}
       {!showBottomContainer && (
-        <TouchableOpacity
-          onPress={handleLogoPress}
-          style={styles.logoButton} // 배경 관련 스타일 제거
-        >
+        <LogoButton onPress={handleLogoPress}>
           <Image
             source={
               isLogoPressed
-                ? require("../assets/home/LogoIconAfterClick.png") // 클릭 후 파일
-                : require("../assets/home/LogoIconBeforeClick.png") // 클릭 전 파일
+                ? require("../assets/home/LogoIconAfterClick.png")
+                : require("../assets/home/LogoIconBeforeClick.png")
             }
             style={{
               width: responsiveWidth(50),
@@ -329,7 +325,7 @@ const HomeScreen = () => {
             }}
             resizeMode="contain"
           />
-        </TouchableOpacity>
+        </LogoButton>
       )}
 
       {/* 스페셜티 커피란? 및 원두 진단하기 버튼 */}
@@ -524,10 +520,6 @@ const MapBackground = styled(ImageBackground)`
   align-self: center;
 `;
 
-const MapView = styled.View`
-  flex: 1;
-`;
-
 const MapContainer = styled.View`
   position: relative;
   width: ${responsiveWidth(360)}px;
@@ -539,20 +531,6 @@ const GNBContainer = styled.View`
   top: 0;
   width: 100%;
   z-index: 10;
-`;
-
-const LogoContainer = styled.View`
-  position: absolute;
-  top: ${responsiveHeight(655)}px;
-  right: ${responsiveWidth(24)}px;
-  width: ${responsiveWidth(43)}px;
-  height: ${responsiveHeight(43)}px;
-  border-radius: 46px;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
-  background-image: linear-gradient(90deg, #3F2D1E 0%, #6A331B 100%);
 `;
 
 const AnimatedBottomSheet = styled(Animated.View)`
@@ -609,26 +587,19 @@ const CafeList = styled.ScrollView`
   padding-bottom: ${responsiveHeight(20)}px;
 `;
 
-const styles = StyleSheet.create({
-  backgroundOverlay: {
-    position: "absolute",
-    width: "100%",
-    height: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.12)",
-    zIndex: 1000,
-  },
-  logoButton: {
-    position: "absolute",
-    bottom: responsiveHeight(13),
-    right: responsiveWidth(23),
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 3001,
-  },
-  logoButtonPressed: {
-    backgroundColor: "#FFFFFF", // 흰색 배경
-  },
-  logoIconPressed: {
-    tintColor: "#6A331B", // 커피 색상으로 변경
-  },
-});
+const BackgroundOverlay = styled.View`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.12);
+  z-index: 1000;
+`;
+
+const LogoButton = styled.TouchableOpacity`
+  position: absolute;
+  bottom: ${responsiveHeight(13)}px;
+  right: ${responsiveWidth(23)}px;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+`;

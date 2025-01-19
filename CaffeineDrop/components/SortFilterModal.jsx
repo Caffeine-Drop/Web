@@ -59,7 +59,8 @@ const Container = styled.View`
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
   box-shadow: 0px -8px 16px rgba(0, 0, 0, 0.12);
-  margin-bottom: ${responsiveHeight(42)}px;
+  box-shadow-radius: 4px;
+  padding-bottom: ${responsiveHeight(42)}px;
 `;
 
 const Header = styled.View`

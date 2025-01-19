@@ -1,10 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
-import {
-  responsiveFontSize,
-  responsiveWidth,
-  responsiveHeight,
-} from "../utils/responsive";
+import { responsiveHeight } from "../utils/responsive";
 import styled from "styled-components/native";
 import FavoriteFilter from "./filters/FavoriteFilter";
 import UnmannedFilter from "./filters/UnmannedFilter";

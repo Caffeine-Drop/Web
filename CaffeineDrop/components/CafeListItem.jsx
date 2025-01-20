@@ -81,7 +81,7 @@ const CafeListItem = ({ cafe, isSelected }) => {
             </ScrollView>
           </ImageContainer>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handlePress}>
             <Info>
               <Title>{cafe.name}</Title>
               <Location>{cafe.location}</Location>

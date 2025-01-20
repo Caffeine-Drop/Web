@@ -36,6 +36,7 @@ const HomeScreen = ({ navigation }) => {
   const [showFilters, setShowFilters] = useState(true);
   const [showLogo, setShowLogo] = useState(true);
   const [showBottomContainer, setShowBottomContainer] = useState(false);
+  const [selectedCafe, setSelectedCafe] = useState(null);
 
   const initialLocations = [
     { id: "cafe1", top: responsiveHeight(76), left: responsiveWidth(170) },
@@ -112,6 +113,10 @@ const HomeScreen = ({ navigation }) => {
     // 추가 로직 작성 가능
   };
 
+  const handleSelectCafe = (cafe) => {
+    setSelectedCafe(cafe); // 선택된 카페 저장
+  };
+  
   const resetToInitialState = () => {
     Animated.parallel([
       // 아이콘 위치 초기화
@@ -492,6 +497,7 @@ const HomeScreen = ({ navigation }) => {
             setIsDirectionsPressed={setIsDirectionsPressed}
             handleNaverDirections={handleNaverDirections}
             handleKakaoDirections={handleKakaoDirections}
+            cafe={selectedCafe}
           />
         )}
       </Animated.View>
@@ -545,8 +551,8 @@ const AnimatedBottomSheet = styled(Animated.View)`
 
 const DragHandleWrapper = styled.View`
   align-items: center;
-  margin-bottom: ${responsiveHeight(12)}px;
-  margin-top: ${responsiveHeight(16)}px;
+  padding-bottom: ${responsiveHeight(12)}px;
+  padding-top: ${responsiveHeight(16)}px;
 `;
 
 const DragHandle = styled.View`

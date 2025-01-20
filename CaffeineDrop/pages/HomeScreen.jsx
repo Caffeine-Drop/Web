@@ -90,11 +90,6 @@ const HomeScreen = () => {
 
   const [setShowDirectionsOptions] = useState(false); // 길찾기 옵션 토글 상태
 
-  const handleToggleDirections = () => {
-    setShowDirectionsOptions((prev) => !prev);
-    setIsDirectionsPressed((prev) => !prev);
-  };
-
   const handleNaverDirections = () => {
     console.log("네이버 지도로 연결"); // 나중에 네이버 지도 API 연결
   };
@@ -311,7 +306,7 @@ const HomeScreen = () => {
       </GNBContainer>
 
       {/* 로고 아이콘 */}
-      {!showBottomContainer && (
+      {!showBottomContainer && cafeList.length > 0 && (
         <LogoButton onPress={handleLogoPress}>
           <Image
             source={
@@ -515,7 +510,7 @@ const Container = styled.View`
 const MapBackground = styled(ImageBackground)`
   width: ${responsiveWidth(360)}px;
   height: ${responsiveHeight(349)}px;
-  top: ${GNB_HEIGHT}px;
+  top: ${responsiveHeight(GNB_HEIGHT)}px;
   flex-shrink: 0;
   align-self: center;
 `;

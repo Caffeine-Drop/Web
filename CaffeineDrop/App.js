@@ -1,13 +1,39 @@
+import React, { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { SafeAreaView } from "react-native";
-import HomeScreen from "./pages/HomeScreen";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StyleSheet, Text, View, Platform } from "react-native";
+
+// 각 페이지 임포트
+import DetailPage from "./pages/detailpage";
+// import HomePage from "./pages/homepage";
+import DetailPageImage from "./pages/detailpageimage";
+import DetailPageImageDetail from "./pages/detailpageimageDetail";
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <HomeScreen />
-      <StatusBar style="auto" />
-    </SafeAreaView>
-  );
-};
+    useEffect(() => {
+        if (Platform.OS === "web") {
+            document.body.style.overflow = "auto";
+        }
+    }, []);
+    return (
+        <NavigationContainer>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+                {/* <Stack.Screen name="HomePage" component={HomePage} /> */}
+                <Stack.Screen name="DetailPage" component={DetailPage} />
+                <Stack.Screen name="DetailPageImage" component={DetailPageImage} />
+                <Stack.Screen name="DetailPageImageDetail" component={DetailPageImageDetail} />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#fff",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+});

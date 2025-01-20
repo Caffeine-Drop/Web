@@ -1,5 +1,6 @@
 import React from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native';
+import { useNavigation } from "@react-navigation/native";
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -10,89 +11,98 @@ import HeartIcon from "../assets/home/HeartIcon.jsx";
 import StarIcon from '../assets/home/StarIcon.svg';
 
 const CafeListItem = ({ cafe, isSelected }) => {
+  const navigation = useNavigation(); // navigation 객체 가져오기
+
+  const handlePress = () => {
+    navigation.navigate("DetailPage", { cafe }); // DetailPage로 이동
+  };
+
   const isBothBadges = cafe.isFavorite && cafe.isSpecialty;
+  
   return (
-    <Container
-      style={{
-        backgroundColor: isSelected ? '#F1F1F1' : '#FAFAFA', // 동적 배경색 적용
-      }}
-    >
-      <ListContainer>
-        <ImageContainer>
-          {/* ✅ 배지 컨테이너 (ScrollView 외부) */}
-          {(cafe.isFavorite || cafe.isSpecialty) && (
-            <BadgeContainer>
-              {/* 좋아요 배지 */}
-              {cafe.isFavorite && (
-                <Badge
-                  style={{
-                    backgroundColor: "#E91111",
-                    borderTopRightRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 오른쪽 위 모서리 제거
-                    borderBottomRightRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 오른쪽 아래 모서리 제거
-                  }}
-                >
-                  <HeartIcon color="#FFFFFF" size={10} style={{ marginRight: 4 }} />
-                  <BadgeText>좋아요</BadgeText>
-                </Badge>
-              )}
-              {/* Specialty Coffee 배지 */}
-              {cafe.isSpecialty && (
-                <Badge
-                  style={{
-                    backgroundColor: "#321900",
-                    borderTopLeftRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 왼쪽 위 모서리 제거
-                    borderBottomLeftRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 왼쪽 아래 모서리 제거
-                  }}
-                >
-                  <BadgeText>Specialty Coffee</BadgeText>
-                </Badge>
-              )}
-            </BadgeContainer>
-          )}
+    <TouchableOpacity onPress={handlePress}>
+      <Container
+        style={{
+          backgroundColor: isSelected ? '#F1F1F1' : '#FAFAFA', // 동적 배경색 적용
+        }}
+      >
+        <ListContainer>
+          <ImageContainer>
+            {/* ✅ 배지 컨테이너 (ScrollView 외부) */}
+            {(cafe.isFavorite || cafe.isSpecialty) && (
+              <BadgeContainer>
+                {/* 좋아요 배지 */}
+                {cafe.isFavorite && (
+                  <Badge
+                    style={{
+                      backgroundColor: "#E91111",
+                      borderTopRightRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 오른쪽 위 모서리 제거
+                      borderBottomRightRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 오른쪽 아래 모서리 제거
+                    }}
+                  >
+                    <HeartIcon color="#FFFFFF" size={10} style={{ marginRight: 4 }} />
+                    <BadgeText>좋아요</BadgeText>
+                  </Badge>
+                )}
+                {/* Specialty Coffee 배지 */}
+                {cafe.isSpecialty && (
+                  <Badge
+                    style={{
+                      backgroundColor: "#321900",
+                      borderTopLeftRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 왼쪽 위 모서리 제거
+                      borderBottomLeftRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 왼쪽 아래 모서리 제거
+                    }}
+                  >
+                    <BadgeText>Specialty Coffee</BadgeText>
+                  </Badge>
+                )}
+              </BadgeContainer>
+            )}
 
-          {/* ✅ 이미지 스크롤 뷰 */}
-          <ScrollView
-            horizontal showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{
-              marginLeft: cafe.isFirst ? `${responsiveWidth(24)}px` : 0
-            }}
-          >
-            {/* ✅ 첫 번째 이미지에 '미운영 알림' 표시 (isClosed가 true일 때만) */}
-            <ImagePlaceholder1 isClosed={cafe.isClosed}>
-              {cafe.isClosed && (
-                <ClosedOverlay>
-                  <ClosedSubText>미운영 알림</ClosedSubText>
-                  <ClosedText>현재 영업</ClosedText>
-                  <ClosedText>준비중이에요!</ClosedText>
-                </ClosedOverlay>
-              )}
-            </ImagePlaceholder1>
-            <ImagePlaceholder2 isClosed={cafe.isClosed} />
-            <ImagePlaceholder3 isClosed={cafe.isClosed} />
-          </ScrollView>
-        </ImageContainer>
+            {/* ✅ 이미지 스크롤 뷰 */}
+            <ScrollView
+              horizontal showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{
+                marginLeft: cafe.isFirst ? `${responsiveWidth(24)}px` : 0
+              }}
+            >
+              {/* ✅ 첫 번째 이미지에 '미운영 알림' 표시 (isClosed가 true일 때만) */}
+              <ImagePlaceholder1 isClosed={cafe.isClosed}>
+                {cafe.isClosed && (
+                  <ClosedOverlay>
+                    <ClosedSubText>미운영 알림</ClosedSubText>
+                    <ClosedText>현재 영업</ClosedText>
+                    <ClosedText>준비중이에요!</ClosedText>
+                  </ClosedOverlay>
+                )}
+              </ImagePlaceholder1>
+              <ImagePlaceholder2 isClosed={cafe.isClosed} />
+              <ImagePlaceholder3 isClosed={cafe.isClosed} />
+            </ScrollView>
+          </ImageContainer>
 
-        <TouchableOpacity>
-          <Info>
-            <Title>{cafe.name}</Title>
-            <Location>{cafe.location}</Location>
-            <Details>
-              <DistanceBadge>거리</DistanceBadge>
-              <Distance>{cafe.distance}</Distance>
-              <HashTag>{cafe.hashtag}</HashTag>
-              <RatingContainer>
-                <StarIcon width={12} height={12} style={{ marginRight: 5 }} />
-                <RatingText>
-                  <RatingNumber>{parseFloat(cafe.rating).toFixed(1)}</RatingNumber>
-                  <RatingSeparator> | </RatingSeparator>
-                  <RatingReviews>{cafe.reviews}</RatingReviews>
-                </RatingText>
-              </RatingContainer>
-            </Details>
-          </Info>
-        </TouchableOpacity>
-      </ListContainer>
-    </Container>
+          <TouchableOpacity>
+            <Info>
+              <Title>{cafe.name}</Title>
+              <Location>{cafe.location}</Location>
+              <Details>
+                <DistanceBadge>거리</DistanceBadge>
+                <Distance>{cafe.distance}</Distance>
+                <HashTag>{cafe.hashtag}</HashTag>
+                <RatingContainer>
+                  <StarIcon width={12} height={12} style={{ marginRight: 5 }} />
+                  <RatingText>
+                    <RatingNumber>{parseFloat(cafe.rating).toFixed(1)}</RatingNumber>
+                    <RatingSeparator> | </RatingSeparator>
+                    <RatingReviews>{cafe.reviews}</RatingReviews>
+                  </RatingText>
+                </RatingContainer>
+              </Details>
+            </Info>
+          </TouchableOpacity>
+        </ListContainer>
+      </Container>
+    </TouchableOpacity>
   );
 };
 

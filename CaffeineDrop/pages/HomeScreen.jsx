@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { View, Animated, TouchableOpacity, PanResponder, Dimensions, Image, ImageBackground, TouchableWithoutFeedback, StyleSheet } from "react-native";
+import { View, ScrollView, Animated, TouchableOpacity, PanResponder, Dimensions, Image, ImageBackground, TouchableWithoutFeedback, StyleSheet } from "react-native";
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -23,7 +23,7 @@ import UpIcon from "../assets/home/UpIcon.svg";
 const GNB_HEIGHT = responsiveHeight(94); // GNB 높이
 const DEFAULT_POSITION = responsiveHeight(316); // Bottom Sheet 기본 위치
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const translateY = useRef(new Animated.Value(DEFAULT_POSITION)).current;
   const locationTranslateY = useRef(new Animated.Value(0)).current; // CurrentLocationIcon 이동용
   const bottomContainerTranslateY = useRef(new Animated.Value(66)).current;
@@ -438,6 +438,7 @@ const HomeScreen = () => {
                       key={index}
                       cafe={{ ...cafe, isFirst: true }}
                       isSelected={true}
+                      navigation={navigation}
                     />
                   ))
               : [

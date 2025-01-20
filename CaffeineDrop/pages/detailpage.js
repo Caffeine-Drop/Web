@@ -23,7 +23,8 @@ import DetailPageImage from "../pages/detailpageimage";
 import DetailPageBeansInfo from "../pages/detailpagebeansinfo";
 import BackButton from "../components/BackButton";
 
-export default function DetailPage({ navigation }) {
+export default function DetailPage({ navigation, route }) {
+  const { cafe } = route.params;
   const [selectedTab, setSelectedTab] = useState("home");
   const fadeAnim = useState(new Animated.Value(1))[0];
   const [isScrolled, setIsScrolled] = useState(false);
@@ -51,6 +52,7 @@ export default function DetailPage({ navigation }) {
       case "home":
         return (
           <DetailPageHome
+            cafe={cafe}
             selectedTab={selectedTab}
             onViewMoreImgPress={() => handleTabPress("image")}
             onViewMoreReviewPress={() => {

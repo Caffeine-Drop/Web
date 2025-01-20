@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { View, Animated, TouchableOpacity, PanResponder, Dimensions, Image, ImageBackground, TouchableWithoutFeedback, StyleSheet } from "react-native";
+import { View, ScrollView, Animated, TouchableOpacity, PanResponder, Dimensions, Image, ImageBackground, TouchableWithoutFeedback, StyleSheet } from "react-native";
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -23,7 +23,7 @@ import UpIcon from "../assets/home/UpIcon.svg";
 const GNB_HEIGHT = responsiveHeight(94); // GNB 높이
 const DEFAULT_POSITION = responsiveHeight(316); // Bottom Sheet 기본 위치
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const translateY = useRef(new Animated.Value(DEFAULT_POSITION)).current;
   const locationTranslateY = useRef(new Animated.Value(0)).current; // CurrentLocationIcon 이동용
   const bottomContainerTranslateY = useRef(new Animated.Value(66)).current;
@@ -36,6 +36,7 @@ const HomeScreen = () => {
   const [showFilters, setShowFilters] = useState(true);
   const [showLogo, setShowLogo] = useState(true);
   const [showBottomContainer, setShowBottomContainer] = useState(false);
+  const [selectedCafe, setSelectedCafe] = useState(null);
 
   const initialLocations = [
     { id: "cafe1", top: responsiveHeight(76), left: responsiveWidth(170) },
@@ -112,6 +113,10 @@ const HomeScreen = () => {
     // 추가 로직 작성 가능
   };
 
+  const handleSelectCafe = (cafe) => {
+    setSelectedCafe(cafe); // 선택된 카페 저장
+  };
+  
   const resetToInitialState = () => {
     Animated.parallel([
       // 아이콘 위치 초기화
@@ -438,6 +443,7 @@ const HomeScreen = () => {
                       key={index}
                       cafe={{ ...cafe, isFirst: true }}
                       isSelected={true}
+                      navigation={navigation}
                     />
                   ))
               : [
@@ -491,6 +497,7 @@ const HomeScreen = () => {
             setIsDirectionsPressed={setIsDirectionsPressed}
             handleNaverDirections={handleNaverDirections}
             handleKakaoDirections={handleKakaoDirections}
+            cafe={selectedCafe}
           />
         )}
       </Animated.View>
@@ -544,8 +551,8 @@ const AnimatedBottomSheet = styled(Animated.View)`
 
 const DragHandleWrapper = styled.View`
   align-items: center;
-  margin-bottom: ${responsiveHeight(12)}px;
-  margin-top: ${responsiveHeight(16)}px;
+  padding-bottom: ${responsiveHeight(12)}px;
+  padding-top: ${responsiveHeight(16)}px;
 `;
 
 const DragHandle = styled.View`

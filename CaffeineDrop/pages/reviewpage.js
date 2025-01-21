@@ -264,7 +264,7 @@ export default function ReviewPage() {
               marginTop: responsiveHeight(8),
             }}
           >
-            <View style={{ position: "absolute", left:113 }}>
+            <View style={{ position: "absolute", left:120 }}>
               <DownIcon style={{color:'lightgray' }} />
             </View>
 

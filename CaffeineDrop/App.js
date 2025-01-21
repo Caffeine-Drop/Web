@@ -9,12 +9,14 @@ import DetailPage from "./pages/detailpage";
 import HomeScreen from "./pages/HomeScreen";
 import DetailPageImage from "./pages/detailpageimage";
 import DetailPageImageDetail from "./pages/detailpageimageDetail";
+import ReviewPage from "./pages/reviewpage";
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
     useEffect(() => {
         if (Platform.OS === "web") {
-            document.body.style.overflow = "auto";
+            document.body.style.overflow = "hidden";
         }
     }, []);
     return (
@@ -24,6 +26,7 @@ export default function App() {
                 <Stack.Screen name="DetailPage" component={DetailPage} />
                 <Stack.Screen name="DetailPageImage" component={DetailPageImage} />
                 <Stack.Screen name="DetailPageImageDetail" component={DetailPageImageDetail} />
+                <Stack.Screen name="ReviewPage" component={ReviewPage} />
             </Stack.Navigator>
         </NavigationContainer>
     );

@@ -26,6 +26,7 @@ ex) feat/map-ui
 - main: 서비스 운영
 - develop: 배포 전 개발용
 - feat: 기능 단위 구현
+- page: 페이지 단위 구현
 - refactor: 코드 리팩토링
 - hotfix: 배포 버전 버그 수정
 
@@ -37,6 +38,7 @@ ex) feat: 로그인 기능 추가
 ```
 
 - feat: 새로운 기능 추가
+- add: 새로운 파일 추가
 - fix: 버그 수정
 - docs: 문서 수정
 - style: 코드 스타일 변경 (포맷팅, 세미콜론 추가 등)

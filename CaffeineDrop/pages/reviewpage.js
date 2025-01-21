@@ -32,7 +32,7 @@ const StarIcon = ({ filled }) => {
   return <Icon width={responsiveWidth(20)} height={responsiveHeight(20)} />;
 };
 
-export default function ReviewPage() {
+export default function ReviewPage({ navigation }) {
   const [images, setImages] = useState([]);
   const [text, setText] = useState("");
   const animationValue = useRef(new Animated.Value(0)).current;

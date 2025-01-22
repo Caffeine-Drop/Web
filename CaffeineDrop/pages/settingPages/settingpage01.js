@@ -6,8 +6,15 @@ import BackIcon from "../../components/BackIcon";
 import DefaultSettingImage from "../../components/DefaultSettingImage";
 import KaKaoIcon from "../../components/KaKaoIcon";
 import NextButton from "../../components/NextButton";
+import { useFonts } from "../../styles";
 
 export default function SettingPage01({ navigation }) {
+    const fontsLoaded = useFonts();
+
+    if (!fontsLoaded) {
+        return null; // 폰트 로딩이 안되면 아무것도 렌더링하지 않음
+    }
+
     return (
         <Container>
             <FirstBox>
@@ -92,8 +99,8 @@ font-size: ${responsiveFontSize(18)}px;
 */
 
 const Container = styled.View`
-    width: 360px;
-    height: 340px;
+    width: ${responsiveWidth(360)}px;
+    height: ${responsiveHeight(340)}px;
     background: #fafafa;
 `;
 const FirstBox = styled.View`
@@ -114,12 +121,12 @@ const IconWrapper = styled.View`
 const Title = styled.Text`
     color: #000;
     text-align: center;
-    font-family: Pretendard;
+    font-family: PretendardSemiBold;
     font-size: ${responsiveFontSize(18)}px;
     font-style: normal;
     font-weight: 600;
-    line-height: ${responsiveFontSize(24)}px;
-    letter-spacing: ${responsiveFontSize(-0.5)};
+    line-height: ${responsiveHeight(24)}px;
+    letter-spacing: ${responsiveWidth(-0.5)};
 `;
 ////////////////////////////////////////////////////
 const Box1 = styled.View`
@@ -130,13 +137,13 @@ const Box1 = styled.View`
 const ImageBox = styled.View`
     position: absolute;
     left: ${responsiveWidth(130)}px;
-    top: ${responsiveWidth(16)}px;
+    top: ${responsiveHeight(16)}px;
 `;
 const NameBox = styled.View`
     display: flex;
     justify-content: center;
     position: absolute;
-    top: ${responsiveWidth(140)}px;
+    top: ${responsiveHeight(140)}px;
     width: 100%;
 `;
 const NameText = styled.Text`
@@ -144,12 +151,12 @@ const NameText = styled.Text`
     color: #000;
     text-align: center;
     text-overflow: ellipsis;
-    font-family: Pretendard;
+    font-family: PretendardSemiBold;
     font-size: ${responsiveFontSize(24)}px;
     font-style: normal;
     font-weight: 600;
-    line-height: ${responsiveFontSize(33.12)}px;
-    letter-spacing: -0.6px;
+    line-height: ${responsiveHeight(33.12)}px;
+    letter-spacing: ${responsiveWidth(-0.6)};
 `;
 const LoginBox = styled(TouchableOpacity)`
     display: flex;
@@ -169,7 +176,7 @@ const LoginButton = styled(TouchableOpacity)`
     padding: 4px 9px 4px 6px;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: ${responsiveWidth(4)}px;
     width: ${responsiveWidth(122)}px;
     height: ${responsiveHeight(25)}px;
     border-radius: 24px;
@@ -178,49 +185,49 @@ const LoginButton = styled(TouchableOpacity)`
 const LoginInnerBox = styled.View`
     display: flex;
     flex-direction: row;
-    gap: 4px;
+    gap: ${responsiveWidth(4)}px;
 `;
 const IconSpace = styled.View`
     justify-content: center;
     align-text: center;
     border-radius: 16px;
     background: #fee500;
-    width: 16px;
-    height: 16px;
+    width: ${responsiveWidth(16)}px;
+    height: ${responsiveHeight(16)}px;
 `;
 const IconBox = styled.View`
     position: absolute;
-    left: 3px;
-    top: 3.9px;
+    left: ${responsiveWidth(3)}px;
+    top: ${responsiveHeight(3)}px;
 `;
 const TextSpace = styled.View``;
 const LoginText = styled.Text`
     color: #000;
     text-align: center;
-    font-family: Pretendard;
-    font-size: 11px;
+    font-family: PretendardMedium;
+    font-size: ${responsiveFontSize(12)}px;
     font-style: normal;
     font-weight: 500;
-    line-height: 138%; /* 16.56px */
-    letter-spacing: -0.3px;
+    line-height: ${responsiveHeight(16.56)}px;
+    letter-spacing: ${responsiveWidth(-0.3)};
 `;
 ////////////////////////////////////////////////////
 const GreyGap = styled.View`
     background: rgba(105, 105, 105, 0.02);
     width: 100%;
-    height: 16px;
+    height: ${responsiveHeight(16)}px;
     position: absolute;
-    top: 340px;
+    top: ${responsiveHeight(340)}px;
     z-index: 3;
 `;
 const Box2 = styled.View`
     background: #fafafa;
     display: flex;
     flex-direction: column;
-    padding-left: 24px;
-    padding-right: 24px;
-    padding-bottom: 16px;
-    padding-top: 16px;
+    padding-left: ${responsiveWidth(24)}px;
+    padding-right: ${responsiveWidth(24)}px;
+    padding-bottom: ${responsiveHeight(16)}px;
+    padding-top: ${responsiveHeight(16)}px;
     position: absolute;
     top: ${responsiveHeight(340)}px;
     width: 100%;
@@ -231,9 +238,9 @@ const List = styled.View`
 const ListInnerBox = styled.View`
     flex-direction: row;
     justify-content: space-between;
-    padding-top: 16px;
-    padding-bottom: 16px;
-    border-bottom-width: 1px;
+    padding-top: ${responsiveHeight(16)}px;
+    padding-bottom: ${responsiveHeight(16)}px;
+    border-bottom-width: ${responsiveWidth(1)}px;
     border-bottom-color: #ebebeb;
 `;
 const ListInnerBoxNoBorder = styled(ListInnerBox)`
@@ -241,12 +248,12 @@ const ListInnerBoxNoBorder = styled(ListInnerBox)`
 `;
 const ListText = styled.Text`
     color: #000;
-    font-family: Pretendard;
-    font-size: 16px;
+    font-family: PretendardRegular;
+    font-size: ${responsiveFontSize(16)}px;
     font-style: normal;
     font-weight: 400;
-    line-height: 138%;
-    letter-spacing: -0.4px;
+    line-height: ${responsiveHeight(22.08)}px;
+    letter-spacing: ${responsiveWidth(-0.4)};
 `;
 ////////////////////////////////////////////////////
 const Box3 = styled.View`
@@ -255,26 +262,25 @@ const Box3 = styled.View`
     justify-content: center;
     position: absolute;
     width: 100%;
-    height: 172px;
-    top: 587.5px;
+    height: ${responsiveWidth(172)}px;
+    top: ${responsiveHeight(587.5)}px;
 `;
 const TextBox = styled.View`
     display: flex;
     justify-content: center;
     width: 100%;
     position: absolute;
-    top: 20px;
+    top: ${responsiveHeight(20)}px;
 `;
 const LogoutText = styled.Text`
     text-align: center;
     color: #666;
-    text-align: center;
-    font-family: Pretendard;
-    font-size: 16px;
+    font-family: PretendardRegular;
+    font-size: ${responsiveFontSize(16)}px;
     font-style: normal;
     font-weight: 400;
-    line-height: 138%; /* 22.08px */
-    letter-spacing: -0.4px;
+    line-height: ${responsiveHeight(22.08)}px;
+    letter-spacing: ${responsiveHeight(-0.4)};
     text-decoration-line: underline;
     text-decoration-style: solid;
     text-decoration-skip-ink: none;

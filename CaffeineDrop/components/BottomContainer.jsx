@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -15,7 +16,14 @@ const BottomContainer = ({
     setIsDirectionsPressed,
     handleNaverDirections,
     handleKakaoDirections,
+    cafe,
   }) => {
+    const navigation = useNavigation();
+
+    const handleCafeInfoPress = () => {
+      navigation.navigate("DetailPage", { cafe }); // DetailPage로 이동
+    };
+
     return (
       <>
         {isDirectionsPressed && (
@@ -31,7 +39,7 @@ const BottomContainer = ({
           </OptionsContainer>
         )}
         <BottomContainerWrapper>
-          <CafeInfoButton>
+          <CafeInfoButton onPress={handleCafeInfoPress}>
             <CafeInfoText>카페 정보</CafeInfoText>
           </CafeInfoButton>
           <DirectionsButton

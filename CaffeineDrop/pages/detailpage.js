@@ -7,6 +7,7 @@ import {
   Animated,
 } from "react-native";
 import styled from "styled-components/native";
+import { useFonts } from "../styles";
 
 import {
   responsiveFontSize,
@@ -23,12 +24,18 @@ import DetailPageImage from "../pages/detailpageimage";
 import DetailPageBeansInfo from "../pages/detailpagebeansinfo";
 import BackButton from "../components/BackButton";
 
-export default function DetailPage({ navigation }) {
+export default function DetailPage({ navigation, route }) {
+  const { cafe } = route.params;
   const [selectedTab, setSelectedTab] = useState("home");
   const fadeAnim = useState(new Animated.Value(1))[0];
   const [isScrolled, setIsScrolled] = useState(false);
   const [isNavBarFixed, setIsNavBarFixed] = useState(false);
   const scrollViewRef = useRef(null);
+  const fontsLoaded = useFonts();
+
+  if (!fontsLoaded) {
+    return null; // 폰트 로딩이 안되면 아무것도 렌더링하지 않음
+  }
 
   const handleScroll = (event) => {
     const scrollY = event.nativeEvent.contentOffset.y;
@@ -51,6 +58,7 @@ export default function DetailPage({ navigation }) {
       case "home":
         return (
           <DetailPageHome
+            cafe={cafe}
             selectedTab={selectedTab}
             onViewMoreImgPress={() => handleTabPress("image")}
             onViewMoreReviewPress={() => {
@@ -78,7 +86,10 @@ export default function DetailPage({ navigation }) {
         <FixedHeader>
           <View style={{ width: "100%", flexDirection: "column" }}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <BackButton style={{ position: "absolute" }} onPress={() => navigation.goBack()} />
+              <BackButton
+                style={{ position: "absolute" }}
+                onPress={() => navigation.goBack()}
+              />
               <FixedHeaderText>언힙커피로스터스</FixedHeaderText>
             </View>
             {isNavBarFixed && (
@@ -133,7 +144,7 @@ export default function DetailPage({ navigation }) {
           </Container>
         </View>
       </ScrollView>
-      <DetailPageWriteReviewButton />
+      <DetailPageWriteReviewButton navigation={navigation} />
     </View>
   );
 }
@@ -164,6 +175,7 @@ const NavTab = styled.View`
 
 const TabText = styled.Text`
   color: ${(props) => (props.isSelected ? "#ffffff" : "#999999")};
+  font-family: Pretendard;
   font-size: ${responsiveFontSize(16)}px;
   font-weight: 600;
   line-height: ${responsiveHeight(22.08)}px;

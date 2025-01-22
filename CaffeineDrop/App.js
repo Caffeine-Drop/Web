@@ -6,24 +6,27 @@ import { StyleSheet, Text, View, Platform } from "react-native";
 
 // 각 페이지 임포트
 import DetailPage from "./pages/detailpage";
-// import HomePage from "./pages/homepage";
+import HomeScreen from "./pages/HomeScreen";
 import DetailPageImage from "./pages/detailpageimage";
 import DetailPageImageDetail from "./pages/detailpageimageDetail";
+import ReviewPage from "./pages/reviewpage";
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
     useEffect(() => {
         if (Platform.OS === "web") {
-            document.body.style.overflow = "auto";
+            document.body.style.overflow = "hidden";
         }
     }, []);
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
-                {/* <Stack.Screen name="HomePage" component={HomePage} /> */}
+                <Stack.Screen name="HomeScreen" component={HomeScreen} />
                 <Stack.Screen name="DetailPage" component={DetailPage} />
                 <Stack.Screen name="DetailPageImage" component={DetailPageImage} />
                 <Stack.Screen name="DetailPageImageDetail" component={DetailPageImageDetail} />
+                <Stack.Screen name="ReviewPage" component={ReviewPage} />
             </Stack.Navigator>
         </NavigationContainer>
     );

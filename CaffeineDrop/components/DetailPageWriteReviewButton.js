@@ -12,7 +12,7 @@ import {
 // 이미지 임포트
 import RLogo from "../assets/DetailPage/RLogo.svg";
 
-export default function DetailPageWriteReviewButton() {
+export default function DetailPageWriteReviewButton({ navigation }) {
   return (
     <BlurWrapper>
       <GradientOverlay
@@ -24,7 +24,7 @@ export default function DetailPageWriteReviewButton() {
         start={{ x: 0.85, y: 0 }}
         end={{ x: 0.27, y: 1 }}
       >
-        <TouchableOpacityWrapper>
+        <TouchableOpacityWrapper onPress={() => navigation.navigate("ReviewPage")}>
           <RLogo width={responsiveWidth(19)} height={responsiveHeight(19)} />
           <WriteReviewText>리뷰 작성하기</WriteReviewText>
         </TouchableOpacityWrapper>

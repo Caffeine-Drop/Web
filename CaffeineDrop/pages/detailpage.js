@@ -7,6 +7,7 @@ import {
   Animated,
 } from "react-native";
 import styled from "styled-components/native";
+import { useFonts } from "../styles";
 
 import {
   responsiveFontSize,
@@ -30,6 +31,11 @@ export default function DetailPage({ navigation, route }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isNavBarFixed, setIsNavBarFixed] = useState(false);
   const scrollViewRef = useRef(null);
+  const fontsLoaded = useFonts();
+
+  if (!fontsLoaded) {
+    return null; // 폰트 로딩이 안되면 아무것도 렌더링하지 않음
+  }
 
   const handleScroll = (event) => {
     const scrollY = event.nativeEvent.contentOffset.y;
@@ -80,7 +86,10 @@ export default function DetailPage({ navigation, route }) {
         <FixedHeader>
           <View style={{ width: "100%", flexDirection: "column" }}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <BackButton style={{ position: "absolute" }} onPress={() => navigation.goBack()} />
+              <BackButton
+                style={{ position: "absolute" }}
+                onPress={() => navigation.goBack()}
+              />
               <FixedHeaderText>언힙커피로스터스</FixedHeaderText>
             </View>
             {isNavBarFixed && (
@@ -135,7 +144,7 @@ export default function DetailPage({ navigation, route }) {
           </Container>
         </View>
       </ScrollView>
-      <DetailPageWriteReviewButton />
+      <DetailPageWriteReviewButton navigation={navigation} />
     </View>
   );
 }
@@ -166,6 +175,7 @@ const NavTab = styled.View`
 
 const TabText = styled.Text`
   color: ${(props) => (props.isSelected ? "#ffffff" : "#999999")};
+  font-family: Pretendard;
   font-size: ${responsiveFontSize(16)}px;
   font-weight: 600;
   line-height: ${responsiveHeight(22.08)}px;

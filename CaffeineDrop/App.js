@@ -10,6 +10,7 @@ import DetailPage from "./pages/detailpage";
 import HomeScreen from "./pages/HomeScreen";
 import DetailPageImage from "./pages/detailpageimage";
 import DetailPageImageDetail from "./pages/detailpageimageDetail";
+import ReviewPage from "./pages/reviewpage";
 import EventPage01 from "./pages/eventPages/eventPage01";
 import EventPage02 from "./pages/eventPages/eventPage02";
 import EventPage03 from "./pages/eventPages/eventPage03";
@@ -34,6 +35,7 @@ export default function App() {
                 <Stack.Screen name="DetailPage" component={DetailPage} />
                 <Stack.Screen name="DetailPageImage" component={DetailPageImage} />
                 <Stack.Screen name="DetailPageImageDetail" component={DetailPageImageDetail} />
+                <Stack.Screen name="ReviewPage" component={ReviewPage} />
                 <Stack.Screen name="SpecialtyOptions" component={SpecialtyOptions} />   
                 <Stack.Screen name="EventPage01" component={EventPage01} />
                 <Stack.Screen name="EventPage02" component={EventPage02} />

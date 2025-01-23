@@ -15,6 +15,8 @@ import {
   responsiveHeight,
 } from "../utils/responsive";
 
+import { useFonts } from "../styles";
+
 // 목업 이미지
 import DetailPageMainImg from "../assets/DetailPage/DetailPageMainImg.svg";
 import DetailSubImg1 from "../assets/DetailPage/DetailSubImg1.svg";
@@ -22,6 +24,12 @@ import DetailSubImg2 from "../assets/DetailPage/DetailSubImg2.svg";
 import ViewMoreButtonIcon from "../assets/DetailPage/ViewMoreButton.svg";
 
 export default function DetailPageImg({ navigation, onViewMoreImgPress }) {
+  const fontsLoaded = useFonts();
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <Container>
       <View style={{ gap: responsiveHeight(8) }}>
@@ -35,12 +43,32 @@ export default function DetailPageImg({ navigation, onViewMoreImgPress }) {
         <SubText>이용자 후기와 업체 등록 사진을 같이 보여줍니다</SubText>
       </View>
       <ImgContainer>
-        <DetailPageMainImg width={responsiveWidth(156)} height={responsiveHeight(156)} preserveAspectRatio="none" />
+        <DetailPageMainImg
+          width={responsiveWidth(156)}
+          height={responsiveHeight(156)}
+          preserveAspectRatio="none"
+        />
         <SmallImgContainer>
-          <DetailSubImg1 width={responsiveWidth(78)} height={responsiveHeight(78)} preserveAspectRatio="none" />
-          <DetailSubImg2 width={responsiveWidth(78)} height={responsiveHeight(78)} preserveAspectRatio="none" />
-          <DetailSubImg1 width={responsiveWidth(78)} height={responsiveHeight(78)} preserveAspectRatio="none" />
-          <DetailSubImg2 width={responsiveWidth(78)} height={responsiveHeight(78)} preserveAspectRatio="none" />
+          <DetailSubImg1
+            width={responsiveWidth(78)}
+            height={responsiveHeight(78)}
+            preserveAspectRatio="none"
+          />
+          <DetailSubImg2
+            width={responsiveWidth(78)}
+            height={responsiveHeight(78)}
+            preserveAspectRatio="none"
+          />
+          <DetailSubImg1
+            width={responsiveWidth(78)}
+            height={responsiveHeight(78)}
+            preserveAspectRatio="none"
+          />
+          <DetailSubImg2
+            width={responsiveWidth(78)}
+            height={responsiveHeight(78)}
+            preserveAspectRatio="none"
+          />
         </SmallImgContainer>
       </ImgContainer>
     </Container>
@@ -88,10 +116,10 @@ const ViewMoreButtonText = styled.Text`
 `;
 
 const SubText = styled.Text`
-  font-size: ${responsiveFontSize(14)}px;
-  font-weight: 500;
-  line-height: ${responsiveHeight(19.32)}px;
-  letter-spacing: -0.35px;
+  font-size: ${responsiveFontSize(14)};
+  font-family: PretendardRegular;
+  line-height: ${responsiveHeight(19.32)};
+  letter-spacing: -0.35;
   color: #666666;
 `;
 

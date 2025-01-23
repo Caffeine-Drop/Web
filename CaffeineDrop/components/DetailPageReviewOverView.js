@@ -12,6 +12,11 @@ import styled from "styled-components/native";
 import Star from "../assets/DetailPage/DetailPageStarImg.svg";
 import BlankStar from "../assets/DetailPage/DetailPageBlankStarImg.svg";
 
+const StarIcon = ({ filled }) => {
+  const Icon = filled ? Star : BlankStar;
+  return <Icon width={responsiveWidth(20)} height={responsiveHeight(20)} />;
+};
+
 export default function DetailPageReviewOverView() {
   return (
     <ReviewOverViewContainer>
@@ -56,26 +61,11 @@ export default function DetailPageReviewOverView() {
                 <Text>맛</Text>
               </ReviewOverViewDetailRateTheme>
               <ReviewOverViewDetailRateStars>
-                <Star
-                  width={responsiveWidth(20)}
-                  height={responsiveHeight(20)}
-                />
-                <Star
-                  width={responsiveWidth(20)}
-                  height={responsiveHeight(20)}
-                />
-                <Star
-                  width={responsiveWidth(20)}
-                  height={responsiveHeight(20)}
-                />
-                <BlankStar
-                  width={responsiveWidth(20)}
-                  height={responsiveHeight(20)}
-                />
-                <BlankStar
-                  width={responsiveWidth(20)}
-                  height={responsiveHeight(20)}
-                />
+                <StarIcon filled={true} />
+                <StarIcon filled={true} />
+                <StarIcon filled={true} />
+                <StarIcon filled={false} />
+                <StarIcon filled={false} />
               </ReviewOverViewDetailRateStars>
             </View>
             <ReviewOverViewDetailRateScore>3.0</ReviewOverViewDetailRateScore>
@@ -94,26 +84,11 @@ export default function DetailPageReviewOverView() {
                 <Text>인테리어</Text>
               </ReviewOverViewDetailRateTheme>
               <ReviewOverViewDetailRateStars>
-                <Star
-                  width={responsiveWidth(20)}
-                  height={responsiveHeight(20)}
-                />
-                <Star
-                  width={responsiveWidth(20)}
-                  height={responsiveHeight(20)}
-                />
-                <Star
-                  width={responsiveWidth(20)}
-                  height={responsiveHeight(20)}
-                />
-                <Star
-                  width={responsiveWidth(20)}
-                  height={responsiveHeight(20)}
-                />
-                <BlankStar
-                  width={responsiveWidth(20)}
-                  height={responsiveHeight(20)}
-                />
+                <StarIcon filled={true} />
+                <StarIcon filled={true} />
+                <StarIcon filled={true} />
+                <StarIcon filled={true} />
+                <StarIcon filled={false} />
               </ReviewOverViewDetailRateStars>
             </View>
             <ReviewOverViewDetailRateScore>4.0</ReviewOverViewDetailRateScore>
@@ -130,26 +105,11 @@ export default function DetailPageReviewOverView() {
                 <Text>청결도</Text>
               </ReviewOverViewDetailRateTheme>
               <ReviewOverViewDetailRateStars>
-                <Star
-                  width={responsiveWidth(20)}
-                  height={responsiveHeight(20)}
-                />
-                <Star
-                  width={responsiveWidth(20)}
-                  height={responsiveHeight(20)}
-                />
-                <Star
-                  width={responsiveWidth(20)}
-                  height={responsiveHeight(20)}
-                />
-                <BlankStar
-                  width={responsiveWidth(20)}
-                  height={responsiveHeight(20)}
-                />
-                <BlankStar
-                  width={responsiveWidth(20)}
-                  height={responsiveHeight(20)}
-                />
+                <StarIcon filled={true} />
+                <StarIcon filled={true} />
+                <StarIcon filled={true} />
+                <StarIcon filled={false} />
+                <StarIcon filled={false} />
               </ReviewOverViewDetailRateStars>
             </View>
             <ReviewOverViewDetailRateScore>3.0</ReviewOverViewDetailRateScore>
@@ -166,26 +126,11 @@ export default function DetailPageReviewOverView() {
                 <Text>가심비</Text>
               </ReviewOverViewDetailRateTheme>
               <ReviewOverViewDetailRateStars>
-                <Star
-                  width={responsiveWidth(20)}
-                  height={responsiveHeight(20)}
-                />
-                <Star
-                  width={responsiveWidth(20)}
-                  height={responsiveHeight(20)}
-                />
-                <Star
-                  width={responsiveWidth(20)}
-                  height={responsiveHeight(20)}
-                />
-                <BlankStar
-                  width={responsiveWidth(20)}
-                  height={responsiveHeight(20)}
-                />
-                <BlankStar
-                  width={responsiveWidth(20)}
-                  height={responsiveHeight(20)}
-                />
+                <StarIcon filled={true} />
+                <StarIcon filled={true} />
+                <StarIcon filled={true} />
+                <StarIcon filled={false} />
+                <StarIcon filled={false} />
               </ReviewOverViewDetailRateStars>
             </View>
             <ReviewOverViewDetailRateScore>3.0</ReviewOverViewDetailRateScore>

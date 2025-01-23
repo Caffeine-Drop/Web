@@ -163,7 +163,7 @@ export default function EventPage06({ navigation }) {
                     </Content>
 
                     <Footer>
-                        <TouchableOpacity onPress={() => {}}>
+                        <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
                             <ButtonWrapper>
                                 <ButtonText>완료하기</ButtonText>
                             </ButtonWrapper>

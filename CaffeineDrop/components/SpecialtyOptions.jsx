@@ -4,18 +4,21 @@ import {
   responsiveWidth,
   responsiveHeight,
 } from "../utils/responsive";
+import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import SpecialtyCoffeeIcon from "../assets/home/SpecialtyCoffeeIcon.svg";
 import CoffeeBeansIcon from "../assets/home/CoffeeBeansIcon.svg";
 
-const SpecialtyOptions = ({ onOptionSelect }) => {
+const SpecialtyOptions = () => {
+  const navigation = useNavigation();
+
   return (
     <OptionsContainer>
-      <OptionButton onPress={() => onOptionSelect("specialtyCoffee")}>
+      <OptionButton onPress={() => navigation.navigate("EventPage12")}>
         <SpecialtyCoffeeIcon width={`${responsiveWidth(24)}px`} height={`${responsiveHeight(24)}px`} />
         <OptionText>스페셜티 커피란?</OptionText>
       </OptionButton>
-      <OptionButton onPress={() => onOptionSelect("coffeeBeans")}>
+      <OptionButton onPress={() => navigation.navigate("EventPage01")}>
         <CoffeeBeansIcon width={`${responsiveWidth(24)}px`} height={`${responsiveHeight(24)}px`} />
         <OptionText>원두 진단하기</OptionText>
       </OptionButton>

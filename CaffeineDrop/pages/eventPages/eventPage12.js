@@ -118,7 +118,7 @@ export default function EventPage12({ navigation }) {
                     </Content>
 
                     <Footer>
-                        <ButtonWrapper onPress={() => {}}>
+                        <ButtonWrapper onPress={() => navigation.navigate("HomeScreen")}>
                             <ButtonText>완료하기</ButtonText>
                         </ButtonWrapper>
                     </Footer>

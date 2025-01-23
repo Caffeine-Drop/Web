@@ -1,15 +1,19 @@
 import React from "react";
 import styled from "styled-components/native";
+import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../utils/responsive";
+import { useFonts } from ".././styles";
 
 const Container = styled.View`
-    width: 312px;
-    height: 200px;
+    height: ${responsiveHeight(200)}px;
+    width: ${responsiveWidth(312)}px;
 
-    margin-left: 24px;
-    margin-right: 24px;
-    margin-top: 12px;
-    padding-top: 16px;
-    padding-bottom: 16px;
+    margin-left: ${responsiveWidth(24)}px;
+    margin-right: ${responsiveWidth(24)}px;
+    margin-top: ${responsiveHeight(12)}px;
+
+    padding-top: ${responsiveHeight(16)}px;
+    padding-bottom: ${responsiveHeight(16)}px;
+
     border-top-width: 1px;
     border-top-color: #d9d9d9;
     border-bottom-width: 1px;
@@ -20,22 +24,33 @@ const Container = styled.View`
 `;
 
 const ContentInput = styled.TextInput`
-    width: 310px;
-    height: 200px;
+    height: ${responsiveHeight(200)}px;
+    width: ${responsiveWidth(310)}px;
+
     justify-content: center;
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: ${responsiveWidth(12)}px;
+    padding-right: ${responsiveWidth(12)}px;
 
     color: #666;
-    font-family: Pretendard;
-    font-size: 12px;
+    font-family: PretendardMedium;
+    font-size: ${responsiveFontSize(12)}px;
     font-style: normal;
     font-weight: 500;
-    line-height: 138%; /* 16.56px */
-    letter-spacing: -0.3px;
+    line-height: ${responsiveHeight(16.56)}px;
+    letter-spacing: ${responsiveWidth(-0.3)};
 `;
 
 const InputText = () => {
+    const fontsLoaded = useFonts();
+
+    if (!fontsLoaded) {
+        return null;
+    }
+
+    const handleToggle = () => {
+        setIsEnabled(!isEnabled);
+    };
+
     return (
         <Container>
             <ContentInput placeholder="내용을 입력해주세요." multiline />

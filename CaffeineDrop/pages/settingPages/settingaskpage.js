@@ -7,6 +7,7 @@ import DropdownIcon from "../../components/DropDownIcon";
 import { useFonts } from "../../styles";
 import InputText from "../../components/InputText";
 import { ScrollView } from "react-native";
+import CheckIcon from "../../components/CheckIcon";
 
 export default function SettingAskPage({ navigation }) {
     const fontsLoaded = useFonts();
@@ -65,8 +66,20 @@ export default function SettingAskPage({ navigation }) {
                 </ContentTitle>
                 <InputText />
 
-                {/* 버튼 부분 */}
-                <FooterBox></FooterBox>
+                {/* 이메일 부분 */}
+                <EmailContainer>
+                    <CheckBoxWrapper>
+                        <CheckIcon />
+                    </CheckBoxWrapper>
+                    <EmailText>이메일 정보 제공 동의</EmailText>
+                </EmailContainer>
+                <EmailContent>문의 답변 제공을 위해 이메일 주소 정보 제공에 동의해 주시기 바랍니다.</EmailContent>
+
+                {/* 등록하기 버튼 부분 */}
+                <SubmitButton>
+                    <ButtonText>등록하기</ButtonText>
+                </SubmitButton>
+                <Footer></Footer>
             </ScrollView>
         </Container>
     );
@@ -186,10 +199,62 @@ const ContentTitleText = styled.Text`
     line-height: ${responsiveHeight(19.32)}px;
     letter-spacing: ${responsiveWidth(-0.35)};
 `;
-//하단 버튼/////////////////////////////////////////////
-const FooterBox = styled.View`
-    margin-top: ${responsiveHeight(128)}px;
-    width: 100%;
+//이메일 부분/////////////////////////////////////////////
+const EmailContainer = styled.View`
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    margin-top: ${responsiveHeight(24)}px;
     padding-left: ${responsiveWidth(24)}px;
-    padding-right: ${responsiveWidth(24)}px;
+`;
+const CheckBoxWrapper = styled(TouchableOpacity)``;
+const EmailText = styled.Text`
+    color: #000;
+    font-family: PretendardMedium;
+    font-size: ${responsiveFontSize(14)}px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: ${responsiveHeight(20)}px;
+    letter-spacing: ${responsiveWidth(-0.35)};
+`;
+const EmailContent = styled.Text`
+    margin-left: ${responsiveWidth(56)}px;
+    margin-right: ${responsiveWidth(24)}px;
+    margin-top: ${responsiveHeight(8)}px;
+
+    color: #666;
+    font-family: PretendardRegular;
+    font-size: ${responsiveFontSize(12)}px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: ${responsiveHeight(16.56)}px;
+    letter-spacing: -0.3px;
+`;
+//하단 버튼/////////////////////////////////////////////
+const SubmitButton = styled(TouchableOpacity)`
+    margin-top: ${responsiveHeight(42)}px;
+    margin-bottom: ${responsiveHeight(16)}px;
+    margin-right: ${responsiveWidth(24)}px;
+    margin-left: ${responsiveWidth(24)}px;
+    padding-top: ${responsiveHeight(16)}px;
+    padding-bottom: ${responsiveHeight(16)}px;
+    width: ${responsiveWidth(312)}px;
+
+    padding: 16px 0px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 12px;
+    background: #f1f1f1;
+`;
+const ButtonText = styled.Text`
+    justify-content: center;
+    text-align: center;
+    border-radius: 12px;
+    color: #999999;
+`;
+const Footer = styled.View`
+    width: ${responsiveWidth(360)}px;
+    height: ${responsiveHeight(37.5)}px;
+    flex-shrink: 0;
 `;

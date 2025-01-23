@@ -24,7 +24,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
     useEffect(() => {
         if (Platform.OS === "web") {
-            document.body.style.overflow = "auto";
+            document.body.style.overflow = "hidden";
         }
     }, []);
     return (

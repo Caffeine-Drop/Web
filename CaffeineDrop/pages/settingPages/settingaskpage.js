@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Button, TouchableOpacity, Pressable } from "react-native";
 import styled from "styled-components/native";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
@@ -8,11 +8,16 @@ import { useFonts } from "../../styles";
 import InputText from "../../components/InputText";
 import { ScrollView } from "react-native";
 import CheckIcon from "../../components/CheckIcon";
+import CheckedIcon from "../../components/CheckedIcon";
 import Modal from "react-native-modal";
 import CloseIcon from "../../components/CloseIcon";
+import { TextInput } from "react-native-web";
 
 export default function SettingAskPage({ navigation }) {
     const [isModalVisible, setModalVisible] = useState(false);
+    const [selectedOption, setSelectedOption] = useState(null);
+    const [email, setEmail] = useState("");
+    const [isChecked, setIsChecked] = useState(false);
     const fontsLoaded = useFonts();
 
     if (!fontsLoaded) {
@@ -21,6 +26,14 @@ export default function SettingAskPage({ navigation }) {
 
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
+    };
+
+    const handleOptionPress = (option) => {
+        setSelectedOption(option);
+    };
+
+    const toggleCheck = () => {
+        setIsChecked((prev) => !prev);
     };
 
     return (
@@ -49,7 +62,7 @@ export default function SettingAskPage({ navigation }) {
                         <SelectBoxTitleText>문의 유형</SelectBoxTitleText>
                     </SelectBoxTitle>
                     <SelectBox>
-                        <SelectBoxText>문의 유형을 선택해주세요</SelectBoxText>
+                        <SelectBoxText>{selectedOption || "문의 유형을 선택해주세요"}</SelectBoxText>
                         <DropdownIcon onPress={toggleModal} />
                     </SelectBox>
                 </SelectBoxContainer>
@@ -61,22 +74,14 @@ export default function SettingAskPage({ navigation }) {
                             <ModalTitleText>문의 유형</ModalTitleText>
                             <CloseIcon onPress={toggleModal} />
                         </ModalTitleBox>
-                        <ListText>
-                            <InnerText>이용 문의</InnerText>
-                            <CheckIconText>✓</CheckIconText>
-                        </ListText>
-                        <ListText>
-                            <InnerText>오류 문의</InnerText>
-                            <CheckIconText>✓</CheckIconText>
-                        </ListText>
-                        <ListText>
-                            <InnerText>서비스 제한</InnerText>
-                            <CheckIconText>✓</CheckIconText>
-                        </ListText>
-                        <ListText>
-                            <InnerText>기타 문의</InnerText>
-                            <CheckIconText>✓</CheckIconText>
-                        </ListText>
+                        {["이용 문의", "오류 문의", "서비스 제한", "기타 문의"].map((option) => (
+                            <PressableBox key={option} onPress={() => handleOptionPress(option)}>
+                                <ListText>
+                                    <InnerText selected={selectedOption === option}>{option}</InnerText>
+                                    {selectedOption === option && <CheckIconText>✓</CheckIconText>}
+                                </ListText>
+                            </PressableBox>
+                        ))}
                     </ModalContent>
                 </Modal>
 
@@ -85,7 +90,7 @@ export default function SettingAskPage({ navigation }) {
                         <SelectBoxTitleText>이메일</SelectBoxTitleText>
                     </SelectBoxTitle>
                     <SelectBox>
-                        <SelectBoxText>caffeinedrop@email.com</SelectBoxText>
+                        <EmailInput placeholder="caffeinedrop@email.com" value={email} onChangeText={setEmail} />
                     </SelectBox>
                 </SelectBoxContainer2>
 
@@ -97,9 +102,7 @@ export default function SettingAskPage({ navigation }) {
 
                 {/* 이메일 부분 */}
                 <EmailContainer>
-                    <CheckBoxWrapper>
-                        <CheckIcon />
-                    </CheckBoxWrapper>
+                    <CheckBoxWrapper onPress={toggleCheck}>{isChecked ? <CheckedIcon /> : <CheckIcon />}</CheckBoxWrapper>
                     <EmailText>이메일 정보 제공 동의</EmailText>
                 </EmailContainer>
                 <EmailContent>문의 답변 제공을 위해 이메일 주소 정보 제공에 동의해 주시기 바랍니다.</EmailContent>
@@ -205,7 +208,7 @@ const SelectBox = styled.View`
     border-bottom-width: ${responsiveWidth(1)}px;
     border-bottom-color: #d9d9d9;
 `;
-const SelectBoxText = styled.Text`
+const EmailInput = styled(TextInput)`
     color: #666;
     font-family: PretendardRegular;
     font-size: ${responsiveFontSize(14)}px;
@@ -214,6 +217,7 @@ const SelectBoxText = styled.Text`
     line-height: ${responsiveHeight(19.32)}px;
     letter-spacing: ${responsiveWidth(-0.35)};
 `;
+const SelectBoxText = styled.Text``;
 //문의 내용/////////////////////////////////////////////
 const ContentTitle = styled.View`
     margin-top: ${responsiveHeight(44)}px;
@@ -333,8 +337,6 @@ const ListText = styled.View`
     width: 100%;
     padding-top: 8px;
     padding-bottom: 8px;
-    display: flex;
-    justify-content: space-between;
 `;
 const InnerText = styled.Text`
     color: #666;
@@ -344,6 +346,8 @@ const InnerText = styled.Text`
     font-weight: 500;
     line-height: 19.32px;
     letter-spacing: -0.35px;
+    height: 24px;
+    color: ${({ selected }) => (selected ? "#000" : "#666")};
 `;
 const CheckIconText = styled.Text`
     color: #000;
@@ -354,4 +358,10 @@ const CheckIconText = styled.Text`
     font-weight: 600;
     line-height: 24px; /* 150% */
     letter-spacing: -0.4px;
+`;
+const PressableBox = styled(TouchableOpacity)`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
 `;

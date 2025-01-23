@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, Button, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { View, Text, Button, TouchableOpacity, Pressable } from "react-native";
 import styled from "styled-components/native";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import BackIcon from "../../components/BackIcon";
@@ -8,16 +8,19 @@ import { useFonts } from "../../styles";
 import InputText from "../../components/InputText";
 import { ScrollView } from "react-native";
 import CheckIcon from "../../components/CheckIcon";
+import Modal from "react-native-modal";
+import CloseIcon from "../../components/CloseIcon";
 
 export default function SettingAskPage({ navigation }) {
+    const [isModalVisible, setModalVisible] = useState(false);
     const fontsLoaded = useFonts();
 
     if (!fontsLoaded) {
         return null;
     }
 
-    const handleToggle = () => {
-        setIsEnabled(!isEnabled);
+    const toggleModal = () => {
+        setModalVisible(!isModalVisible);
     };
 
     return (
@@ -47,9 +50,35 @@ export default function SettingAskPage({ navigation }) {
                     </SelectBoxTitle>
                     <SelectBox>
                         <SelectBoxText>문의 유형을 선택해주세요</SelectBoxText>
-                        <DropdownIcon />
+                        <DropdownIcon onPress={toggleModal} />
                     </SelectBox>
                 </SelectBoxContainer>
+
+                {/* 모달 창 부분 */}
+                <Modal isVisible={isModalVisible} onBackdropPress={toggleModal} style={{ justifyContent: "flex-end", margin: 0 }} backdropOpacity={0}>
+                    <ModalContent>
+                        <ModalTitleBox>
+                            <ModalTitleText>문의 유형</ModalTitleText>
+                            <CloseIcon onPress={toggleModal} />
+                        </ModalTitleBox>
+                        <ListText>
+                            <InnerText>이용 문의</InnerText>
+                            <CheckIconText>✓</CheckIconText>
+                        </ListText>
+                        <ListText>
+                            <InnerText>오류 문의</InnerText>
+                            <CheckIconText>✓</CheckIconText>
+                        </ListText>
+                        <ListText>
+                            <InnerText>서비스 제한</InnerText>
+                            <CheckIconText>✓</CheckIconText>
+                        </ListText>
+                        <ListText>
+                            <InnerText>기타 문의</InnerText>
+                            <CheckIconText>✓</CheckIconText>
+                        </ListText>
+                    </ModalContent>
+                </Modal>
 
                 <SelectBoxContainer2>
                     <SelectBoxTitle>
@@ -257,4 +286,72 @@ const Footer = styled.View`
     width: ${responsiveWidth(360)}px;
     height: ${responsiveHeight(37.5)}px;
     flex-shrink: 0;
+`;
+//모달창 부분/////////////////////////////////////////////
+const ModalContent = styled.View`
+    background-color: white;
+
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-bottom: 61.5px;
+    padding-top: 8px;
+
+    border-top-left-radius: 17px;
+    border-top-right-radius: 17px;
+    align-items: center;
+
+    shadow-color: #000;
+    shadow-offset: {
+        width: 0;
+        height: 2;
+    }
+    shadow-opacity: 0.25;
+    shadow-radius: 12.84px;
+    elevation: 5;
+`;
+const ModalTitleBox = styled.View`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 12px;
+    padding-bottom: 16px;
+`;
+const ModalTitleText = styled.Text`
+    color: #000;
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: -0.4px;
+`;
+const ListText = styled.View`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+`;
+const InnerText = styled.Text`
+    color: #666;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 19.32px;
+    letter-spacing: -0.35px;
+`;
+const CheckIconText = styled.Text`
+    color: #000;
+    /* 16제목 */
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; /* 150% */
+    letter-spacing: -0.4px;
 `;

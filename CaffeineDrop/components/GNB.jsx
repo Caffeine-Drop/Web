@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -10,11 +11,13 @@ import SearchIcon from '../assets/home/SearchIcon.svg';
 import MypageIcon from '../assets/home/MypageIcon.svg';
 
 const GNB = () => {
+  const navigation = useNavigation();
+
   return (
     <Container>
       <Title>Caffeine Drop</Title>
       <Icons>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('SearchPage')}>
           <SearchIcon width={responsiveWidth(24)} height={responsiveHeight(24)} />
         </TouchableOpacity>
         <TouchableOpacity>

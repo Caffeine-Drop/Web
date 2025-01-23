@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import styled from 'styled-components/native';
 import HeaderBar from '../components/HeaderBar';
 import PopularSearchList from '../components/PopularSearchList';
 import RecentSearchTags from '../components/RecentSearchTags';
@@ -19,20 +19,18 @@ const SearchPage = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <Container>
       <HeaderBar />
       <PopularSearchList popularSearches={popularSearches} />
       <RecentSearchTags recentSearches={recentSearches} onClearAll={handleClearAll} />
       <RecommendedCafes cafes={recommendedCafes} />
-    </ScrollView>
+    </Container>
   );
 };
 
 export default SearchPage;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fafafa',
-  },
-});
+const Container = styled.ScrollView`
+  flex: 1;
+  background-color: #fafafa;
+`;

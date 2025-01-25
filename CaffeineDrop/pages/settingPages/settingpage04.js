@@ -4,7 +4,8 @@ import styled from "styled-components/native";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import BackIcon from "../../components/BackIcon";
 import { useFonts } from "../../styles";
-import SettingPageBlur from "../../components/SettingPageBlur";
+import SettingPageBlur1 from "../../components/SettingPageBlur1";
+import SettingPageBlur2 from "../../components/SettingPageBlur2";
 
 export default function SettingPage03({ navigation }) {
     const fontsLoaded = useFonts();
@@ -48,11 +49,11 @@ export default function SettingPage03({ navigation }) {
 
             {/* 블러 장식 */}
             <BlurBox1>
-                <SettingPageBlur />
+                <SettingPageBlur1 />
             </BlurBox1>
 
             <BlurBox2>
-                <SettingPageBlur />
+                <SettingPageBlur2 />
             </BlurBox2>
         </Container>
     );
@@ -80,7 +81,7 @@ const Title = styled.Text`
     font-style: normal;
     font-weight: 600;
     line-height: ${responsiveHeight(24)}px;
-    letter-spacing: ${responsiveWidth(-0.5)};
+    letter-spacing: -0.5px;
 `;
 ////////////////////////////////////////////////////
 const HeaderContainer = styled.View`
@@ -105,7 +106,7 @@ const HeaderText = styled.Text`
     font-weight: 600;
 
     line-height: ${responsiveHeight(41.4)}px;
-    letter-spacing: ${responsiveWidth(-0.75)};
+    letter-spacing: -0.75px;
 `;
 const ContentText = styled.Text`
     color: #000;
@@ -114,7 +115,7 @@ const ContentText = styled.Text`
     font-style: normal;
     font-weight: 400;
     line-height: ${responsiveHeight(25.6)}px;
-    letter-spacing: ${responsiveWidth(-0.4)};
+    letter-spacing: -0.4px;
 `;
 ////////////////////////////////////////////////////
 const DeleteButton = styled(TouchableOpacity)`
@@ -140,7 +141,7 @@ const ButtonText = styled.Text`
     font-style: normal;
     font-weight: 700;
     line-height: ${responsiveHeight(22.08)}px;
-    letter-spacing: ${responsiveWidth(-0.4)};
+    letter-spacing: -0.4px;
 `;
 ////////////////////////////////////////////////////
 const BlurBox1 = styled.View`

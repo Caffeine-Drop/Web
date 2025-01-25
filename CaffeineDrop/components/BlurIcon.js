@@ -5,7 +5,7 @@ export default function BlurIcon(props) {
     return (
         <Svg width="268" height="380" viewBox="0 0 268 380" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <G filter="url(#filter0_f_440_23678)">
-                <Circle cx="78" cy="190" r="90" fill="#A57F59" fillOpacity="0.35" />
+                <Circle cx="78" cy="190" r="90" fill="#A57F59" fillOpacity="0.30" />
             </G>
             <Defs>
                 <Filter id="filter0_f_440_23678" x="-112" y="0" width="380" height="380" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">

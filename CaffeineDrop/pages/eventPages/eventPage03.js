@@ -1,12 +1,14 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Animated, PanResponder, StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
+import { ScrollView, Animated, PanResponder, StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import styled from "styled-components/native";
 import BackIcon from "../../components/BackIcon";
 import BlackTextCircle from "../../components/BlackTextCircle";
 import BlurIcon from "../../components/BlurIcon";
+import BlurIcon2 from "../../components/BlurIcon2";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
+import { Platform } from "react-native";
 
 const SelectOption = ({ text, score, isSelected, onPress }) => {
     const backgroundColor = useRef(new Animated.Value(0)).current;
@@ -181,14 +183,14 @@ export default function EventPage03({ navigation }) {
 
                         <ContentContainer>
                             <ContentText>
-                                산(acid)에서 나는 산미는 보편적으로 생각하는 신맛과는 {"   "}살짝 달라요. 산미란 식초와 같이 <HighlightText2>기분 나쁜 신맛이 아닌 과일을 먹을 때 느껴지던 것과 같은 긍정적인 신맛으로, </HighlightText2>
+                                산(acid)에서 나는 산미는 보편적으로 생각하는 신맛과는 살짝 달라요. 산미란 식초와 같이 <HighlightText2>기분 나쁜 신맛이 아닌 과일을 먹을 때 느껴지던 것과 같은 긍정적인 신맛으로, </HighlightText2>
                                 산미를 즐기는 매니아 층도 두터워요.
                             </ContentText>
                         </ContentContainer>
                     </TextContainer>
 
                     <BlurWrapper2>
-                        <BlurIcon />
+                        <BlurIcon2 />
                     </BlurWrapper2>
 
                     <SelectContainer>
@@ -204,6 +206,7 @@ export default function EventPage03({ navigation }) {
                             <AnimatedButtonText style={{ color: buttonTextColorInterpolate }}>다음으로</AnimatedButtonText>
                         </TouchableOpacity>
                     </AnimatedButtonWrapper>
+                    <FooterGap></FooterGap>
                 </Footer>
             </InnerContainer>
         </Container>
@@ -239,10 +242,10 @@ const IconWrapper = styled.View`
 const Title = styled.Text`
     font-size: ${responsiveFontSize(18)}px;
     line-height: ${responsiveHeight(24.84)}px;
-    letter-spacing: ${responsiveFontSize(-0.45)}px;
+    letter-spacing: -0.45px;
     color: #000;
     text-align: center;
-    font-family: Pretendard;
+    font-family: PretendardSemiBold;
     font-style: normal;
     font-weight: 600;
     z-index: 5;
@@ -252,7 +255,7 @@ const ProgressBarContainer = styled.View`
     width: 100%;
     height: ${responsiveHeight(4)}px;
     background-color: #e0e0e0;
-    border-radius: ${responsiveHeight(4)}px;
+    border-radius: 4px;
     overflow: hidden;
 `;
 
@@ -263,12 +266,8 @@ const AnimatedProgressBar = styled(Animated.View)`
 
 //////////////////////////////////////////////
 const Content = styled.View`
-    flex: 1;
     width: 100%;
-    /*
-    margin-left: ${responsiveWidth(24)}px;
-    margin-right: ${responsiveWidth(24)}px;
-    */
+    margin-bottom: ${responsiveHeight(60)}px;
 `;
 const BlurWrapper = styled.View`
     position: absolute;
@@ -279,10 +278,10 @@ const BlurWrapper = styled.View`
 `;
 const BlurWrapper2 = styled.View`
     position: absolute;
-    height: ${responsiveHeight(234)}px;
+    height: ${responsiveHeight(420)}px;
     width: ${responsiveWidth(420)}px;
-    right: ${responsiveWidth(-275)}px;
-    top: ${responsiveWidth(230)}px;
+    left: ${responsiveWidth(120)}px;
+    top: ${responsiveWidth(180)}px;
 `;
 
 //////////////////////////////////////////////
@@ -301,64 +300,97 @@ const TextContainer = styled.View`
 const HeaderContainer = styled.View``;
 
 const CircleWrapper = styled.View`
-    position: absolute;
+    position: relative;
     width: ${responsiveWidth(4)}px;
     height: ${responsiveWidth(4)}px;
 
-    left: ${responsiveWidth(86)}px;
-    right: ${responsiveWidth(193)}px;
-    top: ${responsiveWidth(-4)}px;
+    ${Platform.select({
+        ios: `
+            left: ${responsiveWidth(70)}px;
+            top: ${responsiveWidth(0)}px;
+        `,
+        android: `
+            left: ${responsiveWidth(86)}px;
+            top: ${responsiveWidth(-4)}px;
+        `,
+        web: `
+            left: ${responsiveWidth(87)}px;
+            top: ${responsiveWidth(0)}px;
+        `,
+    })}
 `;
 const CircleWrapper2 = styled.View`
-    position: absolute;
+    position: relative;
     width: ${responsiveWidth(4)}px;
     height: ${responsiveWidth(4)}px;
 
-    left: ${responsiveWidth(114)}px;
-    right: ${responsiveWidth(100)}px;
-    top: ${responsiveWidth(-4)}px;
+    ${Platform.select({
+        ios: `
+            left: ${responsiveWidth(96)}px;
+            top: ${responsiveWidth(-4)}px;
+        `,
+        android: `
+            left: ${responsiveWidth(86)}px;
+            top: ${responsiveWidth(-4)}px;
+        `,
+        web: `
+            left: ${responsiveWidth(114)}px;
+            top: ${responsiveWidth(-4)}px;
+        `,
+    })}
 `;
 const HeaderText = styled.Text`
     color: #000;
     text-align: center;
-    font-family: Pretendard;
+    font-family: PretendardSemiBold;
     font-size: ${responsiveFontSize(32)}px;
     font-style: normal;
     font-weight: 600;
     line-height: ${responsiveHeight(44.16)}px;
-    letter-spacing: ${responsiveWidth(-0.8)}px;
+    letter-spacing: -0.8px;
 `;
 const ContentContainer = styled.View``;
 const ContentText = styled.Text`
     color: #000;
-    font-family: Pretendard;
+    font-family: PretendardRegular;
     font-style: normal;
     font-weight: 400;
     line-height: ${responsiveHeight(21)}px;
-    letter-spacing: -2px;
-    font-size: ${responsiveFontSize(14)}px;
-`;
-const HighlightText1 = styled.Text`
-    color: #000;
-    font-family: Pretendard;
-    font-style: normal;
-    font-weight: 500;
-    /*line-height: 150%;*/
+    letter-spacing: -0.35px;
 
-    line-height: ${responsiveHeight(21)}px;
-    letter-spacing: -2.1px;
-    font-size: ${responsiveFontSize(14)}px;
+    ${Platform.select({
+        ios: `
+            font-size: ${responsiveFontSize(14)}px;
+        `,
+        android: `
+            font-size: ${responsiveFontSize(14)}px;
+        `,
+        web: `
+            font-size: ${responsiveFontSize(13)}px;
+        `,
+    })}
 `;
 
 const HighlightText2 = styled.Text`
     color: #000;
-    font-family: Pretendard;
+    font-family: PretendardBold;
     font-style: normal;
-    font-weight: 700;
-    /*line-height: 150%;*/
-
-    letter-spacing: -2.1px;
+    font-weight: 600;
+    letter-spacing: -0.35px;
+    line-height: ${responsiveHeight(21)}px;
     font-size: ${responsiveFontSize(14)}px;
+
+    ${Platform.select({
+        ios: `
+         font-size: ${responsiveFontSize(14)}px;
+        `,
+        android: `
+          font-size: ${responsiveFontSize(14)}px;
+        `,
+        web: `
+          font-size: ${responsiveFontSize(13)}px;
+        `,
+    })}
 `;
 //////////////////////////////////////////////
 
@@ -367,15 +399,15 @@ const SelectContainer = styled.View`
     flex-direction: column;
     gap: 12px;
 
-    margin-top: ${responsiveHeight(10)}px;
     margin-left: ${responsiveWidth(24)}px;
     margin-right: ${responsiveWidth(24)}px;
-    margin-bottom: ${responsiveHeight(40)}px;
+    margin-bottom: ${responsiveHeight(80)}px;
 `;
 const AnimatedSelectOption = styled(Animated.View)`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     padding: 12px 16px;
     gap: 16px;
     align-self: stretch;
@@ -388,18 +420,18 @@ const AnimatedSelectOption = styled(Animated.View)`
     backdrop-filter: blur(6px);
 `;
 const AnimatedSelectText = styled(Animated.Text)`
-    font-family: Pretendard;
+    font-family: PretendardBold;
     font-size: ${responsiveFontSize(16)}px;
     font-style: normal;
     font-weight: 700;
     line-height: ${responsiveHeight(22.08)}px;
-    letter-spacing: ${responsiveWidth(-0.4)}px;
+    letter-spacing: -0.4px;
     display: flex;
     align-items: center;
 `;
 const AnimatedSelectScore = styled(Animated.Text)`
     color: #666;
-    font-family: Pretendard;
+    font-family: PretendardMedium;
     font-size: ${responsiveFontSize(12)}px;
     font-style: normal;
     font-weight: 500;
@@ -414,7 +446,7 @@ const Footer = styled.View`
     top: ${responsiveHeight(666)}px;
 
     display: inline-flex;
-    padding: 0px 24px 16px 24px;
+    padding: 0px 24px 16px 0px;
     flex-direction: column;
     align-items: center;
     gap: 8px;
@@ -447,4 +479,9 @@ const AnimatedButtonWrapper = styled(Animated.View)`
     gap: 10px;
     border-radius: 12px;
     background: #f1f1f1;
+`;
+const FooterGap = styled.View`
+    width: ${responsiveWidth(360)}px;
+    height: ${responsiveHeight(37.5)}px;
+    flex-shrink: 0;
 `;

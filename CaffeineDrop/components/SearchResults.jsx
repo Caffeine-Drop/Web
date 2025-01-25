@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Animated, PanResponder, Dimensions } from "react-native";
+import {
+    responsiveFontSize,
+    responsiveWidth,
+    responsiveHeight,
+  } from "../utils/responsive";
 import styled from "styled-components/native";
 import TopFilter from "./TopFilter";
 import CafeListItem from "./CafeListItem";
@@ -193,39 +198,41 @@ const AnimatedContainer = styled(Animated.View)`
 
 const DragHandleWrapper = styled.View`
   align-items: center;
-  padding: 12px 0;
+  padding-bottom: ${responsiveHeight(12)}px;
+  padding-top: ${responsiveHeight(16)}px;
 `;
 
 const DragHandle = styled.View`
-  width: 64px;
-  height: 5px;
-  background-color: #d9d9d9;
-  border-radius: 2.5px;
-`;
-
-const FilterContainer = styled.View`
-  background-color: #fff;
-  padding: 16px;
+  width: ${responsiveWidth(64)}px;
+  height: ${responsiveHeight(5)}px;
+  border-radius: 5px;
+  background: #D9D9D9;
 `;
 
 const SortContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 8px;
+  padding: ${responsiveHeight(8)}px ${responsiveWidth(24)}px;
+  border-bottom-width: ${responsiveWidth(0.5)}px;
+  border-bottom-color: #D9D9D9;
+  background-color: #fafafa;
 `;
 
 const FilterButton = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
-`;
+  padding: ${responsiveHeight(6)}px ${responsiveWidth(12)}px;
+  background-color: #fafafa;
+`;  
 
 const SortText = styled.Text`
-  font-size: 14px;
+  font-size: ${responsiveFontSize(12)}px;
   font-weight: ${(props) => (props.selected ? "600" : "400")};
-  color: ${(props) => (props.selected ? "#000" : "#666")};
+  color: #000;
 `;
+
+const FilterContainer = styled.View``;
 
 const CafeList = styled.ScrollView`
   flex: 1;
-  padding: 16px;
 `;

@@ -61,13 +61,22 @@ const CafeListItem = ({ cafe, isSelected }) => {
 
             {/* ✅ 이미지 스크롤 뷰 */}
             <ScrollView
-              horizontal showsHorizontalScrollIndicator={false}
+              horizontal
+              showsHorizontalScrollIndicator={false}
               contentContainerStyle={{
-                marginLeft: cafe.isFirst ? `${responsiveWidth(24)}px` : 0
+                paddingLeft: responsiveWidth(24), // 첫 번째 이미지 왼쪽 여백
+                paddingRight: responsiveWidth(16), // 마지막 이미지 오른쪽 여백
               }}
             >
-              {/* ✅ 첫 번째 이미지에 '미운영 알림' 표시 (isClosed가 true일 때만) */}
-              <ImagePlaceholder1 isClosed={cafe.isClosed}>
+              {/* 첫 번째 이미지 */}
+              <ImagePlaceholder
+                isClosed={cafe.isClosed}
+                style={{
+                  width: responsiveWidth(150),
+                  height: responsiveHeight(150),
+                  marginRight: responsiveWidth(4),
+                }}
+              >
                 {cafe.isClosed && (
                   <ClosedOverlay>
                     <ClosedSubText>미운영 알림</ClosedSubText>
@@ -75,9 +84,26 @@ const CafeListItem = ({ cafe, isSelected }) => {
                     <ClosedText>준비중이에요!</ClosedText>
                   </ClosedOverlay>
                 )}
-              </ImagePlaceholder1>
-              <ImagePlaceholder2 isClosed={cafe.isClosed} />
-              <ImagePlaceholder3 isClosed={cafe.isClosed} />
+              </ImagePlaceholder>
+
+              {/* 두 번째 이미지 */}
+              <ImagePlaceholder
+                isClosed={cafe.isClosed}
+                style={{
+                  width: responsiveWidth(112.5),
+                  height: responsiveHeight(150),
+                  marginRight: responsiveWidth(4),
+                }}
+              />
+
+              {/* 세 번째 이미지 */}
+              <ImagePlaceholder
+                isClosed={cafe.isClosed}
+                style={{
+                  width: responsiveWidth(112.5),
+                  height: responsiveHeight(150),
+                }}
+              />
             </ScrollView>
           </ImageContainer>
 
@@ -126,6 +152,16 @@ const ListContainer = styled.View`
 
 const ImageContainer = styled.View`
   position: relative; /* 배지와 이미지가 같은 컨텍스트를 공유 */
+`;
+
+
+const ImagePlaceholder = styled.View`
+  background-color: ${(props) =>
+    props.isClosed ? "rgba(0, 0, 0, 0.55)" : "#d9d9d9"}; /* 닫힌 상태일 때 회색 */
+  border-radius: 12px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 `;
 
 const ImagePlaceholder1 = styled.View`

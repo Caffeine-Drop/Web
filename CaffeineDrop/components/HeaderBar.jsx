@@ -1,5 +1,10 @@
 import React, { useState, useRef } from 'react';
 import {
+  Keyboard,
+  TouchableWithoutFeedback,
+  View
+} from 'react-native';
+import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
@@ -9,7 +14,7 @@ import BackIcon from './BackIcon';
 import SearchIcon from '../assets/search/SearchIcon.svg';
 import SearchDeleteIcon from '../assets/search/SearchDeleteIcon.svg'; // 추가된 경로
 
-const HeaderBar = ({ onSettingsPress }) => {
+const HeaderBar = ({ onSearchPress, onSettingsPress }) => {
   const [searchText, setSearchText] = useState("");
   const inputRef = useRef(null); // TextInput의 ref 생성
 
@@ -21,43 +26,49 @@ const HeaderBar = ({ onSettingsPress }) => {
     setSearchText("");
   };
 
+  const dismissKeyboard = () => {
+    Keyboard.dismiss();
+  };
+
   return (
-    <Container>
-      <HeadContainer>
-        <BackIcon />
-        <Title>검색</Title>
-      </HeadContainer>
-      <SearchContainer>
-        <InputContainer>
-          <SearchInput
-            ref={inputRef} // TextInput에 ref 연결
-            placeholder="검색어를 입력해주세요"
-            value={searchText}
-            onChangeText={handleInputChange}
-          />
-          <IconsWrapper>
-            {searchText.length > 0 && (
-              <DeleteIconWrapper onPress={clearSearchInput}>
-                <SearchDeleteIcon
+    <TouchableWithoutFeedback onPress={dismissKeyboard}>
+      <Container>
+        <HeadContainer>
+          <BackIcon />
+          <Title>검색</Title>
+        </HeadContainer>
+        <SearchContainer>
+          <InputContainer>
+            <SearchInput
+              ref={inputRef} // TextInput에 ref 연결
+              placeholder="검색어를 입력해주세요"
+              value={searchText}
+              onChangeText={handleInputChange}
+            />
+            <IconsWrapper>
+              {searchText.length > 0 && (
+                <DeleteIconWrapper onPress={clearSearchInput}>
+                  <SearchDeleteIcon
+                    width={responsiveWidth(24)}
+                    height={responsiveHeight(24)}
+                  />
+                </DeleteIconWrapper>
+              )}
+              <SearchIconWrapper onPress={onSearchPress}>
+                <SearchIcon
                   width={responsiveWidth(24)}
                   height={responsiveHeight(24)}
                 />
-              </DeleteIconWrapper>
-            )}
-            <SearchIconWrapper>
-              <SearchIcon
-                width={responsiveWidth(24)}
-                height={responsiveHeight(24)}
-              />
-            </SearchIconWrapper>
-          </IconsWrapper>
-        </InputContainer>
-        <SettingsButton onPress={onSettingsPress}>
-          <SettingsText>검색</SettingsText>
-          <SettingsText>설정</SettingsText>
-        </SettingsButton>
-      </SearchContainer>
-    </Container>
+              </SearchIconWrapper>
+            </IconsWrapper>
+          </InputContainer>
+          <SettingsButton onPress={onSettingsPress}>
+            <SettingsText>검색</SettingsText>
+            <SettingsText>설정</SettingsText>
+          </SettingsButton>
+        </SearchContainer>
+      </Container>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -127,7 +138,7 @@ const DeleteIconWrapper = styled.TouchableOpacity`
   margin-right: 4px; /* 검색 아이콘과 간격 추가 */
 `;
 
-const SearchIconWrapper = styled.View``;
+const SearchIconWrapper = styled.TouchableOpacity``;
 
 const SettingsButton = styled.TouchableOpacity`
   height: 56px;

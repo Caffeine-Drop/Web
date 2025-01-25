@@ -1,0 +1,231 @@
+import React, { useState, useEffect, useRef } from "react";
+import { Animated, PanResponder, Dimensions } from "react-native";
+import styled from "styled-components/native";
+import TopFilter from "./TopFilter";
+import CafeListItem from "./CafeListItem";
+import SortFilterModal from "./SortFilterModal";
+import TimeFilterModal from "./TimeFilterModal";
+import UpIcon from "../assets/home/UpIcon.svg";
+import DownIcon from "../assets/home/DownIcon.svg";
+
+const SCREEN_HEIGHT = Dimensions.get("window").height; // 화면 높이
+const FULLY_EXPANDED_POSITION = 162; // 슬라이드가 올라갈 최대 위치
+const DEFAULT_POSITION = SCREEN_HEIGHT - 316; // 기본 위치 (아래쪽)
+const ANIMATION_DURATION = 300; // 애니메이션 지속 시간
+
+const SearchResults = ({ isVisible }) => {
+  const translateY = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
+  const [sortModalVisible, setSortModalVisible] = useState(false);
+  const [timeModalVisible, setTimeModalVisible] = useState(false);
+  const [selectedSort, setSelectedSort] = useState("인기순");
+  const [selectedTime, setSelectedTime] = useState("전체");
+  const [selectedFilter, setSelectedFilter] = useState("");
+
+  // isVisible 상태 변경 시 즉시 슬라이드
+  useEffect(() => {
+    Animated.timing(translateY, {
+      toValue: isVisible ? FULLY_EXPANDED_POSITION : SCREEN_HEIGHT,
+      duration: ANIMATION_DURATION,
+      useNativeDriver: true,
+    }).start();
+  }, [isVisible]);
+
+  // 슬라이드 핸들링
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: (_, gestureState) =>
+        Math.abs(gestureState.dy) > 5, // 드래그 시작 조건
+      onPanResponderMove: (_, gestureState) => {
+        const newY = translateY._value + gestureState.dy;
+        if (newY >= FULLY_EXPANDED_POSITION && newY <= SCREEN_HEIGHT) {
+          translateY.setValue(newY); // 드래그 중 위치 업데이트
+        }
+      },
+      onPanResponderRelease: (_, gestureState) => {
+        if (gestureState.dy > 100) {
+          // 아래로 충분히 드래그하면 기본 위치로 이동
+          Animated.timing(translateY, {
+            toValue: DEFAULT_POSITION,
+            duration: ANIMATION_DURATION,
+            useNativeDriver: true,
+          }).start();
+        } else {
+          // 위로 드래그하지 않으면 162px 위치로 복귀
+          Animated.timing(translateY, {
+            toValue: FULLY_EXPANDED_POSITION,
+            duration: ANIMATION_DURATION,
+            useNativeDriver: true,
+          }).start();
+        }
+      },
+    })
+  ).current;
+
+  return (
+    <>
+      <AnimatedContainer
+        style={{
+          transform: [{ translateY }],
+        }}
+        {...panResponder.panHandlers}
+      >
+        <DragHandleWrapper>
+          <DragHandle />
+        </DragHandleWrapper>
+
+        {/* TopFilter와 SortContainer */}
+        <FilterContainer>
+          <TopFilter
+            onFilterSelect={(filter) => setSelectedFilter(filter)}
+            selectedFilter={selectedFilter}
+          />
+          <SortContainer>
+            <FilterButton onPress={() => setSortModalVisible(!sortModalVisible)}>
+              <SortText selected={selectedSort !== "인기순"}>
+                {selectedSort}
+              </SortText>
+              {sortModalVisible ? (
+                <UpIcon
+                  width="17"
+                  height="17"
+                  style={{ marginLeft: 4 }}
+                />
+              ) : (
+                <DownIcon
+                  width="17"
+                  height="17"
+                  style={{ marginLeft: 4 }}
+                />
+              )}
+            </FilterButton>
+
+            <FilterButton onPress={() => setTimeModalVisible(!timeModalVisible)}>
+              <SortText selected={selectedTime !== "전체"}>
+                {selectedTime}
+              </SortText>
+              {timeModalVisible ? (
+                <UpIcon
+                  width="17"
+                  height="17"
+                  style={{ marginLeft: 4 }}
+                />
+              ) : (
+                <DownIcon
+                  width="17"
+                  height="17"
+                  style={{ marginLeft: 4 }}
+                />
+              )}
+            </FilterButton>
+          </SortContainer>
+        </FilterContainer>
+
+        {/* 카페 리스트 */}
+        <CafeList>
+          <CafeListItem
+            cafe={{
+              name: "언힙커피로스터스",
+              location: "인천 미추홀구 인하로67번길 6 2층",
+              distance: "600m",
+              hashtag: "#24시간",
+              rating: 4.0,
+              reviews: 605,
+              isFavorite: true,
+              isSpecialty: true,
+              isClosed: false,
+            }}
+            isSelected={false}
+          />
+          <CafeListItem
+            cafe={{
+              name: "언힙커피로스터스",
+              location: "인천 미추홀구 인하로67번길 6 2층",
+              distance: "600m",
+              hashtag: "#24시간",
+              rating: 4.0,
+              reviews: 605,
+              isFavorite: true,
+              isSpecialty: true,
+              isClosed: true,
+            }}
+            isSelected={false}
+          />
+        </CafeList>
+      </AnimatedContainer>
+
+      {/* 정렬 필터 모달 */}
+      <SortFilterModal
+        visible={sortModalVisible}
+        onClose={() => setSortModalVisible(false)}
+        selectedSort={selectedSort}
+        setSelectedSort={setSelectedSort}
+      />
+
+      {/* 시간 필터 모달 */}
+      <TimeFilterModal
+        visible={timeModalVisible}
+        onClose={() => setTimeModalVisible(false)}
+        selectedTime={selectedTime}
+        setSelectedTime={setSelectedTime}
+      />
+    </>
+  );
+};
+
+export default SearchResults;
+
+const AnimatedContainer = styled(Animated.View)`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: ${SCREEN_HEIGHT}px;
+  background-color: #fafafa;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  z-index: 20;
+  elevation: 4;
+  shadow-color: rgba(0, 0, 0, 0.1);
+  shadow-offset: 0px -4px;
+  shadow-opacity: 0.5;
+  shadow-radius: 8px;
+`;
+
+const DragHandleWrapper = styled.View`
+  align-items: center;
+  padding: 12px 0;
+`;
+
+const DragHandle = styled.View`
+  width: 64px;
+  height: 5px;
+  background-color: #d9d9d9;
+  border-radius: 2.5px;
+`;
+
+const FilterContainer = styled.View`
+  background-color: #fff;
+  padding: 16px;
+`;
+
+const SortContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 8px;
+`;
+
+const FilterButton = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+`;
+
+const SortText = styled.Text`
+  font-size: 14px;
+  font-weight: ${(props) => (props.selected ? "600" : "400")};
+  color: ${(props) => (props.selected ? "#000" : "#666")};
+`;
+
+const CafeList = styled.ScrollView`
+  flex: 1;
+  padding: 16px;
+`;

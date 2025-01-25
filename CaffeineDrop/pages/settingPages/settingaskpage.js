@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, Button, TouchableOpacity, Pressable } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { View, Text, Button, TouchableOpacity, Pressable, TextInput, Animated } from "react-native";
 import styled from "styled-components/native";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import BackIcon from "../../components/BackIcon";
@@ -11,14 +11,38 @@ import CheckIcon from "../../components/CheckIcon";
 import CheckedIcon from "../../components/CheckedIcon";
 import Modal from "react-native-modal";
 import CloseIcon from "../../components/CloseIcon";
-import { TextInput } from "react-native-web";
 
 export default function SettingAskPage({ navigation }) {
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const [email, setEmail] = useState("");
+    const [content, setContent] = useState("");
     const [isChecked, setIsChecked] = useState(false);
+    const buttonBackgroundColor = useRef(new Animated.Value(0)).current;
+    const buttonTextColor = useRef(new Animated.Value(0)).current;
     const fontsLoaded = useFonts();
+
+    useEffect(() => {
+        if (selectedOption && email.trim() !== "" && content.trim() !== "" && isChecked) {
+            console.log("버튼 스타일 변경 여부 = " + true);
+            Animated.timing(buttonBackgroundColor, {
+                toValue: 1,
+                duration: 900,
+                useNativeDriver: false,
+            }).start();
+            Animated.timing(buttonTextColor, {
+                toValue: 1,
+                duration: 900,
+                useNativeDriver: false,
+            }).start();
+        } else {
+            console.log("버튼 스타일 변경 여부 = " + false);
+            console.log(selectedOption);
+            console.log(email);
+            console.log(content);
+            console.log(isChecked);
+        }
+    }, [selectedOption, email, content, isChecked]);
 
     if (!fontsLoaded) {
         return null;
@@ -35,6 +59,16 @@ export default function SettingAskPage({ navigation }) {
     const toggleCheck = () => {
         setIsChecked((prev) => !prev);
     };
+
+    const backgroundColor = buttonBackgroundColor.interpolate({
+        inputRange: [0, 1],
+        outputRange: ["#f1f1f1", "#E5E3E1"],
+    });
+
+    const textColor = buttonTextColor.interpolate({
+        inputRange: [0, 1],
+        outputRange: ["#999999", "#756555"],
+    });
 
     return (
         <Container>
@@ -85,6 +119,7 @@ export default function SettingAskPage({ navigation }) {
                     </ModalContent>
                 </Modal>
 
+                {/* 이메일 부분 */}
                 <SelectBoxContainer2>
                     <SelectBoxTitle>
                         <SelectBoxTitleText>이메일</SelectBoxTitleText>
@@ -98,9 +133,9 @@ export default function SettingAskPage({ navigation }) {
                 <ContentTitle>
                     <ContentTitleText>문의 내용</ContentTitleText>
                 </ContentTitle>
-                <InputText />
+                <InputText value={content} onChangeText={setContent} />
 
-                {/* 이메일 부분 */}
+                {/* 이메일 체크박스 부분 */}
                 <EmailContainer>
                     <CheckBoxWrapper onPress={toggleCheck}>{isChecked ? <CheckedIcon /> : <CheckIcon />}</CheckBoxWrapper>
                     <EmailText>이메일 정보 제공 동의</EmailText>
@@ -108,9 +143,9 @@ export default function SettingAskPage({ navigation }) {
                 <EmailContent>문의 답변 제공을 위해 이메일 주소 정보 제공에 동의해 주시기 바랍니다.</EmailContent>
 
                 {/* 등록하기 버튼 부분 */}
-                <SubmitButton>
-                    <ButtonText>등록하기</ButtonText>
-                </SubmitButton>
+                <AnimatedSubmitButton style={{ backgroundColor }}>
+                    <AnimatedButtonText style={{ color: textColor }}>등록하기</AnimatedButtonText>
+                </AnimatedSubmitButton>
                 <Footer></Footer>
             </ScrollView>
         </Container>
@@ -261,10 +296,10 @@ const EmailContent = styled.Text`
     font-style: normal;
     font-weight: 400;
     line-height: ${responsiveHeight(16.56)}px;
-    letter-spacing: -0.3px;
+    letter-spacing: -0.3;
 `;
 //하단 버튼/////////////////////////////////////////////
-const SubmitButton = styled(TouchableOpacity)`
+const AnimatedSubmitButton = styled(Animated.createAnimatedComponent(TouchableOpacity))`
     margin-top: ${responsiveHeight(42)}px;
     margin-bottom: ${responsiveHeight(16)}px;
     margin-right: ${responsiveWidth(24)}px;
@@ -278,13 +313,12 @@ const SubmitButton = styled(TouchableOpacity)`
     align-items: center;
     gap: 10px;
     border-radius: 12px;
-    background: #f1f1f1;
 `;
-const ButtonText = styled.Text`
+
+const AnimatedButtonText = styled(Animated.createAnimatedComponent(Text))`
     justify-content: center;
     text-align: center;
     border-radius: 12px;
-    color: #999999;
 `;
 const Footer = styled.View`
     width: ${responsiveWidth(360)}px;
@@ -295,10 +329,10 @@ const Footer = styled.View`
 const ModalContent = styled.View`
     background-color: white;
 
-    padding-left: 24px;
-    padding-right: 24px;
-    padding-bottom: 61.5px;
-    padding-top: 8px;
+    padding-left: ${responsiveWidth(24)}px;
+    padding-right: ${responsiveWidth(24)}px;
+    padding-bottom: ${responsiveHeight(61.5)}px;
+    padding-top: ${responsiveHeight(8)}px;
 
     border-top-left-radius: 17px;
     border-top-right-radius: 17px;
@@ -318,46 +352,45 @@ const ModalTitleBox = styled.View`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding-top: 12px;
-    padding-bottom: 16px;
+    padding-top: ${responsiveHeight(12)}px;
+    padding-bottom: ${responsiveHeight(16)}px;
 `;
 const ModalTitleText = styled.Text`
     color: #000;
-    font-family: Pretendard;
-    font-size: 16px;
+    font-family: PretendardSemiBold;
+    font-size: ${responsiveFontSize(16)}px;
     font-style: normal;
     font-weight: 600;
-    line-height: 24px;
-    letter-spacing: -0.4px;
+    line-height: ${responsiveHeight(24)}px;
+    letter-spacing: -0.4;
 `;
 const ListText = styled.View`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding-top: ${responsiveHeight(8)}px;
+    padding-bottom: ${responsiveHeight(8)}px;
 `;
 const InnerText = styled.Text`
     color: #666;
-    font-family: Pretendard;
-    font-size: 14px;
+    font-family: PretendardMedium;
+    font-size: ${responsiveFontSize(14)}px;
     font-style: normal;
     font-weight: 500;
-    line-height: 19.32px;
-    letter-spacing: -0.35px;
-    height: 24px;
+    line-height: ${responsiveHeight(19.32)}px;
+    letter-spacing: -0.35;
+    height: ${responsiveHeight(24)}px;
     color: ${({ selected }) => (selected ? "#000" : "#666")};
 `;
 const CheckIconText = styled.Text`
     color: #000;
-    /* 16제목 */
-    font-family: Pretendard;
-    font-size: 16px;
+    font-family: PretendardSemiBold;
+    font-size: ${responsiveFontSize(16)}px;
     font-style: normal;
     font-weight: 600;
-    line-height: 24px; /* 150% */
-    letter-spacing: -0.4px;
+    line-height: ${responsiveHeight(24)}px;
+    letter-spacing: -0.4;
 `;
 const PressableBox = styled(TouchableOpacity)`
     display: flex;

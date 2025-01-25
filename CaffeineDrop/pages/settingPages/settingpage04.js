@@ -34,7 +34,7 @@ export default function SettingPage03({ navigation }) {
             {/* 본문 텍스트 */}
             <ContentContainer>
                 <ContentText>
-                    탈퇴 시엔 저장하신 데이터 복구가{"\n"}어렵습니다.{"\n"}
+                    탈퇴 시엔 저장하신 데이터 복구가 어렵습니다.{"\n"}
                     {"\n"}• 최근 검색어, ‘좋아요’ 표시 등의 데이터는 복구가{"\n"}
                     {"   "}어렵습니다.{"\n"}• 작성하신 리뷰는 회원 탈퇴 후에도 삭제되지{"\n"}
                     {"   "}않습니다.

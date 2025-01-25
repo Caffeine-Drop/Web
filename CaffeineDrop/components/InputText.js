@@ -40,7 +40,7 @@ const ContentInput = styled.TextInput`
     letter-spacing: ${responsiveWidth(-0.3)};
 `;
 
-const InputText = () => {
+const InputText = ({ value, onChangeText }) => {
     const fontsLoaded = useFonts();
 
     if (!fontsLoaded) {
@@ -53,7 +53,7 @@ const InputText = () => {
 
     return (
         <Container>
-            <ContentInput placeholder="내용을 입력해주세요." multiline />
+            <ContentInput placeholder="내용을 입력해주세요." multiline value={value} onChangeText={onChangeText} />
         </Container>
     );
 };

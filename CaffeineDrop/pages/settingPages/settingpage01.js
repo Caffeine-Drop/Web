@@ -12,7 +12,7 @@ export default function SettingPage01({ navigation }) {
     const fontsLoaded = useFonts();
 
     if (!fontsLoaded) {
-        return null; // 폰트 로딩이 안되면 아무것도 렌더링하지 않음
+        return null;
     }
 
     return (

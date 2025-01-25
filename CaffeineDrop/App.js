@@ -5,6 +5,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StyleSheet, Text, View, Platform } from "react-native";
 
 // 각 페이지 임포트
+import OnboardingLogin01 from "./pages/onBoardingLogin/onBoardingLogin01";
+import OnboardingLogin03 from "./pages/onBoardingLogin/onBoardingLogin03";
+import OnboardingLogin04 from "./pages/onBoardingLogin/onBoardingLogin04";
 import SpecialtyOptions from "./components/SpecialtyOptions";
 import DetailPage from "./pages/detailpage";
 import HomeScreen from "./pages/HomeScreen";
@@ -36,6 +39,9 @@ export default function App() {
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="OnboardingLogin01" component={OnboardingLogin01} />
+                <Stack.Screen name="OnboardingLogin03" component={OnboardingLogin03} />
+                <Stack.Screen name="OnboardingLogin04" component={OnboardingLogin04} />
                 <Stack.Screen name="HomeScreen" component={HomeScreen} />
                 <Stack.Screen name="DetailPage" component={DetailPage} />
                 <Stack.Screen name="DetailPageImage" component={DetailPageImage} />

@@ -70,7 +70,6 @@ const CafeCard = styled.View`
   width: 120px;
   height: 160px;
   background-color: #888;
-  margin-right: 6px;
   border-radius: 12px;
   border: 1px solid #F1F1F1;
   padding-horizontal: 12px;

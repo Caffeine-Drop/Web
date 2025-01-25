@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Animated, PanResponder, Dimensions } from "react-native";
 import {
-    responsiveFontSize,
-    responsiveWidth,
-    responsiveHeight,
-  } from "../utils/responsive";
+  responsiveFontSize,
+  responsiveWidth,
+  responsiveHeight,
+} from "../utils/responsive";
 import styled from "styled-components/native";
 import TopFilter from "./TopFilter";
 import CafeListItem from "./CafeListItem";
@@ -25,6 +25,13 @@ const SearchResults = ({ isVisible }) => {
   const [selectedSort, setSelectedSort] = useState("인기순");
   const [selectedTime, setSelectedTime] = useState("전체");
   const [selectedFilter, setSelectedFilter] = useState("");
+
+  // 모서리 반경 애니메이션 설정
+  const borderRadius = translateY.interpolate({
+    inputRange: [FULLY_EXPANDED_POSITION, DEFAULT_POSITION],
+    outputRange: [0, 24], // 위로 올라갈수록 직각, 아래로 내려갈수록 둥글게
+    extrapolate: "clamp",
+  });
 
   // isVisible 상태 변경 시 즉시 슬라이드
   useEffect(() => {
@@ -71,6 +78,8 @@ const SearchResults = ({ isVisible }) => {
       <AnimatedContainer
         style={{
           transform: [{ translateY }],
+          borderTopLeftRadius: borderRadius,
+          borderTopRightRadius: borderRadius,
         }}
         {...panResponder.panHandlers}
       >
@@ -186,8 +195,6 @@ const AnimatedContainer = styled(Animated.View)`
   top: 0;
   height: ${SCREEN_HEIGHT}px;
   background-color: #fafafa;
-  border-top-left-radius: 24px;
-  border-top-right-radius: 24px;
   z-index: 20;
   elevation: 4;
   shadow-color: rgba(0, 0, 0, 0.1);

@@ -14,6 +14,11 @@ import HomeScreen from "./pages/HomeScreen";
 import DetailPageImage from "./pages/detailpageimage";
 import DetailPageImageDetail from "./pages/detailpageimageDetail";
 import ReviewPage from "./pages/reviewpage";
+import SettingPage01 from "./pages/settingPages/settingpage01";
+import SettingPage02 from "./pages/settingPages/settingpage02";
+import SettingPage03 from "./pages/settingPages/settingpage03";
+import SettingPage04 from "./pages/settingPages/settingpage04";
+import SettingAskPage from "./pages/settingPages/settingaskpage";
 import EventPage01 from "./pages/eventPages/eventPage01";
 import EventPage02 from "./pages/eventPages/eventPage02";
 import EventPage03 from "./pages/eventPages/eventPage03";
@@ -42,7 +47,7 @@ export default function App() {
                 <Stack.Screen name="DetailPageImage" component={DetailPageImage} />
                 <Stack.Screen name="DetailPageImageDetail" component={DetailPageImageDetail} />
                 <Stack.Screen name="ReviewPage" component={ReviewPage} />
-                <Stack.Screen name="SpecialtyOptions" component={SpecialtyOptions} />   
+                <Stack.Screen name="SpecialtyOptions" component={SpecialtyOptions} />
                 <Stack.Screen name="EventPage01" component={EventPage01} />
                 <Stack.Screen name="EventPage02" component={EventPage02} />
                 <Stack.Screen name="EventPage03" component={EventPage03} />
@@ -51,6 +56,11 @@ export default function App() {
                 <Stack.Screen name="EventPage06" component={EventPage06} />
                 <Stack.Screen name="EventPage11" component={EventPage11} />
                 <Stack.Screen name="EventPage12" component={EventPage12} />
+                <Stack.Screen name="SettingAskPage" component={SettingAskPage} />
+                <Stack.Screen name="SettingPage04" component={SettingPage04} />
+                <Stack.Screen name="SettingPage03" component={SettingPage03} />
+                <Stack.Screen name="SettingPage02" component={SettingPage02} />
+                <Stack.Screen name="SettingPage01" component={SettingPage01} />
             </Stack.Navigator>
         </NavigationContainer>
     );

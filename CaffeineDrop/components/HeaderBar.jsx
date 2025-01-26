@@ -1,8 +1,6 @@
 import React, { useState, useRef } from 'react';
 import {
   Keyboard,
-  TouchableWithoutFeedback,
-  View
 } from 'react-native';
 import {
   responsiveFontSize,
@@ -12,9 +10,9 @@ import {
 import styled from 'styled-components/native';
 import BackIcon from './BackIcon';
 import SearchIcon from '../assets/search/SearchIcon.svg';
-import SearchDeleteIcon from '../assets/search/SearchDeleteIcon.svg'; // 추가된 경로
+import SearchDeleteIcon from '../assets/search/SearchDeleteIcon.svg';
 
-const HeaderBar = ({ onSearchPress, onSettingsPress }) => {
+const HeaderBar = ({ onSearchPress, onSettingsPress, setIsKeyboardVisible }) => {
   const [searchText, setSearchText] = useState("");
   const [isSettingComplete, setIsSettingComplete] = useState(false);
   const inputRef = useRef(null); // TextInput의 ref 생성
@@ -27,10 +25,6 @@ const HeaderBar = ({ onSearchPress, onSettingsPress }) => {
     setSearchText("");
   };
 
-  const dismissKeyboard = () => {
-    Keyboard.dismiss();
-  };
-
   const handleSettingsPress = () => {
     const newSettingState = !isSettingComplete; // 현재 상태 반전
     setIsSettingComplete(newSettingState); // 상태 업데이트
@@ -38,57 +32,58 @@ const HeaderBar = ({ onSearchPress, onSettingsPress }) => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={dismissKeyboard}>
-      <Container>
-        <HeadContainer>
-          <BackIcon />
-          <Title>검색</Title>
-        </HeadContainer>
-        <SearchContainer>
-          <InputContainer>
-            <SearchInput
-              ref={inputRef} // TextInput에 ref 연결
-              placeholder="검색어를 입력해주세요"
-              value={searchText}
-              onChangeText={handleInputChange}
-            />
-            <IconsWrapper>
-              {searchText.length > 0 && (
-                <DeleteIconWrapper onPress={clearSearchInput}>
-                  <SearchDeleteIcon
-                    width={responsiveWidth(24)}
-                    height={responsiveHeight(24)}
-                  />
-                </DeleteIconWrapper>
-              )}
-              <SearchIconWrapper onPress={onSearchPress}>
-                <SearchIcon
+    <Container>
+      <HeadContainer>
+        <BackIcon />
+        <Title>검색</Title>
+      </HeadContainer>
+      <SearchContainer>
+        <InputContainer>
+          <SearchInput
+            ref={inputRef} // TextInput에 ref 연결
+            placeholder="검색어를 입력해주세요"
+            value={searchText}
+            onChangeText={handleInputChange}
+            onFocus={() => setIsKeyboardVisible(true)} // 키보드 상태 관리
+            onBlur={() => setIsKeyboardVisible(false)} // 키보드 상태 관리
+          />
+          <IconsWrapper>
+            {searchText.length > 0 && (
+              <DeleteIconWrapper onPress={clearSearchInput}>
+                <SearchDeleteIcon
                   width={responsiveWidth(24)}
                   height={responsiveHeight(24)}
                 />
-              </SearchIconWrapper>
-            </IconsWrapper>
-          </InputContainer>
-          <SettingsButton
-            onPress={handleSettingsPress}
-            isComplete={isSettingComplete}
-          >
-            {/* isComplete 상태를 SettingsText에 명시적으로 전달 */}
-            <SettingsText isComplete={isSettingComplete}>
-              {isSettingComplete ? "설정" : "검색"}
-            </SettingsText>
-            <SettingsText isComplete={isSettingComplete}>
-              {isSettingComplete ? "완료" : "설정"}
-            </SettingsText>
-          </SettingsButton>
-        </SearchContainer>
-      </Container>
-    </TouchableWithoutFeedback>
+              </DeleteIconWrapper>
+            )}
+            <SearchIconWrapper onPress={onSearchPress}>
+              <SearchIcon
+                width={responsiveWidth(24)}
+                height={responsiveHeight(24)}
+              />
+            </SearchIconWrapper>
+          </IconsWrapper>
+        </InputContainer>
+        <SettingsButton
+          onPress={handleSettingsPress}
+          isComplete={isSettingComplete}
+        >
+          {/* isComplete 상태를 SettingsText에 명시적으로 전달 */}
+          <SettingsText isComplete={isSettingComplete}>
+            {isSettingComplete ? "설정" : "검색"}
+          </SettingsText>
+          <SettingsText isComplete={isSettingComplete}>
+            {isSettingComplete ? "완료" : "설정"}
+          </SettingsText>
+        </SettingsButton>
+      </SearchContainer>
+    </Container>
   );
 };
 
 export default HeaderBar;
 
+// 스타일은 동일하게 유지
 const Container = styled.View`
   background-color: #fafafa;
   margin-top: 38px;
@@ -118,7 +113,7 @@ const SearchContainer = styled.View`
 
 const InputContainer = styled.View`
   flex: 1;
-  border: 1px solid #E5E3E1;
+  border: 1px solid #e5e3e1;
   border-radius: 12px;
   background: #fff;
   margin-left: 16px;

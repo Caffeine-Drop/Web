@@ -21,6 +21,7 @@ const SearchPage = () => {
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [isMapVisible, setIsMapVisible] = useState(false);
   const [isSettingComplete, setIsSettingComplete] = useState(false);
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
   const cafeLocations = [
     { id: "cafe1", top: 60, left: 170 },
@@ -44,14 +45,16 @@ const SearchPage = () => {
   return (
     <Container>
       <HeaderBar
-        onSearchPress={() => setShowSearchResults(true)}
+        onSearchPress={() => {
+          setShowSearchResults(true);
+          setIsMapVisible(false);
+        }}
         onSettingsPress={(isComplete) => {
           setIsSettingComplete(isComplete);
-          if (!isMapVisible) {
-            setIsMapVisible(true);
-          }
+          setIsMapVisible(true);
           setShowSearchResults(false);
         }}
+        setIsKeyboardVisible={setIsKeyboardVisible}
       />
 
       {/* 지도 표시 */}
@@ -67,9 +70,18 @@ const SearchPage = () => {
               resizeMode: "cover",
             }}
           />
-
-          {/* "설정 완료" 상태일 때 */}
-          {isSettingComplete && (
+          {/* 설정 완료 상태일 때 */}
+          {isSettingComplete ? (
+            cafeLocations.map((cafe) => (
+              <CafeLocation
+                key={cafe.id}
+                top={cafe.top}
+                left={cafe.left}
+                isSelected={false}
+                onSelect={() => handleCafeSelect(cafe.id)}
+              />
+            ))
+          ) : (
             <>
               <CurrentLocationWrapper onPress={handleCurrentLocationPress}>
                 <CurrentLocationIcon width={12} height={12} />
@@ -86,25 +98,17 @@ const SearchPage = () => {
               </MoveMapWrapper>
             </>
           )}
-
-          {/* "검색 설정" 상태일 때 */}
-          {!isSettingComplete &&
-            cafeLocations.map((cafe) => (
-              <CafeLocation
-                key={cafe.id}
-                top={cafe.top}
-                left={cafe.left}
-                isSelected={false}
-                onSelect={() => handleCafeSelect(cafe.id)}
-              />
-            ))}
         </MapContainer>
       )}
 
       <SearchResults
         isVisible={showSearchResults}
         isSettingMode={isMapVisible}
-        onClose={() => setShowSearchResults(false)}
+        onClose={() => {
+          setShowSearchResults(false);
+          setIsMapVisible(true);
+          setIsSettingComplete(true);
+        }}
       />
 
       {/* 검색 추천 UI */}

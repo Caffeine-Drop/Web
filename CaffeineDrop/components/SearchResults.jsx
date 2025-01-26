@@ -18,7 +18,7 @@ const FULLY_EXPANDED_POSITION = 162; // 슬라이드가 올라갈 최대 위치
 const DEFAULT_POSITION = SCREEN_HEIGHT - 356; // 기본 위치 (아래쪽)
 const ANIMATION_DURATION = 300; // 애니메이션 지속 시간
 
-const SearchResults = ({ isVisible, isSettingMode, onSearchSettings }) => {
+const SearchResults = ({ isVisible, isSettingMode, onClose }) => {
   const translateY = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
   const [sortModalVisible, setSortModalVisible] = useState(false);
   const [timeModalVisible, setTimeModalVisible] = useState(false);
@@ -63,7 +63,9 @@ const SearchResults = ({ isVisible, isSettingMode, onSearchSettings }) => {
             toValue: DEFAULT_POSITION,
             duration: ANIMATION_DURATION,
             useNativeDriver: true,
-          }).start();
+          }).start(() => {
+            onClose && onClose(); // onClose 호출
+          });
         } else {
           // 위로 드래그하지 않으면 162px 위치로 복귀
           Animated.timing(translateY, {

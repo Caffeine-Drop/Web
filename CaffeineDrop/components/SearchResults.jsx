@@ -15,7 +15,7 @@ import DownIcon from "../assets/home/DownIcon.svg";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height; // 화면 높이
 const FULLY_EXPANDED_POSITION = 162; // 슬라이드가 올라갈 최대 위치
-const DEFAULT_POSITION = SCREEN_HEIGHT - 316; // 기본 위치 (아래쪽)
+const DEFAULT_POSITION = SCREEN_HEIGHT - 356; // 기본 위치 (아래쪽)
 const ANIMATION_DURATION = 300; // 애니메이션 지속 시간
 
 const SearchResults = ({ isVisible, isSettingMode, onSearchSettings }) => {

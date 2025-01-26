@@ -16,6 +16,7 @@ import SearchDeleteIcon from '../assets/search/SearchDeleteIcon.svg'; // 추가�
 
 const HeaderBar = ({ onSearchPress, onSettingsPress }) => {
   const [searchText, setSearchText] = useState("");
+  const [isSettingComplete, setIsSettingComplete] = useState(false);
   const inputRef = useRef(null); // TextInput의 ref 생성
 
   const handleInputChange = (text) => {
@@ -28,6 +29,12 @@ const HeaderBar = ({ onSearchPress, onSettingsPress }) => {
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
+  };
+
+  const handleSettingsPress = () => {
+    const newSettingState = !isSettingComplete; // 현재 상태 반전
+    setIsSettingComplete(newSettingState); // 상태 업데이트
+    onSettingsPress(newSettingState); // 부모 컴포넌트에 새로운 상태 전달
   };
 
   return (
@@ -63,12 +70,16 @@ const HeaderBar = ({ onSearchPress, onSettingsPress }) => {
             </IconsWrapper>
           </InputContainer>
           <SettingsButton
-            onPress={() => {
-              onSettingsPress(); // SearchResults에 상태 변경 요청
-            }}
+            onPress={handleSettingsPress}
+            isComplete={isSettingComplete}
           >
-            <SettingsText>검색</SettingsText>
-            <SettingsText>설정</SettingsText>
+            {/* isComplete 상태를 SettingsText에 명시적으로 전달 */}
+            <SettingsText isComplete={isSettingComplete}>
+              {isSettingComplete ? "설정" : "검색"}
+            </SettingsText>
+            <SettingsText isComplete={isSettingComplete}>
+              {isSettingComplete ? "완료" : "설정"}
+            </SettingsText>
           </SettingsButton>
         </SearchContainer>
       </Container>
@@ -150,12 +161,12 @@ const SettingsButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   display: flex;
-  background: #E5E3E1;
+  background: ${(props) => (props.isComplete ? "#756555" : "#e5e3e1")};
   border-radius: 12px;
 `;
 
 const SettingsText = styled.Text`
   font-size: 12px;
-  color: #756555;
+  color: ${(props) => (props.isComplete ? "#fafafa" : "#756555")};
   font-weight: 500;
 `;

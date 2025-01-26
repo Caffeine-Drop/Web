@@ -62,7 +62,11 @@ const HeaderBar = ({ onSearchPress, onSettingsPress }) => {
               </SearchIconWrapper>
             </IconsWrapper>
           </InputContainer>
-          <SettingsButton onPress={onSettingsPress}>
+          <SettingsButton
+            onPress={() => {
+              onSettingsPress(); // SearchResults에 상태 변경 요청
+            }}
+          >
             <SettingsText>검색</SettingsText>
             <SettingsText>설정</SettingsText>
           </SettingsButton>

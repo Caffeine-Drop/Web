@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Animated, PanResponder, Dimensions } from "react-native";
+import { Animated, PanResponder, Dimensions, Image } from "react-native";
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -18,7 +18,7 @@ const FULLY_EXPANDED_POSITION = 162; // 슬라이드가 올라갈 최대 위치
 const DEFAULT_POSITION = SCREEN_HEIGHT - 316; // 기본 위치 (아래쪽)
 const ANIMATION_DURATION = 300; // 애니메이션 지속 시간
 
-const SearchResults = ({ isVisible }) => {
+const SearchResults = ({ isVisible, isSettingMode, onSearchSettings }) => {
   const translateY = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
   const [sortModalVisible, setSortModalVisible] = useState(false);
   const [timeModalVisible, setTimeModalVisible] = useState(false);
@@ -33,14 +33,26 @@ const SearchResults = ({ isVisible }) => {
     extrapolate: "clamp",
   });
 
-  // isVisible 상태 변경 시 즉시 슬라이드
   useEffect(() => {
     Animated.timing(translateY, {
-      toValue: isVisible ? FULLY_EXPANDED_POSITION : SCREEN_HEIGHT,
+      toValue: isSettingMode
+        ? DEFAULT_POSITION // 검색 설정 모드일 때 기본 위치로 이동
+        : isVisible
+        ? FULLY_EXPANDED_POSITION // 검색 결과 슬라이드 표시
+        : SCREEN_HEIGHT, // 슬라이드 숨김
       duration: ANIMATION_DURATION,
       useNativeDriver: true,
     }).start();
-  }, [isVisible]);
+  }, [isVisible, isSettingMode]);
+
+  const handleSettingsPress = () => {
+    Animated.timing(translateY, {
+      toValue: DEFAULT_POSITION,
+      duration: ANIMATION_DURATION,
+      useNativeDriver: true,
+    }).start();
+    onSearchSettings(true); // 지도 표시를 위한 상태 전달
+  };
 
   // 슬라이드 핸들링
   const panResponder = useRef(

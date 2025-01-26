@@ -1,42 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Image } from "react-native";
-import styled from 'styled-components/native';
-import HeaderBar from '../components/HeaderBar';
-import PopularSearchList from '../components/PopularSearchList';
-import RecentSearchTags from '../components/RecentSearchTags';
-import RecommendedCafes from '../components/RecommendedCafes';
-import SearchResults from '../components/SearchResults';
-import CurrentLocationIcon from '../assets/search/CurrentLocationIcon.svg'
+import styled from "styled-components/native";
+import HeaderBar from "../components/HeaderBar";
+import PopularSearchList from "../components/PopularSearchList";
+import RecentSearchTags from "../components/RecentSearchTags";
+import RecommendedCafes from "../components/RecommendedCafes";
+import SearchResults from "../components/SearchResults";
+import CafeLocation from "../components/CafeLocation";
+import CurrentLocationIcon from "../assets/search/CurrentLocationIcon.svg";
 
 const SearchPage = () => {
-  const popularSearches = ['카이막', '두바이 초콜릿', '브런치 카페', '베이글', '콜드브루', '에스프레소'];
-  const recentSearches = ['수플레', '딸기케이크', '휘낭시에', '휘낭시에', '카이막'];
+  const popularSearches = ["카이막", "두바이 초콜릿", "브런치 카페", "베이글", "콜드브루", "에스프레소"];
+  const recentSearches = ["수플레", "딸기케이크", "휘낭시에", "휘낭시에", "카이막"];
   const recommendedCafes = [
-    { name: '언힙커피로스터스', distance: '600m', rating: 4.0 },
-    { name: '언힙커피로스터스', distance: '600m', rating: 4.0 },
-    { name: '언힙커피로스터스', distance: '600m', rating: 4.0 },
+    { name: "언힙커피로스터스", distance: "600m", rating: 4.0 },
+    { name: "언힙커피로스터스", distance: "600m", rating: 4.0 },
+    { name: "언힙커피로스터스", distance: "600m", rating: 4.0 },
   ];
 
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [isMapVisible, setIsMapVisible] = useState(false);
+  const [isSettingComplete, setIsSettingComplete] = useState(false);
+
+  const cafeLocations = [
+    { id: "cafe1", top: 60, left: 170 },
+    { id: "cafe2", top: 110, left: 100 },
+    { id: "cafe3", top: 130, left: 230 },
+    { id: "cafe4", top: 180, left: 160 },
+  ];
 
   const handleClearAll = () => {
-    console.log('모두 삭제');
+    console.log("모두 삭제");
   };
 
   const handleCurrentLocationPress = () => {
-    console.log('현재 위치로 가기 버튼 클릭!');
+    console.log("현재 위치로 가기 버튼 클릭!");
+  };
+
+  const handleCafeSelect = (cafeId) => {
+    console.log(`${cafeId} 선택됨`);
   };
 
   return (
     <Container>
       <HeaderBar
         onSearchPress={() => setShowSearchResults(true)}
-        onSettingsPress={(isSettingComplete) => {
-          if (isSettingComplete) {
-            setIsMapVisible(true); // 지도 표시
-            setShowSearchResults(false); // 검색 슬라이드 닫기
+        onSettingsPress={(isComplete) => {
+          setIsSettingComplete(isComplete);
+          if (!isMapVisible) {
+            setIsMapVisible(true);
           }
+          setShowSearchResults(false);
         }}
       />
 
@@ -47,25 +61,43 @@ const SearchPage = () => {
             source={require("../assets/home/MapImage.png")}
             style={{
               position: "absolute",
-              top: 0, // FULLY_EXPANDED_POSITION
+              top: 0,
               width: "100%",
-              height: "349px", // 지도 크기
+              height: "349px",
               resizeMode: "cover",
             }}
           />
-          <CurrentLocationWrapper onPress={handleCurrentLocationPress}>
-            <CurrentLocationIcon width={12} height={12} />
-            <CurrentLocationText>현재 위치로 가기</CurrentLocationText>
-          </CurrentLocationWrapper>
-          <LocationIconWrapper>
-            <Image
-              source={require("../assets/search/LocationIcon.png")}
-              style={{ width: 23.859, height: 34.5 }}
-            />
-          </LocationIconWrapper>
-          <MoveMapWrapper>
-            <MoveMapText>지도를 움직여 검색 위치를 설정해주세요</MoveMapText>
-          </MoveMapWrapper>
+
+          {/* "설정 완료" 상태일 때 */}
+          {isSettingComplete && (
+            <>
+              <CurrentLocationWrapper onPress={handleCurrentLocationPress}>
+                <CurrentLocationIcon width={12} height={12} />
+                <CurrentLocationText>현재 위치로 가기</CurrentLocationText>
+              </CurrentLocationWrapper>
+              <LocationIconWrapper>
+                <Image
+                  source={require("../assets/search/LocationIcon.png")}
+                  style={{ width: 23.859, height: 34.5 }}
+                />
+              </LocationIconWrapper>
+              <MoveMapWrapper>
+                <MoveMapText>지도를 움직여 검색 위치를 설정해주세요</MoveMapText>
+              </MoveMapWrapper>
+            </>
+          )}
+
+          {/* "검색 설정" 상태일 때 */}
+          {!isSettingComplete &&
+            cafeLocations.map((cafe) => (
+              <CafeLocation
+                key={cafe.id}
+                top={cafe.top}
+                left={cafe.left}
+                isSelected={false}
+                onSelect={() => handleCafeSelect(cafe.id)}
+              />
+            ))}
         </MapContainer>
       )}
 
@@ -74,6 +106,7 @@ const SearchPage = () => {
         isSettingMode={isMapVisible}
         onClose={() => setShowSearchResults(false)}
       />
+
       {/* 검색 추천 UI */}
       {!showSearchResults && !isMapVisible && (
         <>
@@ -98,10 +131,10 @@ const Container = styled.View`
 
 const MapContainer = styled.View`
   position: absolute;
-  top: 162px; /* 지도 위치 */
+  top: 162px;
   left: 0;
   right: 0;
-  bottom: 316px; /* 지도 높이 */
+  bottom: 316px;
   z-index: 2;
 `;
 
@@ -130,9 +163,9 @@ const CurrentLocationWrapper = styled.TouchableOpacity`
 
 const LocationIconWrapper = styled.View`
   position: absolute;
-  top: 50%; /* 수직 중앙 */
-  left: 50%; /* 수평 중앙 */
-  transform: translate(-11.93px, -17.25px); /* 아이콘 크기 기준 조정 (32px의 절반) */
+  top: 50%;
+  left: 50%;
+  transform: translate(-11.93px, -17.25px);
   z-index: 3;
 `;
 

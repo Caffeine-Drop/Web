@@ -45,15 +45,6 @@ const SearchResults = ({ isVisible, isSettingMode, onSearchSettings }) => {
     }).start();
   }, [isVisible, isSettingMode]);
 
-  const handleSettingsPress = () => {
-    Animated.timing(translateY, {
-      toValue: DEFAULT_POSITION,
-      duration: ANIMATION_DURATION,
-      useNativeDriver: true,
-    }).start();
-    onSearchSettings(true); // 지도 표시를 위한 상태 전달
-  };
-
   // 슬라이드 핸들링
   const panResponder = useRef(
     PanResponder.create({

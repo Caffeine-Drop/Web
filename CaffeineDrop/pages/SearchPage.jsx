@@ -7,7 +7,7 @@ import RecentSearchTags from "../components/RecentSearchTags";
 import RecommendedCafes from "../components/RecommendedCafes";
 import SearchResults from "../components/SearchResults";
 import CafeLocation from "../components/CafeLocation";
-import NewEmptySlide from "../components/NewEmptySlide";
+import SearchWordSlide from "../components/SearchWordSlide";
 import CurrentLocationIcon from "../assets/search/CurrentLocationIcon.svg";
 
 const SearchPage = () => {
@@ -130,7 +130,14 @@ const SearchPage = () => {
       />
 
       {isNewSlideVisible && (
-        <NewEmptySlide onClose={() => setIsNewSlideVisible(false)} />
+        <SearchWordSlide onClose={() => setIsNewSlideVisible(false)}>
+          <PopularSearchList popularSearches={popularSearches} />
+          <RecentSearchTags
+            recentSearches={recentSearches}
+            onClearAll={handleClearAll}
+          />
+          <RecommendedCafes cafes={recommendedCafes} />
+        </SearchWordSlide>
       )}
 
       {/* 검색 추천 UI */}

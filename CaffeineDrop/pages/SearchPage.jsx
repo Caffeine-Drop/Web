@@ -48,16 +48,15 @@ const SearchPage = () => {
 
   const handleSettingsPress = (isComplete) => {
     if (searchText.trim().length > 0) {
-      // If there's a search query, show search results and map
       setIsSettingComplete(isComplete);
       setIsMapVisible(true);
       setShowSearchResults(false);
       setIsNewSlideVisible(false); // Ensure the new slide is hidden
     } else {
-      // If no search query, show the new empty slide
       setIsNewSlideVisible(true);
       setShowSearchResults(false);
-      setIsMapVisible(false);
+      setIsSettingComplete(false);
+      setIsMapVisible(true);
     }
   };
 

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Image } from "react-native";
+import React, { useState, useRef } from "react";
+import { Animated, Image, TouchableOpacity, PanResponder } from "react-native";
 import styled from "styled-components/native";
 import HeaderBar from "../components/HeaderBar";
 import PopularSearchList from "../components/PopularSearchList";
@@ -9,6 +9,12 @@ import SearchResults from "../components/SearchResults";
 import CafeLocation from "../components/CafeLocation";
 import SearchWordSlide from "../components/SearchWordSlide";
 import CurrentLocationIcon from "../assets/search/CurrentLocationIcon.svg";
+import LocationHereIcon from "../assets/home/LocationHereIcon.svg";
+
+const SCREEN_HEIGHT = 800; // 화면 높이 (예제값)
+const DEFAULT_POSITION = 316; // Bottom Sheet 기본 위치
+const FULLY_EXPANDED_POSITION = 162; // 슬라이드 최상단 위치
+const ANIMATION_DURATION = 300; // 애니메이션 지속 시간
 
 const SearchPage = () => {
   const popularSearches = ["카이막", "두바이 초콜릿", "브런치 카페", "베이글", "콜드브루", "에스프레소"];
@@ -27,12 +33,13 @@ const SearchPage = () => {
   const [searchText, setSearchText] = useState("");
   const [isNewSlideVisible, setIsNewSlideVisible] = useState(false);
 
-  const cafeLocations = [
-    { id: "cafe1", top: 60, left: 170 },
-    { id: "cafe2", top: 110, left: 100 },
-    { id: "cafe3", top: 130, left: 230 },
-    { id: "cafe4", top: 180, left: 160 },
-  ];
+  const translateY = useRef(new Animated.Value(DEFAULT_POSITION)).current;
+  const animatedLocations = useRef([
+    { id: "cafe1", top: new Animated.Value(60), left: new Animated.Value(170) },
+    { id: "cafe2", top: new Animated.Value(110), left: new Animated.Value(100) },
+    { id: "cafe3", top: new Animated.Value(130), left: new Animated.Value(230) },
+    { id: "cafe4", top: new Animated.Value(180), left: new Animated.Value(160) },
+  ]).current;
 
   const handleClearAll = () => {
     console.log("모두 삭제");
@@ -41,16 +48,48 @@ const SearchPage = () => {
   const handleCurrentLocationPress = () => {
     console.log("현재 위치로 가기 버튼 클릭!");
   };
-
+  
+  const [selectedCafe, setSelectedCafe] = useState(null);
   const handleCafeSelect = (cafeId) => {
-    console.log(`${cafeId} 선택됨`);
+    const selected = animatedLocations.find((loc) => loc.id === cafeId);
+    if (!selected) return;
+
+    const centerX = 160; // 중앙 X 좌표
+    const centerY = 116; // 중앙 Y 좌표
+
+    const deltaY = centerY - selected.top.__getValue();
+    const deltaX = centerX - selected.left.__getValue();
+
+    Animated.parallel([
+      ...animatedLocations.map((loc) =>
+        Animated.timing(loc.top, {
+          toValue: loc.top.__getValue() + deltaY,
+          duration: ANIMATION_DURATION,
+          useNativeDriver: false,
+        })
+      ),
+      ...animatedLocations.map((loc) =>
+        Animated.timing(loc.left, {
+          toValue: loc.left.__getValue() + deltaX,
+          duration: ANIMATION_DURATION,
+          useNativeDriver: false,
+        })
+      ),
+      Animated.timing(translateY, {
+        toValue: FULLY_EXPANDED_POSITION,
+        duration: ANIMATION_DURATION,
+        useNativeDriver: true,
+      }),
+    ]).start();
+
+    setSelectedCafe(cafeId);
   };
 
   const handleSettingsPress = (isComplete) => {
     if (searchText.trim().length > 0) {
       setIsSettingComplete(isComplete);
       setIsMapVisible(true);
-      setShowSearchResults(false);
+      setShowSearchResults(true);
       setIsNewSlideVisible(false); // Ensure the new slide is hidden
     } else {
       setIsNewSlideVisible(true);
@@ -89,14 +128,26 @@ const SearchPage = () => {
           />
           {/* 설정 완료 상태일 때 */}
           {isSettingComplete ? (
-            cafeLocations.map((cafe) => (
-              <CafeLocation
-                key={cafe.id}
-                top={cafe.top}
-                left={cafe.left}
-                isSelected={false}
-                onSelect={() => handleCafeSelect(cafe.id)}
-              />
+            animatedLocations.map((loc) => (
+              <Animated.View
+                key={loc.id}
+                style={{
+                  position: "absolute",
+                  top: loc.top,
+                  left: loc.left,
+                }}
+              >
+                {selectedCafe === loc.id ? (
+                  <TouchableOpacity onPress={() => setSelectedCafe(null)}>
+                    <LocationHereIcon width={35} height={44.375} />
+                  </TouchableOpacity>
+                ) : (
+                  <CafeLocation
+                    isSelected={selectedCafe === loc.id}
+                    onSelect={() => handleCafeSelect(loc.id)}
+                  />
+                )}
+              </Animated.View>
             ))
           ) : (
             <>

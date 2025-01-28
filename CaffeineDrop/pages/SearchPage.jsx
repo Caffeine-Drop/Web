@@ -7,6 +7,7 @@ import RecentSearchTags from "../components/RecentSearchTags";
 import RecommendedCafes from "../components/RecommendedCafes";
 import SearchResults from "../components/SearchResults";
 import CafeLocation from "../components/CafeLocation";
+import NewEmptySlide from "../components/NewEmptySlide";
 import CurrentLocationIcon from "../assets/search/CurrentLocationIcon.svg";
 
 const SearchPage = () => {
@@ -22,6 +23,9 @@ const SearchPage = () => {
   const [isMapVisible, setIsMapVisible] = useState(false);
   const [isSettingComplete, setIsSettingComplete] = useState(false);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+
+  const [searchText, setSearchText] = useState("");
+  const [isNewSlideVisible, setIsNewSlideVisible] = useState(false);
 
   const cafeLocations = [
     { id: "cafe1", top: 60, left: 170 },
@@ -42,19 +46,33 @@ const SearchPage = () => {
     console.log(`${cafeId} 선택됨`);
   };
 
+  const handleSettingsPress = (isComplete) => {
+    if (searchText.trim().length > 0) {
+      // If there's a search query, show search results and map
+      setIsSettingComplete(isComplete);
+      setIsMapVisible(true);
+      setShowSearchResults(false);
+      setIsNewSlideVisible(false); // Ensure the new slide is hidden
+    } else {
+      // If no search query, show the new empty slide
+      setIsNewSlideVisible(true);
+      setShowSearchResults(false);
+      setIsMapVisible(false);
+    }
+  };
+
   return (
     <Container>
       <HeaderBar
         onSearchPress={() => {
           setShowSearchResults(true);
           setIsMapVisible(false);
+          setIsNewSlideVisible(false);
         }}
-        onSettingsPress={(isComplete) => {
-          setIsSettingComplete(isComplete);
-          setIsMapVisible(true);
-          setShowSearchResults(false);
-        }}
+        onSettingsPress={handleSettingsPress}
         setIsKeyboardVisible={setIsKeyboardVisible}
+        searchText={searchText}        // Pass searchText as a prop
+        setSearchText={setSearchText}  // Pass setSearchText as a prop
       />
 
       {/* 지도 표시 */}
@@ -110,6 +128,10 @@ const SearchPage = () => {
           setIsSettingComplete(true);
         }}
       />
+
+      {isNewSlideVisible && (
+        <NewEmptySlide onClose={() => setIsNewSlideVisible(false)} />
+      )}
 
       {/* 검색 추천 UI */}
       {!showSearchResults && !isMapVisible && (

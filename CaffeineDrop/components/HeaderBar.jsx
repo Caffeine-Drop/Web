@@ -12,8 +12,8 @@ import BackIcon from './BackIcon';
 import SearchIcon from '../assets/search/SearchIcon.svg';
 import SearchDeleteIcon from '../assets/search/SearchDeleteIcon.svg';
 
-const HeaderBar = ({ onSearchPress, onSettingsPress, setIsKeyboardVisible }) => {
-  const [searchText, setSearchText] = useState("");
+const HeaderBar = ({ onSearchPress, onSettingsPress, setIsKeyboardVisible, searchText, setSearchText }) => {
+  // const [searchText, setSearchText] = useState("");
   const [isSettingComplete, setIsSettingComplete] = useState(false);
   const inputRef = useRef(null); // TextInput의 ref 생성
 

@@ -49,6 +49,19 @@ const SearchPage = () => {
     console.log("현재 위치로 가기 버튼 클릭!");
   };
   
+  const handleSlideDown = () => {
+    setIsSettingComplete(false); // 검색 설정 버튼을 "설정 완료"로 바꾸지 않음
+    setIsMapVisible(true); // 지도 화면이 아니라 기본 화면으로 복귀
+    setShowSearchResults(false); // 검색 결과가 아닌 기본 상태 유지
+  
+    // 슬라이드를 원래 default 상태로 복귀
+    Animated.timing(translateY, {
+      toValue: SCREEN_HEIGHT - 356, // Default position (카페 아이콘들이 나타나는 높이)
+      duration: ANIMATION_DURATION,
+      useNativeDriver: true,
+    }).start();
+  };
+
   const [selectedCafe, setSelectedCafe] = useState(null);
   const handleCafeSelect = (cafeId) => {
     const selected = animatedLocations.find((loc) => loc.id === cafeId);
@@ -90,7 +103,6 @@ const SearchPage = () => {
       setIsSettingComplete(isComplete);
       setIsMapVisible(true);
       setShowSearchResults(true);
-      setIsNewSlideVisible(false); // Ensure the new slide is hidden
     } else {
       setIsNewSlideVisible(true);
       setShowSearchResults(false);
@@ -127,7 +139,7 @@ const SearchPage = () => {
             }}
           />
           {/* 설정 완료 상태일 때 */}
-          {isSettingComplete ? (
+          {!isSettingComplete ? (
             animatedLocations.map((loc) => (
               <Animated.View
                 key={loc.id}
@@ -177,6 +189,7 @@ const SearchPage = () => {
           setIsMapVisible(true);
           setIsSettingComplete(true);
         }}
+        onSlideDown={handleSlideDown}
       />
 
       {isNewSlideVisible && (

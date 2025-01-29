@@ -1,9 +1,10 @@
 import React from "react";
 import Svg, { G, Circle, Defs, Filter, FeFlood, FeBlend, FeGaussianBlur } from "react-native-svg";
+import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../utils/responsive";
 
 export default function BlurIcon(props) {
     return (
-        <Svg width="268" height="380" viewBox="0 0 268 380" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <Svg width={`${responsiveWidth(268)}px`} height={`${responsiveHeight(380)}px`} viewBox="0 0 268 380" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <G filter="url(#filter0_f_440_23678)">
                 <Circle cx="78" cy="190" r="90" fill="#A57F59" fillOpacity="0.30" />
             </G>

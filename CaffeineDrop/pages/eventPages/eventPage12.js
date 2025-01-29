@@ -30,11 +30,7 @@ export default function EventPage12({ navigation }) {
                         </TextBox>
 
                         <RankTitle>
-                            <TtileText>
-                                스페셜티 협회의
-                                <br />
-                                원두 등급
-                            </TtileText>
+                            <TtileText>스페셜티 협회의{"\n"}원두 등급</TtileText>
                         </RankTitle>
 
                         <RankingTable>
@@ -152,12 +148,12 @@ const IconWrapper = styled.View`
 const Title = styled.Text`
     color: #000;
     text-align: center;
-    font-family: Pretendard;
+    font-family: PretendardSemiBold;
     font-size: ${responsiveFontSize(18)}px;
     font-style: normal;
     font-weight: 600;
     line-height: ${responsiveHeight(22.08)}px;
-    letter-spacing: ${responsiveWidth(-0.45)}px;
+    letter-spacing: -0.45px;
 `;
 
 /////////////////////////////////////////////////
@@ -178,12 +174,12 @@ const CoffeeDef = styled.View`
 const TtileText = styled.Text`
     /*스페셜티 커피의 정의*/
     color: #000;
-    font-family: Pretendard;
+    font-family: PretendardSemiBold;
     font-size: ${responsiveFontSize(24)}px;
     font-style: normal;
     font-weight: 600;
     line-height: ${responsiveHeight(33)}px;
-    letter-spacing: ${responsiveWidth(-0.6)}px;
+    letter-spacing: -0.6px;
 `;
 const Description = styled.View`
     /*설명*/
@@ -191,12 +187,12 @@ const Description = styled.View`
 const ContentText = styled.Text`
     /*설명*/
     color: #000;
-    font-family: Pretendard;
+    font-family: PretendardRegular;
     font-size: ${responsiveFontSize(12)}px;
     font-style: normal;
     font-weight: 400;
     line-height: ${responsiveHeight(18)}px;
-    letter-spacing: ${responsiveWidth(-0.8)}px;
+    letter-spacing: -0.8px;
 `;
 
 /////////////////////////////////////////////////
@@ -232,22 +228,22 @@ const CircleWrapper = styled.View`
 `;
 const TopScoreText = styled.Text`
     color: #999;
-    font-family: Pretendard;
+    font-family: PretendardMedium;
     font-size: ${responsiveFontSize(14)}px;
     font-style: normal;
     font-weight: 500;
     line-height: ${responsiveHeight(19.32)}px;
-    letter-spacing: ${responsiveWidth(-0.35)}px;
+    letter-spacing: -0.35px;
 `;
 const Score = styled.View``;
 const ScoreText = styled.Text`
     color: #333;
-    font-family: Pretendard;
+    font-family: PretendardRegular;
     font-size: ${responsiveFontSize(14)}px;
     font-style: normal;
     font-weight: 400;
     line-height: ${responsiveHeight(19.32)}px;
-    letter-spacing: ${responsiveWidth(-0.35)}px;
+    letter-spacing: -0.35px;
 `;
 const ScoreTitle = styled.View`
     gap: ${responsiveHeight(4)}px;
@@ -256,21 +252,21 @@ const ScoreTitle = styled.View`
 `;
 const ScoreTitleText = styled.Text`
     color: #000;
-    font-family: Pretendard;
+    font-family: PretendardSemiBold;
     font-size: ${responsiveFontSize(14)}px;
     font-style: normal;
     font-weight: 600;
     line-height: ${responsiveHeight(19.32)}px;
-    letter-spacing: ${responsiveWidth(-0.35)}px;
+    letter-spacing: -0.35px;
 `;
 const ScoreInfoText = styled.Text`
     color: #666;
-    font-family: Pretendard;
+    font-family: PretendardMedium;
     font-size: ${responsiveFontSize(12)}px;
     font-style: normal;
     font-weight: 500;
     line-height: ${responsiveHeight(14.49)}px;
-    letter-spacing: ${responsiveWidth(-0.3)}px;
+    letter-spacing: -0.3px;
     flex-wrap: wrap;
 `;
 /////////////////////////////////////////////////
@@ -294,10 +290,10 @@ const ButtonWrapper = styled(TouchableOpacity)`
 
 const ButtonText = styled.Text`
     color: #fafafa;
-    font-family: Pretendard;
+    font-family: PretendardBold;
     font-size: ${responsiveFontSize(16)}px;
     font-style: normal;
     font-weight: 700;
     line-height: ${responsiveHeight(22.08)}px;
-    letter-spacing: ${responsiveWidth(-0.4)}px;
+    letter-spacing: -0.4px;
 `;

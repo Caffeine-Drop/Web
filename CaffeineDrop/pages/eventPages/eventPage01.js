@@ -5,6 +5,14 @@ import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../uti
 import BackIcon from "../../components/BackIcon";
 import Drip from "../../components/Drip";
 
+import { Dimensions } from "react-native";
+
+// 화면 크기 가져오기
+const { width, height } = Dimensions.get("window");
+
+// 태블릿 판별 기준 (보통 width가 600px 이상이면 태블릿)
+const isTablet = width >= 600;
+
 export default function EventPage01({ navigation }) {
     return (
         <Container>
@@ -90,20 +98,20 @@ const Content = styled.View`
 `;
 const DripWrapper = styled.View`
     position: absolute;
-    top: ${responsiveHeight(115)}px;
+    top: ${isTablet ? height / 2 - responsiveHeight(300) : responsiveHeight(115)}px;
     right: ${responsiveWidth(50)}px;
 `;
 //////////////////////////////////////////
 const TextContainer = styled.View`
-    position: absolute;
-    top: ${responsiveHeight(384)}px;
     width: 100%;
     height: ${responsiveHeight(98)}px;
-    display: inline-flex;
+    display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: ${responsiveHeight(16)}px;
+    margin-top: ${isTablet ? responsiveHeight(404) : responsiveHeight(384)}px;
 `;
+
 const HeaderWrapper = styled.View`
     width: auto; /* 가변 너비 */
     height: auto; /* 가변 높이 */

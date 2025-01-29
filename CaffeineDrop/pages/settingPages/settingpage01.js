@@ -9,16 +9,20 @@ import NextButton from "../../components/NextButton";
 import { useFonts } from "../../styles";
 import { useNavigation } from "@react-navigation/native";
 
+import { Dimensions } from "react-native";
+
+// 화면 너비 가져오기
+const { width } = Dimensions.get("window");
+
+// 태블릿 판별 기준 (보통 width가 600px 이상이면 태블릿)
+const isTablet = width >= 600;
+
 export default function SettingPage01({ navigation }) {
     const fontsLoaded = useFonts();
 
     if (!fontsLoaded) {
         return null;
     }
-
-    const handlePress = () => {
-        navigation.navigate("TargetPage");
-    };
 
     return (
         <Container>
@@ -139,7 +143,7 @@ const Title = styled.Text`
     font-style: normal;
     font-weight: 600;
     line-height: ${responsiveHeight(24)}px;
-    letter-spacing: ${responsiveWidth(-0.5)};
+    letter-spacing: -0.5px;
 `;
 ////////////////////////////////////////////////////
 const Box1 = styled.View`
@@ -149,7 +153,7 @@ const Box1 = styled.View`
 
 const ImageBox = styled.View`
     position: absolute;
-    left: ${responsiveWidth(130)}px;
+    left: ${isTablet ? width / 2 - responsiveWidth(50) : responsiveWidth(130)}px;
     top: ${responsiveHeight(16)}px;
 `;
 const NameBox = styled.View`
@@ -178,11 +182,12 @@ const LoginBox = styled(TouchableOpacity)`
     position: absolute;
     width: ${responsiveWidth(122)}px;
     height: ${responsiveHeight(25)}px;
-    top: ${responsiveWidth(185)}px;
-    left: ${responsiveWidth(119)}px;
     padding: 4px 9px 4px 6px;
     border-radius: 24px;
     background: #e5e3e1;
+
+    left: ${isTablet ? width / 2 - responsiveWidth(61) : responsiveWidth(119)}px;
+    top: ${responsiveHeight(185)}px;
 `;
 const LoginButton = styled(TouchableOpacity)`
     display: inline-flex;

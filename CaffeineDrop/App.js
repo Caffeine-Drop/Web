@@ -49,7 +49,6 @@ export default function App() {
                 <Stack.Screen name="DetailPageImage" component={DetailPageImage} />
                 <Stack.Screen name="DetailPageImageDetail" component={DetailPageImageDetail} />
                 <Stack.Screen name="ReviewPage" component={ReviewPage} />
-                <Stack.Screen name="SpecialtyOptions" component={SpecialtyOptions} />   
                 <Stack.Screen name="SpecialtyOptions" component={SpecialtyOptions} />
                 <Stack.Screen name="EventPage01" component={EventPage01} />
                 <Stack.Screen name="EventPage02" component={EventPage02} />

@@ -3,9 +3,12 @@ import { Animated, PanResponder, StyleSheet, View, Text, Button, TouchableOpacit
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import styled from "styled-components/native";
 import BackIcon from "../../components/BackIcon";
-import BlackTextCircle from "../../components/BlackTextCircle";
 import BlurIcon from "../../components/BlurIcon";
+import BlurIcon2 from "../../components/BlurIcon2";
+import BlackTextCircle from "../../components/BlackTextCircle";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
+import { Platform } from "react-native";
 
 const SelectOption = ({ text, score, isSelected, onPress }) => {
     const backgroundColor = useRef(new Animated.Value(0)).current;
@@ -76,7 +79,7 @@ const SelectOption = ({ text, score, isSelected, onPress }) => {
 
     const scoreTextColorInterpolate = scoreTextColor.interpolate({
         inputRange: [0, 1],
-        outputRange: ["#666666", "#FAFAFA"],
+        outputRange: ["#999999", "#FAFAFA"],
     });
 
     return (
@@ -145,7 +148,7 @@ export default function EventPage05({ navigation }) {
 
     const buttonTextColorInterpolate = buttonTextColor.interpolate({
         inputRange: [0, 1],
-        outputRange: ["#666666", "#756555"],
+        outputRange: ["#999999", "#756555"],
     });
 
     return (
@@ -183,7 +186,7 @@ export default function EventPage05({ navigation }) {
 
                         <ContentContainer>
                             <ContentText>
-                                바디감은 질감과 무게감의 정도를 말해요. 정확히 말하면,{"    "}
+                                바디감은 질감과 무게감의 정도를 말해요. 정확히 말하면,{"  "}
                                 <HighlightText2>액체의 밀도와 중량</HighlightText2>
                                 으로 구분한다고 볼 수 있어요. 쉽게 예를 들어 보면 <HighlightText2>물은 바디감이 약한 편이고, 우유는 바디감이 강한 편이에요.</HighlightText2>
                             </ContentText>
@@ -191,7 +194,7 @@ export default function EventPage05({ navigation }) {
                     </TextContainer>
 
                     <BlurWrapper2>
-                        <BlurIcon />
+                        <BlurIcon2 />
                     </BlurWrapper2>
 
                     <SelectContainer>
@@ -202,11 +205,11 @@ export default function EventPage05({ navigation }) {
                 </Content>
 
                 <Footer>
-                    <AnimatedButtonWrapper style={{ backgroundColor: buttonBackgroundColorInterpolate }}>
-                        <TouchableOpacity onPress={() => navigation.navigate("EventPage11")}>
+                    <TouchableOpacity onPress={() => navigation.navigate("EventPage11")}>
+                        <AnimatedButtonWrapper style={{ backgroundColor: buttonBackgroundColorInterpolate }}>
                             <AnimatedButtonText style={{ color: buttonTextColorInterpolate }}>다음으로</AnimatedButtonText>
-                        </TouchableOpacity>
-                    </AnimatedButtonWrapper>
+                        </AnimatedButtonWrapper>
+                    </TouchableOpacity>
                 </Footer>
             </InnerContainer>
         </Container>
@@ -217,8 +220,6 @@ const Container = styled.View`
     width: 100%;
     height: 100%;
     background: #fafafa;
-
-    overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */
 `;
 const InnerContainer = styled.View`
     flex: 1;
@@ -242,10 +243,10 @@ const IconWrapper = styled.View`
 const Title = styled.Text`
     font-size: ${responsiveFontSize(18)}px;
     line-height: ${responsiveHeight(24.84)}px;
-    letter-spacing: ${responsiveFontSize(-0.45)}px;
+    letter-spacing: -0.45px;
     color: #000;
     text-align: center;
-    font-family: Pretendard;
+    font-family: PretendardSemiBold;
     font-style: normal;
     font-weight: 600;
     z-index: 5;
@@ -276,10 +277,10 @@ const BlurWrapper = styled.View`
 `;
 const BlurWrapper2 = styled.View`
     position: absolute;
-    height: ${responsiveHeight(234)}px;
+    height: ${responsiveHeight(420)}px;
     width: ${responsiveWidth(420)}px;
-    right: ${responsiveWidth(-275)}px;
-    top: ${responsiveWidth(230)}px;
+    left: ${responsiveWidth(120)}px;
+    top: ${responsiveWidth(180)}px;
 `;
 
 //////////////////////////////////////////////
@@ -302,72 +303,91 @@ const CircleWrapper = styled.View`
     width: ${responsiveWidth(4)}px;
     height: ${responsiveWidth(4)}px;
 
-    left: ${responsiveWidth(86)}px;
-    right: ${responsiveWidth(193)}px;
-    top: ${responsiveWidth(-4)}px;
+    ${Platform.select({
+        ios: `
+            left: ${responsiveWidth(70)}px;
+            top: ${responsiveWidth(-4)}px;
+        `,
+        android: `
+            left: ${responsiveWidth(86)}px;
+            top: ${responsiveWidth(-4)}px;
+        `,
+        web: `
+            left: ${responsiveWidth(87)}px;
+            top: ${responsiveWidth(-4)}px;
+        `,
+    })}
 `;
 const CircleWrapper2 = styled.View`
     position: absolute;
     width: ${responsiveWidth(4)}px;
     height: ${responsiveWidth(4)}px;
 
-    left: ${responsiveWidth(116)}px;
-    right: ${responsiveWidth(100)}px;
-    top: ${responsiveWidth(-4)}px;
+    ${Platform.select({
+        ios: `
+            left: ${responsiveWidth(97)}px;
+            top: ${responsiveWidth(-4)}px;
+        `,
+        android: `
+            left: ${responsiveWidth(86)}px;
+            top: ${responsiveWidth(-4)}px;
+        `,
+        web: `
+            left: ${responsiveWidth(116)}px;
+            top: ${responsiveWidth(-4)}px;
+        `,
+    })}
 `;
 const CircleWrapper3 = styled.View`
     position: absolute;
     width: ${responsiveWidth(4)}px;
     height: ${responsiveWidth(4)}px;
 
-    left: ${responsiveWidth(146)}px;
-    right: ${responsiveWidth(100)}px;
-    top: ${responsiveWidth(-4)}px;
+    ${Platform.select({
+        ios: `
+            left: ${responsiveWidth(125)}px;
+            top: ${responsiveWidth(-4)}px;
+        `,
+        android: `
+            left: ${responsiveWidth(86)}px;
+            top: ${responsiveWidth(-4)}px;
+        `,
+        web: `
+            left: ${responsiveWidth(146)}px;
+            top: ${responsiveWidth(-4)}px;
+        `,
+    })}
 `;
 const HeaderText = styled.Text`
     color: #000;
     text-align: center;
-    font-family: Pretendard;
+    font-family: PretendardSemiBold;
     font-size: ${responsiveFontSize(32)}px;
     font-style: normal;
     font-weight: 600;
     line-height: ${responsiveHeight(44.16)}px;
-    letter-spacing: ${responsiveWidth(-0.8)}px;
+    letter-spacing: -0.8px;
 `;
 const ContentContainer = styled.View``;
 const ContentText = styled.Text`
     color: #000;
-    font-family: Pretendard;
+    font-family: PretendardRegular;
     font-style: normal;
     font-weight: 400;
     line-height: ${responsiveHeight(21)}px;
-    letter-spacing: -2px;
+    letter-spacing: -0.35px;
     font-size: ${responsiveFontSize(14)}px;
 `;
-const HighlightText1 = styled.Text`
-    color: #000;
-    font-family: Pretendard;
-    font-style: normal;
-    font-weight: 500;
-    /*line-height: 150%;*/
-
-    line-height: ${responsiveHeight(21)}px;
-    letter-spacing: -2.1px;
-    font-size: ${responsiveFontSize(14)}px;
-`;
-
 const HighlightText2 = styled.Text`
     color: #000;
-    font-family: Pretendard;
+    font-family: PretendardBold;
+    font-size: ${responsiveFontSize(14)}px;
     font-style: normal;
     font-weight: 700;
-    /*line-height: 150%;*/
-
-    letter-spacing: -2.1px;
-    font-size: ${responsiveFontSize(14)}px;
+    line-height: ${responsiveHeight(21)}px;
+    letter-spacing: -0.35px;
 `;
 //////////////////////////////////////////////
-
 const SelectContainer = styled.View`
     display: flex;
     flex-direction: column;
@@ -382,6 +402,7 @@ const AnimatedSelectOption = styled(Animated.View)`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     padding: 12px 16px;
     gap: 16px;
     align-self: stretch;
@@ -394,18 +415,18 @@ const AnimatedSelectOption = styled(Animated.View)`
     backdrop-filter: blur(6px);
 `;
 const AnimatedSelectText = styled(Animated.Text)`
-    font-family: Pretendard;
+    font-family: PretendardBold;
     font-size: ${responsiveFontSize(16)}px;
     font-style: normal;
     font-weight: 700;
     line-height: ${responsiveHeight(22.08)}px;
-    letter-spacing: ${responsiveWidth(-0.4)}px;
+    letter-spacing: -0.4px;
     display: flex;
     align-items: center;
 `;
 const AnimatedSelectScore = styled(Animated.Text)`
     color: #666;
-    font-family: Pretendard;
+    font-family: PretendardMedium;
     font-size: ${responsiveFontSize(12)}px;
     font-style: normal;
     font-weight: 500;
@@ -441,7 +462,7 @@ const AnimatedButtonText = styled(Animated.Text)`
     font-style: normal;
     font-weight: 700;
     line-height: ${responsiveHeight(22.08)}px;
-    letter-spacing: ${responsiveHeight(-0.4)}px;
+    letter-spacing: -0.4px;
 `;
 
 const AnimatedButtonWrapper = styled(Animated.View)`

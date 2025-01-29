@@ -148,7 +148,7 @@ export default function EventPage03({ navigation }) {
 
     const buttonTextColorInterpolate = buttonTextColor.interpolate({
         inputRange: [0, 1],
-        outputRange: ["#666666", "#756555"],
+        outputRange: ["#999999", "#756555"],
     });
 
     return (
@@ -201,11 +201,11 @@ export default function EventPage03({ navigation }) {
                 </Content>
 
                 <Footer>
-                    <AnimatedButtonWrapper style={{ backgroundColor: buttonBackgroundColorInterpolate }}>
-                        <TouchableOpacity onPress={() => navigation.navigate("EventPage04")}>
+                    <TouchableOpacity onPress={() => navigation.navigate("EventPage04")}>
+                        <AnimatedButtonWrapper style={{ backgroundColor: buttonBackgroundColorInterpolate }}>
                             <AnimatedButtonText style={{ color: buttonTextColorInterpolate }}>다음으로</AnimatedButtonText>
-                        </TouchableOpacity>
-                    </AnimatedButtonWrapper>
+                        </AnimatedButtonWrapper>
+                    </TouchableOpacity>
                     <FooterGap></FooterGap>
                 </Footer>
             </InnerContainer>
@@ -300,14 +300,14 @@ const TextContainer = styled.View`
 const HeaderContainer = styled.View``;
 
 const CircleWrapper = styled.View`
-    position: relative;
+    position: absolute;
     width: ${responsiveWidth(4)}px;
     height: ${responsiveWidth(4)}px;
 
     ${Platform.select({
         ios: `
             left: ${responsiveWidth(70)}px;
-            top: ${responsiveWidth(0)}px;
+            top: ${responsiveWidth(-4)}px;
         `,
         android: `
             left: ${responsiveWidth(86)}px;
@@ -315,12 +315,12 @@ const CircleWrapper = styled.View`
         `,
         web: `
             left: ${responsiveWidth(87)}px;
-            top: ${responsiveWidth(0)}px;
+            top: ${responsiveWidth(-4)}px;
         `,
     })}
 `;
 const CircleWrapper2 = styled.View`
-    position: relative;
+    position: absolute;
     width: ${responsiveWidth(4)}px;
     height: ${responsiveWidth(4)}px;
 
@@ -356,19 +356,9 @@ const ContentText = styled.Text`
     font-style: normal;
     font-weight: 400;
     line-height: ${responsiveHeight(21)}px;
-    letter-spacing: -0.35px;
-
-    ${Platform.select({
-        ios: `
-            font-size: ${responsiveFontSize(14)}px;
-        `,
-        android: `
-            font-size: ${responsiveFontSize(14)}px;
-        `,
-        web: `
-            font-size: ${responsiveFontSize(13)}px;
-        `,
-    })}
+    letter-spacing: -0.65px;
+    font-size: ${responsiveFontSize(14)}px;
+    text-align: left;
 `;
 
 const HighlightText2 = styled.Text`
@@ -376,21 +366,9 @@ const HighlightText2 = styled.Text`
     font-family: PretendardBold;
     font-style: normal;
     font-weight: 600;
-    letter-spacing: -0.35px;
+    letter-spacing: -0.65px;
     line-height: ${responsiveHeight(21)}px;
     font-size: ${responsiveFontSize(14)}px;
-
-    ${Platform.select({
-        ios: `
-         font-size: ${responsiveFontSize(14)}px;
-        `,
-        android: `
-          font-size: ${responsiveFontSize(14)}px;
-        `,
-        web: `
-          font-size: ${responsiveFontSize(13)}px;
-        `,
-    })}
 `;
 //////////////////////////////////////////////
 
@@ -436,7 +414,7 @@ const AnimatedSelectScore = styled(Animated.Text)`
     font-style: normal;
     font-weight: 500;
     line-height: ${responsiveHeight(16.56)}px;
-    letter-spacing: ${responsiveWidth(-0.3)}px;
+    letter-spacing: -0.3px;
     border-radius: 35px;
     padding: 10px;
 `;
@@ -467,7 +445,7 @@ const AnimatedButtonText = styled(Animated.Text)`
     font-style: normal;
     font-weight: 700;
     line-height: ${responsiveHeight(22.08)}px;
-    letter-spacing: ${responsiveHeight(-0.4)}px;
+    letter-spacing: -0.4px;
 `;
 
 const AnimatedButtonWrapper = styled(Animated.View)`

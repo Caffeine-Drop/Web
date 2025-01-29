@@ -149,21 +149,21 @@ const HeaderContainer = styled.View``;
 
 const HeaderText = styled.Text`
     color: #000;
-    font-family: Pretendard;
+    font-family: PretendardSemiBold;
     font-size: ${responsiveFontSize(24)}px;
     font-style: normal;
     font-weight: 600;
     line-height: ${responsiveHeight(33.12)}px;
-    letter-spacing: ${responsiveWidth(-0.6)}px;
+    letter-spacing: -0.6px;
 `;
 const ContentContainer = styled.View``;
 const ContentText = styled.Text`
     color: #000;
-    font-family: Pretendard;
+    font-family: PretendardRegular;
     font-size: ${responsiveFontSize(12)}px;
     font-style: normal;
     font-weight: 400;
     line-height: ${responsiveHeight(18)}px;
-    letter-spacing: ${responsiveWidth(-1)}px;
+    letter-spacing: -0.3px;
     text-align: left;
 `;

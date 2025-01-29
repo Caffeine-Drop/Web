@@ -151,7 +151,7 @@ export default function EventPage02({ navigation }) {
 
     const buttonTextColorInterpolate = buttonTextColor.interpolate({
         inputRange: [0, 1],
-        outputRange: ["#666666", "#756555"],
+        outputRange: ["#999999", "#756555"],
     });
 
     return (
@@ -209,11 +209,11 @@ export default function EventPage02({ navigation }) {
                     </Content>
                 </ScrollView>
                 <Footer>
-                    <AnimatedButtonWrapper style={{ backgroundColor: buttonBackgroundColorInterpolate }}>
-                        <TouchableOpacity onPress={() => navigation.navigate("EventPage03")}>
+                    <TouchableOpacity onPress={() => navigation.navigate("EventPage03")}>
+                        <AnimatedButtonWrapper style={{ backgroundColor: buttonBackgroundColorInterpolate }}>
                             <AnimatedButtonText style={{ color: buttonTextColorInterpolate }}>다음으로</AnimatedButtonText>
-                        </TouchableOpacity>
-                    </AnimatedButtonWrapper>
+                        </AnimatedButtonWrapper>
+                    </TouchableOpacity>
                 </Footer>
                 <FooterGap></FooterGap>
             </InnerContainer>
@@ -305,7 +305,7 @@ const TextContainer = styled.View`
 const HeaderContainer = styled.View``;
 
 const CircleWrapper = styled.View`
-    position: relative;
+    position: absolute;
     width: ${responsiveWidth(4)}px;
     height: ${responsiveWidth(4)}px;
 
@@ -420,13 +420,14 @@ const AnimatedSelectScore = styled(Animated.Text)`
 const Footer = styled.View`
     position: absolute;
     top: ${responsiveHeight(666)}px;
-
+    width: 100%;
     display: inline-flex;
     padding: 0px 24px 58px 24px;
     flex-direction: column;
     align-items: center;
     gap: 8px;
     background: #fafafa;
+    z-index: 20;
 `;
 
 const AnimatedButtonText = styled(Animated.Text)`
@@ -444,6 +445,7 @@ const AnimatedButtonText = styled(Animated.Text)`
     font-weight: 700;
     line-height: ${responsiveHeight(22.08)}px;
     letter-spacing: -0.4px;
+    z-index: 20;
 `;
 
 const AnimatedButtonWrapper = styled(Animated.View)`
@@ -455,9 +457,11 @@ const AnimatedButtonWrapper = styled(Animated.View)`
     gap: 10px;
     border-radius: 12px;
     background: #f1f1f1;
+    z-index: 20;
 `;
 const FooterGap = styled.View`
     width: ${responsiveWidth(360)}px;
     height: ${responsiveHeight(37.5)}px;
     flex-shrink: 0;
+    z-index: 20;
 `;

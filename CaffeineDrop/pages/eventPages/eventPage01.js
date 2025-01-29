@@ -76,12 +76,12 @@ const IconWrapper = styled.View`
 const Title = styled.Text`
     color: #000;
     text-align: center;
-    font-family: Pretendard;
+    font-family: PretendardSemiBold;
     font-size: ${responsiveFontSize(18)}px;
     font-style: normal;
     font-weight: 600;
     line-height: ${responsiveFontSize(24)}px;
-    letter-spacing: ${responsiveFontSize(-0.5)}px;
+    letter-spacing: -0.5px;
 `;
 ////////////////////////////////////////////////////
 const Content = styled.View`
@@ -97,13 +97,8 @@ const DripWrapper = styled.View`
 const TextContainer = styled.View`
     position: absolute;
     top: ${responsiveHeight(384)}px;
-
-    margin-left: ${responsiveWidth(61)}px;
-    margin-right: ${responsiveWidth(61)}px;
-
-    width: ${responsiveWidth(238)}px;
+    width: 100%;
     height: ${responsiveHeight(98)}px;
-
     display: inline-flex;
     flex-direction: column;
     align-items: center;
@@ -124,7 +119,7 @@ const HeaderText = styled.Text`
     font-style: normal;
     font-weight: 600;
     line-height: ${responsiveHeight(44.16)}px;
-    letter-spacing: ${responsiveWidth(-0.8)}px;
+    letter-spacing: -0.8px;
 `;
 const ContentWrapper = styled.View``;
 const ContentText = styled.Text`
@@ -135,7 +130,7 @@ const ContentText = styled.Text`
     font-style: normal;
     font-weight: 400;
     line-height: ${responsiveHeight(19.32)}px;
-    letter-spacing: ${responsiveWidth(-0.35)}px;
+    letter-spacing: -0.35px;
     align-self: stretch;
 `;
 ////////////////////////////////////////////////////
@@ -164,5 +159,5 @@ const ButtonText = styled.Text`
     font-style: normal;
     font-weight: 700;
     line-height: ${responsiveFontSize(22)}px;
-    letter-spacing: ${responsiveFontSize(-0.4)}px;
+    letter-spacing: -0.4px;
 `;

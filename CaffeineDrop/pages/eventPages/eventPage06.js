@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
-import { ScrollView, Animated, PanResponder, StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
+import { Platform, ScrollView, Animated, PanResponder, StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import styled from "styled-components/native";
-import BackIcon from "../../components/BlackTextCircle";
+import BackIcon from "../../components/BackIcon";
 import BlackTextCircle from "../../components/BlackTextCircle";
 import BlurIcon from "../../components/BlurIcon";
 import { LinearGradient } from "expo-linear-gradient";
@@ -28,7 +28,7 @@ export default function EventPage06({ navigation }) {
                 </Navbar>
 
                 {/* Scrollable Content */}
-                <ScrollView>
+                <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
                     <Content>
                         <GreyColorBox>
                             <TextContainer>
@@ -202,10 +202,10 @@ const IconWrapper = styled.View`
 const Title = styled.Text`
     font-size: ${responsiveFontSize(18)}px;
     line-height: ${responsiveHeight(24.84)}px;
-    letter-spacing: ${responsiveFontSize(-0.45)}px;
+    letter-spacing: -0.45px;
     color: #000;
     text-align: center;
-    font-family: Pretendard;
+    font-family: PretendardSemiBold;
     font-style: normal;
     font-weight: 600;
 `;
@@ -237,23 +237,23 @@ const HeaderContainer = styled.View``;
 const HeaderText = styled.Text`
     color: #000;
     text-align: center;
-    font-family: Pretendard;
+    font-family: PretendardSemiBold;
     font-size: ${responsiveFontSize(28)}px;
     font-style: normal;
     font-weight: 600;
     line-height: ${responsiveHeight(38.64)}px;
-    letter-spacing: ${responsiveWidth(-0.7)}px;
+    letter-spacing: -0.7px;
 `;
 const ContentContainer = styled.View``;
 const ContentText = styled.Text`
     color: #000;
-    font-family: Pretendard;
+    font-family: PretendardRegular;
     font-style: normal;
     font-weight: 400;
     line-height: ${responsiveHeight(19.32)}px;
     font-size: ${responsiveFontSize(14)}px;
     text-align: center;
-    letter-spacing: ${responsiveWidth(-1)}px;
+    letter-spacing: -0.35px;
 `;
 
 const ResultChartWrapper = styled.View`
@@ -279,23 +279,23 @@ const ResultName = styled.View`
 
 const ResultText = styled.Text`
     color: #666;
-    font-family: Pretendard;
+    font-family: PretendardMedium;
     font-size: ${responsiveFontSize(12)}px;
     font-style: normal;
     font-weight: 500;
     line-height: ${responsiveHeight(16.56)}px;
-    letter-spacing: ${responsiveWidth(-0.3)}px;
+    letter-spacing: -0.3px;
 `;
 
 const ResultScore = styled.Text`
     color: #321900;
     text-align: right;
-    font-family: Pretendard;
+    font-family: PretendardMedium;
     font-size: ${responsiveFontSize(12)}px;
     font-style: normal;
     font-weight: 500;
     line-height: ${responsiveHeight(16.56)}px;
-    letter-spacing: ${responsiveWidth(-0.3)}px;
+    letter-spacing: -0.3px;
 `;
 
 //막대그래프 공간 ///////////////////////
@@ -314,32 +314,59 @@ const ResultChart = styled.View`
     align-items: center;
     justify-content: center;
 `;
+const LeftLine = styled.View`
+    position: absolute;
+    width: ${responsiveWidth(1)}px;
+    height: ${responsiveHeight(9)}px;
+    background-color: #d9d9d9;
+    z-index: 7;
+
+    ${Platform.select({
+        ios: `
+            left: -1.5px;
+            top: ${responsiveHeight(7.67)}px;
+        `,
+        android: `
+            left: -1.5px;
+            top: ${responsiveHeight(6)}px;
+        `,
+        web: `
+            left: -1.5px;
+            top: ${responsiveHeight(7.3)}px;
+        `,
+    })}
+`;
 const RightLine = styled.View`
     position: absolute;
-    right: 0;
-    top: ${responsiveHeight(6)}px;
     width: ${responsiveWidth(1)}px;
-    height: ${responsiveHeight(10)}px;
+    height: ${responsiveHeight(9)}px;
     background-color: #d9d9d9;
     z-index: 2;
+
+    ${Platform.select({
+        ios: `
+            right: 0;
+            top: ${responsiveHeight(7.66)}px;
+        `,
+        android: `
+            right: 0;
+            top: ${responsiveHeight(6)}px;
+        `,
+        web: `
+            right: 0;
+            top: ${responsiveHeight(7.3)}px;
+        `,
+    })}
 `;
+//로스팅 정도 맨마지막 막대그래프 (오른쪽)회색 구분선
 const SmallRightLine = styled.View`
     position: absolute;
     right: 0;
-    top: ${responsiveHeight(-2)}px;
+    top: ${responsiveHeight(-2.1)}px;
     width: ${responsiveWidth(1)}px;
-    height: ${responsiveHeight(10)}px;
+    height: ${responsiveHeight(9)}px;
     background-color: #d9d9d9;
     z-index: 5;
-`;
-const LeftLine = styled.View`
-    position: absolute;
-    left: -1.5px;
-    top: ${responsiveHeight(6)}px;
-    width: ${responsiveWidth(1)}px;
-    height: ${responsiveHeight(10)}px;
-    background-color: #d9d9d9;
-    z-index: 2;
 `;
 const ResultBrown = styled.View`
     background-color: #000000;
@@ -365,11 +392,23 @@ const ResultSmallGreyWrapper = styled.View`
     flex-direction: row;
     align-items: center;
 `;
+//마지막 그래프 검은 부분
 const ResultSmallBrown = styled.View`
     background-color: #000000;
-    width: ${responsiveWidth(28)}px;
     height: ${responsiveHeight(5)}px;
     z-index: 4;
+
+    ${Platform.select({
+        ios: `
+            width: ${responsiveWidth(30)}px;
+        `,
+        android: `
+            width: ${responsiveWidth(28)}px;
+        `,
+        web: `
+            width: ${responsiveWidth(28)}px;
+        `,
+    })}
 `;
 const ResultSmallGrey = styled.View`
     background-color: #ebebeb;
@@ -394,12 +433,12 @@ const InnerText = styled.Text`
     text-align: center;
     color: #000;
     text-align: center;
-    font-family: Pretendard;
+    font-family: PretendardSemiBold;
     font-size: ${responsiveFontSize(28)}px;
     font-style: normal;
     font-weight: 600;
     line-height: ${responsiveHeight(42)}px;
-    letter-spacing: ${responsiveHeight(-0.7)}px;
+    letter-spacing: -0.7px;
 `;
 const ResultContentBox = styled.View`
     justify-content: center;
@@ -419,19 +458,12 @@ const Footer = styled.View`
 
 const ButtonText = styled.Text`
     color: #fafafa;
-    font-family: Pretendard;
+    font-family: PretendardBold;
     font-size: ${responsiveFontSize(16)}px;
     font-style: normal;
     font-weight: 700;
     line-height: ${responsiveHeight(22.08)}px;
-    letter-spacing: ${responsiveWidth(-0.4)}px;
-
-    font-family: Pretendard;
-    font-size: ${responsiveFontSize(16)}px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: ${responsiveHeight(22.08)}px;
-    letter-spacing: ${responsiveHeight(-0.4)}px;
+    letter-spacing: -0.4px;
 `;
 
 const ButtonWrapper = styled.View`

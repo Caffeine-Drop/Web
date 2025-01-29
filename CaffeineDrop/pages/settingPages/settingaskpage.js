@@ -97,7 +97,7 @@ export default function SettingAskPage({ navigation }) {
                     </SelectBoxTitle>
                     <SelectBox>
                         <SelectBoxText>{selectedOption || "문의 유형을 선택해주세요"}</SelectBoxText>
-                        <DropdownIcon onPress={toggleModal} />
+                        <DropdownIcon onPress={toggleModal} isModalVisible={isModalVisible} />
                     </SelectBox>
                 </SelectBoxContainer>
 

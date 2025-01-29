@@ -168,10 +168,7 @@ export default function EventPage02({ navigation }) {
                     <AnimatedProgressBar style={{ width: progressWidth }} />
                 </ProgressBarContainer>
 
-                <ScrollView
-                    horizontal={false} // 좌우 스크롤 비활성화
-                    showsHorizontalScrollIndicator={false} // 좌우 스크롤바 숨김
-                >
+                <ScrollView>
                     <Content>
                         <BlurWrapper>
                             <BlurIcon />
@@ -193,9 +190,7 @@ export default function EventPage02({ navigation }) {
                             </ContentContainer>
                         </TextContainer>
 
-                        <CoffeeContainer>
-                            <CoffeeImage />
-                        </CoffeeContainer>
+                        <CoffeeImage />
 
                         <BlurWrapper2>
                             <BlurIcon2 />
@@ -362,10 +357,6 @@ const HighlightText2 = styled.Text`
     font-weight: 700;
     letter-spacing: -0.35px;
     font-size: ${responsiveFontSize(14)}px;
-`;
-//////////////////////////////////////////////
-const CoffeeContainer = styled.View`
-    /*margin-left: ${responsiveWidth(24)}px;*/
 `;
 
 //////////////////////////////////////////////

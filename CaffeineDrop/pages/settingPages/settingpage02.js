@@ -44,12 +44,16 @@ export default function SettingPage02({ navigation }) {
             <Box2>
                 <InnerBox2>
                     <InnerText>서비스 이용 약관</InnerText>
-                    <NextButton />
+                    <TouchableOpacity onPress={() => navigation.navigate("")}>
+                        <NextButton />
+                    </TouchableOpacity>
                 </InnerBox2>
 
                 <InnerBox2>
                     <InnerText>개인 정보 처리 방침</InnerText>
-                    <NextButton />
+                    <TouchableOpacity onPress={() => navigation.navigate("SettingPage03")}>
+                        <NextButton />
+                    </TouchableOpacity>
                 </InnerBox2>
             </Box2>
         </Container>

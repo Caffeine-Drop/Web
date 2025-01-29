@@ -39,6 +39,11 @@ export default function App() {
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="SettingPage01" component={SettingPage01} />
+                <Stack.Screen name="SettingPage02" component={SettingPage02} />
+                <Stack.Screen name="SettingPage03" component={SettingPage03} />
+                <Stack.Screen name="SettingAskPage" component={SettingAskPage} />
+
                 <Stack.Screen name="EventPage01" component={EventPage01} />
                 <Stack.Screen name="EventPage02" component={EventPage02} />
                 <Stack.Screen name="EventPage03" component={EventPage03} />
@@ -57,12 +62,6 @@ export default function App() {
                 <Stack.Screen name="DetailPageImageDetail" component={DetailPageImageDetail} />
                 <Stack.Screen name="ReviewPage" component={ReviewPage} />
                 <Stack.Screen name="SpecialtyOptions" component={SpecialtyOptions} />
-
-                <Stack.Screen name="SettingAskPage" component={SettingAskPage} />
-
-                <Stack.Screen name="SettingPage03" component={SettingPage03} />
-                <Stack.Screen name="SettingPage02" component={SettingPage02} />
-                <Stack.Screen name="SettingPage01" component={SettingPage01} />
             </Stack.Navigator>
         </NavigationContainer>
     );

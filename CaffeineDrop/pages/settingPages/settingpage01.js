@@ -7,6 +7,7 @@ import DefaultSettingImage from "../../components/DefaultSettingImage";
 import KaKaoIcon from "../../components/KaKaoIcon";
 import NextButton from "../../components/NextButton";
 import { useFonts } from "../../styles";
+import { useNavigation } from "@react-navigation/native";
 
 export default function SettingPage01({ navigation }) {
     const fontsLoaded = useFonts();
@@ -14,6 +15,10 @@ export default function SettingPage01({ navigation }) {
     if (!fontsLoaded) {
         return null;
     }
+
+    const handlePress = () => {
+        navigation.navigate("TargetPage");
+    };
 
     return (
         <Container>
@@ -56,28 +61,36 @@ export default function SettingPage01({ navigation }) {
                 <List>
                     <ListInnerBox>
                         <ListText>프로필 관리</ListText>
-                        <NextButton />
+                        <TouchableOpacity onPress={() => navigation.navigate("")}>
+                            <NextButton />
+                        </TouchableOpacity>
                     </ListInnerBox>
                 </List>
 
                 <List>
                     <ListInnerBox>
                         <ListText>탈퇴하기</ListText>
-                        <NextButton />
+                        <TouchableOpacity onPress={() => navigation.navigate("SettingPage04")}>
+                            <NextButton />
+                        </TouchableOpacity>
                     </ListInnerBox>
                 </List>
 
                 <List>
                     <ListInnerBox>
                         <ListText>설정</ListText>
-                        <NextButton />
+                        <TouchableOpacity onPress={() => navigation.navigate("SettingPage02")}>
+                            <NextButton />
+                        </TouchableOpacity>
                     </ListInnerBox>
                 </List>
 
                 <List>
                     <ListInnerBoxNoBorder>
                         <ListText>문의하기</ListText>
-                        <NextButton />
+                        <TouchableOpacity onPress={() => navigation.navigate("SettingAskPage")}>
+                            <NextButton />
+                        </TouchableOpacity>
                     </ListInnerBoxNoBorder>
                 </List>
             </Box2>

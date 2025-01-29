@@ -51,15 +51,15 @@ const HeaderBar = ({ onSearchPress, onSettingsPress, setIsKeyboardVisible, searc
             {searchText.length > 0 && (
               <DeleteIconWrapper onPress={clearSearchInput}>
                 <SearchDeleteIcon
-                  width={responsiveWidth(24)}
-                  height={responsiveHeight(24)}
+                  width={`${responsiveWidth(24)}px`}
+                  height={`${responsiveHeight(24)}px`}
                 />
               </DeleteIconWrapper>
             )}
             <SearchIconWrapper onPress={onSearchPress}>
               <SearchIcon
-                width={responsiveWidth(24)}
-                height={responsiveHeight(24)}
+                width={`${responsiveWidth(24)}px`}
+                height={`${responsiveHeight(24)}px`}
               />
             </SearchIconWrapper>
           </IconsWrapper>
@@ -86,29 +86,29 @@ export default HeaderBar;
 // 스타일은 동일하게 유지
 const Container = styled.View`
   background-color: #fafafa;
-  margin-top: 38px;
+  margin-top: ${responsiveHeight(38)}px;
 `;
 
 const HeadContainer = styled.View`
   flex-direction: row;
   align-items: center;
-  width: 360px;
-  height: 56px;
-  padding: 15px 24px 16px;
+  width: ${responsiveWidth(360)}px;
+  height: ${responsiveHeight(56)}px;
+  padding: ${responsiveHeight(15)}px ${responsiveWidth(24)}px ${responsiveHeight(16)}px;
 `;
 
 const Title = styled.Text`
-  font-size: 18px;
+  font-size: ${responsiveFontSize(18)}px;
   font-weight: 600;
-  padding-left: 117px;
+  padding-left: ${responsiveWidth(117)}px;
 `;
 
 const SearchContainer = styled.View`
   flex-direction: row;
   align-items: center;
-  width: 360px;
-  height: 68px;
-  padding-bottom: 12px;
+  width: ${responsiveWidth(360)}px;
+  height: ${responsiveHeight(68)}px;
+  padding-bottom: ${responsiveHeight(12)}px;
 `;
 
 const InputContainer = styled.View`
@@ -116,12 +116,12 @@ const InputContainer = styled.View`
   border: 1px solid #e5e3e1;
   border-radius: 12px;
   background: #fff;
-  margin-left: 16px;
-  margin-right: 8px;
+  margin-left: ${responsiveWidth(16)}px;
+  margin-right: ${responsiveWidth(8)}px;
   overflow: hidden;
-  width: 279px;
-  height: 56px;
-  padding: 0 16px;
+  width: ${responsiveWidth(279)}px;
+  height: ${responsiveHeight(56)}px;
+  padding: 0 ${responsiveWidth(16)}px;
   position: relative;
 `;
 
@@ -129,30 +129,30 @@ const SearchInput = styled.TextInput`
   flex: 1;
   width: 100%;
   height: 100%;
-  font-size: 16px;
+  font-size: ${responsiveFontSize(16)}px;
   color: #999;
   font-weight: 400;
-  padding-right: 40px; /* 아이콘과 텍스트 간격 확보 */
+  padding-right: ${responsiveWidth(40)}px;
 `;
 
 const IconsWrapper = styled.View`
   position: absolute;
   top: 50%;
-  right: 12px; /* 오른쪽에서 시작 */
-  flex-direction: row; /* 아이콘들을 가로로 배치 */
+  right: ${responsiveWidth(12)}px;
+  flex-direction: row;
   align-items: center;
-  transform: translateY(-12px); /* 세로 중앙 정렬 */
+  transform: translateY(-12px);
 `;
 
 const DeleteIconWrapper = styled.TouchableOpacity`
-  margin-right: 4px; /* 검색 아이콘과 간격 추가 */
+  margin-right: ${responsiveWidth(4)}px;
 `;
 
 const SearchIconWrapper = styled.TouchableOpacity``;
 
 const SettingsButton = styled.TouchableOpacity`
-  height: 56px;
-  padding: 4px 10px;
+  height: ${responsiveHeight(56)}px;
+  padding:  ${responsiveHeight(4)}px ${responsiveWidth(10)}px;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -161,7 +161,7 @@ const SettingsButton = styled.TouchableOpacity`
 `;
 
 const SettingsText = styled.Text`
-  font-size: 12px;
+  font-size:  ${responsiveFontSize(12)}px;
   color: ${(props) => (props.isComplete ? "#fafafa" : "#756555")};
   font-weight: 500;
 `;

@@ -1,5 +1,10 @@
 import React, { useState, useRef } from "react";
 import { Animated, Image, TouchableOpacity, PanResponder } from "react-native";
+import {
+  responsiveFontSize,
+  responsiveWidth,
+  responsiveHeight,
+} from "../utils/responsive";
 import styled from "styled-components/native";
 import HeaderBar from "../components/HeaderBar";
 import PopularSearchList from "../components/PopularSearchList";
@@ -11,9 +16,9 @@ import SearchWordSlide from "../components/SearchWordSlide";
 import CurrentLocationIcon from "../assets/search/CurrentLocationIcon.svg";
 import LocationHereIcon from "../assets/home/LocationHereIcon.svg";
 
-const SCREEN_HEIGHT = 800; // 화면 높이 (예제값)
-const DEFAULT_POSITION = 316; // Bottom Sheet 기본 위치
-const FULLY_EXPANDED_POSITION = 162; // 슬라이드 최상단 위치
+const SCREEN_HEIGHT = responsiveHeight(800); // 화면 높이 (예제값)
+const DEFAULT_POSITION = responsiveHeight(316); // Bottom Sheet 기본 위치
+const FULLY_EXPANDED_POSITION = responsiveHeight(162); // 슬라이드 최상단 위치
 const ANIMATION_DURATION = 300; // 애니메이션 지속 시간
 
 const SearchPage = () => {
@@ -35,10 +40,10 @@ const SearchPage = () => {
 
   const translateY = useRef(new Animated.Value(DEFAULT_POSITION)).current;
   const animatedLocations = useRef([
-    { id: "cafe1", top: new Animated.Value(60), left: new Animated.Value(170) },
-    { id: "cafe2", top: new Animated.Value(110), left: new Animated.Value(100) },
-    { id: "cafe3", top: new Animated.Value(130), left: new Animated.Value(230) },
-    { id: "cafe4", top: new Animated.Value(180), left: new Animated.Value(160) },
+    { id: "cafe1", top: new Animated.Value(responsiveHeight(60)), left: new Animated.Value(responsiveWidth(170)) },
+    { id: "cafe2", top: new Animated.Value(responsiveHeight(110)), left: new Animated.Value(responsiveWidth(100)) },
+    { id: "cafe3", top: new Animated.Value(responsiveHeight(130)), left: new Animated.Value(responsiveWidth(230)) },
+    { id: "cafe4", top: new Animated.Value(responsiveHeight(180)), left: new Animated.Value(responsiveWidth(160)) },
   ]).current;
 
   const handleClearAll = () => {
@@ -56,7 +61,7 @@ const SearchPage = () => {
   
     // 슬라이드를 원래 default 상태로 복귀
     Animated.timing(translateY, {
-      toValue: SCREEN_HEIGHT - 356, // Default position (카페 아이콘들이 나타나는 높이)
+      toValue: SCREEN_HEIGHT - responsiveHeight(356), // Default position (카페 아이콘들이 나타나는 높이)
       duration: ANIMATION_DURATION,
       useNativeDriver: true,
     }).start();
@@ -67,8 +72,8 @@ const SearchPage = () => {
     const selected = animatedLocations.find((loc) => loc.id === cafeId);
     if (!selected) return;
 
-    const centerX = 160; // 중앙 X 좌표
-    const centerY = 116; // 중앙 Y 좌표
+    const centerX = responsiveWidth(160); // 중앙 X 좌표
+    const centerY = responsiveHeight(116); // 중앙 Y 좌표
 
     const deltaY = centerY - selected.top.__getValue();
     const deltaX = centerX - selected.left.__getValue();
@@ -134,7 +139,7 @@ const SearchPage = () => {
               position: "absolute",
               top: 0,
               width: "100%",
-              height: "349px",
+              height: responsiveHeight(349),
               resizeMode: "cover",
             }}
           />
@@ -151,7 +156,7 @@ const SearchPage = () => {
               >
                 {selectedCafe === loc.id ? (
                   <TouchableOpacity onPress={() => setSelectedCafe(null)}>
-                    <LocationHereIcon width={35} height={44.375} />
+                    <LocationHereIcon width={`${responsiveWidth(35)}px`} height={`${responsiveHeight(44.375)}px`} />
                   </TouchableOpacity>
                 ) : (
                   <CafeLocation
@@ -164,13 +169,13 @@ const SearchPage = () => {
           ) : (
             <>
               <CurrentLocationWrapper onPress={handleCurrentLocationPress}>
-                <CurrentLocationIcon width={12} height={12} />
+                <CurrentLocationIcon width={`${responsiveWidth(12)}px`} height={`${responsiveHeight(12)}px`} />
                 <CurrentLocationText>현재 위치로 가기</CurrentLocationText>
               </CurrentLocationWrapper>
               <LocationIconWrapper>
                 <Image
                   source={require("../assets/search/LocationIcon.png")}
-                  style={{ width: 23.859, height: 34.5 }}
+                  style={{ width: responsiveWidth(23.859), height: responsiveHeight(34.5) }}
                 />
               </LocationIconWrapper>
               <MoveMapWrapper>
@@ -227,26 +232,26 @@ const Container = styled.View`
 
 const MapContainer = styled.View`
   position: absolute;
-  top: 162px;
+  top: ${responsiveHeight(162)}px;
   left: 0;
   right: 0;
-  bottom: 316px;
+  bottom: ${responsiveHeight(316)}px;
   z-index: 2;
 `;
 
 const CurrentLocationText = styled.Text`
-  font-size: 12px;
+  font-size: ${responsiveFontSize(12)}px;
   font-weight: 500;
-  margin-left: 6px;
+  margin-left: ${responsiveWidth(6)}px;
 `;
 
 const CurrentLocationWrapper = styled.TouchableOpacity`
   position: absolute;
-  top: 16px;
-  left: 120.5px;
+  top: ${responsiveHeight(16)}px;
+  left: ${responsiveWidth(120.5)}px;
   flex-direction: row;
   display: flex;
-  padding: 8px 12px;
+  padding: ${responsiveHeight(8)}px ${responsiveWidth(12)}px;
   align-items: center;
   border-radius: 24px;
   background: #fafafa;
@@ -267,17 +272,17 @@ const LocationIconWrapper = styled.View`
 
 const MoveMapText = styled.Text`
   color: #fafafa;
-  font-size: 12px;
+  font-size: ${responsiveFontSize(12)}px;
   font-weight: 500;
 `;
 
 const MoveMapWrapper = styled.View`
   position: absolute;
-  top: 207px;
-  left: 80px;
+  top: ${responsiveHeight(207)}px;
+  left: ${responsiveWidth(80)}px;
   flex-direction: row;
   display: flex;
-  padding: 4px 8px;
+  padding: ${responsiveHeight(4)}px ${responsiveWidth(8)}px;
   align-items: center;
   border-radius: 25px;
   background: rgba(130, 90, 50, 0.65);

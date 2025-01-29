@@ -14,8 +14,8 @@ import UpIcon from "../assets/home/UpIcon.svg";
 import DownIcon from "../assets/home/DownIcon.svg";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height; // 화면 높이
-const FULLY_EXPANDED_POSITION = 162; // 슬라이드가 올라갈 최대 위치
-const DEFAULT_POSITION = SCREEN_HEIGHT - 356; // 기본 위치 (아래쪽)
+const FULLY_EXPANDED_POSITION = responsiveHeight(162); // 슬라이드가 올라갈 최대 위치
+const DEFAULT_POSITION = SCREEN_HEIGHT - responsiveHeight(356); // 기본 위치 (아래쪽)
 const ANIMATION_DURATION = 300; // 애니메이션 지속 시간
 
 const SearchResults = ({ isVisible, isSettingMode, onClose, onSlideDown }) => {
@@ -107,14 +107,14 @@ const SearchResults = ({ isVisible, isSettingMode, onClose, onSlideDown }) => {
               </SortText>
               {sortModalVisible ? (
                 <UpIcon
-                  width="17"
-                  height="17"
+                  width={`${responsiveWidth(17)}px`}
+                  height={`${responsiveHeight(17)}px`}
                   style={{ marginLeft: 4 }}
                 />
               ) : (
                 <DownIcon
-                  width="17"
-                  height="17"
+                  width={`${responsiveWidth(17)}px`}
+                  height={`${responsiveHeight(17)}px`}
                   style={{ marginLeft: 4 }}
                 />
               )}
@@ -126,14 +126,14 @@ const SearchResults = ({ isVisible, isSettingMode, onClose, onSlideDown }) => {
               </SortText>
               {timeModalVisible ? (
                 <UpIcon
-                  width="17"
-                  height="17"
+                  width={`${responsiveWidth(17)}px`}
+                  height={`${responsiveHeight(17)}px`}
                   style={{ marginLeft: 4 }}
                 />
               ) : (
                 <DownIcon
-                  width="17"
-                  height="17"
+                  width={`${responsiveWidth(17)}px`}
+                  height={`${responsiveHeight(17)}px`}
                   style={{ marginLeft: 4 }}
                 />
               )}

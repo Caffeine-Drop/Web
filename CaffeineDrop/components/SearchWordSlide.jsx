@@ -1,10 +1,15 @@
 import React, { useRef, useEffect } from "react";
 import { Animated, PanResponder, Dimensions } from "react-native";
+import {
+  responsiveFontSize,
+  responsiveWidth,
+  responsiveHeight,
+} from "../utils/responsive";
 import styled from "styled-components/native";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
-const FULLY_EXPANDED_POSITION = 162; // 슬라이드가 올라갈 최대 위치 (px)
-const DEFAULT_POSITION = SCREEN_HEIGHT - 356; // 기본 위치 (px)
+const FULLY_EXPANDED_POSITION = responsiveHeight(162); // 슬라이드가 올라갈 최대 위치 (px)
+const DEFAULT_POSITION = SCREEN_HEIGHT - responsiveHeight(356); // 기본 위치 (px)
 const ANIMATION_DURATION = 300; // 애니메이션 지속 시간 (ms)
 
 const SearchWordSlide = ({ onClose, children }) => {
@@ -105,13 +110,13 @@ const AnimatedContainer = styled(Animated.View)`
 
 const DragHandleWrapper = styled.View`
   align-items: center;
-  padding-bottom: 12px;
-  padding-top: 16px;
+  padding-bottom: ${responsiveHeight(12)}px;
+  padding-top: ${responsiveHeight(16)}px;
 `;
 
 const DragHandle = styled.View`
-  width: 64px;
-  height: 5px;
+  width: ${responsiveWidth(64)}px;
+  height: ${responsiveHeight(5)}px;
   border-radius: 5px;
   background: #d9d9d9;
 `;

@@ -10,6 +10,14 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { Platform } from "react-native";
 
+import { Dimensions } from "react-native";
+
+// 화면 너비 가져오기
+const { width } = Dimensions.get("window");
+
+// 태블릿 판별 기준 (보통 width가 600px 이상이면 태블릿)
+const isTablet = width >= 600;
+
 const SelectOption = ({ text, score, isSelected, onPress }) => {
     const backgroundColor = useRef(new Animated.Value(0)).current;
     const scoreBackgroundColor = useRef(new Animated.Value(0)).current;
@@ -216,6 +224,7 @@ const Container = styled.View`
     width: 100%;
     height: 100%;
     background: #fafafa;
+    overflow: hidden;
 `;
 const InnerContainer = styled.View`
     flex: 1;
@@ -262,7 +271,7 @@ const AnimatedProgressBar = styled(Animated.View)`
 //////////////////////////////////////////////
 const Content = styled.View`
     flex: 1;
-    width: 100%;
+    margin-bottom: ${responsiveHeight(60)}px;
 `;
 const BlurWrapper = styled.View`
     position: absolute;
@@ -276,7 +285,7 @@ const BlurWrapper2 = styled.View`
     height: ${responsiveHeight(420)}px;
     width: ${responsiveWidth(420)}px;
     left: ${responsiveWidth(120)}px;
-    top: ${responsiveWidth(180)}px;
+    top: ${responsiveHeight(180)}px;
 `;
 
 //////////////////////////////////////////////
@@ -290,7 +299,7 @@ const TextContainer = styled.View`
     margin-top: ${responsiveWidth(39)}px;
     margin-left: ${responsiveWidth(24)}px;
     margin-right: ${responsiveWidth(24)}px;
-    margin-bottom: ${responsiveWidth(67)}px;
+    margin-bottom: ${responsiveWidth(42)}px;
 `;
 const HeaderContainer = styled.View``;
 
@@ -301,17 +310,17 @@ const CircleWrapper = styled.View`
 
     ${Platform.select({
         ios: `
-            left: ${responsiveWidth(70)}px;
-            top: ${responsiveWidth(-4)}px;
-        `,
+        left: ${isTablet ? responsiveWidth(100) : responsiveWidth(70)}px;
+        top: ${isTablet ? responsiveHeight(-4) : responsiveWidth(-4)}px;
+    `,
         android: `
-            left: ${responsiveWidth(86)}px;
-            top: ${responsiveWidth(-4)}px;
-        `,
+        left: ${isTablet ? responsiveWidth(64) : responsiveWidth(86)}px;
+        top: ${isTablet ? responsiveHeight(-7) : responsiveWidth(-4)}px;
+    `,
         web: `
-            left: ${responsiveWidth(87)}px;
-            top: ${responsiveWidth(-4)}px;
-        `,
+        left: ${isTablet ? responsiveWidth(100) : responsiveWidth(86)}px;
+        top: ${isTablet ? responsiveHeight(-4) : responsiveWidth(-4)}px;
+    `,
     })}
 `;
 const CircleWrapper2 = styled.View`
@@ -321,17 +330,17 @@ const CircleWrapper2 = styled.View`
 
     ${Platform.select({
         ios: `
-            left: ${responsiveWidth(96)}px;
-            top: ${responsiveWidth(-4)}px;
-        `,
+        left: ${isTablet ? responsiveWidth(100) : responsiveWidth(70)}px;
+        top: ${isTablet ? responsiveHeight(-4) : responsiveWidth(-4)}px;
+    `,
         android: `
-            left: ${responsiveWidth(86)}px;
-            top: ${responsiveWidth(-4)}px;
-        `,
+        left: ${isTablet ? responsiveWidth(85) : responsiveWidth(86)}px;
+        top: ${isTablet ? responsiveHeight(-7) : responsiveWidth(-4)}px;
+    `,
         web: `
-            left: ${responsiveWidth(114)}px;
-            top: ${responsiveWidth(-4)}px;
-        `,
+        left: ${isTablet ? responsiveWidth(100) : responsiveWidth(115)}px;
+        top: ${isTablet ? responsiveHeight(-4) : responsiveWidth(-4)}px;
+    `,
     })}
 `;
 const HeaderText = styled.Text`
@@ -351,7 +360,7 @@ const ContentText = styled.Text`
     font-size: ${responsiveFontSize(14)}px;
     font-style: normal;
     font-weight: 400;
-    line-height: ${responsiveHeight(19.32)}px;
+    line-height: ${responsiveHeight(21)}px;
     letter-spacing: -0.35px;
 `;
 
@@ -382,7 +391,11 @@ const AnimatedSelectOption = styled(Animated.View)`
     justify-content: space-between;
     align-items: center;
     padding: 12px 16px;
+
     gap: 16px;
+    padding-top: ${isTablet ? responsiveHeight(15) : responsiveHeight(12)}px;
+    padding-bottom: ${isTablet ? responsiveHeight(15) : responsiveHeight(12)}px;
+
     align-self: stretch;
     border-radius: 8px;
     shadow-color: rgba(0, 0, 0, 0.04);
@@ -417,13 +430,14 @@ const AnimatedSelectScore = styled(Animated.Text)`
 const Footer = styled.View`
     position: absolute;
     top: ${responsiveHeight(666)}px;
-
+    width: 100%;
     display: inline-flex;
     padding: 0px 24px 16px 24px;
     flex-direction: column;
     align-items: center;
     gap: 8px;
     background: #fafafa;
+    z-index: 20;
 `;
 
 const AnimatedButtonText = styled(Animated.Text)`
@@ -439,7 +453,8 @@ const AnimatedButtonText = styled(Animated.Text)`
 const AnimatedButtonWrapper = styled(Animated.View)`
     display: flex;
     width: ${responsiveWidth(312)}px;
-    padding: 16px 0px;
+    padding-top: ${isTablet ? responsiveHeight(17) : responsiveHeight(16)}px;
+    padding-bottom: ${isTablet ? responsiveHeight(17) : responsiveHeight(16)}px;
     justify-content: center;
     align-items: center;
     gap: 10px;

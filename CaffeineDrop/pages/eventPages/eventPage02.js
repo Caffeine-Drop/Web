@@ -10,6 +10,14 @@ import CoffeeImage from "../../components/Coffee";
 import { LinearGradient } from "expo-linear-gradient";
 import { Platform } from "react-native";
 
+import { Dimensions } from "react-native";
+
+// 화면 너비 가져오기
+const { width } = Dimensions.get("window");
+
+// 태블릿 판별 기준 (보통 width가 600px 이상이면 태블릿)
+const isTablet = width >= 600;
+
 const SelectOption = ({ text, score, isSelected, onPress }) => {
     const backgroundColor = useRef(new Animated.Value(0)).current;
     const scoreBackgroundColor = useRef(new Animated.Value(0)).current;
@@ -280,7 +288,7 @@ const BlurWrapper2 = styled.View`
     position: absolute;
     height: ${responsiveHeight(420)}px;
     width: ${responsiveWidth(420)}px;
-    left: ${responsiveWidth(120)}px;
+    left: ${responsiveWidth(90)}px;
     top: ${responsiveWidth(180)}px;
 `;
 
@@ -306,17 +314,17 @@ const CircleWrapper = styled.View`
 
     ${Platform.select({
         ios: `
-            left: ${responsiveWidth(70)}px;
-            top: ${responsiveWidth(-4)}px;
-        `,
+        left: ${isTablet ? responsiveWidth(100) : responsiveWidth(70)}px;
+        top: ${isTablet ? responsiveHeight(-4) : responsiveWidth(-4)}px;
+    `,
         android: `
-            left: ${responsiveWidth(86)}px;
-            top: ${responsiveWidth(-4)}px;
-        `,
+        left: ${isTablet ? responsiveWidth(60) : responsiveWidth(86)}px;
+        top: ${isTablet ? responsiveHeight(-7) : responsiveWidth(-4)}px;
+    `,
         web: `
-            left: ${responsiveWidth(86)}px;
-            top: ${responsiveWidth(-4)}px;
-        `,
+        left: ${isTablet ? responsiveWidth(100) : responsiveWidth(86)}px;
+        top: ${isTablet ? responsiveHeight(-4) : responsiveWidth(-4)}px;
+    `,
     })}
 `;
 
@@ -376,7 +384,11 @@ const AnimatedSelectOption = styled(Animated.View)`
     justify-content: space-between;
     align-items: center;
     padding: 12px 16px;
+
     gap: 16px;
+    padding-top: ${isTablet ? responsiveHeight(15) : responsiveHeight(12)}px;
+    padding-bottom: ${isTablet ? responsiveHeight(15) : responsiveHeight(12)}px;
+
     align-self: stretch;
     border-radius: 8px;
     shadow-color: rgba(0, 0, 0, 0.04);
@@ -442,7 +454,8 @@ const AnimatedButtonText = styled(Animated.Text)`
 const AnimatedButtonWrapper = styled(Animated.View)`
     display: flex;
     width: ${responsiveWidth(312)}px;
-    padding: 16px 0px;
+    padding-top: ${isTablet ? responsiveHeight(17) : responsiveHeight(16)}px;
+    padding-bottom: ${isTablet ? responsiveHeight(17) : responsiveHeight(16)}px;
     justify-content: center;
     align-items: center;
     gap: 10px;

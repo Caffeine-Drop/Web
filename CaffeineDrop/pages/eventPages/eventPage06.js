@@ -16,6 +16,14 @@ import IndonesiaImage from "../../components/Card_Indonesia";
 import KenyaImage from "../../components/Card_Kenya";
 import VietnamImage from "../../components/Card_Vietnam";
 
+import { Dimensions } from "react-native";
+
+// 화면 너비 가져오기
+const { width } = Dimensions.get("window");
+
+// 태블릿 판별 기준 (보통 width가 600px 이상이면 태블릿)
+const isTablet = width >= 600;
+
 export default function EventPage06({ navigation }) {
     return (
         <Container>
@@ -323,16 +331,16 @@ const LeftLine = styled.View`
 
     ${Platform.select({
         ios: `
-            left: -1.5px;
-            top: ${responsiveHeight(7.67)}px;
+            left: ${isTablet ? responsiveWidth(-1.5) : responsiveWidth(-1.5)}px;
+            top: ${isTablet ? responsiveHeight(7.5) : responsiveWidth(7.67)}px;
         `,
         android: `
-            left: -1.5px;
-            top: ${responsiveHeight(6)}px;
+            left: ${isTablet ? responsiveWidth(-1.3) : responsiveWidth(-1.5)}px;
+            top: ${isTablet ? responsiveHeight(7.5) : responsiveWidth(6)}px;
         `,
         web: `
-            left: -1.5px;
-            top: ${responsiveHeight(7.3)}px;
+            left: ${isTablet ? responsiveWidth(-1.5) : responsiveWidth(-1.5)}px;
+            top: ${isTablet ? responsiveHeight(7) : responsiveWidth(7.3)}px;
         `,
     })}
 `;
@@ -345,16 +353,16 @@ const RightLine = styled.View`
 
     ${Platform.select({
         ios: `
-            right: 0;
-            top: ${responsiveHeight(7.66)}px;
+            right: ${isTablet ? responsiveWidth(0) : responsiveWidth(0)}px;
+            top: ${isTablet ? responsiveHeight(7.66) : responsiveWidth(7.66)}px;
         `,
         android: `
-            right: 0;
-            top: ${responsiveHeight(6)}px;
+            right: ${isTablet ? responsiveWidth(0) : responsiveWidth(0)}px;
+            top: ${isTablet ? responsiveHeight(7.6) : responsiveWidth(6)}px;
         `,
         web: `
-            right: 0;
-            top: ${responsiveHeight(7.3)}px;
+            right: ${isTablet ? responsiveWidth(0) : responsiveWidth(0)}px;
+            top: ${isTablet ? responsiveHeight(7.3) : responsiveWidth(7.3)}px;
         `,
     })}
 `;
@@ -400,13 +408,13 @@ const ResultSmallBrown = styled.View`
 
     ${Platform.select({
         ios: `
-            width: ${responsiveWidth(30)}px;
+            width: ${isTablet ? responsiveWidth(30) : responsiveWidth(30)}px;
         `,
         android: `
-            width: ${responsiveWidth(28)}px;
+            width: ${isTablet ? responsiveWidth(28.5) : responsiveWidth(28)}px;
         `,
         web: `
-            width: ${responsiveWidth(28)}px;
+            width: ${isTablet ? responsiveWidth(28) : responsiveWidth(28)}px;
         `,
     })}
 `;
@@ -447,13 +455,15 @@ const ResultContentBox = styled.View`
 //////////////////////////////////////////////
 const Footer = styled.View`
     position: absolute;
-    top: ${responsiveHeight(965)}px;
+    top: ${isTablet ? responsiveHeight(1040) : responsiveHeight(965)}px;
+    width: 100%;
     display: inline-flex;
-    padding: 0px 24px 16px 24px;
+    padding: 0px 24px 58px 24px;
     flex-direction: column;
     align-items: center;
     gap: 8px;
     background: #fafafa;
+    z-index: 20;
 `;
 
 const ButtonText = styled.Text`
@@ -469,7 +479,8 @@ const ButtonText = styled.Text`
 const ButtonWrapper = styled.View`
     display: flex;
     width: ${responsiveWidth(312)}px;
-    padding: 16px 0px;
+    padding-top: ${isTablet ? responsiveHeight(17) : responsiveHeight(16)}px;
+    padding-bottom: ${isTablet ? responsiveHeight(17) : responsiveHeight(16)}px;
     justify-content: center;
     align-items: center;
     gap: 10px;

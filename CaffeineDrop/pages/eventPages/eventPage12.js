@@ -6,6 +6,14 @@ import BackIcon from "../../components/BackIcon";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import SpecialPageCircle from "../../components/SpecialPage_circle";
 
+import { Dimensions } from "react-native";
+
+// 화면 너비 가져오기
+const { width } = Dimensions.get("window");
+
+// 태블릿 판별 기준 (보통 width가 600px 이상이면 태블릿)
+const isTablet = width >= 600;
+
 export default function EventPage12({ navigation }) {
     return (
         <Container>
@@ -224,7 +232,7 @@ const Rank = styled.View`
 const CircleWrapper = styled.View`
     position: absolute;
     top: 0px;
-    left: -5px;
+    left: ${isTablet ? responsiveWidth(-4.6) : responsiveWidth(-5)}px;
 `;
 const TopScoreText = styled.Text`
     color: #999;
@@ -272,7 +280,7 @@ const ScoreInfoText = styled.Text`
 /////////////////////////////////////////////////
 const Footer = styled.View`
     padding: 0 ${responsiveWidth(24)}px ${responsiveHeight(16)}px ${responsiveWidth(24)}px;
-    margin-top: ${responsiveHeight(688)}px;
+    margin-top: ${isTablet ? responsiveHeight(12) : responsiveWidth(688)}px;
 `;
 
 const ButtonWrapper = styled(TouchableOpacity)`

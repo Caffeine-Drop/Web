@@ -11,6 +11,7 @@ import OnboardingLogin04 from "./pages/onBoardingLogin/onBoardingLogin04";
 import SpecialtyOptions from "./components/SpecialtyOptions";
 import DetailPage from "./pages/detailpage";
 import HomeScreen from "./pages/HomeScreen";
+import SearchPage from "./pages/SearchPage";
 import DetailPageImage from "./pages/detailpageimage";
 import DetailPageImageDetail from "./pages/detailpageimageDetail";
 import ReviewPage from "./pages/reviewpage";
@@ -58,6 +59,7 @@ export default function App() {
                 <Stack.Screen name="OnboardingLogin03" component={OnboardingLogin03} />
                 <Stack.Screen name="OnboardingLogin04" component={OnboardingLogin04} />
                 <Stack.Screen name="HomeScreen" component={HomeScreen} />
+                <Stack.Screen name="SearchPage" component={SearchPage} />
                 <Stack.Screen name="DetailPage" component={DetailPage} />
                 <Stack.Screen name="DetailPageImage" component={DetailPageImage} />
                 <Stack.Screen name="DetailPageImageDetail" component={DetailPageImageDetail} />

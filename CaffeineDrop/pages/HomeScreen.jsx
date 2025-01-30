@@ -192,7 +192,7 @@ const HomeScreen = ({ navigation }) => {
       ),
       // Bottom Sheet 위로 이동
       Animated.timing(translateY, {
-        toValue: DEFAULT_POSITION - 66,
+        toValue: DEFAULT_POSITION - responsiveHeight(66),
         duration: 300,
         useNativeDriver: true,
       }),

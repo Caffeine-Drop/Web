@@ -7,6 +7,14 @@ import { useFonts } from "../../styles";
 import SettingPageBlur1 from "../../components/SettingPageBlur1";
 import SettingPageBlur2 from "../../components/SettingPageBlur2";
 
+import { Dimensions } from "react-native";
+
+// 화면 크기 가져오기
+const { width, height } = Dimensions.get("window");
+
+// 태블릿 판별 기준 (보통 width가 600px 이상이면 태블릿)
+const isTablet = width >= 600;
+
 export default function SettingPage03({ navigation }) {
     const fontsLoaded = useFonts();
 
@@ -124,7 +132,8 @@ const DeleteButton = styled(TouchableOpacity)`
 
     display: flex;
     width: ${responsiveWidth(312)}px;
-    padding: 16px 0px;
+    padding-top: ${isTablet ? responsiveHeight(17) : responsiveHeight(16)}px;
+    padding-bottom: ${isTablet ? responsiveHeight(17) : responsiveHeight(16)}px;
     justify-content: center;
     align-items: center;
     gap: 10px;
@@ -146,11 +155,11 @@ const ButtonText = styled.Text`
 ////////////////////////////////////////////////////
 const BlurBox1 = styled.View`
     position: absolute;
-    top: ${responsiveWidth(66)}px;
-    left: ${responsiveWidth(-100)}px;
+    left: ${isTablet ? responsiveWidth(-100) : responsiveWidth(-100)}px;
+    top: ${isTablet ? responsiveHeight(66) : responsiveWidth(66)}px;
 `;
 const BlurBox2 = styled.View`
     position: absolute;
-    top: ${responsiveWidth(310)}px;
-    left: ${responsiveWidth(141)}px;
+    left: ${isTablet ? responsiveWidth(101) : responsiveWidth(141)}px;
+    top: ${isTablet ? responsiveHeight(230) : responsiveWidth(310)}px;
 `;

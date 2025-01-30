@@ -6,6 +6,14 @@ import BackIcon from "../../components/BackIcon";
 import NextButton from "../../components/NextButton";
 import { useFonts } from "../../styles";
 
+import { Dimensions } from "react-native";
+
+// 화면 크기 가져오기
+const { width, height } = Dimensions.get("window");
+
+// 태블릿 판별 기준 (보통 width가 600px 이상이면 태블릿)
+const isTablet = width >= 600;
+
 export default function SettingPage03({ navigation }) {
     const fontsLoaded = useFonts();
 

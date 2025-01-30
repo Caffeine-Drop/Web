@@ -4,6 +4,14 @@ import styled from "styled-components/native";
 import { TouchableOpacity } from "react-native";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../utils/responsive";
 
+import { Dimensions } from "react-native";
+
+// 화면 크기 가져오기
+const { width, height } = Dimensions.get("window");
+
+// 태블릿 판별 기준 (보통 width가 600px 이상이면 태블릿)
+const isTablet = width >= 600;
+
 const CloseIconWrapper = styled(TouchableOpacity)`
     width: ${responsiveWidth(24)}px;
     height: ${responsiveHeight(24)}px;

@@ -195,7 +195,7 @@ const LoginButton = styled(TouchableOpacity)`
     align-items: center;
     justify-content: center;
     gap: ${responsiveWidth(4)}px;
-    width: ${responsiveWidth(122)}px;
+    width: ${isTablet ? responsiveWidth(90) : responsiveWidth(122)}px;
     height: ${responsiveHeight(25)}px;
     border-radius: 24px;
     background: #e5e3e1;
@@ -208,7 +208,7 @@ const LoginInnerBox = styled.View`
 const IconSpace = styled.View`
     justify-content: center;
     align-text: center;
-    border-radius: 16px;
+    border-radius: ${isTablet ? "18px" : "16px"};
     background: #fee500;
     width: ${responsiveWidth(16)}px;
     height: ${responsiveHeight(16)}px;
@@ -216,7 +216,7 @@ const IconSpace = styled.View`
 const IconBox = styled.View`
     position: absolute;
     left: ${responsiveWidth(3)}px;
-    top: ${responsiveHeight(3)}px;
+    top: ${isTablet ? responsiveHeight(2.8) : responsiveHeight(3)}px;
 `;
 const TextSpace = styled.View``;
 const LoginText = styled.Text`

@@ -12,6 +12,14 @@ import CheckedIcon from "../../components/CheckedIcon";
 import Modal from "react-native-modal";
 import CloseIcon from "../../components/CloseIcon";
 
+import { Dimensions } from "react-native";
+
+// 화면 크기 가져오기
+const { width, height } = Dimensions.get("window");
+
+// 태블릿 판별 기준 (보통 width가 600px 이상이면 태블릿)
+const isTablet = width >= 600;
+
 export default function SettingAskPage({ navigation }) {
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
@@ -250,9 +258,17 @@ const EmailInput = styled(TextInput)`
     font-style: normal;
     font-weight: 400;
     line-height: ${responsiveHeight(19.32)}px;
-    letter-spacing: ${responsiveWidth(-0.35)};
+    letter-spacing: -0.35px;
 `;
-const SelectBoxText = styled.Text``;
+const SelectBoxText = styled.Text`
+    color: #666;
+    font-family: PretendardRegular;
+    font-size: ${isTablet ? responsiveFontSize(13) : responsiveFontSize(14)}px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: ${responsiveHeight(19.32)}px;
+    letter-spacing: -0.35px;
+`;
 //문의 내용/////////////////////////////////////////////
 const ContentTitle = styled.View`
     margin-top: ${responsiveHeight(44)}px;
@@ -265,7 +281,7 @@ const ContentTitleText = styled.Text`
     font-style: normal;
     font-weight: 500;
     line-height: ${responsiveHeight(19.32)}px;
-    letter-spacing: ${responsiveWidth(-0.35)};
+    letter-spacing: -0.35px;
 `;
 //이메일 부분/////////////////////////////////////////////
 const EmailContainer = styled.View`
@@ -283,7 +299,7 @@ const EmailText = styled.Text`
     font-style: normal;
     font-weight: 500;
     line-height: ${responsiveHeight(20)}px;
-    letter-spacing: ${responsiveWidth(-0.35)};
+    letter-spacing: -0.35px;
 `;
 const EmailContent = styled.Text`
     margin-left: ${responsiveWidth(56)}px;
@@ -304,11 +320,11 @@ const AnimatedSubmitButton = styled(Animated.createAnimatedComponent(TouchableOp
     margin-bottom: ${responsiveHeight(16)}px;
     margin-right: ${responsiveWidth(24)}px;
     margin-left: ${responsiveWidth(24)}px;
-    padding-top: ${responsiveHeight(16)}px;
-    padding-bottom: ${responsiveHeight(16)}px;
     width: ${responsiveWidth(312)}px;
 
-    padding: 16px 0px;
+    padding-top: ${isTablet ? responsiveWidth(17) : responsiveWidth(16)}px;
+    padding-bottom: ${isTablet ? responsiveHeight(17) : responsiveWidth(16)}px;
+
     justify-content: center;
     align-items: center;
     gap: 10px;
@@ -318,7 +334,13 @@ const AnimatedSubmitButton = styled(Animated.createAnimatedComponent(TouchableOp
 const AnimatedButtonText = styled(Animated.createAnimatedComponent(Text))`
     justify-content: center;
     text-align: center;
-    border-radius: 12px;
+
+    font-family: PretendardBold;
+    font-size: ${responsiveFontSize(16)}px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: ${responsiveHeight(22.08)}px;
+    letter-spacing: -0.4px;
 `;
 const Footer = styled.View`
     width: ${responsiveWidth(360)}px;

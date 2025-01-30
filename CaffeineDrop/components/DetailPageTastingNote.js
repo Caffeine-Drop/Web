@@ -83,7 +83,7 @@ export default function DetailPageTastingNote() {
           <TastingNoteBar score={4} maxScore={5} />
         </View>
         {/* 여기까지 단맛(Sweetness) */}
-        {/* 여기부터 밸런스(Balence) */}
+        {/* 여기부터 밸런스(Balance) */}
         <View
           style={{
             display: "flex",
@@ -92,7 +92,7 @@ export default function DetailPageTastingNote() {
           }}
         >
           <TastingNoteTextContainer>
-            <TastingNoteText>밸런스(Balence)</TastingNoteText>
+            <TastingNoteText>밸런스(Balance)</TastingNoteText>
             <View
               style={{
                 display: "flex",

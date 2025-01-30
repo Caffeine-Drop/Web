@@ -15,15 +15,16 @@ import CafeLocation from "../components/CafeLocation";
 import BottomContainer from "../components/BottomContainer";
 import SpecialtyOptions from "../components/SpecialtyOptions";
 import NoResults from "../components/NoResults";
-
 import CurrentLocationIcon from "../assets/home/CurrentLocationIcon.svg";
 import DownIcon from "../assets/home/DownIcon.svg";
 import UpIcon from "../assets/home/UpIcon.svg";
+import { useFonts } from "../styles";
 
 const GNB_HEIGHT = responsiveHeight(94); // GNB 높이
 const DEFAULT_POSITION = responsiveHeight(316); // Bottom Sheet 기본 위치
 
 const HomeScreen = ({ navigation }) => {
+  const fontsLoaded = useFonts();
   const translateY = useRef(new Animated.Value(DEFAULT_POSITION)).current;
   const locationTranslateY = useRef(new Animated.Value(0)).current; // CurrentLocationIcon 이동용
   const bottomContainerTranslateY = useRef(new Animated.Value(66)).current;
@@ -243,6 +244,10 @@ const HomeScreen = ({ navigation }) => {
       },
     })
   ).current;
+
+  if (!fontsLoaded) {
+    return null; // 폰트 로드될 때까지 렌더링 안 함
+  }
 
   return (
     <Container>
@@ -579,8 +584,11 @@ const FilterButton = styled.TouchableOpacity`
 `;  
 
 const SortText = styled.Text`
+  font-family: PretendardRegular;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: ${(props) => (props.selected ? "600" : "400")};
+  line-height: 138%;
+  letter-spacing: -0.3;
   color: #000;
 `;
 

@@ -8,9 +8,16 @@ import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import SpecialtyCoffeeIcon from "../assets/home/SpecialtyCoffeeIcon.svg";
 import CoffeeBeansIcon from "../assets/home/CoffeeBeansIcon.svg";
+import { useFonts } from "../styles";
 
 const SpecialtyOptions = () => {
+  const fontsLoaded = useFonts();
+
   const navigation = useNavigation();
+
+  if (!fontsLoaded) {
+    return null; // 폰트 로드될 때까지 렌더링 안 함
+  }
 
   return (
     <OptionsContainer>
@@ -47,8 +54,11 @@ const OptionButton = styled.TouchableOpacity`
 `;
 
 const OptionText = styled.Text`
+  font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 600;
+  line-height: 138%;
+  letter-spacing: -0.35;
   color: #FAFAFA;
   margin-left: ${responsiveWidth(8)}px;
 `;

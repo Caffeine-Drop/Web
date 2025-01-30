@@ -8,8 +8,15 @@ import {
 import styled from "styled-components/native";
 import CafeLocationIcon from "../assets/home/CafeLocationIcon.svg";
 import LocationHereIcon from "../assets/home/LocationHereIcon.svg";
+import { useFonts } from "../styles";
 
 const CafeLocation = ({ top, left, isSelected, onSelect }) => {
+  const fontsLoaded = useFonts();
+
+  if (!fontsLoaded) {
+    return null; // 폰트 로드될 때까지 렌더링 안 함
+  }
+
   return (
     <TouchableOpacity
       onPress={onSelect} // 선택되면 HomeScreen에서 상태 업데이트
@@ -30,8 +37,11 @@ const CafeLocation = ({ top, left, isSelected, onSelect }) => {
 export default CafeLocation;
 
 const CafeLabel = styled.Text`
+  font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(10)}px;
   font-weight: 600;
+  line-height: 138%;
+  letter-spacing: -0.25;
   color: #000;
   text-align: center;
   margin-top: ${responsiveHeight(2)}px;

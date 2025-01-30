@@ -10,6 +10,7 @@ import MapIconBeforeClick from "../assets/home/MapIconBeforeClick.png";
 import MapIconAfterClick from "../assets/home/MapIconAfterClick.png";
 import NaverIcon from "../assets/home/NaverIcon.svg";
 import KakaoIcon from "../assets/home/KakaoIcon.svg";
+import { useFonts } from "../styles";
 
 const BottomContainer = ({
     isDirectionsPressed,
@@ -18,11 +19,17 @@ const BottomContainer = ({
     handleKakaoDirections,
     cafe,
   }) => {
+    const fontsLoaded = useFonts();
+
     const navigation = useNavigation();
 
     const handleCafeInfoPress = () => {
       navigation.navigate("DetailPage", { cafe }); // DetailPage로 이동
     };
+
+    if (!fontsLoaded) {
+      return null; // 폰트 로드될 때까지 렌더링 안 함
+    }
 
     return (
       <>
@@ -84,8 +91,11 @@ const CafeInfoButton = styled.TouchableOpacity`
 `;
 
 const CafeInfoText = styled.Text`
+  font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 600;
+  line-height: 138%;
+  letter-spacing: -0.35;
   color: #000000;
 `;
 
@@ -104,8 +114,11 @@ const DirectionsButton = styled.TouchableOpacity`
 `;
 
 const DirectionsText = styled.Text`
+  font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 600;
+  line-height: 138%;
+  letter-spacing: -0.35;
   color: ${(props) => (props.pressed ? "#666" : "#fafafa")};
   margin-left: ${responsiveWidth(8)}px;
 `;
@@ -130,8 +143,11 @@ const OptionButton = styled.TouchableOpacity`
 `;
 
 const OptionText = styled.Text`
+  font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 600;
+  line-height: 138%;
+  letter-spacing: -0.35;
   color: #000000;
   margin-left: ${responsiveWidth(8)}px;
 `;

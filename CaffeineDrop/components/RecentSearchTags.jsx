@@ -1,8 +1,20 @@
 import React from 'react';
+import {
+  responsiveFontSize,
+  responsiveWidth,
+  responsiveHeight,
+} from "../utils/responsive";
 import styled from 'styled-components/native';
 import DeleteIcon from '../assets/search/DeleteIcon.svg';
+import { useFonts } from "../styles";
 
 const RecentSearchTags = ({ recentSearches, onClearAll }) => {
+  const fontsLoaded = useFonts();
+
+  if (!fontsLoaded) {
+    return null; // 폰트 로드될 때까지 렌더링 안 함
+  }
+
   return (
     <Container>
       <Header>
@@ -14,7 +26,7 @@ const RecentSearchTags = ({ recentSearches, onClearAll }) => {
           <Tag key={index}>
             <TagText>{search}</TagText>
             <DeleteIconWrapper>
-              <DeleteIcon width={19} height={19} />
+              <DeleteIcon width={`${responsiveWidth(19)}px`} height={`${responsiveHeight(19)}px`} />
             </DeleteIconWrapper>
           </Tag>
         ))}
@@ -26,52 +38,61 @@ const RecentSearchTags = ({ recentSearches, onClearAll }) => {
 export default RecentSearchTags;
 
 const Container = styled.View`
-  margin-top: 24px;
-  border-bottom-width: 1px; /* 테두리 두께 */
-  border-bottom-color: #f1f1f1; /* 테두리 색상 */
+  margin-top: ${responsiveHeight(24)}px;
+  border-bottom-width: 1px;
+  border-bottom-color: #f1f1f1;
 `;
 
 const Header = styled.View`
   flex-direction: row;
-  justify-content: space-between; /* Title과 ClearText를 양쪽에 배치 */
-  align-items: center; /* 세로 가운데 정렬 */
-  padding: 0 24px;
-  margin-bottom: 16px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 ${responsiveWidth(24)}px;
+  margin-bottom: ${responsiveHeight(16)}px;
 `;
 
 const Title = styled.Text`
-  font-size: 18px;
+  font-family: PretendardSemiBold;
+  font-size: ${responsiveFontSize(18)}px;
   font-weight: 600;
+  line-height: 138%;
+  letter-spacing: -0.45;
 `;
 
 const ClearText = styled.Text`
-  font-size: 12px;
+  font-family: PretendardMedium;
+  font-size: ${responsiveFontSize(12)}px;
   font-weight: 500;
+  line-height: 138%;
+  letter-spacing: -0.3;
   color: #999;
 `;
 
 const TagList = styled.ScrollView`
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 8px;
-  padding-left: 24px;
-  margin-bottom: 24px;
+  gap: ${responsiveWidth(8)}px;
+  padding-left: ${responsiveWidth(24)}px;
+  margin-bottom: ${responsiveHeight(24)}px;
 `;
 
 const Tag = styled.View`
   flex-direction: row; /* 태그 텍스트와 아이콘을 가로로 배치 */
-  height: 36px;
+  height: ${responsiveHeight(36)}px;
   align-items: center;
   justify-content: center;
-  padding: 6px 10px 6px 14px;
+  padding: ${responsiveHeight(6)}px ${responsiveWidth(10)}px ${responsiveHeight(6)}px ${responsiveWidth(14)}px;
   border-radius: 41px;
-  margin-right: 8px;
+  margin-right: ${responsiveWidth(8)}px;
   border: 1px solid #EBEBEB;
 `;
 
 const TagText = styled.Text`
-  font-size: 14px;
-  margin-right: 2px; /* 텍스트와 아이콘 사이 간격 */
+  font-family: PretendardMedium;
+  font-size: ${responsiveFontSize(14)}px;
+  line-height: 138%;
+  letter-spacing: -0.35;
+  margin-right: 2px;
 `;
 
 const DeleteIconWrapper = styled.TouchableOpacity`

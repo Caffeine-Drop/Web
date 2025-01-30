@@ -15,6 +15,7 @@ import CafeLocation from "../components/CafeLocation";
 import SearchWordSlide from "../components/SearchWordSlide";
 import CurrentLocationIcon from "../assets/search/CurrentLocationIcon.svg";
 import LocationHereIcon from "../assets/home/LocationHereIcon.svg";
+import { useFonts } from "../styles";
 
 const SCREEN_HEIGHT = responsiveHeight(800); // 화면 높이 (예제값)
 const DEFAULT_POSITION = responsiveHeight(316); // Bottom Sheet 기본 위치
@@ -22,6 +23,8 @@ const FULLY_EXPANDED_POSITION = responsiveHeight(162); // 슬라이드 최상단
 const ANIMATION_DURATION = 300; // 애니메이션 지속 시간
 
 const SearchPage = () => {
+  const fontsLoaded = useFonts();
+
   const popularSearches = ["카이막", "두바이 초콜릿", "브런치 카페", "베이글", "콜드브루", "에스프레소"];
   const recentSearches = ["수플레", "딸기케이크", "휘낭시에", "휘낭시에", "카이막"];
   const recommendedCafes = [
@@ -115,6 +118,10 @@ const SearchPage = () => {
       setIsMapVisible(true);
     }
   };
+
+  if (!fontsLoaded) {
+    return null; // 폰트 로드될 때까지 렌더링 안 함
+  }
 
   return (
     <Container>
@@ -240,8 +247,11 @@ const MapContainer = styled.View`
 `;
 
 const CurrentLocationText = styled.Text`
+  font-family: PretendardMedium;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 500;
+  line-height: 138%;
+  letter-spacing: -0.3;
   margin-left: ${responsiveWidth(6)}px;
 `;
 
@@ -272,8 +282,11 @@ const LocationIconWrapper = styled.View`
 
 const MoveMapText = styled.Text`
   color: #fafafa;
+  font-family: PretendardMedium;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 500;
+  line-height: 138%;
+  letter-spacing: -0.3;
 `;
 
 const MoveMapWrapper = styled.View`

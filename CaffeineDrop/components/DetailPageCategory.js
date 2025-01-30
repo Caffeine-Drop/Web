@@ -63,11 +63,14 @@ export default function DetailPageCategory() {
 const Container = styled.View`
   width: 100%;
   background-color: #fafafa;
+  padding-bottom: ${responsiveHeight(20)}px;
 `;
 
 const CategoryContainer = styled.View`
   width: 100%;
-  padding: ${responsiveHeight(20)}px 24px 0 24px;
+  padding-top: ${responsiveHeight(20)}px;
+  padding-left: ${responsiveWidth(24)}px;
+  padding-right: ${responsiveWidth(24)}px;
 `;
 
 const CategoryTitle = styled.Text`
@@ -100,10 +103,8 @@ const Category = styled.View`
 
 const CategoryText = styled.Text`
   color: #333;
-  font-family: Pretendard;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(14)}px;
-  font-style: normal;
-  font-weight: 500;
   line-height: ${responsiveFontSize(19.32)}px;
   letter-spacing: -0.35px;
 `;
@@ -111,7 +112,9 @@ const CategoryText = styled.Text`
 const TelContainer = styled.View`
   width: 100%;
   height: ${responsiveHeight(46)}px;
-  padding: 16px 24px 0px 24px;
+  padding-top: ${responsiveHeight(16)}px;
+  padding-left: ${responsiveWidth(24)}px;
+  padding-right: ${responsiveWidth(24)}px;
 `;
 
 const Tel = styled.View`
@@ -123,7 +126,7 @@ const Tel = styled.View`
 
 const TelText = styled.Text`
   font-size: ${responsiveFontSize(12)}px;
-  font-weight: 500;
+  font-family: "PretendardMedium";
   line-height: ${responsiveFontSize(16.56)}px;
   letter-spacing: -0.3px;
   color: #000000;
@@ -136,8 +139,7 @@ const TelText = styled.Text`
 const TelNumber = styled.Text`
   color: #000;
   font-size: ${responsiveFontSize(14)}px;
-  font-style: normal;
-  font-weight: 500;
+  font-family: "PretendardMedium";
   line-height: ${responsiveFontSize(19.32)}px;
   letter-spacing: -0.35px;
   text-transform: uppercase;
@@ -147,13 +149,15 @@ const BusinessHourContainer = styled.View`
   width: 100%;
   flex-direction: row;
   align-items: center;
-  padding: 16px 24px 20px 24px;
+  padding-top: ${responsiveHeight(16)}px;
+  padding-left: ${responsiveWidth(24)}px;
+  padding-right: ${responsiveWidth(24)}px;
   gap: ${responsiveWidth(20)}px;
 `;
 
 const BusinessHourText = styled.Text`
   font-size: ${responsiveFontSize(12)}px;
-  font-weight: 500;
+  font-family: "PretendardMedium";
   line-height: ${responsiveFontSize(16.56)}px;
   letter-spacing: -0.3px;
   color: #000000;
@@ -181,8 +185,7 @@ const BusinessHour = styled.View`
 const BusinessHourDay = styled.Text`
   color: #333;
   font-size: ${responsiveFontSize(14)}px;
-  font-style: normal;
-  font-weight: 400;
+  font-family: "PretendardRegular";
   line-height: ${responsiveFontSize(19.32)}px;
   letter-spacing: -0.35px;
 `;
@@ -195,8 +198,8 @@ const Separator = styled.Text`
 const BusinessHourTime = styled.Text`
   color: #000;
   font-size: ${responsiveFontSize(14)}px;
-  font-style: normal;
-  font-weight: 500;
+  font-family: "PretendardMedium";
   line-height: ${responsiveFontSize(21)}px;
   letter-spacing: -0.35px;
 `;
+

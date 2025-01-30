@@ -108,10 +108,10 @@ export default function DetailPageCoffeeInfo() {
                   }}
                 >
                   <CuppingNote>
-                    <Text>#호두</Text>
+                    <Text style={{ fontSize: responsiveFontSize(14) }}>#호두</Text>
                   </CuppingNote>
                   <CuppingNote>
-                    <Text>#코코아</Text>
+                    <Text style={{ fontSize: responsiveFontSize(14) }}>#코코아</Text>
                   </CuppingNote>
                 </View>
               </View>
@@ -193,10 +193,8 @@ const CoffeeBeanInfo = styled.View`
 
 const Number = styled.Text`
   color: #666;
-  font-family: Pretendard;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(12)}px;
-  font-style: normal;
-  font-weight: 500;
   line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3px;
   text-transform: uppercase;
@@ -206,10 +204,8 @@ const CoffeeBeanName = styled.Text`
   overflow: hidden;
   color: #000;
   text-overflow: ellipsis;
-  font-family: Pretendard;
+  font-family: "PretendardSemiBold";
   font-size: ${responsiveFontSize(20)}px;
-  font-style: normal;
-  font-weight: 600;
   line-height: ${responsiveHeight(27.6)}px;
   letter-spacing: -0.5px;
   text-transform: uppercase;
@@ -224,10 +220,8 @@ const InfoContainer = styled.View`
 
 const CoffeeBeanClassificationTitle = styled.Text`
   color: #000;
-  font-family: Pretendard;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(14)}px;
-  font-style: normal;
-  font-weight: 500;
   line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35px;
 `;
@@ -255,9 +249,8 @@ const CoffeeBeanClassificationText = styled.Text`
       : classification === "스페셜티 미인증"
       ? "#666"
       : "#333"};
-  font-family: Pretendard;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(14)}px;
-  font-style: normal;
   font-weight: ${({ classification }) =>
     classification === "스페셜티 인증" ? 600 : 500};
   line-height: ${responsiveHeight(19.32)}px;
@@ -266,10 +259,8 @@ const CoffeeBeanClassificationText = styled.Text`
 
 const CuppingNoteTitle = styled.Text`
   color: #000;
-  font-family: Pretendard;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(14)}px;
-  font-style: normal;
-  font-weight: 500;
   line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35px;
 `;
@@ -286,10 +277,8 @@ const CuppingNote = styled.View`
   padding: ${responsiveHeight(4)}px ${responsiveWidth(14)}px;
   Text {
     color: #666;
-    font-family: Pretendard;
+    font-family: "PretendardMedium";
     font-size: ${responsiveFontSize(14)}px;
-    font-style: normal;
-    font-weight: 500;
     line-height: ${responsiveHeight(19.32)}px;
     letter-spacing: -0.35px;
   }
@@ -297,30 +286,24 @@ const CuppingNote = styled.View`
 
 const NoteTitle = styled.Text`
   color: #000;
-  font-family: Pretendard;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(14)}px;
-  font-style: normal;
-  font-weight: 500;
   line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35px;
 `;
 
 const Note = styled.Text`
   color: #666;
-  font-family: Pretendard;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(14)}px;
-  font-style: normal;
-  font-weight: 500;
   line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35px;
 `;
 
 const LoastingDegreeTitle = styled.Text`
   color: #000;
-  font-family: Pretendard;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(14)}px;
-  font-style: normal;
-  font-weight: 500;
   line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35px;
 `;
@@ -341,30 +324,24 @@ const LoastingDegreeContent = styled.View`
 
 const LoastingDegreeText = styled.Text`
   color: #666;
-  font-family: Pretendard;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(12)}px;
-  font-style: normal;
-  font-weight: 500;
   line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3px;
 `;
 
 const LoastingDegreeLate = styled.Text`
   color: #321900;
-  font-family: Pretendard;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(12)}px;
-  font-style: normal;
-  font-weight: 500;
   line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3px;
 `;
 
 const LoastingDegreeLateText = styled.Text`
   color: #000;
-  font-family: Pretendard;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(12)}px;
-  font-style: normal;
-  font-weight: 500;
   line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3px;
 `;

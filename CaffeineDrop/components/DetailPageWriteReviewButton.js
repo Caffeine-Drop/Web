@@ -65,10 +65,8 @@ const TouchableOpacityWrapper = styled(TouchableOpacity)`
 
 const WriteReviewText = styled(Text)`
   color: #000;
-  font-family: Pretendard;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(14)}px;
-  font-style: normal;
-  font-weight: 500;
   line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35px;
 `;

@@ -6,8 +6,15 @@ import {
     responsiveWidth,
     responsiveHeight,
   } from "../utils/responsive";
+import { useFonts } from "../styles";
 
 const NoResults = () => {
+  const fontsLoaded = useFonts();
+
+  if (!fontsLoaded) {
+    return null; // 폰트 로드될 때까지 렌더링 안 함
+  }
+  
   return (
     <Container>
       <StyledImage
@@ -19,6 +26,8 @@ const NoResults = () => {
     </Container>
   );
 };
+
+export default NoResults;
 
 const Container = styled.View`
   align-items: center;
@@ -34,16 +43,20 @@ const StyledImage = styled(Image)`
 `;
 
 const Title = styled.Text`
+  font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(20)}px;
   font-weight: 600;
+  line-height: 138%;
+  letter-spacing: -0.5;
   color: #000;
 `;
 
 const Subtitle = styled.Text`
+  font-family: PretendardMedium;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 500;
+  line-height: 138%;
+  letter-spacing: -0.35;
   color: #666;
   margin-top: ${responsiveHeight(16)}px;
 `;
-
-export default NoResults;

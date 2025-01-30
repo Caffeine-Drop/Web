@@ -143,8 +143,11 @@ const OptionButton = styled.TouchableOpacity`
 `;
 
 const OptionText = styled.Text`
+  font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 600;
+  line-height: 138%;
+  letter-spacing: -0.35;
   color: #000000;
   margin-left: ${responsiveWidth(8)}px;
 `;

@@ -32,6 +32,7 @@ const FilterButton = styled(TouchableOpacity)`
   padding: ${responsiveHeight(4)}px ${responsiveWidth(14)}px;
   border-radius: 41px;
   border: 1px solid #ebebeb;
+  margin-left: ${responsiveWidth(6)}px;
   margin-left: ${({ isFirst }) => (isFirst ? `${responsiveWidth(24)}px` : 0)};
   height: ${responsiveHeight(27)}px;
   justify-content: center;

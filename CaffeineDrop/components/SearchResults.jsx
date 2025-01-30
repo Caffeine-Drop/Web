@@ -26,7 +26,7 @@ const SearchResults = ({ isVisible, isSettingMode, onClose, onSlideDown }) => {
   const [sortModalVisible, setSortModalVisible] = useState(false);
   const [timeModalVisible, setTimeModalVisible] = useState(false);
   const [selectedSort, setSelectedSort] = useState("인기순");
-  const [selectedTime, setSelectedTime] = useState("전체");
+  const [selectedTime, setSelectedTime] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
 
   // 모서리 반경 애니메이션 설정
@@ -128,9 +128,15 @@ const SearchResults = ({ isVisible, isSettingMode, onClose, onSlideDown }) => {
             </FilterButton>
 
             <FilterButton onPress={() => setTimeModalVisible(!timeModalVisible)}>
-              <SortText selected={selectedTime !== "전체"}>
-                {selectedTime}
-              </SortText>
+            <SortText selected={selectedTime !== ""}>
+              {selectedTime === ""
+                ? "전체"
+                : selectedTime
+                    .replace("영업", "")
+                    .replace("오픈", "")
+                    .replace("마감", "")
+                    .trim()}
+            </SortText>
               {timeModalVisible ? (
                 <UpIcon
                   width={`${responsiveWidth(17)}px`}

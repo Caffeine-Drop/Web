@@ -14,6 +14,7 @@ const UnmannedFilter = ({ isSelected, onSelect }) => {
   if (!fontsLoaded) {
     return null; // 폰트 로드될 때까지 렌더링 안 함
   }
+
   return (
     <FilterButton onPress={onSelect} selected={isSelected}>
       <FilterText selected={isSelected}>무인</FilterText>

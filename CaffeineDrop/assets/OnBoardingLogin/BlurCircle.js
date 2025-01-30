@@ -10,9 +10,9 @@ import {
   FeGaussianBlur,
 } from "react-native-svg";
 
-const BlurCircle = ({ marginLeft = 0, marginTop = 0 }) => {
+const BlurCircle = () => {
   return (
-    <View style={{ marginLeft, marginTop }}>
+    <View>
       <Svg width="360" height="380" viewBox="0 0 294 380" fill="none">
         <Defs>
           <Filter

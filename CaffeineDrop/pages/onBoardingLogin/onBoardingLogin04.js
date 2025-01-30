@@ -78,8 +78,8 @@ export default function onBoardingLogin04({ navigation }) {
               <View
                 style={{
                   display: "relative",
-                  width: responsiveWidth(110),
-                  height: responsiveHeight(110),
+                  width: 110,
+                  height: 110,
                   alignItems: "center",
                   justifyContent: "center",
                   marginTop: responsiveHeight(8),
@@ -90,22 +90,20 @@ export default function onBoardingLogin04({ navigation }) {
                   <Image
                     source={{ uri: profileImage }}
                     style={{
-                      width: responsiveWidth(110),
-                      height: responsiveHeight(110),
+                      width: 110,
+                      height: 110,
                       borderRadius: 100,
                       zIndex: 1,
                     }}
                   />
                 ) : (
-                  <DefaultProfileImg style={{ width: responsiveWidth(110), height: responsiveHeight(110) }} />
+                  <DefaultProfileImg />
                 )}
                 <EditIcon
                   style={{
                     position: "absolute",
-                    width: responsiveWidth(35),
-                    height: responsiveHeight(35),
                     bottom: 0,
-                    right: responsiveWidth(10),
+                    right: 0,
                     zIndex: 1,
                   }}
                 />

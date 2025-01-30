@@ -20,7 +20,7 @@ const GNB = () => {
         <TouchableOpacity onPress={() => navigation.navigate('SearchPage')}>
           <SearchIcon width={responsiveWidth(24)} height={responsiveHeight(24)} />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('SettingPage01')}>
           <MypageIcon width={responsiveWidth(24)} height={responsiveHeight(24)} />
         </TouchableOpacity>
       </Icons>

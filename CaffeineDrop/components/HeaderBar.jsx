@@ -118,7 +118,7 @@ const Title = styled.Text`
   font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(18)}px;
   font-weight: 600;
-  line-height: ${responsiveHeight(19.32)}px;
+  line-height: ${responsiveHeight(24.84)}px;
   letter-spacing: -0.45;
   padding-left: ${responsiveWidth(117)}px;
 `;
@@ -152,7 +152,7 @@ const SearchInput = styled.TextInput`
   font-family: PretendardRegular;
   font-size: ${responsiveFontSize(16)}px;
   font-weight: 400;
-  line-height: ${responsiveHeight(19.32)}px;
+  line-height: ${responsiveHeight(22.08)}px;
   letter-spacing: -0.4;
   color: #999;
   padding-right: ${responsiveWidth(40)}px;
@@ -189,6 +189,6 @@ const SettingsText = styled.Text`
   font-size: ${responsiveFontSize(12)}px;
   color: ${(props) => (props.isComplete ? "#fafafa" : "#756555")};
   font-weight: 500;
-  line-height: ${responsiveHeight(19.32)}px;
+  line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3;
 `;

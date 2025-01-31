@@ -260,7 +260,7 @@ const SortText = styled.Text`
   font-family: Pretendard;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: ${(props) => (props.selected ? "600" : "400")};
-  line-height: ${responsiveHeight(19.32)}px;
+  line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3;
   color: #000;
 `;

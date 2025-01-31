@@ -79,7 +79,7 @@ const Title = styled.Text`
   font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(20)}px;
   font-weight: 600;
-  line-height: ${responsiveHeight(19.32)}px;
+  line-height: ${responsiveHeight(27.6)}px;
   letter-spacing: -0.5;
   margin-right: ${responsiveWidth(12)}px;
 `;
@@ -88,7 +88,7 @@ const AdText = styled.Text`
   font-family: PretendardMedium;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 500;
-  line-height: ${responsiveHeight(19.32)}px;
+  line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3;
   color: #999;
 `;
@@ -116,7 +116,6 @@ const CafeText = styled.Text`
   line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35;
   color: #fafafa;
-  width: 100%;
 `;
 
 const DistanceWrapper = styled.View`
@@ -129,7 +128,7 @@ const DistanceLabel = styled.Text`
   font-family: PretendardRegular;
   font-size: ${responsiveFontSize(10)}px;
   font-weight: 400;
-  line-height: ${responsiveHeight(19.32)}px;
+  line-height: ${responsiveHeight(13.8)}px;
   letter-spacing: -0.25;
   background-color: #f1f1f1;
   border-radius: 8px;
@@ -144,7 +143,7 @@ const DistanceValue = styled.Text`
   font-family: PretendardRegular;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 400;
-  line-height: ${responsiveHeight(19.32)}px;
+  line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3;
   color: #fafafa;
 `;
@@ -159,7 +158,7 @@ const RatingText = styled.Text`
   font-family: PretendardRegular;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 400;
-  line-height: ${responsiveHeight(19.32)}px;
+  line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3;
   color: #fafafa;
   margin-left: ${responsiveWidth(4)}px;

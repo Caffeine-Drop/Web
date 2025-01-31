@@ -1,19 +1,23 @@
-import React, { useState, useRef } from 'react';
-import {
-  Keyboard,
-} from 'react-native';
+import React, { useState, useRef } from "react";
+import { Keyboard } from "react-native";
 import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
 } from "../utils/responsive";
-import styled from 'styled-components/native';
-import BackIcon from './BackIcon';
-import SearchIcon from '../assets/search/SearchIcon.svg';
-import SearchDeleteIcon from '../assets/search/SearchDeleteIcon.svg';
+import styled from "styled-components/native";
+import BackIcon from "./BackIcon";
+import SearchIcon from "../assets/search/SearchIcon.svg";
+import SearchDeleteIcon from "../assets/search/SearchDeleteIcon.svg";
 import { useFonts } from "../styles";
 
-const HeaderBar = ({ onSearchPress, onSettingsPress, setIsKeyboardVisible, searchText, setSearchText }) => {
+const HeaderBar = ({
+  onSearchPress,
+  onSettingsPress,
+  setIsKeyboardVisible,
+  searchText,
+  setSearchText,
+}) => {
   const fontsLoaded = useFonts();
 
   // const [searchText, setSearchText] = useState("");
@@ -101,14 +105,15 @@ const HeadContainer = styled.View`
   align-items: center;
   width: ${responsiveWidth(360)}px;
   height: ${responsiveHeight(56)}px;
-  padding: ${responsiveHeight(15)}px ${responsiveWidth(24)}px ${responsiveHeight(16)}px;
+  padding: ${responsiveHeight(15)}px ${responsiveWidth(24)}px
+    ${responsiveHeight(16)}px;
 `;
 
 const Title = styled.Text`
   font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(18)}px;
   font-weight: 600;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.45;
   padding-left: ${responsiveWidth(117)}px;
 `;
@@ -142,7 +147,7 @@ const SearchInput = styled.TextInput`
   font-family: PretendardRegular;
   font-size: ${responsiveFontSize(16)}px;
   font-weight: 400;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.4;
   color: #999;
   padding-right: ${responsiveWidth(40)}px;
@@ -165,7 +170,7 @@ const SearchIconWrapper = styled.TouchableOpacity``;
 
 const SettingsButton = styled.TouchableOpacity`
   height: ${responsiveHeight(56)}px;
-  padding:  ${responsiveHeight(4)}px ${responsiveWidth(10)}px;
+  padding: ${responsiveHeight(4)}px ${responsiveWidth(10)}px;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -175,9 +180,9 @@ const SettingsButton = styled.TouchableOpacity`
 
 const SettingsText = styled.Text`
   font-family: PretendardMedium;
-  font-size:  ${responsiveFontSize(12)}px;
+  font-size: ${responsiveFontSize(12)}px;
   color: ${(props) => (props.isComplete ? "#fafafa" : "#756555")};
   font-weight: 500;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.3;
 `;

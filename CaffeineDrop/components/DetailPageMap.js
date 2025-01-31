@@ -20,7 +20,7 @@ export default function DetailPageMap() {
       <Text
         style={{
           fontSize: responsiveFontSize(20),
-          fontWeight: 600,
+          fontFamily: "PretendardSemiBold",
           lineHeight: responsiveFontSize(27.6),
           paddingBottom: responsiveHeight(20),
         }}
@@ -33,13 +33,21 @@ export default function DetailPageMap() {
             position: "absolute",
             left: responsiveWidth(0),
             top: responsiveHeight(0),
+            width: "100%",
+            height: responsiveHeight(130),
           }}
         />
         <SubtractIcon
           style={{
             position: "absolute",
-            left: responsiveWidth(139),
-            top: responsiveHeight(43),
+            width: responsiveWidth(35),
+            height: responsiveHeight(44),
+            left: "50%",
+            top: "50%",
+            transform: [
+              { translateX: -responsiveWidth(35) / 2 },
+              { translateY: -responsiveHeight(46) / 2 },
+            ],
           }}
         />
         <TouchableOpacity
@@ -49,7 +57,10 @@ export default function DetailPageMap() {
             top: responsiveHeight(83),
           }}
         >
-          <SearchRoadButton />
+          <SearchRoadButton
+            width={responsiveWidth(83)}
+            height={responsiveHeight(35)}
+          />
         </TouchableOpacity>
       </MapContainer>
       <CaffeeAddress>인천 미추홀구 인하로67번길 6 2층</CaffeeAddress>
@@ -60,7 +71,13 @@ export default function DetailPageMap() {
           paddingTop: responsiveHeight(8),
         }}
       >
-        <DistanceLogo style={{ paddingRight: responsiveWidth(4) }} />
+        <DistanceLogo
+          style={{
+            width: responsiveWidth(26),
+            height: responsiveHeight(18),
+            preserveAspectRatio: "none",
+          }}
+        />
         <Distance>600m</Distance>
       </View>
     </Container>
@@ -69,21 +86,16 @@ export default function DetailPageMap() {
 
 const Container = styled.View`
   width: 100%;
-  padding: ${responsiveHeight(40)}px 24px 0 24px;
+  padding-top: ${responsiveHeight(40)};
+  padding-left: ${responsiveWidth(24)};
+  padding-right: ${responsiveWidth(24)};
   background-color: #fafafa;
 `;
 
 const MapContainer = styled.View`
   position: relative;
-  width: ${responsiveWidth(312)}px;
+  width: 100%;
   height: ${responsiveHeight(130)}px;
-`;
-
-const MapImage = styled.Image`
-  position: relative;
-  width: ${responsiveWidth(312)}px;
-  height: ${responsiveHeight(130)}px;
-  border-radius: ${responsiveWidth(15)}px;
 `;
 
 const SubtractImage = styled.Image`
@@ -106,7 +118,7 @@ const CaffeeAddress = styled.Text`
   padding-top: ${responsiveHeight(16)}px;
   color: #000000;
   font-size: ${responsiveFontSize(14)}px;
-  font-weight: 400;
+  font-family: "PretendardRegular";
   line-height: ${responsiveFontSize(19.32)}px;
   letter-spacing: -0.35px;
 `;
@@ -118,8 +130,9 @@ const CaffeeAddress = styled.Text`
 
 const Distance = styled.Text`
   font-size: ${responsiveFontSize(12)}px;
-  font-weight: 400;
+  font-family: "PretendardRegular";
   line-height: ${responsiveFontSize(16.56)}px;
+  padding-left: ${responsiveWidth(4)}px;
   letter-spacing: -0.3px;
   color: #000000;
 `;

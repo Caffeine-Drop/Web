@@ -21,7 +21,7 @@ import DefaultProfileImg from "../../assets/OnBoardingLogin/DefaultProfileImg.sv
 import EditIcon from "../../assets/OnBoardingLogin/EditIcon.svg";
 import DeleteIcon from "../../assets/OnBoardingLogin/DeleteIcon.svg";
 
-export default function onBoardingLogin04({ navigation }) {
+export default function OnBoardingLogin04({ navigation }) {
   const fontsLoaded = useFonts();
   const [profileImage, setProfileImage] = useState(null);
   const [nickname, setNickname] = useState("");

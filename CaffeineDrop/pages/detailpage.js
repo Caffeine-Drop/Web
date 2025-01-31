@@ -25,7 +25,7 @@ import DetailPageBeansInfo from "../pages/detailpagebeansinfo";
 import BackButton from "../components/BackButton";
 
 export default function DetailPage({ navigation, route }) {
-  const { cafe } = route.params;
+  const { cafe } = route.params || {};
   const [selectedTab, setSelectedTab] = useState("home");
   const fadeAnim = useState(new Animated.Value(1))[0];
   const [isScrolled, setIsScrolled] = useState(false);
@@ -39,8 +39,8 @@ export default function DetailPage({ navigation, route }) {
 
   const handleScroll = (event) => {
     const scrollY = event.nativeEvent.contentOffset.y;
-    setIsScrolled(scrollY > 10);
-    setIsNavBarFixed(scrollY > 327);
+    setIsScrolled(scrollY > responsiveHeight(10));
+    setIsNavBarFixed(scrollY > responsiveHeight(327));
   };
 
   const handleTabPress = (tab) => {
@@ -158,16 +158,17 @@ const NavBar = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   padding: 0 24px;
   gap: 12px;
   bottom: 0;
   width: 100%;
-  height: 48px;
+  height: ${responsiveHeight(48)}px;
   background-color: #756555;
 `;
 
 const NavTab = styled.View`
-  padding: 12px 16px;
+  padding: ${responsiveHeight(12)}px ${responsiveWidth(16)}px;
   border-bottom-width: 2px;
   border-bottom-color: ${(props) =>
     props.isSelected ? "#fafafa" : "transparent"};
@@ -175,9 +176,8 @@ const NavTab = styled.View`
 
 const TabText = styled.Text`
   color: ${(props) => (props.isSelected ? "#ffffff" : "#999999")};
-  font-family: Pretendard;
+  font-family: "PretendardSemiBold";
   font-size: ${responsiveFontSize(16)}px;
-  font-weight: 600;
   line-height: ${responsiveHeight(22.08)}px;
   letter-spacing: -0.04px;
 `;
@@ -201,8 +201,8 @@ const FixedHeaderText = styled.Text`
   color: #fafafa;
   text-align: center;
   text-overflow: ellipsis;
+  font-family: "PretendardSemiBold";
   font-size: ${responsiveFontSize(18)}px;
-  font-weight: 600;
   line-height: ${responsiveHeight(24.84)}px;
   letter-spacing: -0.45px;
 `;

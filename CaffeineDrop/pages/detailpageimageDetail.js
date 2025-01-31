@@ -68,7 +68,7 @@ export default function DetailPageImageDetail({ navigation }) {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 0.6)" }}>
       <Container>
         <Header>
           <BackButton onPress={() => navigation.goBack()} />
@@ -89,7 +89,7 @@ export default function DetailPageImageDetail({ navigation }) {
         </ImageContainer>
         <Review>
           <ReviewUserInfo>
-            <Profile />
+            <Profile width={responsiveWidth(34)} height={responsiveHeight(34)} />
             <ReviewUser>
               <ReviewUserNickName>닉네임</ReviewUserNickName>
               <View
@@ -111,6 +111,7 @@ export default function DetailPageImageDetail({ navigation }) {
             <Text
               style={{
                 color: "#000",
+                color: "#FAFAFA",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 fontSize: responsiveFontSize(12),
@@ -122,7 +123,9 @@ export default function DetailPageImageDetail({ navigation }) {
               }}
             >
               도시 위에 소음 넘쳐나는 트러블 여유 없는 걸음 이건 마치 정글
-              멍하니 또 한숨이
+              멍하니 또 한숨이 도시 위에 소음 넘쳐나는 트러블 여유 없는 걸음 이건
+              마치 정글 도시 위에 소음 넘쳐나는 트러블 여유 없는 걸음 이건 마치
+              정글
             </Text>
           </ReviewContent>
         </Review>
@@ -150,7 +153,6 @@ const ViewDetailText = styled.Text`
   width: 100%;
   text-align: center;
   font-size: ${responsiveFontSize(18)};
-  font-family: "Pretendard";
   font-style: normal;
   font-weight: 600;
   color: #fafafa;
@@ -173,12 +175,8 @@ const ReviewUserInfo = styled.View`
   display: flex;
   flex-direction: row;
   gap: ${responsiveWidth(12)}px;
+  align-items: center;
   padding: 0 ${responsiveWidth(24)}px 0 ${responsiveWidth(24)}px;
-`;
-
-const ReviewUserProfileImage = styled.Image`
-  width: ${responsiveWidth(34)}px;
-  height: ${responsiveWidth(34)}px;
 `;
 
 const ReviewUser = styled.View`
@@ -187,7 +185,7 @@ const ReviewUser = styled.View`
 `;
 
 const ReviewUserNickName = styled.Text`
-  color: #000;
+  color: #fafafa;
   font-size: ${responsiveFontSize(16)}px;
   font-weight: 600;
   line-height: ${responsiveFontSize(22.08)}px;
@@ -196,7 +194,7 @@ const ReviewUserNickName = styled.Text`
 `;
 
 const ReviewCreatedAt = styled.Text`
-  color: #666;
+  color: #f1f1f1;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 500;
   line-height: ${responsiveFontSize(19.32)}px;
@@ -205,7 +203,7 @@ const ReviewCreatedAt = styled.Text`
 `;
 
 const ReviewRating = styled.Text`
-  color: #666;
+  color: #f1f1f1;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 400;
   line-height: ${responsiveFontSize(16.56)}px;

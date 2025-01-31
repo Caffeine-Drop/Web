@@ -70,8 +70,8 @@ const ReviewTitle = styled.View`
 
 const Title = styled.Text`
   color: #000;
+  font-family: "PretendardSemiBold";
   font-size: ${responsiveFontSize(16)}px;
-  font-weight: 600;
   line-height: ${responsiveFontSize(22.08)}px;
   letter-spacing: -0.4px;
   text-transform: uppercase;
@@ -80,8 +80,8 @@ const Title = styled.Text`
 const ReviewCount = styled.Text`
   color: #666;
   text-align: center;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(14)}px;
-  font-weight: 500;
   line-height: ${responsiveFontSize(19.32)}px;
   letter-spacing: -0.35px;
   text-transform: uppercase;
@@ -100,8 +100,8 @@ const ContentContainer = styled.View`
 const MainText1 = styled.Text`
   color: #000;
   text-align: center;
+  font-family: "PretendardSemiBold";
   font-size: ${responsiveFontSize(20)}px;
-  font-weight: 600;
   line-height: ${responsiveFontSize(27.6)}px;
   letter-spacing: -0.5px;
   text-transform: uppercase;
@@ -110,8 +110,8 @@ const MainText1 = styled.Text`
 const SubText = styled.Text`
   color: #666;
   text-align: center;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(14)}px;
-  font-weight: 500;
   line-height: ${responsiveFontSize(19.32)}px;
   letter-spacing: -0.35px;
   text-transform: uppercase;

@@ -37,7 +37,7 @@ export default function DetailPageImg({ navigation, onViewMoreImgPress }) {
           <MainText>등록된 이미지</MainText>
           <ViewMoreButton onPress={onViewMoreImgPress}>
             <ViewMoreButtonText>더보기</ViewMoreButtonText>
-            <ViewMoreButtonIcon />
+            <ViewMoreButtonIcon width={responsiveWidth(16)} height={responsiveHeight(16)}/>
           </ViewMoreButton>
         </TitleContainer>
         <SubText>이용자 후기와 업체 등록 사진을 같이 보여줍니다</SubText>
@@ -94,8 +94,8 @@ const TitleContainer = styled.View`
 
 const MainText = styled.Text`
   width: ${responsiveWidth(150)}px;
+  font-family: "PretendardSemiBold";
   font-size: ${responsiveFontSize(20)}px;
-  font-weight: 600;
   line-height: ${responsiveHeight(27.6)}px;
   letter-spacing: -0.5px;
   color: #000000;
@@ -110,16 +110,16 @@ const ViewMoreButton = styled.TouchableOpacity`
 const ViewMoreButtonText = styled.Text`
   color: #666;
   font-size: ${responsiveFontSize(14)}px;
-  font-weight: 500;
+  font-family: "PretendardMedium";
   line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35px;
 `;
 
 const SubText = styled.Text`
-  font-size: ${responsiveFontSize(14)};
-  font-family: PretendardRegular;
-  line-height: ${responsiveHeight(19.32)};
-  letter-spacing: -0.35;
+  font-size: ${responsiveFontSize(14)}px;
+  font-family: "PretendardRegular";
+  line-height: ${responsiveHeight(19.32)}px;
+  letter-spacing: -0.35px;
   color: #666666;
 `;
 

@@ -15,30 +15,29 @@ export default function DetailPageImage({ selectedTab, navigation }) {
             style={{
               flexDirection: "row",
               flexWrap: "wrap",
-              borderCollapse: "collapse",
               gap: responsiveWidth(1),
             }}
           >
             <TouchableOpacity onPress={() => navigation.navigate("DetailPageImageDetail")}>
-              <DetailPageMainImg width={responsiveWidth(119)} height={responsiveHeight(119)} preserveAspectRatio="none" borderWidth={1} borderColor="#fafafa" />
+              <DetailPageMainImg width={responsiveWidth(119)} height={responsiveHeight(119)} preserveAspectRatio="none" />
             </TouchableOpacity>
             <TouchableOpacity>
-              <DetailPageMainImg width={responsiveWidth(119)} height={responsiveHeight(119)} preserveAspectRatio="none" borderWidth={1} borderColor="#fafafa" />
+              <DetailPageMainImg width={responsiveWidth(119)} height={responsiveHeight(119)} preserveAspectRatio="none" />
             </TouchableOpacity>
             <TouchableOpacity>
-              <DetailPageMainImg width={responsiveWidth(119)} height={responsiveHeight(119)} preserveAspectRatio="none" borderWidth={1} borderColor="#fafafa" />
+              <DetailPageMainImg width={responsiveWidth(119)} height={responsiveHeight(119)} preserveAspectRatio="none" />
             </TouchableOpacity>
             <TouchableOpacity>
-              <DetailPageMainImg width={responsiveWidth(119)} height={responsiveHeight(119)} preserveAspectRatio="none" borderWidth={1} borderColor="#fafafa" />
+              <DetailPageMainImg width={responsiveWidth(119)} height={responsiveHeight(119)} preserveAspectRatio="none" />
             </TouchableOpacity>
             <TouchableOpacity>
-              <DetailPageMainImg width={responsiveWidth(119)} height={responsiveHeight(119)} preserveAspectRatio="none" borderWidth={1} borderColor="#fafafa" />
+              <DetailPageMainImg width={responsiveWidth(119)} height={responsiveHeight(119)} preserveAspectRatio="none" />
             </TouchableOpacity>
             <TouchableOpacity>
-              <DetailPageMainImg width={responsiveWidth(119)} height={responsiveHeight(119)} preserveAspectRatio="none" borderWidth={1} borderColor="#fafafa" />
+              <DetailPageMainImg width={responsiveWidth(119)} height={responsiveHeight(119)} preserveAspectRatio="none" />
             </TouchableOpacity>
             <TouchableOpacity>
-              <DetailPageMainImg width={responsiveWidth(119)} height={responsiveHeight(119)} preserveAspectRatio="none" borderWidth={1} borderColor="#fafafa" />
+              <DetailPageMainImg width={responsiveWidth(119)} height={responsiveHeight(119)} preserveAspectRatio="none" />
             </TouchableOpacity>
           </View>
         </Container>
@@ -53,11 +52,4 @@ const Container = styled.View`
   display: grid;
   flex-direction: row;
   grid-template-rows: repeat(3, 1fr);
-`;
-
-const Image = styled.Image`
-  width: ${responsiveWidth(118)}px;
-  height: ${responsiveHeight(118)}px;
-  border-width: 1px;
-  border-color: #fafafa;
 `;

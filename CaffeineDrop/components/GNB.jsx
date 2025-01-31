@@ -1,27 +1,40 @@
-import React from 'react';
-import { TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import { TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
 } from "../utils/responsive";
-import styled from 'styled-components/native';
-import SearchIcon from '../assets/home/SearchIcon.svg';
-import MypageIcon from '../assets/home/MypageIcon.svg';
+import styled from "styled-components/native";
+import SearchIcon from "../assets/home/SearchIcon.svg";
+import MypageIcon from "../assets/home/MypageIcon.svg";
+import { useFonts } from "../styles";
 
 const GNB = () => {
+  const fontsLoaded = useFonts();
+
   const navigation = useNavigation();
+
+  if (!fontsLoaded) {
+    return null; // 폰트 로드될 때까지 렌더링 안 함
+  }
 
   return (
     <Container>
       <Title>Caffeine Drop</Title>
       <Icons>
-        <TouchableOpacity onPress={() => navigation.navigate('SearchPage')}>
-          <SearchIcon width={responsiveWidth(24)} height={responsiveHeight(24)} />
+        <TouchableOpacity onPress={() => navigation.navigate("SearchPage")}>
+          <SearchIcon
+            width={responsiveWidth(24)}
+            height={responsiveHeight(24)}
+          />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('SettingPage01')}>
-          <MypageIcon width={responsiveWidth(24)} height={responsiveHeight(24)} />
+        <TouchableOpacity onPress={() => navigation.navigate("SettingPage01")}>
+          <MypageIcon
+            width={responsiveWidth(24)}
+            height={responsiveHeight(24)}
+          />
         </TouchableOpacity>
       </Icons>
     </Container>
@@ -41,9 +54,11 @@ const Container = styled.View`
 `;
 
 const Title = styled.Text`
+  font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(18)}px;
   font-weight: 600;
-  line-height: 24.84px;
+  line-height: ${responsiveHeight(19.32)}px;
+  letter-spacing: -0.45;
   padding-left: ${responsiveWidth(24)}px;
 `;
 

@@ -1,5 +1,16 @@
 import React, { useState, useRef } from "react";
-import { View, ScrollView, Animated, TouchableOpacity, PanResponder, Dimensions, Image, ImageBackground, TouchableWithoutFeedback, StyleSheet } from "react-native";
+import {
+  View,
+  ScrollView,
+  Animated,
+  TouchableOpacity,
+  PanResponder,
+  Dimensions,
+  Image,
+  ImageBackground,
+  TouchableWithoutFeedback,
+  StyleSheet,
+} from "react-native";
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -15,20 +26,21 @@ import CafeLocation from "../components/CafeLocation";
 import BottomContainer from "../components/BottomContainer";
 import SpecialtyOptions from "../components/SpecialtyOptions";
 import NoResults from "../components/NoResults";
-
 import CurrentLocationIcon from "../assets/home/CurrentLocationIcon.svg";
 import DownIcon from "../assets/home/DownIcon.svg";
 import UpIcon from "../assets/home/UpIcon.svg";
+import { useFonts } from "../styles";
 
 const GNB_HEIGHT = responsiveHeight(94); // GNB 높이
 const DEFAULT_POSITION = responsiveHeight(316); // Bottom Sheet 기본 위치
 
 const HomeScreen = ({ navigation }) => {
+  const fontsLoaded = useFonts();
   const translateY = useRef(new Animated.Value(DEFAULT_POSITION)).current;
   const locationTranslateY = useRef(new Animated.Value(0)).current; // CurrentLocationIcon 이동용
   const bottomContainerTranslateY = useRef(new Animated.Value(66)).current;
   const [isDirectionsPressed, setIsDirectionsPressed] = useState(false); // 버튼 눌림 상태 관리
-  
+
   const [sortModalVisible, setSortModalVisible] = useState(false);
   const [timeModalVisible, setTimeModalVisible] = useState(false);
   const [selectedSort, setSelectedSort] = useState("");
@@ -44,7 +56,7 @@ const HomeScreen = ({ navigation }) => {
     { id: "cafe3", top: responsiveHeight(146), left: responsiveWidth(230) },
     { id: "cafe4", top: responsiveHeight(196), left: responsiveWidth(160) },
   ];
-  
+
   const animatedLocations = useRef(
     initialLocations.map((loc) => ({
       id: loc.id,
@@ -58,7 +70,7 @@ const HomeScreen = ({ navigation }) => {
     { id: 1, name: "카페1" },
     { id: 2, name: "카페2" },
   ]); // 카페 리스트 상태 (예시)
-  
+
   // 필터 클릭 시 처리
   const handleFilterSelect = (filterName) => {
     if (selectedFilter === filterName) {
@@ -71,7 +83,7 @@ const HomeScreen = ({ navigation }) => {
     } else {
       // 새로운 필터 클릭 시 선택
       setSelectedFilter(filterName);
-  
+
       if (filterName === "unmanned") {
         setCafeList([]); // 조건에 맞는 카페가 없는 경우
       } else {
@@ -98,7 +110,7 @@ const HomeScreen = ({ navigation }) => {
   const handleKakaoDirections = () => {
     console.log("카카오 지도로 연결"); // 나중에 카카오 지도 API 연결
   };
-  
+
   const [isLogoPressed, setIsLogoPressed] = useState(false); // LogoIcon 상태 관리
 
   const handleLogoPress = () => {
@@ -116,7 +128,7 @@ const HomeScreen = ({ navigation }) => {
   const handleSelectCafe = (cafe) => {
     setSelectedCafe(cafe); // 선택된 카페 저장
   };
-  
+
   const resetToInitialState = () => {
     Animated.parallel([
       // 아이콘 위치 초기화
@@ -161,17 +173,17 @@ const HomeScreen = ({ navigation }) => {
       setShowLogo(true);
     });
   };
-  
+
   const handleSelectLocation = (id) => {
     const clickedLocation = animatedLocations.find((loc) => loc.id === id);
     if (!clickedLocation) return;
-  
+
     const centerX = responsiveWidth(160);
     const centerY = responsiveHeight(116);
-  
+
     const deltaY = centerY - clickedLocation.top.__getValue();
     const deltaX = centerX - clickedLocation.left.__getValue();
-  
+
     // Bottom Sheet와 BottomContainer 애니메이션 병렬 실행
     setShowBottomContainer(true); // 먼저 렌더링 활성화
     Animated.parallel([
@@ -209,13 +221,13 @@ const HomeScreen = ({ navigation }) => {
         useNativeDriver: true,
       }),
     ]).start();
-  
+
     setSelectedLocation(id);
     setIsCafeLocationSelected(true);
     setShowFilters(false);
     setShowLogo(false);
   };
-  
+
   const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
@@ -244,6 +256,10 @@ const HomeScreen = ({ navigation }) => {
     })
   ).current;
 
+  if (!fontsLoaded) {
+    return null; // 폰트 로드될 때까지 렌더링 안 함
+  }
+
   return (
     <Container>
       {/* 전체 화면 반투명 배경 */}
@@ -267,23 +283,22 @@ const HomeScreen = ({ navigation }) => {
 
       {/* 지도 */}
       <MapBackground source={require("../assets/home/MapImage.png")}>
-
         <MapContainer>
-        {animatedLocations.map((loc) => (
-          <Animated.View
-            key={loc.id}
-            style={{
-              position: "absolute",
-              top: loc.top,
-              left: loc.left,
-            }}
-          >
-            <CafeLocation
-              isSelected={selectedLocation === loc.id}
-              onSelect={() => handleSelectLocation(loc.id)}
-            />
-          </Animated.View>
-        ))}
+          {animatedLocations.map((loc) => (
+            <Animated.View
+              key={loc.id}
+              style={{
+                position: "absolute",
+                top: loc.top,
+                left: loc.left,
+              }}
+            >
+              <CafeLocation
+                isSelected={selectedLocation === loc.id}
+                onSelect={() => handleSelectLocation(loc.id)}
+              />
+            </Animated.View>
+          ))}
         </MapContainer>
 
         {/* 현재 위치 아이콘 */}
@@ -302,7 +317,6 @@ const HomeScreen = ({ navigation }) => {
             />
           </TouchableOpacity>
         </Animated.View>
-
       </MapBackground>
 
       {/* GNB (고정) */}
@@ -339,12 +353,18 @@ const HomeScreen = ({ navigation }) => {
           transform: [{ translateY }],
           height: responsiveHeight(666),
           borderTopLeftRadius: translateY.interpolate({
-            inputRange: [Math.min(GNB_HEIGHT, DEFAULT_POSITION), Math.max(GNB_HEIGHT, DEFAULT_POSITION)],
+            inputRange: [
+              Math.min(GNB_HEIGHT, DEFAULT_POSITION),
+              Math.max(GNB_HEIGHT, DEFAULT_POSITION),
+            ],
             outputRange: [0, 24], // 완전히 올리면 radius 제거
             extrapolate: "clamp",
           }),
           borderTopRightRadius: translateY.interpolate({
-            inputRange: [Math.min(GNB_HEIGHT, DEFAULT_POSITION), Math.max(GNB_HEIGHT, DEFAULT_POSITION)],
+            inputRange: [
+              Math.min(GNB_HEIGHT, DEFAULT_POSITION),
+              Math.max(GNB_HEIGHT, DEFAULT_POSITION),
+            ],
             outputRange: [0, 24], // 완전히 올리면 radius 제거
             extrapolate: "clamp",
           }),
@@ -357,22 +377,36 @@ const HomeScreen = ({ navigation }) => {
         {/* 터치 가능한 TopFilter */}
         {showFilters && (
           <>
-            <TopFilter 
-              panHandlers={panResponder.panHandlers} 
+            <TopFilter
+              panHandlers={panResponder.panHandlers}
               onFilterSelect={handleFilterSelect} // handleFilterSelect 전달
               selectedFilter={selectedFilter} // 선택된 필터 상태 전달
             />
             <SortContainer>
-              <FilterButton onPress={() => setSortModalVisible(!sortModalVisible)}>
-                <SortText selected={selectedSort !== ""}>{selectedSort || "인기순"}</SortText>
+              <FilterButton
+                onPress={() => setSortModalVisible(!sortModalVisible)}
+              >
+                <SortText selected={selectedSort !== ""}>
+                  {selectedSort || "인기순"}
+                </SortText>
                 {sortModalVisible ? (
-                  <UpIcon width={`${responsiveWidth(17)}px`} height={`${responsiveHeight(17)}px`} style={{ marginLeft: 4 }} />
+                  <UpIcon
+                    width={`${responsiveWidth(17)}px`}
+                    height={`${responsiveHeight(17)}px`}
+                    style={{ marginLeft: 4 }}
+                  />
                 ) : (
-                  <DownIcon width={`${responsiveWidth(17)}px`} height={`${responsiveHeight(17)}px`} style={{ marginLeft: 4 }} />
+                  <DownIcon
+                    width={`${responsiveWidth(17)}px`}
+                    height={`${responsiveHeight(17)}px`}
+                    style={{ marginLeft: 4 }}
+                  />
                 )}
               </FilterButton>
 
-              <FilterButton onPress={() => setTimeModalVisible(!timeModalVisible)}>
+              <FilterButton
+                onPress={() => setTimeModalVisible(!timeModalVisible)}
+              >
                 <SortText selected={selectedTime !== ""}>
                   {selectedTime === ""
                     ? "전체"
@@ -383,9 +417,17 @@ const HomeScreen = ({ navigation }) => {
                         .trim()}
                 </SortText>
                 {timeModalVisible ? (
-                  <UpIcon width={`${responsiveWidth(17)}px`} height={`${responsiveHeight(17)}px`} style={{ marginLeft: 4 }} />
+                  <UpIcon
+                    width={`${responsiveWidth(17)}px`}
+                    height={`${responsiveHeight(17)}px`}
+                    style={{ marginLeft: 4 }}
+                  />
                 ) : (
-                  <DownIcon width={`${responsiveWidth(17)}px`} height={`${responsiveHeight(17)}px`} style={{ marginLeft: 4 }} />
+                  <DownIcon
+                    width={`${responsiveWidth(17)}px`}
+                    height={`${responsiveHeight(17)}px`}
+                    style={{ marginLeft: 4 }}
+                  />
                 )}
               </FilterButton>
             </SortContainer>
@@ -477,8 +519,6 @@ const HomeScreen = ({ navigation }) => {
                 ))}
           </CafeList>
         )}
-      
-
       </AnimatedBottomSheet>
 
       <Animated.View
@@ -490,7 +530,6 @@ const HomeScreen = ({ navigation }) => {
           zIndex: 1500,
         }}
       >
-
         {showBottomContainer && (
           <BottomContainer
             isDirectionsPressed={isDirectionsPressed}
@@ -531,14 +570,14 @@ const MapContainer = styled.View`
 const GNBContainer = styled.View`
   position: absolute;
   top: 0;
-  width: 100%;
+  width: ${responsiveWidth(360)}px;
   z-index: 10;
 `;
 
 const AnimatedBottomSheet = styled(Animated.View)`
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: ${responsiveWidth(360)}px;
+  height: ${responsiveHeight(760)}px;
   top: ${responsiveHeight(94)}px;
   background-color: #fafafa;
   z-index: 20;
@@ -559,7 +598,7 @@ const DragHandle = styled.View`
   width: ${responsiveWidth(64)}px;
   height: ${responsiveHeight(5)}px;
   border-radius: 5px;
-  background: #D9D9D9;
+  background: #d9d9d9;
 `;
 
 const SortContainer = styled.View`
@@ -567,7 +606,7 @@ const SortContainer = styled.View`
   justify-content: space-between;
   padding: ${responsiveHeight(8)}px ${responsiveWidth(24)}px;
   border-bottom-width: ${responsiveWidth(0.5)}px;
-  border-bottom-color: #D9D9D9;
+  border-bottom-color: #d9d9d9;
   background-color: #fafafa;
 `;
 
@@ -576,11 +615,14 @@ const FilterButton = styled.TouchableOpacity`
   align-items: center;
   padding: ${responsiveHeight(6)}px ${responsiveWidth(12)}px;
   background-color: #fafafa;
-`;  
+`;
 
 const SortText = styled.Text`
+  font-family: PretendardRegular;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: ${(props) => (props.selected ? "600" : "400")};
+  line-height: ${responsiveHeight(16.56)}px;
+  letter-spacing: -0.3;
   color: #000;
 `;
 
@@ -591,8 +633,8 @@ const CafeList = styled.ScrollView`
 
 const BackgroundOverlay = styled.View`
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: ${responsiveWidth(360)}px;
+  height: ${responsiveHeight(760)}px;
   background-color: rgba(0, 0, 0, 0.12);
   z-index: 1000;
 `;

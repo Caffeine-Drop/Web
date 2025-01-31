@@ -1,18 +1,25 @@
-import React, { useState, useRef } from 'react';
-import {
-  Keyboard,
-} from 'react-native';
+import React, { useState, useRef } from "react";
+import { Keyboard } from "react-native";
 import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
 } from "../utils/responsive";
-import styled from 'styled-components/native';
-import BackIcon from './BackIcon';
-import SearchIcon from '../assets/search/SearchIcon.svg';
-import SearchDeleteIcon from '../assets/search/SearchDeleteIcon.svg';
+import styled from "styled-components/native";
+import BackIcon from "./BackIcon";
+import SearchIcon from "../assets/search/SearchIcon.svg";
+import SearchDeleteIcon from "../assets/search/SearchDeleteIcon.svg";
+import { useFonts } from "../styles";
 
-const HeaderBar = ({ onSearchPress, onSettingsPress, setIsKeyboardVisible, searchText, setSearchText }) => {
+const HeaderBar = ({
+  onSearchPress,
+  onSettingsPress,
+  setIsKeyboardVisible,
+  searchText,
+  setSearchText,
+}) => {
+  const fontsLoaded = useFonts();
+
   // const [searchText, setSearchText] = useState("");
   const [isSettingComplete, setIsSettingComplete] = useState(false);
   const inputRef = useRef(null); // TextInput의 ref 생성
@@ -30,6 +37,10 @@ const HeaderBar = ({ onSearchPress, onSettingsPress, setIsKeyboardVisible, searc
     setIsSettingComplete(newSettingState); // 상태 업데이트
     onSettingsPress(newSettingState); // 부모 컴포넌트에 새로운 상태 전달
   };
+
+  if (!fontsLoaded) {
+    return null; // 폰트 로드될 때까지 렌더링 안 함
+  }
 
   return (
     <Container>
@@ -94,12 +105,16 @@ const HeadContainer = styled.View`
   align-items: center;
   width: ${responsiveWidth(360)}px;
   height: ${responsiveHeight(56)}px;
-  padding: ${responsiveHeight(15)}px ${responsiveWidth(24)}px ${responsiveHeight(16)}px;
+  padding: ${responsiveHeight(15)}px ${responsiveWidth(24)}px
+    ${responsiveHeight(16)}px;
 `;
 
 const Title = styled.Text`
+  font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(18)}px;
   font-weight: 600;
+  line-height: ${responsiveHeight(19.32)}px;
+  letter-spacing: -0.45;
   padding-left: ${responsiveWidth(117)}px;
 `;
 
@@ -129,9 +144,12 @@ const SearchInput = styled.TextInput`
   flex: 1;
   width: 100%;
   height: 100%;
+  font-family: PretendardRegular;
   font-size: ${responsiveFontSize(16)}px;
-  color: #999;
   font-weight: 400;
+  line-height: ${responsiveHeight(19.32)}px;
+  letter-spacing: -0.4;
+  color: #999;
   padding-right: ${responsiveWidth(40)}px;
 `;
 
@@ -152,7 +170,7 @@ const SearchIconWrapper = styled.TouchableOpacity``;
 
 const SettingsButton = styled.TouchableOpacity`
   height: ${responsiveHeight(56)}px;
-  padding:  ${responsiveHeight(4)}px ${responsiveWidth(10)}px;
+  padding: ${responsiveHeight(4)}px ${responsiveWidth(10)}px;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -161,7 +179,10 @@ const SettingsButton = styled.TouchableOpacity`
 `;
 
 const SettingsText = styled.Text`
-  font-size:  ${responsiveFontSize(12)}px;
+  font-family: PretendardMedium;
+  font-size: ${responsiveFontSize(12)}px;
   color: ${(props) => (props.isComplete ? "#fafafa" : "#756555")};
   font-weight: 500;
+  line-height: ${responsiveHeight(19.32)}px;
+  letter-spacing: -0.3;
 `;

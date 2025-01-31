@@ -7,12 +7,30 @@ import {
 } from "../utils/responsive";
 import styled from "styled-components/native";
 import CloseIcon from "../assets/home/CloseIcon.svg";
+import { useFonts } from "../styles";
 
 const sortOptions = [
-  "인기순", "맛순", "거리순", "인테리어순", "청결도순", "가심비순", "후기 많은 순"
+  "인기순",
+  "맛순",
+  "거리순",
+  "인테리어순",
+  "청결도순",
+  "가심비순",
+  "후기 많은 순",
 ];
 
-const SortFilterModal = ({ visible, onClose, selectedSort, setSelectedSort }) => {
+const SortFilterModal = ({
+  visible,
+  onClose,
+  selectedSort,
+  setSelectedSort,
+}) => {
+  const fontsLoaded = useFonts();
+
+  if (!fontsLoaded) {
+    return null; // 폰트 로드될 때까지 렌더링 안 함
+  }
+
   return (
     <Modal
       visible={visible}
@@ -25,7 +43,10 @@ const SortFilterModal = ({ visible, onClose, selectedSort, setSelectedSort }) =>
           <Header>
             <Title>정렬</Title>
             <TouchableOpacity onPress={onClose}>
-              <CloseIcon width={`${responsiveWidth(24)}px`} height={`${responsiveHeight(24)}px`} />
+              <CloseIcon
+                width={`${responsiveWidth(24)}px`}
+                height={`${responsiveHeight(24)}px`}
+              />
             </TouchableOpacity>
           </Header>
           {sortOptions.map((option) => (
@@ -36,7 +57,9 @@ const SortFilterModal = ({ visible, onClose, selectedSort, setSelectedSort }) =>
                 onClose();
               }}
             >
-              <OptionText selected={selectedSort === option}>{option}</OptionText>
+              <OptionText selected={selectedSort === option}>
+                {option}
+              </OptionText>
               {selectedSort === option && <CheckMark>✓</CheckMark>}
             </Option>
           ))}
@@ -72,8 +95,11 @@ const Header = styled.View`
 `;
 
 const Title = styled.Text`
+  font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(16)}px;
   font-weight: 600;
+  line-height: ${responsiveHeight(24)}px;
+  letter-spacing: -0.4;
 `;
 
 const Option = styled.TouchableOpacity`
@@ -85,12 +111,18 @@ const Option = styled.TouchableOpacity`
 `;
 
 const OptionText = styled.Text`
+  font-family: PretendardMedium;
   font-size: ${responsiveFontSize(14)}px;
-  font-weight: ${(props) => (props.selected ? "bold" : "normal")};
+  font-weight: 500;
+  line-height: ${responsiveHeight(19.32)}px;
+  letter-spacing: -0.35;
   color: ${(props) => (props.selected ? "#000" : "#666")};
 `;
 
 const CheckMark = styled.Text`
+  font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(16)}px;
   font-weight: 600;
+  line-height: ${responsiveHeight(24)}px;
+  letter-spacing: -0.4;
 `;

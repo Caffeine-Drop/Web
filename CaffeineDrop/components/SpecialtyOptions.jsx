@@ -8,18 +8,31 @@ import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import SpecialtyCoffeeIcon from "../assets/home/SpecialtyCoffeeIcon.svg";
 import CoffeeBeansIcon from "../assets/home/CoffeeBeansIcon.svg";
+import { useFonts } from "../styles";
 
 const SpecialtyOptions = () => {
+  const fontsLoaded = useFonts();
+
   const navigation = useNavigation();
+
+  if (!fontsLoaded) {
+    return null; // 폰트 로드될 때까지 렌더링 안 함
+  }
 
   return (
     <OptionsContainer>
       <OptionButton onPress={() => navigation.navigate("EventPage12")}>
-        <SpecialtyCoffeeIcon width={`${responsiveWidth(24)}px`} height={`${responsiveHeight(24)}px`} />
+        <SpecialtyCoffeeIcon
+          width={`${responsiveWidth(24)}px`}
+          height={`${responsiveHeight(24)}px`}
+        />
         <OptionText>스페셜티 커피란?</OptionText>
       </OptionButton>
       <OptionButton onPress={() => navigation.navigate("EventPage01")}>
-        <CoffeeBeansIcon width={`${responsiveWidth(24)}px`} height={`${responsiveHeight(24)}px`} />
+        <CoffeeBeansIcon
+          width={`${responsiveWidth(24)}px`}
+          height={`${responsiveHeight(24)}px`}
+        />
         <OptionText>원두 진단하기</OptionText>
       </OptionButton>
     </OptionsContainer>
@@ -47,8 +60,11 @@ const OptionButton = styled.TouchableOpacity`
 `;
 
 const OptionText = styled.Text`
+  font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 600;
-  color: #FAFAFA;
+  line-height: ${responsiveHeight(19.32)}px;
+  letter-spacing: -0.35;
+  color: #fafafa;
   margin-left: ${responsiveWidth(8)}px;
 `;

@@ -48,7 +48,7 @@ const CafeLabel = styled.Text`
   font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(10)}px;
   font-weight: 600;
-  line-height: ${responsiveHeight(19.32)}px;
+  line-height: ${responsiveHeight(13.8)}px;
   letter-spacing: -0.25;
   color: #000;
   text-align: center;

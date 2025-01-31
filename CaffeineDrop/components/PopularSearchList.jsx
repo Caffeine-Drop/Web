@@ -68,7 +68,7 @@ const Title = styled.Text`
   font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(18)}px;
   font-weight: 600;
-  line-height: ${responsiveHeight(19.32)}px;
+  line-height: ${responsiveHeight(24.84)}px;
   letter-spacing: -0.45;
   margin-right: ${responsiveWidth(12)}px;
 `;
@@ -77,7 +77,7 @@ const CurrentTime = styled.Text`
   font-family: PretendardMedium;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 500;
-  line-height: ${responsiveHeight(19.32)}px;
+  line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3;
   color: #999;
 `;

@@ -70,7 +70,6 @@ const Container = styled.View`
 `;
 const InnerContainer = styled.View`
   flex: 1;
-  /*margin-top: ${responsiveHeight(20)}px;*/
   margin-bottom: ${responsiveHeight(24)}px;
 `;
 
@@ -119,16 +118,16 @@ const TextContainer = styled.View`
 `;
 
 const HeaderWrapper = styled.View`
-  width: auto; /* 가변 너비 */
-  height: auto; /* 가변 높이 */
+  width: auto;
+  height: auto;
   justify-content: center;
   align-items: center;
-  overflow: visible; /* 경계 바깥의 텍스트 표시 */
+  overflow: visible;
 `;
 const HeaderText = styled.Text`
   color: #000;
   text-align: center;
-  font-family: Pretendard;
+  font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(32)}px;
   font-style: normal;
   font-weight: 600;
@@ -139,7 +138,7 @@ const ContentWrapper = styled.View``;
 const ContentText = styled.Text`
   color: #000;
   text-align: center;
-  font-family: Pretendard;
+  font-family: PretendardRegular;
   font-size: ${responsiveFontSize(14)}px;
   font-style: normal;
   font-weight: 400;
@@ -165,11 +164,12 @@ const ButtonWrapper = styled(TouchableOpacity)`
   gap: ${responsiveHeight(10)}px;
   border-radius: ${responsiveWidth(12)}px;
   background: #756555;
+  text-align: center;
 `;
 
 const ButtonText = styled.Text`
   color: #fafafa;
-  font-family: Pretendard;
+  font-family: PretendardBold;
   font-size: ${responsiveFontSize(16)}px;
   font-style: normal;
   font-weight: 700;

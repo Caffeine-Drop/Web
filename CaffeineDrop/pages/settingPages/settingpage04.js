@@ -7,6 +7,8 @@ import {
   responsiveHeight,
 } from "../../utils/responsive";
 import BackIcon from "../../components/BackIcon";
+import BlurIcon from "../../components/BlurIcon";
+import BlurIcon2 from "../../components/BlurIcon2";
 import { useFonts } from "../../styles";
 
 export default function SettingPage03({ navigation }) {
@@ -51,9 +53,13 @@ export default function SettingPage03({ navigation }) {
       </DeleteButton>
 
       {/* 블러 장식 */}
-      <BlurBox1></BlurBox1>
+      <BlurBox1>
+        <BlurIcon />
+      </BlurBox1>
 
-      <BlurBox2></BlurBox2>
+      <BlurBox2>
+        <BlurIcon2 />
+      </BlurBox2>
     </Container>
   );
 }
@@ -142,6 +148,18 @@ const ButtonText = styled.Text`
   letter-spacing: -0.4px;
 `;
 ////////////////////////////////////////////////////
-const BlurBox1 = styled.View``;
+const BlurBox1 = styled.View`
+  position: absolute;
+  height: ${responsiveHeight(420)}px;
+  width: ${responsiveWidth(420)}px;
+  right: ${responsiveWidth(-50)}px;
+  top: ${responsiveHeight(14)}px;
+`;
 
-const BlurBox2 = styled.View``;
+const BlurBox2 = styled.View`
+  position: absolute;
+  height: ${responsiveHeight(420)}px;
+  width: ${responsiveWidth(420)}px;
+  left: ${responsiveWidth(175)}px;
+  top: ${responsiveHeight(294)}px;
+`;

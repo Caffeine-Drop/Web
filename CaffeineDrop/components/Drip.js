@@ -22,7 +22,7 @@ const DripImage = () => {
 
 const StyledImage = styled.Image`
   width: ${responsiveWidth(342.938)}px;
-  height: ${isTablet ? responsiveHeight(432.438) : responsiveHeight(342.438)}px;
+  height: ${isTablet ? responsiveHeight(444.438) : responsiveHeight(342.438)}px;
 `;
 
 export default DripImage;

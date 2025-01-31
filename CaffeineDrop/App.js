@@ -42,12 +42,11 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="SettingPage01" component={SettingPage01} />
-        <Stack.Screen name="SettingPage05" component={SettingPage05} />
         <Stack.Screen name="SettingPage02" component={SettingPage02} />
         <Stack.Screen name="SettingPage03" component={SettingPage03} />
         <Stack.Screen name="SettingPage04" component={SettingPage04} />
+        <Stack.Screen name="SettingPage05" component={SettingPage05} />
         <Stack.Screen name="SettingAskPage" component={SettingAskPage} />
-
         <Stack.Screen name="OnboardingLogin01" component={OnboardingLogin01} />
         <Stack.Screen name="OnboardingLogin03" component={OnboardingLogin03} />
         <Stack.Screen name="OnboardingLogin04" component={OnboardingLogin04} />

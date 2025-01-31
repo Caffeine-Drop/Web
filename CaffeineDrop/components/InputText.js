@@ -7,14 +7,6 @@ import {
 } from "../utils/responsive";
 import { useFonts } from ".././styles";
 
-import { Dimensions } from "react-native";
-
-// 화면 크기 가져오기
-const { width, height } = Dimensions.get("window");
-
-// 태블릿 판별 기준 (보통 width가 600px 이상이면 태블릿)
-const isTablet = width >= 600;
-
 const Container = styled.View`
   height: ${responsiveHeight(200)}px;
   width: ${responsiveWidth(312)}px;
@@ -42,7 +34,6 @@ const ContentInput = styled.TextInput`
   justify-content: center;
   padding-left: ${responsiveWidth(12)}px;
   padding-right: ${responsiveWidth(12)}px;
-  ${isTablet ? `padding-top: ${responsiveWidth(12)}px;` : ""}
 
   color: #666;
   font-family: PretendardMedium;

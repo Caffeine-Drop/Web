@@ -10,14 +10,6 @@ import BackIcon from "../../components/BackIcon";
 import NextButton from "../../components/NextButton";
 import { useFonts } from "../../styles";
 
-import { Dimensions } from "react-native";
-
-// 화면 크기 가져오기
-const { width, height } = Dimensions.get("window");
-
-// 태블릿 판별 기준 (보통 width가 600px 이상이면 태블릿)
-const isTablet = width >= 600;
-
 export default function SettingPage03({ navigation }) {
   const fontsLoaded = useFonts();
 
@@ -119,7 +111,7 @@ const HeaderText = styled.Text`
   font-style: normal;
   font-weight: 600;
   line-height: ${responsiveHeight(34)}px;
-  letter-spacing: ${responsiveWidth(-0.6)};
+  letter-spacing: -0.6px;
 `;
 const ContentText = styled.Text`
   color: #000;
@@ -128,7 +120,7 @@ const ContentText = styled.Text`
   font-style: normal;
   font-weight: 400;
   line-height: ${responsiveHeight(19.32)}px;
-  letter-spacing: ${responsiveWidth(-0.35)};
+  letter-spacing: -0.35px;
 `;
 const ContentContainer = styled.View`
   display: flex;
@@ -170,7 +162,7 @@ const InnerText = styled.Text`
   font-style: normal;
   font-weight: 400;
   line-height: ${responsiveHeight(22.08)}px;
-  letter-spacing: ${responsiveWidth(-0.4)};
+  letter-spacing: -0.4px;
 `;
 const DateText = styled.Text`
   color: #666;
@@ -179,5 +171,5 @@ const DateText = styled.Text`
   font-style: normal;
   font-weight: 400;
   line-height: ${responsiveHeight(22.08)}px;
-  letter-spacing: ${responsiveWidth(-0.4)};
+  letter-spacing: -0.4px;
 `;

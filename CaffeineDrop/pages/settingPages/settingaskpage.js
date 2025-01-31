@@ -311,7 +311,7 @@ const EmailInput = styled(TextInput)`
 const SelectBoxText = styled.Text`
   color: #666;
   font-family: PretendardRegular;
-  font-size: ${isTablet ? responsiveFontSize(13) : responsiveFontSize(14)}px;
+  font-size: ${responsiveFontSize(14)}px;
   font-style: normal;
   font-weight: 400;
   line-height: ${responsiveHeight(19.32)}px;
@@ -360,7 +360,7 @@ const EmailContent = styled.Text`
   font-style: normal;
   font-weight: 400;
   line-height: ${responsiveHeight(16.56)}px;
-  letter-spacing: -0.3;
+  letter-spacing: -0.3px;
 `;
 //하단 버튼/////////////////////////////////////////////
 const AnimatedSubmitButton = styled(
@@ -372,8 +372,8 @@ const AnimatedSubmitButton = styled(
   margin-left: ${responsiveWidth(24)}px;
   width: ${responsiveWidth(312)}px;
 
-  padding-top: ${isTablet ? responsiveWidth(17) : responsiveWidth(16)}px;
-  padding-bottom: ${isTablet ? responsiveHeight(17) : responsiveWidth(16)}px;
+  padding-top: ${responsiveWidth(16)}px;
+  padding-bottom: ${responsiveWidth(16)}px;
 
   justify-content: center;
   align-items: center;
@@ -434,7 +434,7 @@ const ModalTitleText = styled.Text`
   font-style: normal;
   font-weight: 600;
   line-height: ${responsiveHeight(24)}px;
-  letter-spacing: -0.4;
+  letter-spacing: -0.4px;
 `;
 const ListText = styled.View`
   display: flex;
@@ -451,7 +451,7 @@ const InnerText = styled.Text`
   font-style: normal;
   font-weight: 500;
   line-height: ${responsiveHeight(19.32)}px;
-  letter-spacing: -0.35;
+  letter-spacing: -0.35px;
   height: ${responsiveHeight(24)}px;
   color: ${({ selected }) => (selected ? "#000" : "#666")};
 `;

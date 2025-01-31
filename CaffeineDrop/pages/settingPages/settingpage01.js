@@ -13,14 +13,6 @@ import NextButton from "../../components/NextButton";
 import { useFonts } from "../../styles";
 import { useNavigation } from "@react-navigation/native";
 
-import { Dimensions } from "react-native";
-
-// 화면 너비 가져오기
-const { width } = Dimensions.get("window");
-
-// 태블릿 판별 기준 (보통 width가 600px 이상이면 태블릿)
-const isTablet = width >= 600;
-
 export default function SettingPage01({ navigation }) {
   const fontsLoaded = useFonts();
 
@@ -138,7 +130,6 @@ const Container = styled.View`
 `;
 const FirstBox = styled.View`
   width: 100%;
-  height: 100%;
 `;
 const Navbar = styled.View`
   height: ${responsiveHeight(56)}px;
@@ -163,20 +154,16 @@ const Title = styled.Text`
 `;
 ////////////////////////////////////////////////////
 const Box1 = styled.View`
-  display: flex;
   justify-content: center;
 `;
 
 const ImageBox = styled.View`
-  position: absolute;
-  left: ${isTablet ? width / 2 - responsiveWidth(50) : responsiveWidth(130)}px;
-  top: ${responsiveHeight(16)}px;
+  margin-top: ${responsiveHeight(16)}px;
+  margin-left: ${responsiveWidth(130)}px;
 `;
 const NameBox = styled.View`
-  display: flex;
   justify-content: center;
-  position: absolute;
-  top: ${responsiveHeight(140)}px;
+  margin-top: ${responsiveHeight(24)}px;
   width: 100%;
 `;
 const NameText = styled.Text`
@@ -191,48 +178,44 @@ const NameText = styled.Text`
   line-height: ${responsiveHeight(33.12)}px;
   letter-spacing: ${responsiveWidth(-0.6)};
 `;
-const LoginBox = styled(TouchableOpacity)`
-  display: flex;
+const LoginBox = styled.View`
   justify-content: center;
   align-items: center;
-  position: absolute;
   width: ${responsiveWidth(122)}px;
   height: ${responsiveHeight(25)}px;
   padding: 4px 9px 4px 6px;
   border-radius: 24px;
   background: #e5e3e1;
 
-  left: ${isTablet ? width / 2 - responsiveWidth(61) : responsiveWidth(119)}px;
-  top: ${responsiveHeight(185)}px;
+  margin-left: ${responsiveWidth(119)}px;
+  margin-top: ${responsiveHeight(12)}px;
 `;
-const LoginButton = styled(TouchableOpacity)`
+const LoginButton = styled.View`
   display: inline-flex;
   padding: 4px 9px 4px 6px;
   align-items: center;
   justify-content: center;
   gap: ${responsiveWidth(4)}px;
-  width: ${isTablet ? responsiveWidth(90) : responsiveWidth(122)}px;
+  width: ${responsiveWidth(122)}px;
   height: ${responsiveHeight(25)}px;
   border-radius: 24px;
   background: #e5e3e1;
 `;
 const LoginInnerBox = styled.View`
-  display: flex;
   flex-direction: row;
   gap: ${responsiveWidth(4)}px;
 `;
 const IconSpace = styled.View`
   justify-content: center;
   align-text: center;
-  border-radius: ${isTablet ? "18px" : "16px"};
+  border-radius: 16px;
   background: #fee500;
   width: ${responsiveWidth(16)}px;
   height: ${responsiveHeight(16)}px;
 `;
 const IconBox = styled.View`
-  position: absolute;
-  left: ${responsiveWidth(3)}px;
-  top: ${isTablet ? responsiveHeight(2.8) : responsiveHeight(3)}px;
+  margin-left: ${responsiveWidth(3)}px;
+  margin-top: ${responsiveHeight(1)}px;
 `;
 const TextSpace = styled.View``;
 const LoginText = styled.Text`
@@ -250,8 +233,7 @@ const GreyGap = styled.View`
   background: rgba(105, 105, 105, 0.02);
   width: 100%;
   height: ${responsiveHeight(16)}px;
-  position: absolute;
-  top: ${responsiveHeight(340)}px;
+  margin-top: ${responsiveHeight(36)}px;
   z-index: 3;
 `;
 const Box2 = styled.View`
@@ -262,8 +244,6 @@ const Box2 = styled.View`
   padding-right: ${responsiveWidth(24)}px;
   padding-bottom: ${responsiveHeight(16)}px;
   padding-top: ${responsiveHeight(16)}px;
-  position: absolute;
-  top: ${responsiveHeight(340)}px;
   width: 100%;
 `;
 const List = styled.View`
@@ -274,7 +254,7 @@ const ListInnerBox = styled.View`
   justify-content: space-between;
   padding-top: ${responsiveHeight(16)}px;
   padding-bottom: ${responsiveHeight(16)}px;
-  border-bottom-width: ${responsiveWidth(1)}px;
+  border-bottom-width: 1px;
   border-bottom-color: #ebebeb;
 `;
 const ListInnerBoxNoBorder = styled(ListInnerBox)`
@@ -287,24 +267,21 @@ const ListText = styled.Text`
   font-style: normal;
   font-weight: 400;
   line-height: ${responsiveHeight(22.08)}px;
-  letter-spacing: ${responsiveWidth(-0.4)};
+  letter-spacing: -0.4px;
 `;
 ////////////////////////////////////////////////////
 const Box3 = styled.View`
   background: #f1f1f1;
   display: flex;
   justify-content: center;
-  position: absolute;
   width: 100%;
-  height: ${responsiveWidth(172)}px;
-  top: ${responsiveHeight(587.5)}px;
 `;
+
 const TextBox = styled.View`
   display: flex;
   justify-content: center;
   width: 100%;
-  position: absolute;
-  top: ${responsiveHeight(20)}px;
+  margin-top: ${responsiveHeight(20)}px;
 `;
 const LogoutText = styled.Text`
   text-align: center;
@@ -314,7 +291,7 @@ const LogoutText = styled.Text`
   font-style: normal;
   font-weight: 400;
   line-height: ${responsiveHeight(22.08)}px;
-  letter-spacing: ${responsiveHeight(-0.4)};
+  letter-spacing: -0.4px;
   text-decoration-line: underline;
   text-decoration-style: solid;
   text-decoration-skip-ink: none;

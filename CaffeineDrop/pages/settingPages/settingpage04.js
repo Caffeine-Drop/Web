@@ -8,16 +8,6 @@ import {
 } from "../../utils/responsive";
 import BackIcon from "../../components/BackIcon";
 import { useFonts } from "../../styles";
-import SettingPageBlur1 from "../../components/SettingPageBlur1";
-import SettingPageBlur2 from "../../components/SettingPageBlur2";
-
-import { Dimensions } from "react-native";
-
-// 화면 크기 가져오기
-const { width, height } = Dimensions.get("window");
-
-// 태블릿 판별 기준 (보통 width가 600px 이상이면 태블릿)
-const isTablet = width >= 600;
 
 export default function SettingPage03({ navigation }) {
   const fontsLoaded = useFonts();
@@ -61,13 +51,9 @@ export default function SettingPage03({ navigation }) {
       </DeleteButton>
 
       {/* 블러 장식 */}
-      <BlurBox1>
-        <SettingPageBlur1 />
-      </BlurBox1>
+      <BlurBox1></BlurBox1>
 
-      <BlurBox2>
-        <SettingPageBlur2 />
-      </BlurBox2>
+      <BlurBox2></BlurBox2>
     </Container>
   );
 }
@@ -100,14 +86,12 @@ const Title = styled.Text`
 const HeaderContainer = styled.View`
   display: flex;
   width: 100%;
-  position: absolute;
-  top: ${responsiveHeight(112.5)}px;
-  left: ${responsiveWidth(24)}px;
+  margin-top: ${responsiveHeight(56)}px;
+  margin-left: ${responsiveWidth(24)}px;
 `;
-const ContentContainer = styled.View`
-  position: absolute;
-  top: ${responsiveHeight(228.5)}px;
 
+const ContentContainer = styled.View`
+  margin-top: ${responsiveHeight(34)}px;
   padding-left: ${responsiveWidth(24)}px;
   padding-right: ${responsiveWidth(24)}px;
 `;
@@ -132,13 +116,12 @@ const ContentText = styled.Text`
 `;
 ////////////////////////////////////////////////////
 const DeleteButton = styled(TouchableOpacity)`
-  position: absolute;
-  top: ${responsiveHeight(648)}px;
+  margin-top: ${responsiveHeight(226)}px;
 
   display: flex;
   width: ${responsiveWidth(312)}px;
-  padding-top: ${isTablet ? responsiveHeight(17) : responsiveHeight(16)}px;
-  padding-bottom: ${isTablet ? responsiveHeight(17) : responsiveHeight(16)}px;
+  padding-top: ${responsiveHeight(16)}px;
+  padding-bottom: ${responsiveHeight(16)}px;
   justify-content: center;
   align-items: center;
   gap: 10px;
@@ -148,6 +131,7 @@ const DeleteButton = styled(TouchableOpacity)`
   margin-left: ${responsiveWidth(24)}px;
   margin-right: ${responsiveWidth(24)}px;
 `;
+
 const ButtonText = styled.Text`
   color: #fafafa;
   font-family: PretendardBold;
@@ -158,13 +142,6 @@ const ButtonText = styled.Text`
   letter-spacing: -0.4px;
 `;
 ////////////////////////////////////////////////////
-const BlurBox1 = styled.View`
-  position: absolute;
-  left: ${isTablet ? responsiveWidth(-100) : responsiveWidth(-100)}px;
-  top: ${isTablet ? responsiveHeight(66) : responsiveWidth(66)}px;
-`;
-const BlurBox2 = styled.View`
-  position: absolute;
-  left: ${isTablet ? responsiveWidth(101) : responsiveWidth(141)}px;
-  top: ${isTablet ? responsiveHeight(230) : responsiveWidth(310)}px;
-`;
+const BlurBox1 = styled.View``;
+
+const BlurBox2 = styled.View``;

@@ -7,15 +7,9 @@ import {
 } from "../utils/responsive";
 import { useFonts } from ".././styles";
 
-import { Dimensions, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 
-// 화면 크기 가져오기
-const { width, height } = Dimensions.get("window");
-
-// 태블릿 판별 기준 (보통 width가 600px 이상이면 태블릿)
-const isTablet = width >= 600;
-
-const NicknameInput = ({ value, onChangeText }) => {
+const NicknameInput = () => {
   const fontsLoaded = useFonts();
 
   if (!fontsLoaded) {
@@ -34,12 +28,7 @@ const NicknameInput = ({ value, onChangeText }) => {
       </TextWrapper>
 
       <InputWrapper>
-        <ContentInput
-          placeholder="닉네임을 입력해주세요"
-          multiline
-          value={value}
-          onChangeText={onChangeText}
-        />
+        <ContentInput placeholder="닉네임을 입력해주세요" />
       </InputWrapper>
 
       <CheckButton>
@@ -53,17 +42,20 @@ export default NicknameInput;
 
 const Container = styled.View`
   display: flex;
-  margin-top: ${responsiveHeight(200)}px;
   margin-left: ${responsiveWidth(24)}px;
   margin-right: ${responsiveWidth(24)}px;
-  gap: ${responsiveHeight(18)}px;
   background: #fafafa;
+
+  width: ${responsiveWidth(312)}px;
+  height: ${responsiveHeight(136)}px;
 `;
 const TextWrapper = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   background: #fafafa;
+  padding-left: ${responsiveWidth(8)}px;
+  padding-right: ${responsiveWidth(8)}px;
 `;
 const Text = styled.Text`
   color: #000;
@@ -96,8 +88,6 @@ const InputWrapper = styled.View`
   border-bottom-color: #321900;
 `;
 const ContentInput = styled.TextInput`
-  width: ${responsiveWidth(296)}px;
-  height: ${responsiveHeight(22)}px;
   flex-shrink: 0;
   background: #fafafa;
 
@@ -115,6 +105,7 @@ const CheckButton = styled(TouchableOpacity)`
   padding-bottom: ${responsiveHeight(16)}px;
   justify-content: center;
   background: #ffffff;
+  margin-top: ${responsiveHeight(16)}px;
 `;
 const ButtonText = styled.Text`
   color: #000;

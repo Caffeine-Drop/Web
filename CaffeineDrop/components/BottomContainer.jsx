@@ -10,52 +10,66 @@ import MapIconBeforeClick from "../assets/home/MapIconBeforeClick.png";
 import MapIconAfterClick from "../assets/home/MapIconAfterClick.png";
 import NaverIcon from "../assets/home/NaverIcon.svg";
 import KakaoIcon from "../assets/home/KakaoIcon.svg";
+import { useFonts } from "../styles";
 
 const BottomContainer = ({
-    isDirectionsPressed,
-    setIsDirectionsPressed,
-    handleNaverDirections,
-    handleKakaoDirections,
-    cafe,
-  }) => {
-    const navigation = useNavigation();
+  isDirectionsPressed,
+  setIsDirectionsPressed,
+  handleNaverDirections,
+  handleKakaoDirections,
+  cafe,
+}) => {
+  const fontsLoaded = useFonts();
 
-    const handleCafeInfoPress = () => {
-      navigation.navigate("DetailPage", { cafe }); // DetailPage로 이동
-    };
+  const navigation = useNavigation();
 
-    return (
-      <>
-        {isDirectionsPressed && (
-          <OptionsContainer>
-            <OptionButton onPress={handleNaverDirections}>
-              <NaverIcon width={`${responsiveWidth(24)}px`} height={`${responsiveHeight(24)}px`} />
-              <OptionText>네이버 길찾기</OptionText>
-            </OptionButton>
-            <OptionButton onPress={handleKakaoDirections}>
-              <KakaoIcon width={`${responsiveWidth(24)}px`} height={`${responsiveHeight(24)}px`} />
-              <OptionText>카카오 길찾기</OptionText>
-            </OptionButton>
-          </OptionsContainer>
-        )}
-        <BottomContainerWrapper>
-          <CafeInfoButton onPress={handleCafeInfoPress}>
-            <CafeInfoText>카페 정보</CafeInfoText>
-          </CafeInfoButton>
-          <DirectionsButton
-            pressed={isDirectionsPressed}
-            onPress={() => setIsDirectionsPressed((prev) => !prev)} // 토글 처리
-          >
-            <IconImage
-              source={isDirectionsPressed ? MapIconAfterClick : MapIconBeforeClick}
-            />
-            <DirectionsText pressed={isDirectionsPressed}>길찾기</DirectionsText>
-          </DirectionsButton>
-        </BottomContainerWrapper>
-      </>
-    );
+  const handleCafeInfoPress = () => {
+    navigation.navigate("DetailPage", { cafe }); // DetailPage로 이동
   };
-  
+
+  if (!fontsLoaded) {
+    return null; // 폰트 로드될 때까지 렌더링 안 함
+  }
+
+  return (
+    <>
+      {isDirectionsPressed && (
+        <OptionsContainer>
+          <OptionButton onPress={handleNaverDirections}>
+            <NaverIcon
+              width={`${responsiveWidth(24)}px`}
+              height={`${responsiveHeight(24)}px`}
+            />
+            <OptionText>네이버 길찾기</OptionText>
+          </OptionButton>
+          <OptionButton onPress={handleKakaoDirections}>
+            <KakaoIcon
+              width={`${responsiveWidth(24)}px`}
+              height={`${responsiveHeight(24)}px`}
+            />
+            <OptionText>카카오 길찾기</OptionText>
+          </OptionButton>
+        </OptionsContainer>
+      )}
+      <BottomContainerWrapper>
+        <CafeInfoButton onPress={handleCafeInfoPress}>
+          <CafeInfoText>카페 정보</CafeInfoText>
+        </CafeInfoButton>
+        <DirectionsButton
+          pressed={isDirectionsPressed}
+          onPress={() => setIsDirectionsPressed((prev) => !prev)} // 토글 처리
+        >
+          <IconImage
+            source={
+              isDirectionsPressed ? MapIconAfterClick : MapIconBeforeClick
+            }
+          />
+          <DirectionsText pressed={isDirectionsPressed}>길찾기</DirectionsText>
+        </DirectionsButton>
+      </BottomContainerWrapper>
+    </>
+  );
+};
 
 export default BottomContainer;
 
@@ -84,8 +98,11 @@ const CafeInfoButton = styled.TouchableOpacity`
 `;
 
 const CafeInfoText = styled.Text`
+  font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 600;
+  line-height: ${responsiveHeight(19.32)}px;
+  letter-spacing: -0.35;
   color: #000000;
 `;
 
@@ -104,8 +121,11 @@ const DirectionsButton = styled.TouchableOpacity`
 `;
 
 const DirectionsText = styled.Text`
+  font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 600;
+  line-height: ${responsiveHeight(19.32)}px;
+  letter-spacing: -0.35;
   color: ${(props) => (props.pressed ? "#666" : "#fafafa")};
   margin-left: ${responsiveWidth(8)}px;
 `;
@@ -130,8 +150,11 @@ const OptionButton = styled.TouchableOpacity`
 `;
 
 const OptionText = styled.Text`
+  font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 600;
+  line-height: ${responsiveHeight(19.32)}px;
+  letter-spacing: -0.35;
   color: #000000;
   margin-left: ${responsiveWidth(8)}px;
 `;

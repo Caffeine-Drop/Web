@@ -59,10 +59,10 @@ export default function App() {
                 <Stack.Screen name="EventPage11" component={EventPage11} />
                 <Stack.Screen name="EventPage12" component={EventPage12} />
                 <Stack.Screen name="SettingAskPage" component={SettingAskPage} />
-                <Stack.Screen name="SettingPage01" component={SettingPage01} />
-                <Stack.Screen name="SettingPage02" component={SettingPage02} />
-                <Stack.Screen name="SettingPage03" component={SettingPage03} />
                 <Stack.Screen name="SettingPage04" component={SettingPage04} />
+                <Stack.Screen name="SettingPage03" component={SettingPage03} />
+                <Stack.Screen name="SettingPage02" component={SettingPage02} />
+                <Stack.Screen name="SettingPage01" component={SettingPage01} />
             </Stack.Navigator>
         </NavigationContainer>
     );

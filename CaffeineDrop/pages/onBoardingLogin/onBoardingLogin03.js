@@ -34,21 +34,30 @@ export default function OnboardingLogin03({ navigation }) {
       >
         <Login>로그인</Login>
       </View>
-      <View style={{ position: "relative", height: 300, width: 300 }}>
-        <BlurCircle
-          style={{
-            position: "absolute",
-            paddingLeft: 14,
-            paddingTop: 122,
-            zIndex: 1,
-          }}
-        />
-        <SocialLoginCoffee
-          style={{ position: "absolute", left: 101, top: 60, zIndex: 100 }}
-        />
-        <SocialLoginBackgroundImg
-          style={{ position: "absolute", left: 122, top: 32, zIndex: 10 }}
-        />
+      <View style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <View style={{ position: "relative", height: responsiveHeight(300), width: responsiveWidth(360) }}>
+          <BlurCircle marginLeft={`${responsiveWidth(80)}px`} marginTop={`${responsiveHeight(120)}px`} />
+          <SocialLoginCoffee
+            style={{
+              position: "absolute",
+              width: responsiveWidth(182),
+              height: responsiveHeight(205),
+              left: responsiveWidth(90),
+              top: responsiveHeight(60),
+              zIndex: 100,
+            }}
+          />
+          <SocialLoginBackgroundImg
+            style={{
+              position: "absolute",
+              width: responsiveWidth(161),
+              height: responsiveHeight(162),
+              left: responsiveWidth(120),
+              top: responsiveHeight(32),
+              zIndex: 10,
+            }}
+          />
+        </View>
       </View>
       <View
         style={{
@@ -65,9 +74,9 @@ export default function OnboardingLogin03({ navigation }) {
             display: "flex",
             fontFamily: "PretendardRegular",
             fontSize: responsiveFontSize(16),
-            lineHeight: 22.08,
+            lineHeight: responsiveHeight(22.08),
             color: "#000",
-            letterSpacing: -0.4,
+            letterSpacing: responsiveFontSize(-0.4),
             alignSelf: "center",
           }}
         >
@@ -78,14 +87,14 @@ export default function OnboardingLogin03({ navigation }) {
             width: responsiveWidth(182),
             fontFamily: "PretendardSemiBold",
             fontSize: responsiveFontSize(32),
-            lineHeight: 44.16,
+            lineHeight: responsiveHeight(44.16),
             color: "#000",
-            letterSpacing: -0.8,
+            letterSpacing: responsiveWidth(-0.8),
             alignSelf: "center",
             textAlign: "center",
           }}
         >
-          커피를 더 쉽고 빠르게
+          커피를 더 쉽고{"\n"}빠르게
         </Text>
       </View>
       <View
@@ -100,13 +109,25 @@ export default function OnboardingLogin03({ navigation }) {
       >
         <TouchableOpacity
           onPress={() => navigation.navigate("OnboardingLogin04")}
+          style={{
+            width: responsiveWidth(312),
+            height: responsiveHeight(48),
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          <KakaoLoginBtn />
+          <KakaoLoginBtn style={{ width: "100%", height: "100%" }} />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => navigation.navigate("OnboardingLogin04")}
+          style={{
+            width: responsiveWidth(312),
+            height: responsiveHeight(48),
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          <NaverLoginBtn />
+          <NaverLoginBtn style={{ width: "100%", height: "100%" }} />
         </TouchableOpacity>
       </View>
     </Container>

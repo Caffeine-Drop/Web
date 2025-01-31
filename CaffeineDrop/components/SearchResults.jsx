@@ -12,6 +12,7 @@ import SortFilterModal from "./SortFilterModal";
 import TimeFilterModal from "./TimeFilterModal";
 import UpIcon from "../assets/home/UpIcon.svg";
 import DownIcon from "../assets/home/DownIcon.svg";
+import { useFonts } from "../styles";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height; // 화면 높이
 const FULLY_EXPANDED_POSITION = responsiveHeight(162); // 슬라이드가 올라갈 최대 위치
@@ -19,11 +20,13 @@ const DEFAULT_POSITION = SCREEN_HEIGHT - responsiveHeight(356); // 기본 위치
 const ANIMATION_DURATION = 300; // 애니메이션 지속 시간
 
 const SearchResults = ({ isVisible, isSettingMode, onClose, onSlideDown }) => {
+  const fontsLoaded = useFonts();
+
   const translateY = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
   const [sortModalVisible, setSortModalVisible] = useState(false);
   const [timeModalVisible, setTimeModalVisible] = useState(false);
   const [selectedSort, setSelectedSort] = useState("인기순");
-  const [selectedTime, setSelectedTime] = useState("전체");
+  const [selectedTime, setSelectedTime] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
 
   // 모서리 반경 애니메이션 설정
@@ -80,6 +83,10 @@ const SearchResults = ({ isVisible, isSettingMode, onClose, onSlideDown }) => {
     })
   ).current;
 
+  if (!fontsLoaded) {
+    return null; // 폰트 로드될 때까지 렌더링 안 함
+  }
+
   return (
     <>
       <AnimatedContainer
@@ -101,7 +108,9 @@ const SearchResults = ({ isVisible, isSettingMode, onClose, onSlideDown }) => {
             selectedFilter={selectedFilter}
           />
           <SortContainer>
-            <FilterButton onPress={() => setSortModalVisible(!sortModalVisible)}>
+            <FilterButton
+              onPress={() => setSortModalVisible(!sortModalVisible)}
+            >
               <SortText selected={selectedSort !== "인기순"}>
                 {selectedSort}
               </SortText>
@@ -120,9 +129,17 @@ const SearchResults = ({ isVisible, isSettingMode, onClose, onSlideDown }) => {
               )}
             </FilterButton>
 
-            <FilterButton onPress={() => setTimeModalVisible(!timeModalVisible)}>
-              <SortText selected={selectedTime !== "전체"}>
-                {selectedTime}
+            <FilterButton
+              onPress={() => setTimeModalVisible(!timeModalVisible)}
+            >
+              <SortText selected={selectedTime !== ""}>
+                {selectedTime === ""
+                  ? "전체"
+                  : selectedTime
+                      .replace("영업", "")
+                      .replace("오픈", "")
+                      .replace("마감", "")
+                      .trim()}
               </SortText>
               {timeModalVisible ? (
                 <UpIcon
@@ -220,7 +237,7 @@ const DragHandle = styled.View`
   width: ${responsiveWidth(64)}px;
   height: ${responsiveHeight(5)}px;
   border-radius: 5px;
-  background: #D9D9D9;
+  background: #d9d9d9;
 `;
 
 const SortContainer = styled.View`
@@ -228,7 +245,7 @@ const SortContainer = styled.View`
   justify-content: space-between;
   padding: ${responsiveHeight(8)}px ${responsiveWidth(24)}px;
   border-bottom-width: ${responsiveWidth(0.5)}px;
-  border-bottom-color: #D9D9D9;
+  border-bottom-color: #d9d9d9;
   background-color: #fafafa;
 `;
 
@@ -237,11 +254,14 @@ const FilterButton = styled.TouchableOpacity`
   align-items: center;
   padding: ${responsiveHeight(6)}px ${responsiveWidth(12)}px;
   background-color: #fafafa;
-`;  
+`;
 
 const SortText = styled.Text`
+  font-family: Pretendard;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: ${(props) => (props.selected ? "600" : "400")};
+  line-height: ${responsiveHeight(16.56)}px;
+  letter-spacing: -0.3;
   color: #000;
 `;
 

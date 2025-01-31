@@ -57,7 +57,7 @@ const Title = styled.Text`
   font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(18)}px;
   font-weight: 600;
-  line-height: ${responsiveHeight(19.32)}px;
+  line-height: ${responsiveHeight(24.84)}px;
   letter-spacing: -0.45;
   padding-left: ${responsiveWidth(24)}px;
 `;

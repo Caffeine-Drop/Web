@@ -32,7 +32,7 @@ const FilterButton = styled(TouchableOpacity)`
   padding: ${responsiveHeight(4)}px ${responsiveWidth(14)}px;
   border-radius: 41px;
   border: 1px solid #ebebeb;
-  margin-left: ${responsiveWidth(6)}px;
+  margin-right: ${responsiveWidth(6)}px;
   margin-left: ${({ isFirst }) => (isFirst ? `${responsiveWidth(24)}px` : 0)};
   height: ${responsiveHeight(27)}px;
   justify-content: center;
@@ -52,7 +52,7 @@ const FilterText = styled.Text`
   font-weight: ${({ selected }) => (selected ? "600" : "500")};
   color: ${({ selected }) => (selected ? "#FFF" : "#000")};
   font-style: normal;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35;
   margin-left: ${responsiveWidth(6)}px;
 `;

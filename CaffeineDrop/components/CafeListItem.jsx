@@ -1,14 +1,14 @@
-import React from 'react';
-import { ScrollView, TouchableOpacity } from 'react-native';
+import React from "react";
+import { ScrollView, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
 } from "../utils/responsive";
-import styled from 'styled-components/native';
+import styled from "styled-components/native";
 import HeartIcon from "../assets/home/HeartIcon.jsx";
-import StarIcon from '../assets/home/StarIcon.svg';
+import StarIcon from "../assets/home/StarIcon.svg";
 import { useFonts } from "../styles";
 
 const CafeListItem = ({ cafe, isSelected }) => {
@@ -21,7 +21,7 @@ const CafeListItem = ({ cafe, isSelected }) => {
   };
 
   const isBothBadges = cafe.isFavorite && cafe.isSpecialty;
-  
+
   if (!fontsLoaded) {
     return null; // 폰트 로드될 때까지 렌더링 안 함
   }
@@ -30,7 +30,7 @@ const CafeListItem = ({ cafe, isSelected }) => {
     <TouchableOpacity onPress={handlePress}>
       <Container
         style={{
-          backgroundColor: isSelected ? '#F1F1F1' : '#FAFAFA', // 동적 배경색 적용
+          backgroundColor: isSelected ? "#F1F1F1" : "#FAFAFA", // 동적 배경색 적용
         }}
       >
         <ListContainer>
@@ -47,7 +47,11 @@ const CafeListItem = ({ cafe, isSelected }) => {
                       borderBottomRightRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 오른쪽 아래 모서리 제거
                     }}
                   >
-                    <HeartIcon color="#FFFFFF" size={10} style={{ marginRight: 4 }} />
+                    <HeartIcon
+                      color="#FFFFFF"
+                      size={10}
+                      style={{ marginRight: 4 }}
+                    />
                     <BadgeText>좋아요</BadgeText>
                   </Badge>
                 )}
@@ -125,7 +129,9 @@ const CafeListItem = ({ cafe, isSelected }) => {
                 <RatingContainer>
                   <StarIcon width={12} height={12} style={{ marginRight: 5 }} />
                   <RatingText>
-                    <RatingNumber>{parseFloat(cafe.rating).toFixed(1)}</RatingNumber>
+                    <RatingNumber>
+                      {parseFloat(cafe.rating).toFixed(1)}
+                    </RatingNumber>
                     <RatingSeparator> | </RatingSeparator>
                     <RatingReviews>{cafe.reviews}</RatingReviews>
                   </RatingText>
@@ -146,11 +152,13 @@ const Container = styled.View`
   overflow: visible;
   width: ${responsiveWidth(360)}px;
   height: ${responsiveHeight(274)}px;
-  padding-left: ${(props) => (props.isFirst ? responsiveWidth(24) : responsiveWidth(0))}; /* ✅ 첫 번째 아이템만 왼쪽 여백 추가 */
+  padding-left: ${(props) =>
+    props.isFirst
+      ? responsiveWidth(24)
+      : responsiveWidth(0)}; /* ✅ 첫 번째 아이템만 왼쪽 여백 추가 */
   padding-top: ${responsiveHeight(16)}px; /* ✅ 아이템 간 간격 유지 */
   margin-right: ${responsiveWidth(42)}px; /* ✅ 오른쪽 여백 추가 */
-  `;
-
+`;
 
 const ListContainer = styled.View`
   width: ${responsiveWidth(360)}px;
@@ -161,10 +169,11 @@ const ImageContainer = styled.View`
   position: relative; /* 배지와 이미지가 같은 컨텍스트를 공유 */
 `;
 
-
 const ImagePlaceholder = styled.View`
   background-color: ${(props) =>
-    props.isClosed ? "rgba(0, 0, 0, 0.55)" : "#d9d9d9"}; /* 닫힌 상태일 때 회색 */
+    props.isClosed
+      ? "rgba(0, 0, 0, 0.55)"
+      : "#d9d9d9"}; /* 닫힌 상태일 때 회색 */
   border-radius: 12px;
   justify-content: center;
   align-items: center;
@@ -174,7 +183,10 @@ const ImagePlaceholder = styled.View`
 const ImagePlaceholder1 = styled.View`
   width: ${responsiveWidth(150)}px;
   height: ${responsiveHeight(150)}px;
-  background-color: ${(props) => (props.isClosed ? "rgba(0, 0, 0, 0.55)" : "#d9d9d9")}; /* ✅ 미운영이면 회색 */
+  background-color: ${(props) =>
+    props.isClosed
+      ? "rgba(0, 0, 0, 0.55)"
+      : "#d9d9d9"}; /* ✅ 미운영이면 회색 */
   margin-right: ${responsiveWidth(4)}px;
   border-radius: 12px;
   justify-content: center;
@@ -185,7 +197,10 @@ const ImagePlaceholder1 = styled.View`
 const ImagePlaceholder2 = styled.View`
   width: ${responsiveWidth(112.5)}px;
   height: ${responsiveHeight(150)}px;
-  background-color: ${(props) => (props.isClosed ? "rgba(0, 0, 0, 0.55)" : "#d9d9d9")}; /* ✅ 미운영이면 회색 */
+  background-color: ${(props) =>
+    props.isClosed
+      ? "rgba(0, 0, 0, 0.55)"
+      : "#d9d9d9"}; /* ✅ 미운영이면 회색 */
   margin-right: ${responsiveWidth(4)}px;
   border-radius: 12px;
 `;
@@ -193,7 +208,10 @@ const ImagePlaceholder2 = styled.View`
 const ImagePlaceholder3 = styled.View`
   width: ${responsiveWidth(112.5)}px;
   height: ${responsiveHeight(150)}px;
-  background-color: ${(props) => (props.isClosed ? "rgba(0, 0, 0, 0.55)" : "#d9d9d9")}; /* ✅ 미운영이면 회색 */
+  background-color: ${(props) =>
+    props.isClosed
+      ? "rgba(0, 0, 0, 0.55)"
+      : "#d9d9d9"}; /* ✅ 미운영이면 회색 */
   margin-right: ${responsiveWidth(4)}px;
   border-radius: 12px;
 `;
@@ -213,7 +231,7 @@ const ClosedSubText = styled.Text`
   font-style: normal;
   font-weight: 400;
   padding-bottom: ${responsiveHeight(8)}px;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.3;
 `;
 
@@ -223,7 +241,7 @@ const ClosedText = styled.Text`
   color: #fafafa;
   font-style: normal;
   font-weight: 700;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.4;
 `;
 
@@ -248,20 +266,21 @@ const BadgeText = styled.Text`
   font-family: PretendardMedium;
   font-size: ${responsiveFontSize(10)}px;
   font-weight: 500;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.25;
-  color: #FAFAFA;
+  color: #fafafa;
 `;
 
 const Info = styled.View`
-  padding: ${responsiveHeight(12)}px ${responsiveWidth(24)}px ${responsiveHeight(0)}px;
+  padding: ${responsiveHeight(12)}px ${responsiveWidth(24)}px
+    ${responsiveHeight(0)}px;
 `;
 
 const Title = styled.Text`
   font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(18)}px;
   font-weight: 600;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.45;
   padding-bottom: ${responsiveHeight(8)}px;
 `;
@@ -270,7 +289,7 @@ const Location = styled.Text`
   font-family: PretendardRegular;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 400;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35;
   padding-bottom: ${responsiveHeight(8)}px;
 `;
@@ -283,19 +302,19 @@ const DistanceBadge = styled.Text`
   font-family: PretendardRegular;
   font-size: ${responsiveFontSize(10)}px;
   font-weight: 400;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.25;
   padding: ${responsiveHeight(2)}px ${responsiveWidth(4)}px;
   margin-right: ${responsiveWidth(4)}px;
   border-radius: 8px;
-  background-color: #F1F1F1;
+  background-color: #f1f1f1;
 `;
 
 const Distance = styled.Text`
   font-family: PretendardRegular;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 400;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.3;
   margin-right: ${responsiveWidth(12)}px;
 `;
@@ -304,7 +323,7 @@ const HashTag = styled.Text`
   font-family: PretendardRegular;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 400;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.3;
   color: #666;
 `;
@@ -318,7 +337,7 @@ const RatingText = styled.Text`
   font-family: PretendardRegular;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 400;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35;
   color: #666;
 `;
@@ -327,7 +346,7 @@ const RatingNumber = styled.Text`
   font-family: PretendardRegular;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 400;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35;
   color: #000;
 `;
@@ -336,7 +355,7 @@ const RatingSeparator = styled.Text`
   font-family: PretendardRegular;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 400;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35;
   color: #666;
 `;
@@ -345,7 +364,7 @@ const RatingReviews = styled.Text`
   font-family: PretendardRegular;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 400;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35;
   color: #666;
 `;

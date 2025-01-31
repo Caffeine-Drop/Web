@@ -57,7 +57,7 @@ const SearchPage = () => {
   const [isMapVisible, setIsMapVisible] = useState(false);
   const [isSettingComplete, setIsSettingComplete] = useState(false);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
-
+  const [isInSearchMode, setIsInSearchMode] = useState(false); // 🔹 검색 설정 모드 상태
   const [searchText, setSearchText] = useState("");
   const [isNewSlideVisible, setIsNewSlideVisible] = useState(false);
 
@@ -94,9 +94,10 @@ const SearchPage = () => {
   };
 
   const handleSlideDown = () => {
-    setIsSettingComplete(false); // 검색 설정 버튼을 "설정 완료"로 바꾸지 않음
+    setIsSettingComplete(true); // 검색 설정 버튼을 "설정 완료"로 변경
     setIsMapVisible(true); // 지도 화면이 아니라 기본 화면으로 복귀
     setShowSearchResults(false); // 검색 결과가 아닌 기본 상태 유지
+    setIsInSearchMode(false); // 🔹 검색 설정 모드 해제 (카페 아이콘 보이게)
 
     // 슬라이드를 원래 default 상태로 복귀
     Animated.timing(translateY, {
@@ -142,16 +143,38 @@ const SearchPage = () => {
     setSelectedCafe(cafeId);
   };
 
-  const handleSettingsPress = (isComplete) => {
-    if (searchText.trim().length > 0) {
-      setIsSettingComplete(isComplete);
-      setIsMapVisible(true);
-      setShowSearchResults(true);
+  const handleSettingsPress = () => {
+    if (!isInSearchMode) {
+      // 🔹 검색 설정 버튼을 눌렀을 때 (search02 또는 search03)
+      setIsMapVisible(true); // 지도 표시
+      setIsInSearchMode(true); // 검색 설정 모드 활성화
+      setIsSettingComplete(false); // 설정 완료 상태가 아님
+
+      if (searchText.trim().length === 0) {
+        // 🔹 검색어 없을 때 → SearchWordSlide 표시 (search02)
+        setIsNewSlideVisible(true);
+        setShowSearchResults(false);
+      } else {
+        // 🔹 검색어 있을 때 → SearchResults 표시 (search03)
+        setIsNewSlideVisible(false);
+        setShowSearchResults(true);
+      }
     } else {
-      setIsNewSlideVisible(true);
-      setShowSearchResults(false);
-      setIsSettingComplete(false);
-      setIsMapVisible(true);
+      // 🔹 설정 완료 버튼을 눌렀을 때 (search01 또는 search04로 이동)
+      setIsMapVisible(true); // 지도 유지
+      setIsInSearchMode(false); // 검색 설정 모드 해제
+      setIsSettingComplete(true); // 🔹 설정 완료 상태로 변경
+
+      if (searchText.trim().length === 0) {
+        // 🔹 검색어 없으면 search01로 이동
+        setIsNewSlideVisible(false);
+        setShowSearchResults(false);
+        setIsMapVisible(false); // 🔹 지도 닫힘
+      } else {
+        // 🔹 검색어 있으면 search04로 이동 (검색어 유지)
+        setIsNewSlideVisible(false);
+        setShowSearchResults(true);
+      }
     }
   };
 
@@ -187,8 +210,32 @@ const SearchPage = () => {
               resizeMode: "cover",
             }}
           />
-          {/* 설정 완료 상태일 때 */}
-          {!isSettingComplete ? (
+
+          {/* 🔹 검색 설정 모드일 때는 무조건 위치 아이콘과 안내 텍스트 표시 */}
+          {isInSearchMode ? (
+            <>
+              <CurrentLocationWrapper onPress={handleCurrentLocationPress}>
+                <CurrentLocationIcon
+                  width={`${responsiveWidth(12)}px`}
+                  height={`${responsiveHeight(12)}px`}
+                />
+                <CurrentLocationText>현재 위치로 가기</CurrentLocationText>
+              </CurrentLocationWrapper>
+              <LocationIconWrapper>
+                <LocationIcon
+                  width={responsiveWidth(23.859)}
+                  height={responsiveHeight(34.5)}
+                />
+              </LocationIconWrapper>
+              <MoveMapWrapper>
+                <MoveMapText>
+                  지도를 움직여 검색 위치를 설정해주세요
+                </MoveMapText>
+              </MoveMapWrapper>
+            </>
+          ) : (
+            // 🔹 검색 설정 모드가 해제되었을 때만 카페 아이콘 표시
+            isSettingComplete &&
             animatedLocations.map((loc) => (
               <Animated.View
                 key={loc.id}
@@ -213,34 +260,6 @@ const SearchPage = () => {
                 )}
               </Animated.View>
             ))
-          ) : (
-            <>
-              <CurrentLocationWrapper onPress={handleCurrentLocationPress}>
-                <CurrentLocationIcon
-                  width={`${responsiveWidth(12)}px`}
-                  height={`${responsiveHeight(12)}px`}
-                />
-                <CurrentLocationText>현재 위치로 가기</CurrentLocationText>
-              </CurrentLocationWrapper>
-              <LocationIconWrapper>
-                <LocationIcon
-                  width={responsiveWidth(23.859)}
-                  height={responsiveHeight(34.5)}
-                />
-                {/* <Image
-                  source={require("../assets/search/LocationIcon.png")}
-                  style={{
-                    width: responsiveWidth(23.859),
-                    height: responsiveHeight(34.5),
-                  }}
-                /> */}
-              </LocationIconWrapper>
-              <MoveMapWrapper>
-                <MoveMapText>
-                  지도를 움직여 검색 위치를 설정해주세요
-                </MoveMapText>
-              </MoveMapWrapper>
-            </>
           )}
         </MapContainer>
       )}

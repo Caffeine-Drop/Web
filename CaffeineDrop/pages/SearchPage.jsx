@@ -25,8 +25,21 @@ const ANIMATION_DURATION = 300; // 애니메이션 지속 시간
 const SearchPage = () => {
   const fontsLoaded = useFonts();
 
-  const popularSearches = ["카이막", "두바이 초콜릿", "브런치 카페", "베이글", "콜드브루", "에스프레소"];
-  const recentSearches = ["수플레", "딸기케이크", "휘낭시에", "휘낭시에", "카이막"];
+  const popularSearches = [
+    "카이막",
+    "두바이 초콜릿",
+    "브런치 카페",
+    "베이글",
+    "콜드브루",
+    "에스프레소",
+  ];
+  const recentSearches = [
+    "수플레",
+    "딸기케이크",
+    "휘낭시에",
+    "휘낭시에",
+    "카이막",
+  ];
   const recommendedCafes = [
     { name: "언힙커피로스터스", distance: "600m", rating: 4.0 },
     { name: "언힙커피로스터스", distance: "600m", rating: 4.0 },
@@ -43,10 +56,26 @@ const SearchPage = () => {
 
   const translateY = useRef(new Animated.Value(DEFAULT_POSITION)).current;
   const animatedLocations = useRef([
-    { id: "cafe1", top: new Animated.Value(responsiveHeight(60)), left: new Animated.Value(responsiveWidth(170)) },
-    { id: "cafe2", top: new Animated.Value(responsiveHeight(110)), left: new Animated.Value(responsiveWidth(100)) },
-    { id: "cafe3", top: new Animated.Value(responsiveHeight(130)), left: new Animated.Value(responsiveWidth(230)) },
-    { id: "cafe4", top: new Animated.Value(responsiveHeight(180)), left: new Animated.Value(responsiveWidth(160)) },
+    {
+      id: "cafe1",
+      top: new Animated.Value(responsiveHeight(60)),
+      left: new Animated.Value(responsiveWidth(170)),
+    },
+    {
+      id: "cafe2",
+      top: new Animated.Value(responsiveHeight(110)),
+      left: new Animated.Value(responsiveWidth(100)),
+    },
+    {
+      id: "cafe3",
+      top: new Animated.Value(responsiveHeight(130)),
+      left: new Animated.Value(responsiveWidth(230)),
+    },
+    {
+      id: "cafe4",
+      top: new Animated.Value(responsiveHeight(180)),
+      left: new Animated.Value(responsiveWidth(160)),
+    },
   ]).current;
 
   const handleClearAll = () => {
@@ -56,12 +85,12 @@ const SearchPage = () => {
   const handleCurrentLocationPress = () => {
     console.log("현재 위치로 가기 버튼 클릭!");
   };
-  
+
   const handleSlideDown = () => {
     setIsSettingComplete(false); // 검색 설정 버튼을 "설정 완료"로 바꾸지 않음
     setIsMapVisible(true); // 지도 화면이 아니라 기본 화면으로 복귀
     setShowSearchResults(false); // 검색 결과가 아닌 기본 상태 유지
-  
+
     // 슬라이드를 원래 default 상태로 복귀
     Animated.timing(translateY, {
       toValue: SCREEN_HEIGHT - responsiveHeight(356), // Default position (카페 아이콘들이 나타나는 높이)
@@ -133,8 +162,8 @@ const SearchPage = () => {
         }}
         onSettingsPress={handleSettingsPress}
         setIsKeyboardVisible={setIsKeyboardVisible}
-        searchText={searchText}        // Pass searchText as a prop
-        setSearchText={setSearchText}  // Pass setSearchText as a prop
+        searchText={searchText} // Pass searchText as a prop
+        setSearchText={setSearchText} // Pass setSearchText as a prop
       />
 
       {/* 지도 표시 */}
@@ -163,7 +192,10 @@ const SearchPage = () => {
               >
                 {selectedCafe === loc.id ? (
                   <TouchableOpacity onPress={() => setSelectedCafe(null)}>
-                    <LocationHereIcon width={`${responsiveWidth(35)}px`} height={`${responsiveHeight(44.375)}px`} />
+                    <LocationHereIcon
+                      width={`${responsiveWidth(35)}px`}
+                      height={`${responsiveHeight(44.375)}px`}
+                    />
                   </TouchableOpacity>
                 ) : (
                   <CafeLocation
@@ -176,17 +208,25 @@ const SearchPage = () => {
           ) : (
             <>
               <CurrentLocationWrapper onPress={handleCurrentLocationPress}>
-                <CurrentLocationIcon width={`${responsiveWidth(12)}px`} height={`${responsiveHeight(12)}px`} />
+                <CurrentLocationIcon
+                  width={`${responsiveWidth(12)}px`}
+                  height={`${responsiveHeight(12)}px`}
+                />
                 <CurrentLocationText>현재 위치로 가기</CurrentLocationText>
               </CurrentLocationWrapper>
               <LocationIconWrapper>
                 <Image
                   source={require("../assets/search/LocationIcon.png")}
-                  style={{ width: responsiveWidth(23.859), height: responsiveHeight(34.5) }}
+                  style={{
+                    width: responsiveWidth(23.859),
+                    height: responsiveHeight(34.5),
+                  }}
                 />
               </LocationIconWrapper>
               <MoveMapWrapper>
-                <MoveMapText>지도를 움직여 검색 위치를 설정해주세요</MoveMapText>
+                <MoveMapText>
+                  지도를 움직여 검색 위치를 설정해주세요
+                </MoveMapText>
               </MoveMapWrapper>
             </>
           )}
@@ -250,7 +290,7 @@ const CurrentLocationText = styled.Text`
   font-family: PretendardMedium;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 500;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.3;
   margin-left: ${responsiveWidth(6)}px;
 `;
@@ -285,7 +325,7 @@ const MoveMapText = styled.Text`
   font-family: PretendardMedium;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 500;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.3;
 `;
 

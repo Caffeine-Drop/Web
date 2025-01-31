@@ -108,7 +108,9 @@ const SearchResults = ({ isVisible, isSettingMode, onClose, onSlideDown }) => {
             selectedFilter={selectedFilter}
           />
           <SortContainer>
-            <FilterButton onPress={() => setSortModalVisible(!sortModalVisible)}>
+            <FilterButton
+              onPress={() => setSortModalVisible(!sortModalVisible)}
+            >
               <SortText selected={selectedSort !== "인기순"}>
                 {selectedSort}
               </SortText>
@@ -127,16 +129,18 @@ const SearchResults = ({ isVisible, isSettingMode, onClose, onSlideDown }) => {
               )}
             </FilterButton>
 
-            <FilterButton onPress={() => setTimeModalVisible(!timeModalVisible)}>
-            <SortText selected={selectedTime !== ""}>
-              {selectedTime === ""
-                ? "전체"
-                : selectedTime
-                    .replace("영업", "")
-                    .replace("오픈", "")
-                    .replace("마감", "")
-                    .trim()}
-            </SortText>
+            <FilterButton
+              onPress={() => setTimeModalVisible(!timeModalVisible)}
+            >
+              <SortText selected={selectedTime !== ""}>
+                {selectedTime === ""
+                  ? "전체"
+                  : selectedTime
+                      .replace("영업", "")
+                      .replace("오픈", "")
+                      .replace("마감", "")
+                      .trim()}
+              </SortText>
               {timeModalVisible ? (
                 <UpIcon
                   width={`${responsiveWidth(17)}px`}
@@ -233,7 +237,7 @@ const DragHandle = styled.View`
   width: ${responsiveWidth(64)}px;
   height: ${responsiveHeight(5)}px;
   border-radius: 5px;
-  background: #D9D9D9;
+  background: #d9d9d9;
 `;
 
 const SortContainer = styled.View`
@@ -241,7 +245,7 @@ const SortContainer = styled.View`
   justify-content: space-between;
   padding: ${responsiveHeight(8)}px ${responsiveWidth(24)}px;
   border-bottom-width: ${responsiveWidth(0.5)}px;
-  border-bottom-color: #D9D9D9;
+  border-bottom-color: #d9d9d9;
   background-color: #fafafa;
 `;
 
@@ -250,13 +254,13 @@ const FilterButton = styled.TouchableOpacity`
   align-items: center;
   padding: ${responsiveHeight(6)}px ${responsiveWidth(12)}px;
   background-color: #fafafa;
-`;  
+`;
 
 const SortText = styled.Text`
   font-family: Pretendard;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: ${(props) => (props.selected ? "600" : "400")};
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.3;
   color: #000;
 `;

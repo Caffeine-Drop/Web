@@ -1,13 +1,13 @@
-import React from 'react';
-import { FlatList } from 'react-native';
+import React from "react";
+import { FlatList } from "react-native";
 import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
 } from "../utils/responsive";
-import styled from 'styled-components/native';
-import ExclamationIcon from '../assets/search/ExclamationIcon.svg';
-import StarIcon from '../assets/search/StarIcon.svg';
+import styled from "styled-components/native";
+import ExclamationIcon from "../assets/search/ExclamationIcon.svg";
+import StarIcon from "../assets/search/StarIcon.svg";
 import { useFonts } from "../styles";
 
 const RecommendedCafes = ({ cafes }) => {
@@ -16,28 +16,41 @@ const RecommendedCafes = ({ cafes }) => {
   if (!fontsLoaded) {
     return null; // 폰트 로드될 때까지 렌더링 안 함
   }
-  
+
   return (
     <Container>
       <Header>
         <Title>추천 핫한 카페 모음</Title>
         <AdText>광고</AdText>
         <ExclamationIconWrapper>
-          <ExclamationIcon width={`${responsiveWidth(14)}px`} height={`${responsiveHeight(14)}px`} />
+          <ExclamationIcon
+            width={`${responsiveWidth(14)}px`}
+            height={`${responsiveHeight(14)}px`}
+          />
         </ExclamationIconWrapper>
       </Header>
       <FlatList
         horizontal
         data={cafes}
         renderItem={({ item, index }) => (
-          <CafeCard style={{ marginLeft: index === 0 ? responsiveWidth(24) : responsiveWidth(6) }}>
-            <CafeText numberOfLines={1} ellipsizeMode="tail">{item.name}</CafeText>
+          <CafeCard
+            style={{
+              marginLeft:
+                index === 0 ? responsiveWidth(24) : responsiveWidth(6),
+            }}
+          >
+            <CafeText numberOfLines={1} ellipsizeMode="tail">
+              {item.name}
+            </CafeText>
             <DistanceWrapper>
               <DistanceLabel>거리</DistanceLabel>
               <DistanceValue>{item.distance}</DistanceValue>
             </DistanceWrapper>
             <Rating>
-              <StarIcon width={`${responsiveWidth(18)}px`} height={`${responsiveHeight(18)}px`} />
+              <StarIcon
+                width={`${responsiveWidth(18)}px`}
+                height={`${responsiveHeight(18)}px`}
+              />
               <RatingText>{parseFloat(item.rating).toFixed(1)}</RatingText>
             </Rating>
           </CafeCard>
@@ -66,7 +79,7 @@ const Title = styled.Text`
   font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(20)}px;
   font-weight: 600;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.5;
   margin-right: ${responsiveWidth(12)}px;
 `;
@@ -75,7 +88,7 @@ const AdText = styled.Text`
   font-family: PretendardMedium;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 500;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.3;
   color: #999;
 `;
@@ -89,7 +102,7 @@ const CafeCard = styled.View`
   height: ${responsiveHeight(160)}px;
   background-color: #888;
   border-radius: 12px;
-  border: 1px solid #F1F1F1;
+  border: 1px solid #f1f1f1;
   padding-horizontal: ${responsiveWidth(12)}px;
   padding-bottom: ${responsiveHeight(16)}px;
   justify-content: flex-end;
@@ -100,7 +113,7 @@ const CafeText = styled.Text`
   font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 600;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35;
   color: #fafafa;
   width: 100%;
@@ -116,7 +129,7 @@ const DistanceLabel = styled.Text`
   font-family: PretendardRegular;
   font-size: ${responsiveFontSize(10)}px;
   font-weight: 400;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.25;
   background-color: #f1f1f1;
   border-radius: 8px;
@@ -131,7 +144,7 @@ const DistanceValue = styled.Text`
   font-family: PretendardRegular;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 400;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.3;
   color: #fafafa;
 `;
@@ -146,7 +159,7 @@ const RatingText = styled.Text`
   font-family: PretendardRegular;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 400;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.3;
   color: #fafafa;
   margin-left: ${responsiveWidth(4)}px;

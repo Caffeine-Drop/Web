@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
 } from "../utils/responsive";
-import styled from 'styled-components/native';
+import styled from "styled-components/native";
 import { useFonts } from "../styles";
 
 const PopularSearchList = ({ popularSearches }) => {
@@ -29,14 +29,17 @@ const PopularSearchList = ({ popularSearches }) => {
       <Grid>
         {Array.from({ length: rowCount }).map((_, rowIndex) => (
           <Row key={rowIndex}>
-            {columnData.map((col, colIndex) => (
-              col[rowIndex] && ( // 데이터가 있을 때만 렌더링
-                <GridItem key={colIndex}>
-                  <Index>{`${(rowIndex + 1 + colIndex * rowCount).toString().padStart(2, '0')}`}</Index>
-                  <SearchText>{col[rowIndex]}</SearchText>
-                </GridItem>
-              )
-            ))}
+            {columnData.map(
+              (col, colIndex) =>
+                col[rowIndex] && ( // 데이터가 있을 때만 렌더링
+                  <GridItem key={colIndex}>
+                    <Index>{`${(rowIndex + 1 + colIndex * rowCount)
+                      .toString()
+                      .padStart(2, "0")}`}</Index>
+                    <SearchText>{col[rowIndex]}</SearchText>
+                  </GridItem>
+                )
+            )}
           </Row>
         ))}
       </Grid>
@@ -65,7 +68,7 @@ const Title = styled.Text`
   font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(18)}px;
   font-weight: 600;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.45;
   margin-right: ${responsiveWidth(12)}px;
 `;
@@ -74,7 +77,7 @@ const CurrentTime = styled.Text`
   font-family: PretendardMedium;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 500;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.3;
   color: #999;
 `;
@@ -100,7 +103,7 @@ const Index = styled.Text`
   font-family: PretendardMedium;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 500;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35;
   color: #666;
   margin-right: ${responsiveWidth(14)}px;
@@ -110,6 +113,6 @@ const SearchText = styled.Text`
   font-family: PretendardMedium;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 500;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35;
 `;

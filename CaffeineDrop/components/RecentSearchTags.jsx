@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
 } from "../utils/responsive";
-import styled from 'styled-components/native';
-import DeleteIcon from '../assets/search/DeleteIcon.svg';
+import styled from "styled-components/native";
+import DeleteIcon from "../assets/search/DeleteIcon.svg";
 import { useFonts } from "../styles";
 
 const RecentSearchTags = ({ recentSearches, onClearAll }) => {
@@ -26,7 +26,10 @@ const RecentSearchTags = ({ recentSearches, onClearAll }) => {
           <Tag key={index}>
             <TagText>{search}</TagText>
             <DeleteIconWrapper>
-              <DeleteIcon width={`${responsiveWidth(19)}px`} height={`${responsiveHeight(19)}px`} />
+              <DeleteIcon
+                width={`${responsiveWidth(19)}px`}
+                height={`${responsiveHeight(19)}px`}
+              />
             </DeleteIconWrapper>
           </Tag>
         ))}
@@ -55,7 +58,7 @@ const Title = styled.Text`
   font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(18)}px;
   font-weight: 600;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.45;
 `;
 
@@ -63,7 +66,7 @@ const ClearText = styled.Text`
   font-family: PretendardMedium;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 500;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.3;
   color: #999;
 `;
@@ -81,16 +84,17 @@ const Tag = styled.View`
   height: ${responsiveHeight(36)}px;
   align-items: center;
   justify-content: center;
-  padding: ${responsiveHeight(6)}px ${responsiveWidth(10)}px ${responsiveHeight(6)}px ${responsiveWidth(14)}px;
+  padding: ${responsiveHeight(6)}px ${responsiveWidth(10)}px
+    ${responsiveHeight(6)}px ${responsiveWidth(14)}px;
   border-radius: 41px;
   margin-right: ${responsiveWidth(8)}px;
-  border: 1px solid #EBEBEB;
+  border: 1px solid #ebebeb;
 `;
 
 const TagText = styled.Text`
   font-family: PretendardMedium;
   font-size: ${responsiveFontSize(14)}px;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35;
   margin-right: 2px;
 `;

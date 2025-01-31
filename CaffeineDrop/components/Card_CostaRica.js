@@ -2,7 +2,11 @@ import React from "react";
 import { Image } from "react-native";
 import styled from "styled-components/native";
 import CostaRicaPng from "../assets/EventPage/CentralAmerica2.png";
-import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../utils/responsive";
+import {
+  responsiveFontSize,
+  responsiveWidth,
+  responsiveHeight,
+} from "../utils/responsive";
 
 import { Dimensions } from "react-native";
 
@@ -13,12 +17,12 @@ const { width, height } = Dimensions.get("window");
 const isTablet = width >= 600;
 
 const CostaRicaImage = () => {
-    return <StyledImage source={CostaRicaPng} />;
+  return <StyledImage source={CostaRicaPng} />;
 };
 
 const StyledImage = styled.Image`
-    width: ${responsiveWidth(185)}px;
-    height: ${isTablet ? responsiveHeight(351) : responsiveHeight(283)}px;
+  width: ${responsiveWidth(185)}px;
+  height: ${isTablet ? responsiveHeight(351) : responsiveHeight(283)}px;
 `;
 
 export default CostaRicaImage;

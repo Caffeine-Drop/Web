@@ -2,7 +2,11 @@ import React from "react";
 import { Image } from "react-native";
 import styled from "styled-components/native";
 import ColombiaPng from "../assets/EventPage/SouthAmerica2.png";
-import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../utils/responsive";
+import {
+  responsiveFontSize,
+  responsiveWidth,
+  responsiveHeight,
+} from "../utils/responsive";
 
 import { Dimensions } from "react-native";
 
@@ -13,12 +17,12 @@ const { width, height } = Dimensions.get("window");
 const isTablet = width >= 600;
 
 const ColombiaImage = () => {
-    return <StyledImage source={ColombiaPng} />;
+  return <StyledImage source={ColombiaPng} />;
 };
 
 const StyledImage = styled.Image`
-    width: ${responsiveWidth(185)}px;
-    height: ${isTablet ? responsiveHeight(351) : responsiveHeight(283)}px;
+  width: ${responsiveWidth(185)}px;
+  height: ${isTablet ? responsiveHeight(351) : responsiveHeight(283)}px;
 `;
 
 export default ColombiaImage;

@@ -13,25 +13,25 @@ const { width, height } = Dimensions.get("window");
 const isTablet = width >= 600;
 
 const CoffeeImage = () => {
-    return (
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <Container>
-                <StyledImage source={CoffeePng} />
-            </Container>
-        </ScrollView>
-    );
+  return (
+    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+      <Container>
+        <StyledImage source={CoffeePng} />
+      </Container>
+    </ScrollView>
+  );
 };
 
 const Container = styled.View`
-    width: ${responsiveWidth(456)}px;
-    justify-content: center;
-    display: flex;
-    margin-left: ${responsiveWidth(18)}px;
+  width: ${responsiveWidth(456)}px;
+  justify-content: center;
+  display: flex;
+  margin-left: ${responsiveWidth(18)}px;
 `;
 
 const StyledImage = styled.Image`
-    width: ${responsiveWidth(456)}px;
-    height: ${isTablet ? responsiveHeight(205) : responsiveHeight(153)}px;
+  width: ${responsiveWidth(456)}px;
+  height: ${isTablet ? responsiveHeight(205) : responsiveHeight(153)}px;
 `;
 
 export default CoffeeImage;

@@ -21,6 +21,7 @@ import CafeLocation from "../components/CafeLocation";
 import SearchWordSlide from "../components/SearchWordSlide";
 import CurrentLocationIcon from "../assets/search/CurrentLocationIcon.svg";
 import LocationHereIcon from "../assets/home/LocationHereIcon.svg";
+import LocationIcon from "../assets/search/LocationIcon.svg";
 import { useFonts } from "../styles";
 
 const SCREEN_HEIGHT = responsiveHeight(800); // 화면 높이 (예제값)
@@ -222,13 +223,17 @@ const SearchPage = () => {
                 <CurrentLocationText>현재 위치로 가기</CurrentLocationText>
               </CurrentLocationWrapper>
               <LocationIconWrapper>
-                <Image
+                <LocationIcon
+                  width={responsiveWidth(23.859)}
+                  height={responsiveHeight(34.5)}
+                />
+                {/* <Image
                   source={require("../assets/search/LocationIcon.png")}
                   style={{
                     width: responsiveWidth(23.859),
                     height: responsiveHeight(34.5),
                   }}
-                />
+                /> */}
               </LocationIconWrapper>
               <MoveMapWrapper>
                 <MoveMapText>
@@ -327,7 +332,7 @@ const CurrentLocationWrapper = styled.TouchableOpacity`
 
 const LocationIconWrapper = styled.View`
   position: absolute;
-  top: 50%;
+  top: ${responsiveHeight(121)}px;
   left: 50%;
   transform: translate(-11.93px, -17.25px);
   z-index: 3;

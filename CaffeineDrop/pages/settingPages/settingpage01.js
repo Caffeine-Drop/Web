@@ -69,7 +69,9 @@ export default function SettingPage01({ navigation }) {
         <List>
           <ListInnerBox>
             <ListText>프로필 관리</ListText>
-            <TouchableOpacity onPress={() => navigation.navigate("")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("SettingPage05")}
+            >
               <NextButton />
             </TouchableOpacity>
           </ListInnerBox>
@@ -112,7 +114,11 @@ export default function SettingPage01({ navigation }) {
       {/* 로그아웃 부분 /////////////////// */}
       <Box3>
         <TextBox>
-          <LogoutText>로그아웃</LogoutText>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("OnboardingLogin01")}
+          >
+            <LogoutText>로그아웃</LogoutText>
+          </TouchableOpacity>
         </TextBox>
       </Box3>
     </Container>

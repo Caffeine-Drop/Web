@@ -1,5 +1,11 @@
 import React, { useState, useRef } from "react";
-import { Animated, Image, TouchableOpacity, PanResponder } from "react-native";
+import {
+  Animated,
+  Image,
+  TouchableOpacity,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from "react-native";
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -153,120 +159,122 @@ const SearchPage = () => {
   }
 
   return (
-    <Container>
-      <HeaderBar
-        onSearchPress={() => {
-          setShowSearchResults(true);
-          setIsMapVisible(false);
-          setIsNewSlideVisible(false);
-        }}
-        onSettingsPress={handleSettingsPress}
-        setIsKeyboardVisible={setIsKeyboardVisible}
-        searchText={searchText} // Pass searchText as a prop
-        setSearchText={setSearchText} // Pass setSearchText as a prop
-      />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <Container>
+        <HeaderBar
+          onSearchPress={() => {
+            setShowSearchResults(true);
+            setIsMapVisible(false);
+            setIsNewSlideVisible(false);
+          }}
+          onSettingsPress={handleSettingsPress}
+          setIsKeyboardVisible={setIsKeyboardVisible}
+          searchText={searchText} // Pass searchText as a prop
+          setSearchText={setSearchText} // Pass setSearchText as a prop
+        />
 
-      {/* 지도 표시 */}
-      {isMapVisible && (
-        <MapContainer>
-          <Image
-            source={require("../assets/home/MapImage.png")}
-            style={{
-              position: "absolute",
-              top: 0,
-              width: "100%",
-              height: responsiveHeight(349),
-              resizeMode: "cover",
-            }}
-          />
-          {/* 설정 완료 상태일 때 */}
-          {!isSettingComplete ? (
-            animatedLocations.map((loc) => (
-              <Animated.View
-                key={loc.id}
-                style={{
-                  position: "absolute",
-                  top: loc.top,
-                  left: loc.left,
-                }}
-              >
-                {selectedCafe === loc.id ? (
-                  <TouchableOpacity onPress={() => setSelectedCafe(null)}>
-                    <LocationHereIcon
-                      width={`${responsiveWidth(35)}px`}
-                      height={`${responsiveHeight(44.375)}px`}
-                    />
-                  </TouchableOpacity>
-                ) : (
-                  <CafeLocation
-                    isSelected={selectedCafe === loc.id}
-                    onSelect={() => handleCafeSelect(loc.id)}
-                  />
-                )}
-              </Animated.View>
-            ))
-          ) : (
-            <>
-              <CurrentLocationWrapper onPress={handleCurrentLocationPress}>
-                <CurrentLocationIcon
-                  width={`${responsiveWidth(12)}px`}
-                  height={`${responsiveHeight(12)}px`}
-                />
-                <CurrentLocationText>현재 위치로 가기</CurrentLocationText>
-              </CurrentLocationWrapper>
-              <LocationIconWrapper>
-                <Image
-                  source={require("../assets/search/LocationIcon.png")}
+        {/* 지도 표시 */}
+        {isMapVisible && (
+          <MapContainer>
+            <Image
+              source={require("../assets/home/MapImage.png")}
+              style={{
+                position: "absolute",
+                top: 0,
+                width: "100%",
+                height: responsiveHeight(349),
+                resizeMode: "cover",
+              }}
+            />
+            {/* 설정 완료 상태일 때 */}
+            {!isSettingComplete ? (
+              animatedLocations.map((loc) => (
+                <Animated.View
+                  key={loc.id}
                   style={{
-                    width: responsiveWidth(23.859),
-                    height: responsiveHeight(34.5),
+                    position: "absolute",
+                    top: loc.top,
+                    left: loc.left,
                   }}
-                />
-              </LocationIconWrapper>
-              <MoveMapWrapper>
-                <MoveMapText>
-                  지도를 움직여 검색 위치를 설정해주세요
-                </MoveMapText>
-              </MoveMapWrapper>
-            </>
-          )}
-        </MapContainer>
-      )}
+                >
+                  {selectedCafe === loc.id ? (
+                    <TouchableOpacity onPress={() => setSelectedCafe(null)}>
+                      <LocationHereIcon
+                        width={`${responsiveWidth(35)}px`}
+                        height={`${responsiveHeight(44.375)}px`}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <CafeLocation
+                      isSelected={selectedCafe === loc.id}
+                      onSelect={() => handleCafeSelect(loc.id)}
+                    />
+                  )}
+                </Animated.View>
+              ))
+            ) : (
+              <>
+                <CurrentLocationWrapper onPress={handleCurrentLocationPress}>
+                  <CurrentLocationIcon
+                    width={`${responsiveWidth(12)}px`}
+                    height={`${responsiveHeight(12)}px`}
+                  />
+                  <CurrentLocationText>현재 위치로 가기</CurrentLocationText>
+                </CurrentLocationWrapper>
+                <LocationIconWrapper>
+                  <Image
+                    source={require("../assets/search/LocationIcon.png")}
+                    style={{
+                      width: responsiveWidth(23.859),
+                      height: responsiveHeight(34.5),
+                    }}
+                  />
+                </LocationIconWrapper>
+                <MoveMapWrapper>
+                  <MoveMapText>
+                    지도를 움직여 검색 위치를 설정해주세요
+                  </MoveMapText>
+                </MoveMapWrapper>
+              </>
+            )}
+          </MapContainer>
+        )}
 
-      <SearchResults
-        isVisible={showSearchResults}
-        isSettingMode={isMapVisible}
-        onClose={() => {
-          setShowSearchResults(false);
-          setIsMapVisible(true);
-          setIsSettingComplete(true);
-        }}
-        onSlideDown={handleSlideDown}
-      />
+        <SearchResults
+          isVisible={showSearchResults}
+          isSettingMode={isMapVisible}
+          onClose={() => {
+            setShowSearchResults(false);
+            setIsMapVisible(true);
+            setIsSettingComplete(true);
+          }}
+          onSlideDown={handleSlideDown}
+        />
 
-      {isNewSlideVisible && (
-        <SearchWordSlide onClose={() => setIsNewSlideVisible(false)}>
-          <PopularSearchList popularSearches={popularSearches} />
-          <RecentSearchTags
-            recentSearches={recentSearches}
-            onClearAll={handleClearAll}
-          />
-          <RecommendedCafes cafes={recommendedCafes} />
-        </SearchWordSlide>
-      )}
+        {isNewSlideVisible && (
+          <SearchWordSlide onClose={() => setIsNewSlideVisible(false)}>
+            <PopularSearchList popularSearches={popularSearches} />
+            <RecentSearchTags
+              recentSearches={recentSearches}
+              onClearAll={handleClearAll}
+            />
+            <RecommendedCafes cafes={recommendedCafes} />
+          </SearchWordSlide>
+        )}
 
-      {/* 검색 추천 UI */}
-      {!showSearchResults && !isMapVisible && (
-        <>
-          <PopularSearchList popularSearches={popularSearches} />
-          <RecentSearchTags
-            recentSearches={recentSearches}
-            onClearAll={handleClearAll}
-          />
-          <RecommendedCafes cafes={recommendedCafes} />
-        </>
-      )}
-    </Container>
+        {/* 검색 추천 UI */}
+        {!showSearchResults && !isMapVisible && (
+          <>
+            <PopularSearchList popularSearches={popularSearches} />
+            <RecentSearchTags
+              recentSearches={recentSearches}
+              onClearAll={handleClearAll}
+            />
+            <RecommendedCafes cafes={recommendedCafes} />
+          </>
+        )}
+      </Container>
+    </TouchableWithoutFeedback>
   );
 };
 

@@ -28,6 +28,11 @@ const HeaderBar = ({
     setSearchText(text);
   };
 
+  const handleSearchPress = () => {
+    Keyboard.dismiss(); // 키보드 숨기기
+    onSearchPress(); // 기존 검색 로직 실행
+  };
+
   const clearSearchInput = () => {
     setSearchText("");
   };
@@ -67,7 +72,7 @@ const HeaderBar = ({
                 />
               </DeleteIconWrapper>
             )}
-            <SearchIconWrapper onPress={onSearchPress}>
+            <SearchIconWrapper onPress={handleSearchPress}>
               <SearchIcon
                 width={`${responsiveWidth(24)}px`}
                 height={`${responsiveHeight(24)}px`}
@@ -176,6 +181,7 @@ const SettingsButton = styled.TouchableOpacity`
   display: flex;
   background: ${(props) => (props.isComplete ? "#756555" : "#e5e3e1")};
   border-radius: 12px;
+  margin-right: ${responsiveWidth(16)}px;
 `;
 
 const SettingsText = styled.Text`

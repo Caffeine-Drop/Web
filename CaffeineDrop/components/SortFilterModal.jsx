@@ -10,10 +10,21 @@ import CloseIcon from "../assets/home/CloseIcon.svg";
 import { useFonts } from "../styles";
 
 const sortOptions = [
-  "인기순", "맛순", "거리순", "인테리어순", "청결도순", "가심비순", "후기 많은 순"
+  "인기순",
+  "맛순",
+  "거리순",
+  "인테리어순",
+  "청결도순",
+  "가심비순",
+  "후기 많은 순",
 ];
 
-const SortFilterModal = ({ visible, onClose, selectedSort, setSelectedSort }) => {
+const SortFilterModal = ({
+  visible,
+  onClose,
+  selectedSort,
+  setSelectedSort,
+}) => {
   const fontsLoaded = useFonts();
 
   if (!fontsLoaded) {
@@ -32,7 +43,10 @@ const SortFilterModal = ({ visible, onClose, selectedSort, setSelectedSort }) =>
           <Header>
             <Title>정렬</Title>
             <TouchableOpacity onPress={onClose}>
-              <CloseIcon width={`${responsiveWidth(24)}px`} height={`${responsiveHeight(24)}px`} />
+              <CloseIcon
+                width={`${responsiveWidth(24)}px`}
+                height={`${responsiveHeight(24)}px`}
+              />
             </TouchableOpacity>
           </Header>
           {sortOptions.map((option) => (
@@ -43,7 +57,9 @@ const SortFilterModal = ({ visible, onClose, selectedSort, setSelectedSort }) =>
                 onClose();
               }}
             >
-              <OptionText selected={selectedSort === option}>{option}</OptionText>
+              <OptionText selected={selectedSort === option}>
+                {option}
+              </OptionText>
               {selectedSort === option && <CheckMark>✓</CheckMark>}
             </Option>
           ))}
@@ -82,7 +98,7 @@ const Title = styled.Text`
   font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(16)}px;
   font-weight: 600;
-  line-height: 24px;
+  line-height: ${responsiveHeight(24)}px;
   letter-spacing: -0.4;
 `;
 
@@ -98,7 +114,7 @@ const OptionText = styled.Text`
   font-family: PretendardMedium;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 500;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35;
   color: ${(props) => (props.selected ? "#000" : "#666")};
 `;
@@ -107,6 +123,6 @@ const CheckMark = styled.Text`
   font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(16)}px;
   font-weight: 600;
-  line-height: 24px; /* 150% */
-  letter-spacing: -0.4
+  line-height: ${responsiveHeight(24)}px;
+  letter-spacing: -0.4;
 `;

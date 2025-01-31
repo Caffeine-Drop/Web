@@ -22,11 +22,17 @@ const SpecialtyOptions = () => {
   return (
     <OptionsContainer>
       <OptionButton onPress={() => navigation.navigate("EventPage12")}>
-        <SpecialtyCoffeeIcon width={`${responsiveWidth(24)}px`} height={`${responsiveHeight(24)}px`} />
+        <SpecialtyCoffeeIcon
+          width={`${responsiveWidth(24)}px`}
+          height={`${responsiveHeight(24)}px`}
+        />
         <OptionText>스페셜티 커피란?</OptionText>
       </OptionButton>
       <OptionButton onPress={() => navigation.navigate("EventPage01")}>
-        <CoffeeBeansIcon width={`${responsiveWidth(24)}px`} height={`${responsiveHeight(24)}px`} />
+        <CoffeeBeansIcon
+          width={`${responsiveWidth(24)}px`}
+          height={`${responsiveHeight(24)}px`}
+        />
         <OptionText>원두 진단하기</OptionText>
       </OptionButton>
     </OptionsContainer>
@@ -57,8 +63,8 @@ const OptionText = styled.Text`
   font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 600;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35;
-  color: #FAFAFA;
+  color: #fafafa;
   margin-left: ${responsiveWidth(8)}px;
 `;

@@ -23,11 +23,19 @@ const CafeLocation = ({ top, left, isSelected, onSelect }) => {
       style={{ position: "absolute", top, left, alignItems: "center" }}
     >
       {isSelected ? (
-        <LocationHereIcon width={`${responsiveWidth(35)}px`} height={`${responsiveHeight(44.375)}px`} />
+        <LocationHereIcon
+          width={`${responsiveWidth(35)}px`}
+          height={`${responsiveHeight(44.375)}px`}
+        />
       ) : (
         <>
-          <CafeLocationIcon width={`${responsiveWidth(30)}px`} height={`${responsiveHeight(30)}px`} />
-          <CafeLabel numberOfLines={1} ellipsizeMode="tail">언힙 커피로</CafeLabel>
+          <CafeLocationIcon
+            width={`${responsiveWidth(30)}px`}
+            height={`${responsiveHeight(30)}px`}
+          />
+          <CafeLabel numberOfLines={1} ellipsizeMode="tail">
+            언힙 커피로
+          </CafeLabel>
         </>
       )}
     </TouchableOpacity>
@@ -40,7 +48,7 @@ const CafeLabel = styled.Text`
   font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(10)}px;
   font-weight: 600;
-  line-height: 138%;
+  line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.25;
   color: #000;
   text-align: center;
@@ -49,5 +57,5 @@ const CafeLabel = styled.Text`
   text-overflow: ellipsis; /* 말줄임표 처리 */
   white-space: nowrap; /* 줄바꿈 방지 */
   -webkit-text-stroke-width: 0.5;
-  -webkit-text-stroke-color: #FAFAFA;
+  -webkit-text-stroke-color: #fafafa;
 `;

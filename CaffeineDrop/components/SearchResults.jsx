@@ -12,6 +12,7 @@ import SortFilterModal from "./SortFilterModal";
 import TimeFilterModal from "./TimeFilterModal";
 import UpIcon from "../assets/home/UpIcon.svg";
 import DownIcon from "../assets/home/DownIcon.svg";
+import { useFonts } from "../styles";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height; // 화면 높이
 const FULLY_EXPANDED_POSITION = responsiveHeight(162); // 슬라이드가 올라갈 최대 위치
@@ -19,11 +20,13 @@ const DEFAULT_POSITION = SCREEN_HEIGHT - responsiveHeight(356); // 기본 위치
 const ANIMATION_DURATION = 300; // 애니메이션 지속 시간
 
 const SearchResults = ({ isVisible, isSettingMode, onClose, onSlideDown }) => {
+  const fontsLoaded = useFonts();
+
   const translateY = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
   const [sortModalVisible, setSortModalVisible] = useState(false);
   const [timeModalVisible, setTimeModalVisible] = useState(false);
   const [selectedSort, setSelectedSort] = useState("인기순");
-  const [selectedTime, setSelectedTime] = useState("전체");
+  const [selectedTime, setSelectedTime] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
 
   // 모서리 반경 애니메이션 설정
@@ -80,6 +83,10 @@ const SearchResults = ({ isVisible, isSettingMode, onClose, onSlideDown }) => {
     })
   ).current;
 
+  if (!fontsLoaded) {
+    return null; // 폰트 로드될 때까지 렌더링 안 함
+  }
+
   return (
     <>
       <AnimatedContainer
@@ -121,9 +128,15 @@ const SearchResults = ({ isVisible, isSettingMode, onClose, onSlideDown }) => {
             </FilterButton>
 
             <FilterButton onPress={() => setTimeModalVisible(!timeModalVisible)}>
-              <SortText selected={selectedTime !== "전체"}>
-                {selectedTime}
-              </SortText>
+            <SortText selected={selectedTime !== ""}>
+              {selectedTime === ""
+                ? "전체"
+                : selectedTime
+                    .replace("영업", "")
+                    .replace("오픈", "")
+                    .replace("마감", "")
+                    .trim()}
+            </SortText>
               {timeModalVisible ? (
                 <UpIcon
                   width={`${responsiveWidth(17)}px`}
@@ -240,8 +253,11 @@ const FilterButton = styled.TouchableOpacity`
 `;  
 
 const SortText = styled.Text`
+  font-family: Pretendard;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: ${(props) => (props.selected ? "600" : "400")};
+  line-height: 138%;
+  letter-spacing: -0.3;
   color: #000;
 `;
 

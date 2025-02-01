@@ -6,8 +6,8 @@ import {
   responsiveHeight,
 } from "../utils/responsive";
 import styled from "styled-components/native";
-import MapIconBeforeClick from "../assets/home/MapIconBeforeClick.png";
-import MapIconAfterClick from "../assets/home/MapIconAfterClick.png";
+import DirectionsBeforeClick from "../assets/home/DirectionsBeforeClick.svg";
+import DirectionsAfterClick from "../assets/home/DirectionsAfterClick.svg";
 import NaverIcon from "../assets/home/NaverIcon.svg";
 import KakaoIcon from "../assets/home/KakaoIcon.svg";
 import { useFonts } from "../styles";
@@ -59,12 +59,17 @@ const BottomContainer = ({
           pressed={isDirectionsPressed}
           onPress={() => setIsDirectionsPressed((prev) => !prev)} // 토글 처리
         >
-          <IconImage
-            source={
-              isDirectionsPressed ? MapIconAfterClick : MapIconBeforeClick
-            }
-          />
-          <DirectionsText pressed={isDirectionsPressed}>길찾기</DirectionsText>
+          {isDirectionsPressed ? (
+            <DirectionsAfterClick
+              width={`${responsiveWidth(150)}px`}
+              height={`${responsiveHeight(43)}px`}
+            />
+          ) : (
+            <DirectionsBeforeClick
+              width={`${responsiveWidth(150)}px`}
+              height={`${responsiveHeight(43)}px`}
+            />
+          )}
         </DirectionsButton>
       </BottomContainerWrapper>
     </>
@@ -114,10 +119,6 @@ const DirectionsButton = styled.TouchableOpacity`
   flex-direction: row;
   border-radius: 43px;
   padding: ${responsiveHeight(12)}px ${responsiveWidth(16)}px;
-  ${(props) =>
-    props.pressed
-      ? "background-color: #F1F1F1;"
-      : "background-image: linear-gradient(90deg, #3F2D1E 0%, #6A331B 100%);"}
 `;
 
 const DirectionsText = styled.Text`

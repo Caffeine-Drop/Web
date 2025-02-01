@@ -182,12 +182,24 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const handleBackgroundPress = () => {
-    setIsDirectionsPressed(false);
-    setShowDirectionsOptions(false);
-    setIsLogoPressed(false);
+    if (selectedLocation) {
+      resetToInitialState(); // 카페 위치 선택 시 초기화
+    }
+
+    if (isDirectionsPressed) {
+      setIsDirectionsPressed(false); // 길찾기 옵션 닫기
+    }
+
+    if (showDirectionsOptions) {
+      setShowDirectionsOptions(false); // 길찾기 옵션 토글 해제
+    }
+
+    if (isLogoPressed) {
+      setIsLogoPressed(false); // 로고 초기화
+    }
   };
 
-  const [setShowDirectionsOptions] = useState(false); // 길찾기 옵션 토글 상태
+  const [showDirectionsOptions, setShowDirectionsOptions] = useState(false);
 
   const handleNaverDirections = () => {
     console.log("네이버 지도로 연결"); // 나중에 네이버 지도 API 연결
@@ -395,256 +407,260 @@ const HomeScreen = ({ navigation }) => {
   }
 
   return (
-    <Container>
-      {/* 전체 화면 반투명 배경 */}
-      {isDirectionsPressed && (
-        <TouchableWithoutFeedback
-          onPress={handleBackgroundPress}
-          pointerEvents="box-none"
-        >
-          <BackgroundOverlay />
-        </TouchableWithoutFeedback>
-      )}
-
-      {isLogoPressed && (
-        <TouchableWithoutFeedback
-          onPress={() => setIsLogoPressed(false)}
-          pointerEvents="box-none"
-        >
-          <BackgroundOverlay />
-        </TouchableWithoutFeedback>
-      )}
-
-      {/* 지도 */}
-      <MapBackground source={require("../assets/home/MapImage.png")}>
-        <MapContainer>
-          {animatedLocations.map((loc) => (
-            <Animated.View
-              key={loc.id}
-              style={{
-                position: "absolute",
-                top: loc.top,
-                left: loc.left,
-              }}
-            >
-              <CafeLocation
-                isSelected={selectedLocation === loc.id}
-                onSelect={() => handleSelectLocation(loc.id)}
-              />
-            </Animated.View>
-          ))}
-        </MapContainer>
-
-        {/* 현재 위치 아이콘 */}
-        <Animated.View
-          style={{
-            position: "absolute",
-            top: responsiveHeight(249),
-            left: responsiveWidth(24),
-            transform: [{ translateY: locationTranslateY }],
-          }}
-        >
-          <TouchableOpacity onPress={resetToInitialState}>
-            <CurrentLocationIcon
-              width={`${responsiveWidth(50)}px`}
-              height={`${responsiveHeight(50)}px`}
-            />
-          </TouchableOpacity>
-        </Animated.View>
-      </MapBackground>
-
-      {/* GNB (고정) */}
-      <GNBContainer>
-        <GNB />
-      </GNBContainer>
-
-      {/* 로고 아이콘 */}
-      {!showBottomContainer && cafeList.length > 0 && (
-        <LogoButton onPress={handleLogoPress}>
-          <Image
-            source={
-              isLogoPressed
-                ? require("../assets/home/LogoIconAfterClick.png")
-                : require("../assets/home/LogoIconBeforeClick.png")
-            }
-            style={{
-              width: responsiveWidth(50),
-              height: responsiveHeight(50),
-            }}
-            resizeMode="contain"
-          />
-        </LogoButton>
-      )}
-
-      {/* 스페셜티 커피란? 및 원두 진단하기 버튼 */}
-      {isLogoPressed && (
-        <SpecialtyOptions onOptionSelect={handleOptionSelect} />
-      )}
-
-      {/* Bottom Sheet (상단 필터 + 카페 리스트) */}
-      <AnimatedBottomSheet
-        style={{
-          transform: [{ translateY }],
-          height: responsiveHeight(666),
-          borderTopLeftRadius: translateY.interpolate({
-            inputRange: [
-              Math.min(GNB_HEIGHT, DEFAULT_POSITION),
-              Math.max(GNB_HEIGHT, DEFAULT_POSITION),
-            ],
-            outputRange: [0, 24], // 완전히 올리면 radius 제거
-            extrapolate: "clamp",
-          }),
-          borderTopRightRadius: translateY.interpolate({
-            inputRange: [
-              Math.min(GNB_HEIGHT, DEFAULT_POSITION),
-              Math.max(GNB_HEIGHT, DEFAULT_POSITION),
-            ],
-            outputRange: [0, 24], // 완전히 올리면 radius 제거
-            extrapolate: "clamp",
-          }),
-        }}
-      >
-        <DragHandleWrapper {...panResponder.panHandlers}>
-          <DragHandle />
-        </DragHandleWrapper>
-
-        {/* 터치 가능한 TopFilter */}
-        {showFilters && (
-          <>
-            <TopFilter
-              panHandlers={panResponder.panHandlers}
-              onFilterSelect={handleFilterSelect} // handleFilterSelect 전달
-              selectedFilter={selectedFilter} // 선택된 필터 상태 전달
-            />
-            <SortContainer>
-              <FilterButton
-                onPress={() => setSortModalVisible(!sortModalVisible)}
-              >
-                <SortText selected={selectedSort !== ""}>
-                  {selectedSort || "인기순"}
-                </SortText>
-                {sortModalVisible ? (
-                  <UpIcon
-                    width={`${responsiveWidth(17)}px`}
-                    height={`${responsiveHeight(17)}px`}
-                    style={{ marginLeft: 4 }}
-                  />
-                ) : (
-                  <DownIcon
-                    width={`${responsiveWidth(17)}px`}
-                    height={`${responsiveHeight(17)}px`}
-                    style={{ marginLeft: 4 }}
-                  />
-                )}
-              </FilterButton>
-
-              <FilterButton
-                onPress={() => setTimeModalVisible(!timeModalVisible)}
-              >
-                <SortText selected={selectedTime !== ""}>
-                  {selectedTime === ""
-                    ? "전체"
-                    : selectedTime
-                        .replace("영업", "")
-                        .replace("오픈", "")
-                        .replace("마감", "")
-                        .trim()}
-                </SortText>
-                {timeModalVisible ? (
-                  <UpIcon
-                    width={`${responsiveWidth(17)}px`}
-                    height={`${responsiveHeight(17)}px`}
-                    style={{ marginLeft: 4 }}
-                  />
-                ) : (
-                  <DownIcon
-                    width={`${responsiveWidth(17)}px`}
-                    height={`${responsiveHeight(17)}px`}
-                    style={{ marginLeft: 4 }}
-                  />
-                )}
-              </FilterButton>
-            </SortContainer>
-          </>
+    <TouchableWithoutFeedback onPress={handleBackgroundPress}>
+      <Container>
+        {/* 전체 화면 반투명 배경 */}
+        {isDirectionsPressed && (
+          <TouchableWithoutFeedback
+            onPress={handleBackgroundPress}
+            pointerEvents="box-none"
+          >
+            <BackgroundOverlay />
+          </TouchableWithoutFeedback>
         )}
 
-        {/* 정렬 필터 모달 */}
-        <SortFilterModal
-          visible={sortModalVisible}
-          onClose={() => setSortModalVisible(false)}
-          selectedSort={selectedSort}
-          setSelectedSort={setSelectedSort}
-        />
+        {isLogoPressed && (
+          <TouchableWithoutFeedback
+            onPress={() => setIsLogoPressed(false)}
+            pointerEvents="box-none"
+          >
+            <BackgroundOverlay />
+          </TouchableWithoutFeedback>
+        )}
 
-        {/* 영업 시간 필터 모달 */}
-        <TimeFilterModal
-          visible={timeModalVisible}
-          onClose={() => setTimeModalVisible(false)}
-          selectedTime={selectedTime}
-          setSelectedTime={setSelectedTime}
-        />
+        {/* 지도 */}
+        <MapBackground source={require("../assets/home/MapImage.png")}>
+          <MapContainer>
+            {animatedLocations.map((loc) => (
+              <Animated.View
+                key={loc.id}
+                style={{
+                  position: "absolute",
+                  top: loc.top,
+                  left: loc.left,
+                }}
+              >
+                <TouchableOpacity onPress={() => handleSelectLocation(loc.id)}>
+                  <CafeLocation
+                    isSelected={selectedLocation === loc.id}
+                    onSelect={() => handleSelectLocation(loc.id)}
+                  />
+                </TouchableOpacity>
+              </Animated.View>
+            ))}
+          </MapContainer>
 
-        {/* 카페 리스트 또는 NoResults */}
-        <CafeList>
-          {isLoading ? (
-            // 로딩 중일 때 스켈레톤 UI 표시
-            isCafeLocationSelected && selectedLocation ? (
-              <CafeListItemSkeleton /> // 카페 아이콘 클릭 시 하나만 표시
+          {/* 현재 위치 아이콘 */}
+          <Animated.View
+            style={{
+              position: "absolute",
+              top: responsiveHeight(249),
+              left: responsiveWidth(24),
+              transform: [{ translateY: locationTranslateY }],
+            }}
+          >
+            <TouchableOpacity onPress={resetToInitialState}>
+              <CurrentLocationIcon
+                width={`${responsiveWidth(50)}px`}
+                height={`${responsiveHeight(50)}px`}
+              />
+            </TouchableOpacity>
+          </Animated.View>
+        </MapBackground>
+
+        {/* GNB (고정) */}
+        <GNBContainer>
+          <GNB />
+        </GNBContainer>
+
+        {/* 로고 아이콘 */}
+        {!showBottomContainer && cafeList.length > 0 && (
+          <LogoButton onPress={handleLogoPress}>
+            <Image
+              source={
+                isLogoPressed
+                  ? require("../assets/home/LogoIconAfterClick.png")
+                  : require("../assets/home/LogoIconBeforeClick.png")
+              }
+              style={{
+                width: responsiveWidth(50),
+                height: responsiveHeight(50),
+              }}
+              resizeMode="contain"
+            />
+          </LogoButton>
+        )}
+
+        {/* 스페셜티 커피란? 및 원두 진단하기 버튼 */}
+        {isLogoPressed && (
+          <SpecialtyOptions onOptionSelect={handleOptionSelect} />
+        )}
+
+        {/* Bottom Sheet (상단 필터 + 카페 리스트) */}
+        <AnimatedBottomSheet
+          style={{
+            transform: [{ translateY }],
+            height: responsiveHeight(666),
+            borderTopLeftRadius: translateY.interpolate({
+              inputRange: [
+                Math.min(GNB_HEIGHT, DEFAULT_POSITION),
+                Math.max(GNB_HEIGHT, DEFAULT_POSITION),
+              ],
+              outputRange: [0, 24], // 완전히 올리면 radius 제거
+              extrapolate: "clamp",
+            }),
+            borderTopRightRadius: translateY.interpolate({
+              inputRange: [
+                Math.min(GNB_HEIGHT, DEFAULT_POSITION),
+                Math.max(GNB_HEIGHT, DEFAULT_POSITION),
+              ],
+              outputRange: [0, 24], // 완전히 올리면 radius 제거
+              extrapolate: "clamp",
+            }),
+          }}
+        >
+          <DragHandleWrapper {...panResponder.panHandlers}>
+            <DragHandle />
+          </DragHandleWrapper>
+
+          {/* 터치 가능한 TopFilter */}
+          {showFilters && (
+            <>
+              <TopFilter
+                panHandlers={panResponder.panHandlers}
+                onFilterSelect={handleFilterSelect} // handleFilterSelect 전달
+                selectedFilter={selectedFilter} // 선택된 필터 상태 전달
+              />
+              <SortContainer>
+                <FilterButton
+                  onPress={() => setSortModalVisible(!sortModalVisible)}
+                >
+                  <SortText selected={selectedSort !== ""}>
+                    {selectedSort || "인기순"}
+                  </SortText>
+                  {sortModalVisible ? (
+                    <UpIcon
+                      width={`${responsiveWidth(17)}px`}
+                      height={`${responsiveHeight(17)}px`}
+                      style={{ marginLeft: 4 }}
+                    />
+                  ) : (
+                    <DownIcon
+                      width={`${responsiveWidth(17)}px`}
+                      height={`${responsiveHeight(17)}px`}
+                      style={{ marginLeft: 4 }}
+                    />
+                  )}
+                </FilterButton>
+
+                <FilterButton
+                  onPress={() => setTimeModalVisible(!timeModalVisible)}
+                >
+                  <SortText selected={selectedTime !== ""}>
+                    {selectedTime === ""
+                      ? "전체"
+                      : selectedTime
+                          .replace("영업", "")
+                          .replace("오픈", "")
+                          .replace("마감", "")
+                          .trim()}
+                  </SortText>
+                  {timeModalVisible ? (
+                    <UpIcon
+                      width={`${responsiveWidth(17)}px`}
+                      height={`${responsiveHeight(17)}px`}
+                      style={{ marginLeft: 4 }}
+                    />
+                  ) : (
+                    <DownIcon
+                      width={`${responsiveWidth(17)}px`}
+                      height={`${responsiveHeight(17)}px`}
+                      style={{ marginLeft: 4 }}
+                    />
+                  )}
+                </FilterButton>
+              </SortContainer>
+            </>
+          )}
+
+          {/* 정렬 필터 모달 */}
+          <SortFilterModal
+            visible={sortModalVisible}
+            onClose={() => setSortModalVisible(false)}
+            selectedSort={selectedSort}
+            setSelectedSort={setSelectedSort}
+          />
+
+          {/* 영업 시간 필터 모달 */}
+          <TimeFilterModal
+            visible={timeModalVisible}
+            onClose={() => setTimeModalVisible(false)}
+            selectedTime={selectedTime}
+            setSelectedTime={setSelectedTime}
+          />
+
+          {/* 카페 리스트 또는 NoResults */}
+          <CafeList>
+            {isLoading ? (
+              // 로딩 중일 때 스켈레톤 UI 표시
+              isCafeLocationSelected && selectedLocation ? (
+                <CafeListItemSkeleton /> // 카페 아이콘 클릭 시 하나만 표시
+              ) : (
+                <>
+                  <CafeListItemSkeleton />
+                  <CafeListItemSkeleton />
+                  <CafeListItemSkeleton />
+                </>
+              )
+            ) : cafeList.length === 0 ? (
+              <NoResults /> // 카페 리스트가 없을 때 NoResults 표시
+            ) : isCafeLocationSelected && selectedLocation ? (
+              // 선택된 카페만 표시
+              cafeList
+                .filter((_, index) => index === 0)
+                .map((cafe, index) => (
+                  <CafeListItem
+                    key={index}
+                    cafe={{ ...cafe, isFirst: true }}
+                    isSelected={true}
+                    navigation={navigation}
+                  />
+                ))
             ) : (
-              <>
-                <CafeListItemSkeleton />
-                <CafeListItemSkeleton />
-                <CafeListItemSkeleton />
-              </>
-            )
-          ) : cafeList.length === 0 ? (
-            <NoResults /> // 카페 리스트가 없을 때 NoResults 표시
-          ) : isCafeLocationSelected && selectedLocation ? (
-            // 선택된 카페만 표시
-            cafeList
-              .filter((_, index) => index === 0)
-              .map((cafe, index) => (
+              // 전체 카페 리스트 표시
+              cafeList.map((cafe, index) => (
                 <CafeListItem
                   key={index}
-                  cafe={{ ...cafe, isFirst: true }}
-                  isSelected={true}
+                  cafe={{ ...cafe, isFirst: index % 1 === 0 }}
+                  isSelected={false}
                   navigation={navigation}
                 />
               ))
-          ) : (
-            // 전체 카페 리스트 표시
-            cafeList.map((cafe, index) => (
-              <CafeListItem
-                key={index}
-                cafe={{ ...cafe, isFirst: index % 1 === 0 }}
-                isSelected={false}
-                navigation={navigation}
-              />
-            ))
-          )}
-        </CafeList>
-      </AnimatedBottomSheet>
+            )}
+          </CafeList>
+        </AnimatedBottomSheet>
 
-      <Animated.View
-        style={{
-          transform: [{ translateY: bottomContainerTranslateY }],
-          position: "absolute",
-          bottom: 0,
-          width: "100%",
-          zIndex: 1500,
-        }}
-      >
-        {showBottomContainer && (
-          <BottomContainer
-            isDirectionsPressed={isDirectionsPressed}
-            setIsDirectionsPressed={setIsDirectionsPressed}
-            handleNaverDirections={handleNaverDirections}
-            handleKakaoDirections={handleKakaoDirections}
-            cafe={selectedCafe}
-          />
-        )}
-      </Animated.View>
-    </Container>
+        <Animated.View
+          style={{
+            transform: [{ translateY: bottomContainerTranslateY }],
+            position: "absolute",
+            bottom: 0,
+            width: "100%",
+            zIndex: 1500,
+          }}
+        >
+          {showBottomContainer && (
+            <BottomContainer
+              isDirectionsPressed={isDirectionsPressed}
+              setIsDirectionsPressed={setIsDirectionsPressed}
+              handleNaverDirections={handleNaverDirections}
+              handleKakaoDirections={handleKakaoDirections}
+              cafe={selectedCafe}
+            />
+          )}
+        </Animated.View>
+      </Container>
+    </TouchableWithoutFeedback>
   );
 };
 

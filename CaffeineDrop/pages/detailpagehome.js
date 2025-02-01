@@ -15,11 +15,12 @@ export default function DetailPageHome({
   onViewMoreImgPress,
   selectedTab,
   onViewMoreReviewPress,
+  navigation,
 }) {
   return (
     <View style={{ flex: 1 }}>
       <ScrollView>
-        <DetailPageImg onViewMoreImgPress={onViewMoreImgPress} />
+        <DetailPageImg onViewMoreImgPress={onViewMoreImgPress} navigation={navigation} />
         <DetailpageMenu />
         <DetailPageMap />
         <DetailPageCategory />

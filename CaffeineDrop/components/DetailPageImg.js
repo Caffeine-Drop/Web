@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -18,13 +18,23 @@ import {
 import { useFonts } from "../styles";
 
 // 목업 이미지
-import DetailPageMainImg from "../assets/DetailPage/DetailPageMainImg.svg";
-import DetailSubImg1 from "../assets/DetailPage/DetailSubImg1.svg";
-import DetailSubImg2 from "../assets/DetailPage/DetailSubImg2.svg";
+import DetailMainImg from "../assets/DetailPage/DetailPageMainImg.png";
+import mockupImg2 from "../assets/DetailPage/mockupImg2.png";
+import mockupImg3 from "../assets/DetailPage/mockupImg3.png";
+import DetailPageLoadingImg from "../assets/DetailPage/DetailPageLoadingImg.png";
 import ViewMoreButtonIcon from "../assets/DetailPage/ViewMoreButton.svg";
 
 export default function DetailPageImg({ navigation, onViewMoreImgPress }) {
   const fontsLoaded = useFonts();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false); // 2초 후 로딩 상태를 false로 변경
+    }, 1000);
+
+    return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
+  }, []);
 
   if (!fontsLoaded) {
     return null;
@@ -37,38 +47,63 @@ export default function DetailPageImg({ navigation, onViewMoreImgPress }) {
           <MainText>등록된 이미지</MainText>
           <ViewMoreButton onPress={onViewMoreImgPress}>
             <ViewMoreButtonText>더보기</ViewMoreButtonText>
-            <ViewMoreButtonIcon width={responsiveWidth(16)} height={responsiveHeight(16)}/>
+            <ViewMoreButtonIcon
+              width={responsiveWidth(16)}
+              height={responsiveHeight(16)}
+            />
           </ViewMoreButton>
         </TitleContainer>
         <SubText>이용자 후기와 업체 등록 사진을 같이 보여줍니다</SubText>
       </View>
       <ImgContainer>
-        <DetailPageMainImg
-          width={responsiveWidth(156)}
-          height={responsiveHeight(156)}
-          preserveAspectRatio="none"
-        />
+        {isLoading ? (
+          <LoadingView
+            style={{
+              width: responsiveWidth(156),
+              height: responsiveHeight(156),
+              marginRight: responsiveWidth(1),
+            }}
+          />
+        ) : (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("DetailPageImageDetail")}
+          >
+            <Image
+              source={DetailMainImg}
+              style={{
+                width: responsiveWidth(156),
+                height: responsiveHeight(156),
+                marginRight: responsiveWidth(1),
+              }}
+            />
+          </TouchableOpacity>
+        )}
         <SmallImgContainer>
-          <DetailSubImg1
-            width={responsiveWidth(78)}
-            height={responsiveHeight(78)}
-            preserveAspectRatio="none"
-          />
-          <DetailSubImg2
-            width={responsiveWidth(78)}
-            height={responsiveHeight(78)}
-            preserveAspectRatio="none"
-          />
-          <DetailSubImg1
-            width={responsiveWidth(78)}
-            height={responsiveHeight(78)}
-            preserveAspectRatio="none"
-          />
-          <DetailSubImg2
-            width={responsiveWidth(78)}
-            height={responsiveHeight(78)}
-            preserveAspectRatio="none"
-          />
+          {[
+            mockupImg2,
+            mockupImg3,
+            DetailPageLoadingImg,
+            DetailPageLoadingImg,
+          ].map((img, index) =>
+            isLoading ? (
+              <LoadingView
+                key={index}
+                style={{
+                  width: responsiveWidth(78),
+                  height: responsiveHeight(78),
+                }}
+              />
+            ) : (
+              <Image
+                key={index}
+                source={img}
+                style={{
+                  width: responsiveWidth(78),
+                  height: responsiveHeight(78),
+                }}
+              />
+            )
+          )}
         </SmallImgContainer>
       </ImgContainer>
     </Container>
@@ -128,16 +163,30 @@ const ImgContainer = styled.View`
   flex-direction: row;
   width: 100%;
   justify-content: center;
-  gap: ${responsiveWidth(1)}px;
   border-radius: ${responsiveWidth(15)}px;
   overflow: hidden;
 `;
 
 const SmallImgContainer = styled.View`
-  width: ${responsiveWidth(157)}px;
-  height: ${responsiveHeight(157)}px;
+  width: ${responsiveWidth(158)}px;
+  height: ${responsiveHeight(158)}px;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: ${responsiveWidth(1)}px;
+`;
+
+// Add pulse animation
+const pulseAnimation = `
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+`;
+
+// Apply pulse animation to loading images
+const LoadingView = styled.View`
+  background-color: #d9d9d9;
+  animation: pulse 1.5s infinite;
 `;

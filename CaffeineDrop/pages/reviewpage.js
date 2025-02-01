@@ -36,6 +36,16 @@ export default function ReviewPage({ navigation }) {
   const [images, setImages] = useState([]);
   const [text, setText] = useState("");
   const animationValue = useRef(new Animated.Value(0)).current;
+  const recommendQuestion = [
+    "커피는\n어떠셨나요?",
+    "디저트는\n어떠셨나요?",
+    "추천하고 싶은 \n메뉴가 있나요?",
+    "카페 분위기는\n어땠나요?",
+    "테이블과 좌석은\n어떠셨나요?",
+    "다시 방문하고\n싶으신가요?",
+  ];
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const opacity = useRef(new Animated.Value(1)).current;
 
   const addImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -76,6 +86,30 @@ export default function ReviewPage({ navigation }) {
 
     animateIcon();
   }, [animationValue]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Fade out
+      Animated.timing(opacity, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start(() => {
+        // Update question index
+        setCurrentQuestionIndex(
+          (prevIndex) => (prevIndex + 1) % recommendQuestion.length
+        );
+        // Fade in
+        Animated.timing(opacity, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }).start();
+      });
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [recommendQuestion.length, opacity]);
 
   const translateY = animationValue.interpolate({
     inputRange: [0, 1],
@@ -270,17 +304,24 @@ export default function ReviewPage({ navigation }) {
               marginTop: responsiveHeight(8),
             }}
           >
-            <DownIcon style={{ color: "lightgray", left: responsiveHeight(10) }} />
-            <Animated.View
-              style={{
-                transform: [{ translateY }],
-                borderRadius: 24,
-                boxShadow: "4px 4px 4px 0px rgba(0, 0, 0, 0.02)",
-                backdropFilter: "blur(3px)",
-              }}
-            >
-              <DownIcon />
-            </Animated.View>
+            <View style={{ position: "relative", backgroundColor: "#FAFAFA" }}>
+              <DownIcon
+                style={{
+                  color: "lightgray",
+                  position: "absolute",
+                }}
+              />
+              <Animated.View
+                style={{
+                  transform: [{ translateY }],
+                  borderRadius: 24,
+                  boxShadow: "4px 4px 4px 0px rgba(0, 0, 0, 0.02)",
+                  backdropFilter: "blur(3px)",
+                }}
+              >
+                <DownIcon />
+              </Animated.View>
+            </View>
             <ScrollText>리뷰를 작성할 수 있어요</ScrollText>
           </View>
           <View
@@ -291,7 +332,9 @@ export default function ReviewPage({ navigation }) {
           >
             <Title1>
               <Number>02</Number>
-              <Title>방문하신 카페는{"\n"}어떠셨나요?</Title>
+              <Animated.View style={{ opacity }}>
+                <Title>{recommendQuestion[currentQuestionIndex]}</Title>
+              </Animated.View>
             </Title1>
           </View>
           <ReviewContainer>
@@ -536,7 +579,6 @@ const ReviewOverViewDetailRateTheme = styled.View`
   border-bottom-width: 1px;
   border-color: #000;
 `;
-
 
 const Theme = styled.Text`
   color: #000;

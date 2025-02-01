@@ -214,12 +214,15 @@ export default function EventPage04({ navigation }) {
 
           <TextContainer>
             <HeaderContainer>
+              {/* 글자 강조 점 */}
               <CircleWrapper>
                 <BlackTextCircle />
               </CircleWrapper>
+
               <CircleWrapper2>
                 <BlackTextCircle />
               </CircleWrapper2>
+
               <HeaderText>나는 쓴맛이 강한{"\n"}원두를 싫어한다</HeaderText>
             </HeaderContainer>
 
@@ -389,7 +392,7 @@ const CircleWrapper2 = styled.View`
 
   ${Platform.select({
     ios: `
-        left: ${isTablet ? responsiveWidth(100) : responsiveWidth(70)}px;
+        left: ${isTablet ? responsiveWidth(100) : responsiveWidth(97)}px;
         top: ${isTablet ? responsiveHeight(-4) : responsiveWidth(-4)}px;
     `,
     android: `

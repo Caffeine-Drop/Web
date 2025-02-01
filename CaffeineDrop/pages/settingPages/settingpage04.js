@@ -73,6 +73,7 @@ const Navbar = styled.View`
   justify-content: center;
   align-items: center;
   margin-top: ${responsiveHeight(38)}px;
+  z-index: 5;
 `;
 const IconWrapper = styled.View`
   position: absolute;

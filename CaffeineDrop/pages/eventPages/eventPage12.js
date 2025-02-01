@@ -301,7 +301,7 @@ const ScoreInfoText = styled.Text`
 const Footer = styled.View`
   padding: 0 ${responsiveWidth(24)}px ${responsiveHeight(16)}px
     ${responsiveWidth(24)}px;
-  margin-top: ${isTablet ? responsiveHeight(12) : responsiveWidth(688)}px;
+  margin-top: ${isTablet ? responsiveHeight(12) : responsiveHeight(12)}px;
 `;
 
 const ButtonWrapper = styled(TouchableOpacity)`

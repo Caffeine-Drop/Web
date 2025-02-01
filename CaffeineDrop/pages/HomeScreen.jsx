@@ -107,25 +107,77 @@ const HomeScreen = ({ navigation }) => {
 
   // 필터 클릭 시 처리
   const handleFilterSelect = (filterName) => {
+    setIsLoading(true); // 필터 클릭 시 로딩 시작
+
     if (selectedFilter === filterName) {
       // 동일한 필터 클릭 시 초기 상태로 복구
       setSelectedFilter(null);
-      setCafeList([
-        { id: 1, name: "카페1" },
-        { id: 2, name: "카페2" },
-      ]);
+
+      setTimeout(() => {
+        // 2초 후 초기 리스트로 복원
+        setCafeList([
+          {
+            id: 1,
+            name: "언힙커피로스터스",
+            location: "인천 미추홀구 인하로67번길 6 2층",
+            distance: "600m",
+            hashtag: "#24시간",
+            rating: 4.0,
+            reviews: 605,
+            isFavorite: true,
+            isSpecialty: true,
+          },
+          {
+            id: 2,
+            name: "언힙커피로스터스",
+            location: "인천 미추홀구 인하로67번길 6 2층",
+            distance: "600m",
+            hashtag: "#24시간",
+            rating: 4.0,
+            reviews: 605,
+            isSpecialty: true,
+            isClosed: true,
+          },
+        ]);
+        setIsLoading(false); // 로딩 종료
+      }, 2000); // 2초 후 로딩 종료
     } else {
       // 새로운 필터 클릭 시 선택
       setSelectedFilter(filterName);
 
-      if (filterName === "unmanned") {
-        setCafeList([]); // 조건에 맞는 카페가 없는 경우
-      } else {
-        setCafeList([
-          { id: 1, name: "카페1" },
-          { id: 2, name: "카페2" },
-        ]); // 조건에 맞는 카페가 있는 경우
-      }
+      setTimeout(() => {
+        if (filterName === "unmanned") {
+          setCafeList([]); // 무인 카페 필터 시 리스트 없음
+        } else if (filterName === "specialty") {
+          setCafeList([
+            {
+              id: 3,
+              name: "블루보틀",
+              location: "서울 성동구 왕십리로 8",
+              distance: "800m",
+              hashtag: "#스페셜티 #핸드드립",
+              rating: 4.7,
+              reviews: 900,
+              isFavorite: true,
+              isSpecialty: true,
+            },
+          ]);
+        } else {
+          // 기본 필터일 때 리스트
+          setCafeList([
+            {
+              id: 4,
+              name: "카페 라떼아트",
+              location: "서울 마포구 서교동 123",
+              distance: "1.5km",
+              hashtag: "#라떼아트 #디저트맛집",
+              rating: 4.2,
+              reviews: 310,
+            },
+          ]);
+        }
+        setIsLoading(false); // 필터 적용 후 로딩 종료
+      }, 2000);
     }
   };
 

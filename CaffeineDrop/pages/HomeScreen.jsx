@@ -216,6 +216,8 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const resetToInitialState = () => {
+    setIsLoading(true);
+
     Animated.parallel([
       // 아이콘 위치 초기화
       ...animatedLocations.map((loc, index) =>
@@ -258,9 +260,38 @@ const HomeScreen = ({ navigation }) => {
       setShowBottomContainer(false);
       setShowLogo(true);
     });
+    setTimeout(() => {
+      setCafeList([
+        {
+          id: 1,
+          name: "언힙커피로스터스",
+          location: "인천 미추홀구 인하로67번길 6 2층",
+          distance: "600m",
+          hashtag: "#24시간",
+          rating: 4.0,
+          reviews: 605,
+          isFavorite: true,
+          isSpecialty: true,
+        },
+        {
+          id: 2,
+          name: "언힙커피로스터스",
+          location: "인천 미추홀구 인하로67번길 6 2층",
+          distance: "600m",
+          hashtag: "#24시간",
+          rating: 4.0,
+          reviews: 605,
+          isSpecialty: true,
+          isClosed: false,
+        },
+      ]);
+      setIsLoading(false); // 로딩 종료
+    }, 2000);
   };
 
   const handleSelectLocation = (id) => {
+    setIsLoading(true);
+
     const clickedLocation = animatedLocations.find((loc) => loc.id === id);
     if (!clickedLocation) return;
 
@@ -312,6 +343,23 @@ const HomeScreen = ({ navigation }) => {
     setIsCafeLocationSelected(true);
     setShowFilters(false);
     setShowLogo(false);
+
+    setTimeout(() => {
+      setIsLoading(false);
+      setCafeList([
+        {
+          id: 1,
+          name: "언힙커피로스터스",
+          location: "인천 미추홀구 인하로67번길 6 2층",
+          distance: "600m",
+          hashtag: "#24시간",
+          rating: 4.0,
+          reviews: 605,
+          isFavorite: true,
+          isSpecialty: true,
+        },
+      ]);
+    }, 2000);
   };
 
   const panResponder = useRef(
@@ -540,11 +588,15 @@ const HomeScreen = ({ navigation }) => {
         <CafeList>
           {isLoading ? (
             // 로딩 중일 때 스켈레톤 UI 표시
-            <>
-              <CafeListItemSkeleton />
-              <CafeListItemSkeleton />
-              <CafeListItemSkeleton />
-            </>
+            isCafeLocationSelected && selectedLocation ? (
+              <CafeListItemSkeleton /> // 카페 아이콘 클릭 시 하나만 표시
+            ) : (
+              <>
+                <CafeListItemSkeleton />
+                <CafeListItemSkeleton />
+                <CafeListItemSkeleton />
+              </>
+            )
           ) : cafeList.length === 0 ? (
             <NoResults /> // 카페 리스트가 없을 때 NoResults 표시
           ) : isCafeLocationSelected && selectedLocation ? (

@@ -85,6 +85,18 @@ const SearchPage = () => {
     },
   ]).current;
 
+  // 🔥 검색 버튼 눌렀을 때 스켈레톤 UI 새로 적용하는 함수
+  const resetSearch = () => {
+    setShowSearchResults(false); // 기존 검색 결과 숨기기
+    setIsMapVisible(false); // 지도 숨기기
+    setIsNewSlideVisible(false); // 추천 검색어 슬라이드 숨기기
+
+    // 짧은 딜레이 후 검색 결과 다시 표시 → 스켈레톤 UI 적용
+    setTimeout(() => {
+      setShowSearchResults(true);
+    }, 50);
+  };
+
   const handleClearAll = () => {
     console.log("모두 삭제");
   };
@@ -196,11 +208,7 @@ const SearchPage = () => {
     // <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <Container>
       <HeaderBar
-        onSearchPress={() => {
-          setShowSearchResults(true);
-          setIsMapVisible(false);
-          setIsNewSlideVisible(false);
-        }}
+        onSearchPress={resetSearch}
         onSettingsPress={handleSettingsPress}
         setIsKeyboardVisible={setIsKeyboardVisible}
         searchText={searchText} // Pass searchText as a prop

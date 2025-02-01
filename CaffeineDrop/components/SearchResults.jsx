@@ -52,37 +52,40 @@ const SearchResults = ({ isVisible, isSettingMode, onClose, onSlideDown }) => {
   }, [isVisible, isSettingMode]);
 
   useEffect(() => {
-    // 데이터 로딩 시뮬레이션
-    setTimeout(() => {
-      setCafeList([
-        {
-          id: 1,
-          name: "언힙커피로스터스",
-          location: "인천 미추홀구 인하로67번길 6 2층",
-          distance: "600m",
-          hashtag: "#24시간",
-          rating: 4.0,
-          reviews: 605,
-          isFavorite: true,
-          isSpecialty: true,
-          isClosed: false,
-        },
-        {
-          id: 2,
-          name: "언힙커피로스터스",
-          location: "인천 미추홀구 인하로67번길 6 2층",
-          distance: "600m",
-          hashtag: "#24시간",
-          rating: 4.0,
-          reviews: 605,
-          isFavorite: true,
-          isSpecialty: true,
-          isClosed: true,
-        },
-      ]);
-      setIsLoading(false);
-    }, 3000); // 2초 후 로딩 종료
-  }, []);
+    if (isVisible) {
+      setIsLoading(true); // 검색 결과가 보일 때마다 로딩 시작
+      // 데이터 로딩 시뮬레이션
+      setTimeout(() => {
+        setCafeList([
+          {
+            id: 1,
+            name: "언힙커피로스터스",
+            location: "인천 미추홀구 인하로67번길 6 2층",
+            distance: "600m",
+            hashtag: "#24시간",
+            rating: 4.0,
+            reviews: 605,
+            isFavorite: true,
+            isSpecialty: true,
+            isClosed: false,
+          },
+          {
+            id: 2,
+            name: "언힙커피로스터스",
+            location: "인천 미추홀구 인하로67번길 6 2층",
+            distance: "600m",
+            hashtag: "#24시간",
+            rating: 4.0,
+            reviews: 605,
+            isFavorite: true,
+            isSpecialty: true,
+            isClosed: true,
+          },
+        ]);
+        setIsLoading(false);
+      }, 2000); // 2초 후 로딩 종료
+    }
+  }, [isVisible]);
 
   // 슬라이드 핸들링
   const panResponder = useRef(

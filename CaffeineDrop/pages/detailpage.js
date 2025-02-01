@@ -43,6 +43,20 @@ export default function DetailPage({ navigation, route }) {
     setIsNavBarFixed(scrollY > responsiveHeight(327));
   };
 
+  const fixedHandleTabPress = (tab) => {
+    setSelectedTab(tab);
+    fadeAnim.setValue(0);
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+  
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({ y: responsiveHeight(340), animated: true });
+    }
+  };
+
   const handleTabPress = (tab) => {
     setSelectedTab(tab);
     fadeAnim.setValue(0);
@@ -98,7 +112,7 @@ export default function DetailPage({ navigation, route }) {
                 {["home", "review", "image", "beansinfo"].map((tab) => (
                   <TouchableOpacity
                     key={tab}
-                    onPress={() => handleTabPress(tab)}
+                    onPress={() => fixedHandleTabPress(tab)}
                   >
                     <NavTab isSelected={selectedTab === tab}>
                       <TabText isSelected={selectedTab === tab}>
@@ -118,7 +132,7 @@ export default function DetailPage({ navigation, route }) {
           </View>
         </FixedHeader>
       )}
-      <ScrollView onScroll={handleScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
+      <ScrollView ref={scrollViewRef} onScroll={handleScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
         <DetailPageHeader navigation={navigation} isScrolled={isScrolled} />
         <View>
           <Container>

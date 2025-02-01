@@ -59,46 +59,32 @@ export default function SettingPage01({ navigation }) {
       {/* 목록 부분 /////////////////// */}
       <Box2>
         <List>
-          <ListInnerBox>
+          <ListInnerBox onPress={() => navigation.navigate("SettingPage05")}>
             <ListText>프로필 관리</ListText>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("SettingPage05")}
-            >
-              <NextButton />
-            </TouchableOpacity>
+            <NextButton />
           </ListInnerBox>
         </List>
 
         <List>
-          <ListInnerBox>
+          <ListInnerBox onPress={() => navigation.navigate("SettingPage04")}>
             <ListText>탈퇴하기</ListText>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("SettingPage04")}
-            >
-              <NextButton />
-            </TouchableOpacity>
+            <NextButton />
           </ListInnerBox>
         </List>
 
         <List>
-          <ListInnerBox>
+          <ListInnerBox onPress={() => navigation.navigate("SettingPage02")}>
             <ListText>설정</ListText>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("SettingPage02")}
-            >
-              <NextButton />
-            </TouchableOpacity>
+            <NextButton />
           </ListInnerBox>
         </List>
 
         <List>
-          <ListInnerBoxNoBorder>
+          <ListInnerBoxNoBorder
+            onPress={() => navigation.navigate("SettingAskPage")}
+          >
             <ListText>문의하기</ListText>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("SettingAskPage")}
-            >
-              <NextButton />
-            </TouchableOpacity>
+            <NextButton />
           </ListInnerBoxNoBorder>
         </List>
       </Box2>
@@ -106,11 +92,13 @@ export default function SettingPage01({ navigation }) {
       {/* 로그아웃 부분 /////////////////// */}
       <Box3>
         <TextBox>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("OnboardingLogin01")}
-          >
-            <LogoutText>로그아웃</LogoutText>
-          </TouchableOpacity>
+          <TextBoxWrapper>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("OnboardingLogin01")}
+            >
+              <LogoutText>로그아웃</LogoutText>
+            </TouchableOpacity>
+          </TextBoxWrapper>
         </TextBox>
       </Box3>
     </Container>
@@ -249,7 +237,7 @@ const Box2 = styled.View`
 const List = styled.View`
   background: #fafafa;
 `;
-const ListInnerBox = styled.View`
+const ListInnerBox = styled(TouchableOpacity)`
   flex-direction: row;
   justify-content: space-between;
   padding-top: ${responsiveHeight(16)}px;
@@ -274,14 +262,22 @@ const Box3 = styled.View`
   background: #f1f1f1;
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
 `;
 
 const TextBox = styled.View`
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
   margin-top: ${responsiveHeight(20)}px;
+`;
+const TextBoxWrapper = styled.View`
+  width: ${responsiveWidth(65)}px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 const LogoutText = styled.Text`
   text-align: center;

@@ -19,7 +19,6 @@ import SettingPage01 from "./pages/settingPages/settingpage01";
 import SettingPage02 from "./pages/settingPages/settingpage02";
 import SettingPage03 from "./pages/settingPages/settingpage03";
 import SettingPage04 from "./pages/settingPages/settingpage04";
-import SettingPage05 from "./pages/settingPages/settingpage05";
 import SettingAskPage from "./pages/settingPages/settingaskpage";
 import EventPage01 from "./pages/eventPages/eventPage01";
 import EventPage02 from "./pages/eventPages/eventPage02";
@@ -63,11 +62,10 @@ export default function App() {
         <Stack.Screen name="EventPage11" component={EventPage11} />
         <Stack.Screen name="EventPage12" component={EventPage12} />
         <Stack.Screen name="SettingAskPage" component={SettingAskPage} />
-        <Stack.Screen name="SettingPage01" component={SettingPage01} />
-        <Stack.Screen name="SettingPage02" component={SettingPage02} />
-        <Stack.Screen name="SettingPage03" component={SettingPage03} />
         <Stack.Screen name="SettingPage04" component={SettingPage04} />
-        <Stack.Screen name="SettingPage05" component={SettingPage05} />
+        <Stack.Screen name="SettingPage03" component={SettingPage03} />
+        <Stack.Screen name="SettingPage02" component={SettingPage02} />
+        <Stack.Screen name="SettingPage01" component={SettingPage01} />
       </Stack.Navigator>
     </NavigationContainer>
   );

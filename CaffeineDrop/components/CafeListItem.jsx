@@ -7,11 +7,12 @@ import {
   responsiveHeight,
 } from "../utils/responsive";
 import styled from "styled-components/native";
+import CafeListItemSkeleton from "./CafeListItemSkeleton";
 import HeartIcon from "../assets/home/HeartIcon.jsx";
 import StarIcon from "../assets/home/StarIcon.svg";
 import { useFonts } from "../styles";
 
-const CafeListItem = ({ cafe, isSelected }) => {
+const CafeListItem = ({ cafe, isSelected, isLoading }) => {
   const fontsLoaded = useFonts();
 
   const navigation = useNavigation(); // navigation 객체 가져오기
@@ -22,8 +23,8 @@ const CafeListItem = ({ cafe, isSelected }) => {
 
   const isBothBadges = cafe.isFavorite && cafe.isSpecialty;
 
-  if (!fontsLoaded) {
-    return null; // 폰트 로드될 때까지 렌더링 안 함
+  if (!fontsLoaded || isLoading) {
+    return <CafeListItemSkeleton />;
   }
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   ScrollView,
@@ -20,6 +20,7 @@ import styled from "styled-components/native";
 import GNB from "../components/GNB";
 import TopFilter from "../components/TopFilter";
 import CafeListItem from "../components/CafeListItem";
+import CafeListItemSkeleton from "../components/CafeListItemSkeleton";
 import SortFilterModal from "../components/SortFilterModal";
 import TimeFilterModal from "../components/TimeFilterModal";
 import CafeLocation from "../components/CafeLocation";
@@ -49,6 +50,8 @@ const HomeScreen = ({ navigation }) => {
   const [showLogo, setShowLogo] = useState(true);
   const [showBottomContainer, setShowBottomContainer] = useState(false);
   const [selectedCafe, setSelectedCafe] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [cafeList, setCafeList] = useState([]);
 
   const initialLocations = [
     { id: "cafe1", top: responsiveHeight(76), left: responsiveWidth(170) },
@@ -66,10 +69,41 @@ const HomeScreen = ({ navigation }) => {
   ).current;
 
   const [selectedFilter, setSelectedFilter] = useState(null); // 선택된 필터 상태 관리
-  const [cafeList, setCafeList] = useState([
-    { id: 1, name: "카페1" },
-    { id: 2, name: "카페2" },
-  ]); // 카페 리스트 상태 (예시)
+  useEffect(() => {
+    // 데이터 로딩 시뮬레이션
+    setTimeout(() => {
+      setCafeList([
+        {
+          id: 1,
+          name: "언힙커피로스터스",
+          location: "인천 미추홀구 인하로67번길 6 2층",
+          distance: "600m",
+          hashtag: "#24시간",
+          rating: 4.0,
+          reviews: 605,
+          isFavorite: true,
+          isSpecialty: true,
+          isBothBadges: true,
+        },
+        {
+          id: 2,
+          name: "언힙커피로스터스",
+          location: "인천 미추홀구 인하로67번길 6 2층",
+          distance: "600m",
+          hashtag: "#24시간",
+          rating: 4.0,
+          reviews: 605,
+          isSpecialty: true,
+          isClosed: true,
+        },
+      ]);
+      setIsLoading(false);
+    }, 2000); // 2초 후 로딩 종료
+  }, []);
+  // const [cafeList, setCafeList] = useState([
+  //   { id: 1, name: "카페1" },
+  //   { id: 2, name: "카페2" },
+  // ]); // 카페 리스트 상태 (예시)
 
   // 필터 클릭 시 처리
   const handleFilterSelect = (filterName) => {
@@ -451,74 +485,40 @@ const HomeScreen = ({ navigation }) => {
         />
 
         {/* 카페 리스트 또는 NoResults */}
-        {cafeList.length === 0 ? (
-          <NoResults /> // 카페 리스트가 없을 때 NoResults 표시
-        ) : (
-          <CafeList>
-            {isCafeLocationSelected && selectedLocation
-              ? [
-                  {
-                    name: "언힙커피로스터스",
-                    location: "인천 미추홀구 인하로67번길 6 2층",
-                    distance: "600m",
-                    hashtag: "#24시간",
-                    rating: 4.0,
-                    reviews: 605,
-                    isFavorite: true,
-                    isSpecialty: true,
-                    isBothBadges: true,
-                  },
-                  {
-                    name: "언힙커피로스터스",
-                    location: "인천 미추홀구 인하로67번길 6 2층",
-                    distance: "600m",
-                    hashtag: "#24시간",
-                    rating: 4.0,
-                    reviews: 605,
-                    isSpecialty: true,
-                    isClosed: true,
-                  },
-                ]
-                  .filter((_, index) => index === 0) // 선택된 카페 하나만 표시
-                  .map((cafe, index) => (
-                    <CafeListItem
-                      key={index}
-                      cafe={{ ...cafe, isFirst: true }}
-                      isSelected={true}
-                      navigation={navigation}
-                    />
-                  ))
-              : [
-                  {
-                    name: "언힙커피로스터스",
-                    location: "인천 미추홀구 인하로67번길 6 2층",
-                    distance: "600m",
-                    hashtag: "#24시간",
-                    rating: 4.0,
-                    reviews: 605,
-                    isFavorite: true,
-                    isSpecialty: true,
-                    isBothBadges: true,
-                  },
-                  {
-                    name: "언힙커피로스터스",
-                    location: "인천 미추홀구 인하로67번길 6 2층",
-                    distance: "600m",
-                    hashtag: "#24시간",
-                    rating: 4.0,
-                    reviews: 605,
-                    isSpecialty: true,
-                    isClosed: true,
-                  },
-                ].map((cafe, index) => (
-                  <CafeListItem
-                    key={index}
-                    cafe={{ ...cafe, isFirst: index % 1 === 0 }}
-                    isSelected={false}
-                  />
-                ))}
-          </CafeList>
-        )}
+        <CafeList>
+          {isLoading ? (
+            // 로딩 중일 때 스켈레톤 UI 표시
+            <>
+              <CafeListItemSkeleton />
+              <CafeListItemSkeleton />
+              <CafeListItemSkeleton />
+            </>
+          ) : cafeList.length === 0 ? (
+            <NoResults /> // 카페 리스트가 없을 때 NoResults 표시
+          ) : isCafeLocationSelected && selectedLocation ? (
+            // 선택된 카페만 표시
+            cafeList
+              .filter((_, index) => index === 0)
+              .map((cafe, index) => (
+                <CafeListItem
+                  key={index}
+                  cafe={{ ...cafe, isFirst: true }}
+                  isSelected={true}
+                  navigation={navigation}
+                />
+              ))
+          ) : (
+            // 전체 카페 리스트 표시
+            cafeList.map((cafe, index) => (
+              <CafeListItem
+                key={index}
+                cafe={{ ...cafe, isFirst: index % 1 === 0 }}
+                isSelected={false}
+                navigation={navigation}
+              />
+            ))
+          )}
+        </CafeList>
       </AnimatedBottomSheet>
 
       <Animated.View

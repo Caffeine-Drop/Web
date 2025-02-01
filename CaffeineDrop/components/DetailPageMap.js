@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import {
@@ -9,12 +9,22 @@ import {
 import styled from "styled-components/native";
 
 // 이미지 임포트
-import MapImg from "../assets/DetailPage/MapImg.svg";
+import DetailPageMapImg from "../assets/DetailPage/DetailPageMapImg.png";
 import SubtractIcon from "../assets/DetailPage/SubtractIcon.svg";
 import SearchRoadButton from "../assets/DetailPage/SearchRoadButton.svg";
+import NaverSearchLoad from "../assets/DetailPage/NaverSearchLoad.svg";
+import KakaoSearchLoad from "../assets/DetailPage/KakaoSearchLoad.svg";
 import DistanceLogo from "../assets/DetailPage/DistanceLogo.svg";
 
 export default function DetailPageMap() {
+  const [isBtnClicked, setIsBtnClicked] = useState(false);
+
+  const handleBtnClicked = () => {
+    setIsBtnClicked(true);
+    console.log("btn clicked");
+    setTimeout(() => setIsBtnClicked(false), 2000);
+  };
+
   return (
     <Container>
       <Text
@@ -27,14 +37,16 @@ export default function DetailPageMap() {
       >
         카페 이용 정보
       </Text>
-      <MapContainer>
-        <MapImg
+      <MapContainer isBtnClicked={isBtnClicked}>
+        <Image
+          source={DetailPageMapImg}
           style={{
             position: "absolute",
             left: responsiveWidth(0),
             top: responsiveHeight(0),
-            width: "100%",
+            width: responsiveWidth(312),
             height: responsiveHeight(130),
+            resizeMode: "cover",
           }}
         />
         <SubtractIcon
@@ -50,18 +62,58 @@ export default function DetailPageMap() {
             ],
           }}
         />
-        <TouchableOpacity
-          style={{
-            position: "absolute",
-            left: responsiveWidth(0),
-            top: responsiveHeight(83),
-          }}
-        >
-          <SearchRoadButton
-            width={responsiveWidth(83)}
-            height={responsiveHeight(35)}
+        {!isBtnClicked && (
+          <TouchableOpacity
+            style={{
+              position: "absolute",
+              left: responsiveWidth(0),
+              top: responsiveHeight(88),
+            }}
+            onPress={handleBtnClicked}
+          >
+            <SearchRoadButton
+              width={responsiveWidth(83)}
+              height={responsiveHeight(35)}
+            />
+          </TouchableOpacity>
+        )}
+        {isBtnClicked && (
+          <>
+            <View
+              style={{
+                position: "absolute",
+                left: 0,
+                top: 0,
+                width: responsiveWidth(312),
+              height: responsiveHeight(130),
+              backgroundColor: "rgba(0, 0, 0, 0.2)",
+              borderRadius: responsiveWidth(12),
+            }}
           />
-        </TouchableOpacity>
+          <TouchableOpacity>
+            <NaverSearchLoad
+            style={{
+              position: "absolute",
+              left: responsiveWidth(0),
+              top: responsiveHeight(20),
+              width: responsiveWidth(145),
+              height: responsiveHeight(60),
+              }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <KakaoSearchLoad
+              style={{
+                position: "absolute",
+                left: responsiveWidth(0),
+                top: responsiveHeight(70),
+                width: responsiveWidth(145),
+              height: responsiveHeight(60),
+            }}
+            />
+          </TouchableOpacity>
+          </>
+        )}
       </MapContainer>
       <CaffeeAddress>인천 미추홀구 인하로67번길 6 2층</CaffeeAddress>
       <View
@@ -90,28 +142,13 @@ const Container = styled.View`
   padding-left: ${responsiveWidth(24)};
   padding-right: ${responsiveWidth(24)};
   background-color: #fafafa;
-`;
-
-const MapContainer = styled.View`
+  `;
+  
+  const MapContainer = styled.View`
   position: relative;
-  width: 100%;
+  width: ${responsiveWidth(312)}px;
   height: ${responsiveHeight(130)}px;
-`;
-
-const SubtractImage = styled.Image`
-  position: absolute;
-  width: ${responsiveWidth(35)}px;
-  height: ${responsiveHeight(44)}px;
-  left: ${responsiveWidth(139)}px;
-  top: ${responsiveHeight(43)}px;
-`;
-
-const SearchRoadImage = styled.Image`
-  position: absolute;
-  width: ${responsiveWidth(83)}px;
-  height: ${responsiveHeight(35)}px;
-  left: ${responsiveWidth(0)}px;
-  top: ${responsiveHeight(118)}px;
+  border-radius: ${responsiveWidth(12)}px;
 `;
 
 const CaffeeAddress = styled.Text`
@@ -122,11 +159,6 @@ const CaffeeAddress = styled.Text`
   line-height: ${responsiveFontSize(19.32)}px;
   letter-spacing: -0.35px;
 `;
-
-// const DistanceLogo = styled.Image`
-//   width: ${responsiveWidth(26)}px;
-//   height: ${responsiveHeight(18)}px;
-// `;
 
 const Distance = styled.Text`
   font-size: ${responsiveFontSize(12)}px;

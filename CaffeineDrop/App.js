@@ -51,6 +51,9 @@ export default function App() {
         <Stack.Screen
           name="DetailPageImageDetail"
           component={DetailPageImageDetail}
+          options={{
+            presentation: "transparentModal", // Use transparent modal presentation
+          }}
         />
         <Stack.Screen name="ReviewPage" component={ReviewPage} />
         <Stack.Screen name="SpecialtyOptions" component={SpecialtyOptions} />

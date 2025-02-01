@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { View, ScrollView, Text } from "react-native";
+import { View, ScrollView, Text, Image } from "react-native";
 import styled from "styled-components/native";
 import {
   responsiveFontSize,
@@ -8,7 +8,7 @@ import {
 } from "../utils/responsive";
 
 // 이미지 파일 경로
-import DetailPageMainImg from "../assets/DetailPage/DetailPageMainImg.svg";
+import DetailPageMainImg from "../assets/DetailPage/DetailPageMainImg.png";
 import Profile from "../assets/DetailPage/Profile.svg";
 import ReviewStarIcon from "../assets/DetailPage/ReviewStarIcon.svg";
 
@@ -19,29 +19,25 @@ export default function DetailPageImageDetail({ navigation }) {
   const scrollViewRef = useRef(null);
 
   const images = [
-    <DetailPageMainImg
-      key="last"
-      width={responsiveWidth(300)}
-      height={responsiveHeight(400)}
-      preserveAspectRatio="none"
+    <Image
+      key="image1"
+      style={{ width: responsiveWidth(300), height: responsiveHeight(400) }}
+      source={DetailPageMainImg}
     />,
-    <DetailPageMainImg
-      key="first"
-      width={responsiveWidth(300)}
-      height={responsiveHeight(400)}
-      preserveAspectRatio="none"
+    <Image
+      key="image2"
+      style={{ width: responsiveWidth(300), height: responsiveHeight(400) }}
+      source={DetailPageMainImg}
     />,
-    <DetailPageMainImg
-      key="second"
-      width={responsiveWidth(300)}
-      height={responsiveHeight(400)}
-      preserveAspectRatio="none"
+    <Image
+      key="image3"
+      style={{ width: responsiveWidth(300), height: responsiveHeight(400) }}
+      source={DetailPageMainImg}
     />,
-    <DetailPageMainImg
-      key="third"
-      width={responsiveWidth(300)}
-      height={responsiveHeight(400)}
-      preserveAspectRatio="none"
+    <Image
+      key="image4"
+      style={{ width: responsiveWidth(300), height: responsiveHeight(400) }}
+      source={DetailPageMainImg}
     />,
   ];
 
@@ -76,20 +72,28 @@ export default function DetailPageImageDetail({ navigation }) {
         </Header>
         <ImageContainer>
           <ScrollView
-            style={{ paddingLeft: 30, paddingRight: 30 }}
+            style={{
+              paddingLeft: responsiveWidth(30),
+              paddingRight: responsiveWidth(30),
+            }}
             ref={scrollViewRef}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             onScrollEndDrag={handleScrollEnd}
             contentOffset={{ x: responsiveWidth(312), y: 0 }}
-            contentContainerStyle={{ paddingRight: 30 }}
+            contentContainerStyle={{ paddingRight: responsiveWidth(30) }}
           >
-            <View style={{ flexDirection: "row", gap: 12 }}>{images}</View>
+            <View style={{ flexDirection: "row", gap: responsiveWidth(12) }}>
+              {images}
+            </View>
           </ScrollView>
         </ImageContainer>
         <Review>
           <ReviewUserInfo>
-            <Profile width={responsiveWidth(34)} height={responsiveHeight(34)} />
+            <Profile
+              width={responsiveWidth(34)}
+              height={responsiveHeight(34)}
+            />
             <ReviewUser>
               <ReviewUserNickName>닉네임</ReviewUserNickName>
               <View
@@ -100,8 +104,17 @@ export default function DetailPageImageDetail({ navigation }) {
                 }}
               >
                 <ReviewCreatedAt>2025.01.12</ReviewCreatedAt>
-                <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                  <ReviewStarIcon width={responsiveWidth(12)} height={responsiveHeight(12)}/>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <ReviewStarIcon
+                    width={responsiveWidth(12)}
+                    height={responsiveHeight(12)}
+                  />
                   <ReviewRating>4.0</ReviewRating>
                 </View>
               </View>
@@ -123,9 +136,9 @@ export default function DetailPageImageDetail({ navigation }) {
               }}
             >
               도시 위에 소음 넘쳐나는 트러블 여유 없는 걸음 이건 마치 정글
-              멍하니 또 한숨이 도시 위에 소음 넘쳐나는 트러블 여유 없는 걸음 이건
-              마치 정글 도시 위에 소음 넘쳐나는 트러블 여유 없는 걸음 이건 마치
-              정글
+              멍하니 또 한숨이 도시 위에 소음 넘쳐나는 트러블 여유 없는 걸음
+              이건 마치 정글 도시 위에 소음 넘쳐나는 트러블 여유 없는 걸음 이건
+              마치 정글
             </Text>
           </ReviewContent>
         </Review>

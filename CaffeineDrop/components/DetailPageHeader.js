@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Image, Button, ScrollView } from "react-native";
+import { View, Text, Image, Button, ScrollView, TouchableOpacity } from "react-native";
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -8,7 +8,8 @@ import {
 import styled from "styled-components/native";
 
 // 이미지 assets
-import DetailPageMainImg from "../assets/DetailPage/DetailPageMainImg.svg";
+import DetailMainImg from "../assets/DetailPage/DetailPageMainImg.png";
+import DetailPageGradient from "../assets/DetailPage/DetailPageGradient.png";
 import SpecialtyCoffeeLogo from "../assets/DetailPage/SpecialtyCoffeeLogo.svg";
 import DistanceLogo from "../assets/DetailPage/DistanceLogo.svg";
 import CaffeeLikeDefault from "../assets/DetailPage/CaffeeLikeDefault.svg";
@@ -20,13 +21,28 @@ import HeaderStarBlankIcon from "../assets/DetailPage/HeaderStarBlankIcon.svg";
 import BackButton from "../components/BackButton";
 
 export default function DetailPageHeader({ navigation, isScrolled }) {
+  const [isLiked, setIsLiked] = useState(false);
   return (
     <View style={{ flex: 1 }}>
       <Container>
-        <DetailPageMainImg
-          width={responsiveWidth(360)}
-          height={responsiveHeight(400)}
-          preserveAspectRatio="none"
+        <Image
+          source={DetailMainImg}
+          style={{
+            width: responsiveWidth(360),
+            height: responsiveHeight(400),
+            zIndex: 998,
+          }}
+        />
+        <Image
+          source={DetailPageGradient}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: responsiveWidth(360),
+            height: responsiveHeight(400),
+            zIndex: 999,
+          }}
         />
         <Header>
           <BackButton onPress={() => navigation.goBack()} />
@@ -81,19 +97,56 @@ export default function DetailPageHeader({ navigation, isScrolled }) {
           >
             <ReviewRateContainer>
               <ReviewRateText>4.0</ReviewRateText>
-              <HeaderStarIcon
-                style={{
-                  width: responsiveWidth(15),
-                  height: responsiveHeight(15),
-                }}
-              />
+              <View style={{ display: "flex", flexDirection: "row" }}>
+                <HeaderStarIcon
+                  style={{
+                    width: responsiveWidth(15),
+                    height: responsiveWidth(15),
+                  }}
+                />
+                <HeaderStarIcon
+                  style={{
+                    width: responsiveWidth(15),
+                    height: responsiveWidth(15),
+                  }}
+                />
+                <HeaderStarIcon
+                  style={{
+                    width: responsiveWidth(15),
+                    height: responsiveWidth(15),
+                  }}
+                />
+                <HeaderStarIcon
+                  style={{
+                    width: responsiveWidth(15),
+                    height: responsiveWidth(15),
+                  }}
+                />
+                <HeaderStarBlankIcon
+                  style={{
+                    width: responsiveWidth(15),
+                    height: responsiveWidth(15),
+                  }}
+                />
+              </View>
             </ReviewRateContainer>
-            <CaffeeLikeDefault
-              style={{
-                width: responsiveWidth(40),
-                height: responsiveHeight(40),
-              }}
-            />
+            <TouchableOpacity onPress={() => setIsLiked(!isLiked)}>
+              {isLiked ? (
+                <CaffeeLike
+                  style={{
+                    width: responsiveWidth(35),
+                    height: responsiveWidth(35),
+                  }}
+                />
+              ) : (
+                <CaffeeLikeDefault
+                  style={{
+                    width: responsiveWidth(35),
+                    height: responsiveWidth(35),
+                  }}
+                />
+              )}
+            </TouchableOpacity>
           </View>
         </View>
       </Container>
@@ -122,6 +175,7 @@ const ViewDetailText = styled.Text`
   font-size: ${responsiveFontSize(18)}px;
   font-family: "PretendardSemiBold";
   color: #fafafa;
+  z-index: 1000;
 `;
 
 const TitleText = styled.Text`

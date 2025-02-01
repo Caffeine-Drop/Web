@@ -60,6 +60,7 @@ export default function DetailPage({ navigation, route }) {
           <DetailPageHome
             cafe={cafe}
             selectedTab={selectedTab}
+            navigation={navigation}
             onViewMoreImgPress={() => handleTabPress("image")}
             onViewMoreReviewPress={() => {
               handleTabPress("review");
@@ -117,7 +118,7 @@ export default function DetailPage({ navigation, route }) {
           </View>
         </FixedHeader>
       )}
-      <ScrollView onScroll={handleScroll} scrollEventThrottle={16}>
+      <ScrollView onScroll={handleScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
         <DetailPageHeader navigation={navigation} isScrolled={isScrolled} />
         <View>
           <Container>

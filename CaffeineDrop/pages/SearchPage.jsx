@@ -160,20 +160,30 @@ const SearchPage = () => {
         setShowSearchResults(true);
       }
     } else {
-      // 🔹 설정 완료 버튼을 눌렀을 때 (search01 또는 search04로 이동)
-      setIsMapVisible(true); // 지도 유지
-      setIsInSearchMode(false); // 검색 설정 모드 해제
-      setIsSettingComplete(true); // 🔹 설정 완료 상태로 변경
-
+      // 🔹 설정 완료 버튼을 눌렀을 때
       if (searchText.trim().length === 0) {
         // 🔹 검색어 없으면 search01로 이동
         setIsNewSlideVisible(false);
         setShowSearchResults(false);
-        setIsMapVisible(false); // 🔹 지도 닫힘
+        setIsMapVisible(false); // 지도 닫기
+        setIsInSearchMode(false); // 검색 설정 모드 해제
+        setIsSettingComplete(false); // 초기화
       } else {
-        // 🔹 검색어 있으면 search04로 이동 (검색어 유지)
-        setIsNewSlideVisible(false);
-        setShowSearchResults(true);
+        if (isNewSlideVisible) {
+          // 🔹 검색 설정 모드에서 입력한 경우 → 초기 화면으로 돌아가면서 검색어 유지
+          setIsNewSlideVisible(false);
+          setShowSearchResults(false);
+          setIsMapVisible(false); // 지도 닫기
+          setIsInSearchMode(false); // 검색 설정 모드 해제
+          setIsSettingComplete(false); // 초기화
+        } else {
+          // 🔹 일반 검색 후 검색 설정 → search04로 이동 (지도 유지)
+          setIsNewSlideVisible(false);
+          setShowSearchResults(true);
+          setIsMapVisible(true); // 지도 유지
+          setIsInSearchMode(false); // 검색 설정 모드 해제
+          setIsSettingComplete(true); // 설정 완료
+        }
       }
     }
   };

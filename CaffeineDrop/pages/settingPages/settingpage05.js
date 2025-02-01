@@ -22,7 +22,7 @@ import EditIcon from "../../assets/OnBoardingLogin/EditIcon.svg";
 import DeleteIcon from "../../assets/OnBoardingLogin/DeleteIcon.svg";
 import BackIcon from "../../components/BackIcon";
 
-export default function OnBoardingLogin04({ navigation }) {
+export default function SettingPage05({ navigation }) {
   const fontsLoaded = useFonts();
   const [profileImage, setProfileImage] = useState(null);
   const [nickname, setNickname] = useState("");

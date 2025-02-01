@@ -54,7 +54,6 @@ const CafeListItemSkeleton = () => {
         <SkeletonDetails>
           <SkeletonBadge />
           <SkeletonLineWithPulse width="30%" height={responsiveHeight(12)} />
-          <SkeletonLineWithPulse width="20%" height={responsiveHeight(12)} />
         </SkeletonDetails>
       </SkeletonInfo>
     </SkeletonContainer>
@@ -81,7 +80,7 @@ const SkeletonImage = styled.View`
   width: ${(props) =>
     props.small ? responsiveWidth(112.5) : responsiveWidth(150)}px;
   height: ${responsiveHeight(150)}px;
-  background-color: #e0e0e0;
+  background-color: #d9d9d9;
   border-radius: 12px;
   margin-right: ${responsiveWidth(4)}px;
 `;
@@ -97,7 +96,7 @@ const SkeletonDetails = styled.View`
 const SkeletonBadge = styled.View`
   width: ${responsiveWidth(40)}px;
   height: ${responsiveHeight(16)}px;
-  background-color: #e0e0e0;
+  background-color: #d9d9d9;
   border-radius: 8px;
   margin-right: ${responsiveWidth(8)}px;
 `;

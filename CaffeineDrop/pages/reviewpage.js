@@ -36,6 +36,16 @@ export default function ReviewPage({ navigation }) {
   const [images, setImages] = useState([]);
   const [text, setText] = useState("");
   const animationValue = useRef(new Animated.Value(0)).current;
+  const recommendQuestion = [
+    "커피는\n어떠셨나요?",
+    "디저트는\n어떠셨나요?",
+    "추천하고 싶은 \n메뉴가 있나요?",
+    "카페 분위기는\n어땠나요?",
+    "테이블과 좌석은\n어떠셨나요?",
+    "다시 방문하고\n싶으신가요?",
+  ];
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const opacity = useRef(new Animated.Value(1)).current;
 
   const addImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -77,6 +87,30 @@ export default function ReviewPage({ navigation }) {
     animateIcon();
   }, [animationValue]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Fade out
+      Animated.timing(opacity, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start(() => {
+        // Update question index
+        setCurrentQuestionIndex(
+          (prevIndex) => (prevIndex + 1) % recommendQuestion.length
+        );
+        // Fade in
+        Animated.timing(opacity, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }).start();
+      });
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [recommendQuestion.length, opacity]);
+
   const translateY = animationValue.interpolate({
     inputRange: [0, 1],
     outputRange: [0, 10], // Adjust the values for the desired effect
@@ -97,7 +131,13 @@ export default function ReviewPage({ navigation }) {
       </FixedHeader>
       <ScrollView>
         <CoffeeInfo>
-          <SpecialtyCoffeeLogo />
+          <SpecialtyCoffeeLogo
+            style={{
+              width: responsiveWidth(88),
+              height: responsiveHeight(22),
+              preserveAspectRatio: "none",
+            }}
+          />
           <View
             style={{
               gap: responsiveHeight(12),
@@ -135,7 +175,7 @@ export default function ReviewPage({ navigation }) {
                   style={{ display: "flex", flexDirection: "row", gap: 24 }}
                 >
                   <ReviewOverViewDetailRateTheme>
-                    <Text>맛</Text>
+                    <Theme>맛</Theme>
                   </ReviewOverViewDetailRateTheme>
                   <ReviewOverViewDetailRateStars>
                     <StarIcon filled={true} />
@@ -162,7 +202,7 @@ export default function ReviewPage({ navigation }) {
                   style={{ display: "flex", flexDirection: "row", gap: 24 }}
                 >
                   <ReviewOverViewDetailRateTheme>
-                    <Text>인테리어</Text>
+                    <Theme>인테리어</Theme>
                   </ReviewOverViewDetailRateTheme>
                   <ReviewOverViewDetailRateStars>
                     <StarIcon filled={true} />
@@ -187,7 +227,7 @@ export default function ReviewPage({ navigation }) {
                   style={{ display: "flex", flexDirection: "row", gap: 24 }}
                 >
                   <ReviewOverViewDetailRateTheme>
-                    <Text>청결도</Text>
+                    <Theme>청결도</Theme>
                   </ReviewOverViewDetailRateTheme>
                   <ReviewOverViewDetailRateStars>
                     <StarIcon filled={true} />
@@ -212,7 +252,7 @@ export default function ReviewPage({ navigation }) {
                   style={{ display: "flex", flexDirection: "row", gap: 24 }}
                 >
                   <ReviewOverViewDetailRateTheme>
-                    <Text>가심비</Text>
+                    <Theme>가심비</Theme>
                   </ReviewOverViewDetailRateTheme>
                   <ReviewOverViewDetailRateStars>
                     <StarIcon filled={true} />
@@ -264,20 +304,24 @@ export default function ReviewPage({ navigation }) {
               marginTop: responsiveHeight(8),
             }}
           >
-            <View style={{ position: "absolute", left:120 }}>
-              <DownIcon style={{color:'lightgray' }} />
+            <View style={{ position: "relative", backgroundColor: "#FAFAFA" }}>
+              <DownIcon
+                style={{
+                  color: "lightgray",
+                  position: "absolute",
+                }}
+              />
+              <Animated.View
+                style={{
+                  transform: [{ translateY }],
+                  borderRadius: 24,
+                  boxShadow: "4px 4px 4px 0px rgba(0, 0, 0, 0.02)",
+                  backdropFilter: "blur(3px)",
+                }}
+              >
+                <DownIcon />
+              </Animated.View>
             </View>
-
-            <Animated.View
-              style={{
-                transform: [{ translateY }],
-                borderRadius: 24,
-                boxShadow: "4px 4px 4px 0px rgba(0, 0, 0, 0.02)",
-                backdropFilter: "blur(3px)",
-              }}
-            >
-              <DownIcon />
-            </Animated.View>
             <ScrollText>리뷰를 작성할 수 있어요</ScrollText>
           </View>
           <View
@@ -288,7 +332,9 @@ export default function ReviewPage({ navigation }) {
           >
             <Title1>
               <Number>02</Number>
-              <Title>방문하신 카페는 어떠셨나요?</Title>
+              <Animated.View style={{ opacity }}>
+                <Title>{recommendQuestion[currentQuestionIndex]}</Title>
+              </Animated.View>
             </Title1>
           </View>
           <ReviewContainer>
@@ -313,6 +359,7 @@ export default function ReviewPage({ navigation }) {
                     fontWeight: 600,
                     lineHeight: responsiveHeight(19.32),
                     letterSpacing: -0.35,
+                    marginRight: responsiveWidth(4),
                   }}
                 >
                   Q.
@@ -438,35 +485,37 @@ const FixedHeaderText = styled.Text`
   overflow: hidden;
   width: 100%;
   height: ${responsiveHeight(56)}px;
-  padding: 15px 0;
+  padding-top: ${responsiveHeight(15)}px;
   color: #fafafa;
+  font-family: "PretendardSemiBold";
   text-align: center;
   text-overflow: ellipsis;
   font-size: ${responsiveFontSize(18)}px;
-  font-weight: 600;
   line-height: ${responsiveHeight(24.84)}px;
   letter-spacing: -0.45px;
 `;
 
 const CoffeeInfo = styled.View`
   width: 100%;
-  padding: 110px ${responsiveWidth(24)}px 0;
+  padding-top: ${responsiveHeight(110)}px;
+  padding-left: ${responsiveWidth(24)}px;
+  padding-right: ${responsiveWidth(24)}px;
   background-color: #756555;
   gap: ${responsiveHeight(4)}px;
 `;
 
 const CoffeeName = styled.Text`
   color: #fafafa;
+  font-family: "PretendardSemiBold";
   font-size: ${responsiveFontSize(28)}px;
-  font-weight: 600;
   line-height: ${responsiveHeight(38.64)}px;
   letter-spacing: -0.7px;
 `;
 
 const CaffeeAddress = styled.Text`
   color: #fafafa;
+  font-family: "PretendardRegular";
   font-size: ${responsiveFontSize(14)}px;
-  font-weight: 400;
   line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35px;
 `;
@@ -494,9 +543,8 @@ const Title1 = styled.View`
 
 const Number = styled.Text`
   color: #666;
-  font-family: Pretendard;
+  font-family: PretendardMedium;
   font-size: ${responsiveFontSize(12)}px;
-  font-weight: 500;
   line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3px;
   text-transform: uppercase;
@@ -505,8 +553,8 @@ const Number = styled.Text`
 const Title = styled.Text`
   color: #000;
   text-align: center;
+  font-family: "PretendardSemiBold";
   font-size: ${responsiveFontSize(20)}px;
-  font-weight: 600;
   line-height: ${responsiveHeight(27.6)}px;
   letter-spacing: -0.5px;
   text-transform: uppercase;
@@ -525,11 +573,19 @@ const ReviewOverViewDetailRateTheme = styled.View`
   flex-direction: row;
   width: ${responsiveWidth(60)}px;
   height: ${responsiveHeight(27)}px;
-  padding: ${responsiveWidth(5)}px 0;
+  padding: ${responsiveHeight(5)}px 0;
   align-items: center;
   justify-content: center;
   border-bottom-width: 1px;
   border-color: #000;
+`;
+
+const Theme = styled.Text`
+  color: #000;
+  font-family: "PretendardMedium";
+  font-size: ${responsiveFontSize(12)}px;
+  line-height: ${responsiveHeight(16.56)}px;
+  letter-spacing: -0.3px;
 `;
 
 const ReviewOverViewDetailRateStars = styled.View`
@@ -542,10 +598,8 @@ const ReviewOverViewDetailRateStars = styled.View`
 
 const ReviewOverViewDetailRateScore = styled.Text`
   color: #000;
-  font-family: Pretendard;
+  font-family: "PretendardSemiBold";
   font-size: ${responsiveFontSize(14)}px;
-  font-style: normal;
-  font-weight: 600;
   line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35px;
   padding-left: ${responsiveWidth(8)}px;
@@ -561,10 +615,8 @@ const ReviewOverViewRate = styled.View`
 
 const ReviewOverViewRateText = styled.Text`
   color: #000;
-  font-family: Pretendard;
+  font-family: "PretendardSemiBold";
   font-size: ${responsiveFontSize(50)}px;
-  font-style: normal;
-  font-weight: 600;
   line-height: ${responsiveHeight(69)}px;
   letter-spacing: -1.25px;
   text-transform: uppercase;
@@ -572,10 +624,8 @@ const ReviewOverViewRateText = styled.Text`
 
 const ReviewCountText = styled.Text`
   color: #666666;
-  font-family: Pretendard;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(12)}px;
-  font-style: normal;
-  font-weight: 500;
   line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3px;
   text-transform: uppercase;
@@ -583,10 +633,8 @@ const ReviewCountText = styled.Text`
 
 const ReviewCount = styled.Text`
   color: #000000;
-  font-family: Pretendard;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(12)}px;
-  font-style: normal;
-  font-weight: 500;
   line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3px;
   text-transform: uppercase;
@@ -594,10 +642,8 @@ const ReviewCount = styled.Text`
 
 const ScrollText = styled.Text`
   color: #000;
-  font-family: Pretendard;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(12)}px;
-  font-style: normal;
-  font-weight: 500;
   line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3px;
 `;
@@ -613,14 +659,13 @@ const TextInput = styled.TextInput`
   justify-content: flex-start;
   width: ${responsiveWidth(312)}px;
   height: ${responsiveHeight(232)}px;
-  border-top-width: 1;
-  border-bottom-width: 1;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
   border-color: #d9d9d9;
   padding: ${responsiveHeight(16)}px ${responsiveWidth(12)}px;
   color: #000;
   font-size: ${responsiveFontSize(12)}px;
-  font-style: normal;
-  font-weight: 500;
+  font-family: "PretendardMedium";
   line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3px;
 `;

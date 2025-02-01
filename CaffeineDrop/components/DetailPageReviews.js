@@ -33,14 +33,21 @@ export default function DetailPageReviews({
         {selectedTab !== "review" && (
           <ReviewViewMoreButton onPress={onViewMoreReviewPress}>
             <ReviewViewMoreButtonText>더보기</ReviewViewMoreButtonText>
-            <ViewMoreButton />
+            <ViewMoreButton
+              width={responsiveWidth(16)}
+              height={responsiveHeight(16)}
+            />
           </ReviewViewMoreButton>
         )}
       </Header>
       <ReviewList>
         <Review>
           <ReviewUserInfo>
-            <Profile />
+            <Profile
+              width={responsiveWidth(34)}
+              height={responsiveWidth(34)}
+              preserveAspectRatio="xMinYMin meet"
+            />
             <ReviewUser>
               <ReviewUserNickName>닉네임</ReviewUserNickName>
               <View
@@ -94,7 +101,7 @@ export default function DetailPageReviews({
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 fontSize: responsiveFontSize(12),
-                fontWeight: "400",
+                fontFamily: "PretendardRegular",
                 lineHeight: responsiveFontSize(16.56),
                 letterSpacing: "-0.3",
                 flexWrap: "wrap",
@@ -109,7 +116,11 @@ export default function DetailPageReviews({
         {/* 리뷰 추가 */}
         <Review>
           <ReviewUserInfo>
-            <Profile />
+            <Profile
+              width={responsiveWidth(34)}
+              height={responsiveWidth(34)}
+              preserveAspectRatio="xMinYMin meet"
+            />
             <ReviewUser>
               <ReviewUserNickName>닉네임</ReviewUserNickName>
               <View
@@ -143,7 +154,7 @@ export default function DetailPageReviews({
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 fontSize: responsiveFontSize(12),
-                fontWeight: "400",
+                fontFamily: "PretendardRegular",
                 lineHeight: responsiveFontSize(16.56),
                 letterSpacing: "-0.3",
                 flexWrap: "wrap",
@@ -188,8 +199,8 @@ const ReviewTitle = styled.View`
 
 const Title = styled.Text`
   color: #000;
+  font-family: "PretendardSemiBold";
   font-size: ${responsiveFontSize(16)}px;
-  font-weight: 600;
   line-height: ${responsiveFontSize(22.08)}px;
   letter-spacing: -0.4px;
   text-transform: uppercase;
@@ -199,7 +210,7 @@ const ReviewCount = styled.Text`
   color: #666;
   text-align: center;
   font-size: ${responsiveFontSize(14)}px;
-  font-weight: 500;
+  font-family: "PretendardMedium";
   line-height: ${responsiveFontSize(19.32)}px;
   letter-spacing: -0.35px;
   text-transform: uppercase;
@@ -214,7 +225,7 @@ const ReviewViewMoreButton = styled.TouchableOpacity`
 const ReviewViewMoreButtonText = styled.Text`
   color: #666;
   font-size: ${responsiveFontSize(14)}px;
-  font-weight: 500;
+  font-family: "PretendardMedium";
   line-height: ${responsiveFontSize(19.32)}px;
   letter-spacing: -0.35px;
 `;
@@ -246,7 +257,7 @@ const ReviewUser = styled.View`
 const ReviewUserNickName = styled.Text`
   color: #000;
   font-size: ${responsiveFontSize(16)}px;
-  font-weight: 600;
+  font-family: "PretendardSemiBold";
   line-height: ${responsiveFontSize(22.08)}px;
   letter-spacing: -0.4px;
   text-transform: uppercase;
@@ -255,7 +266,7 @@ const ReviewUserNickName = styled.Text`
 const ReviewCreatedAt = styled.Text`
   color: #666;
   font-size: ${responsiveFontSize(14)}px;
-  font-weight: 500;
+  font-family: "PretendardMedium";
   line-height: ${responsiveFontSize(19.32)}px;
   letter-spacing: -0.35px;
   margin-right: ${responsiveWidth(4)}px;
@@ -264,7 +275,7 @@ const ReviewCreatedAt = styled.Text`
 const ReviewRating = styled.Text`
   color: #666;
   font-size: ${responsiveFontSize(12)}px;
-  font-weight: 400;
+  font-family: "PretendardRegular";
   line-height: ${responsiveFontSize(16.56)}px;
   letter-spacing: -0.3px;
 `;
@@ -300,12 +311,4 @@ const ReviewAddButton = styled.TouchableOpacity`
   border-radius: ${responsiveWidth(1)}px;
   margin-bottom: ${responsiveHeight(107)}px;
   margin-left: ${responsiveWidth(24)}px;
-`;
-
-const ReviewAddButtonText = styled.Text`
-  color: #000;
-  font-size: ${responsiveFontSize(24)}px;
-  font-weight: 600;
-  line-height: ${responsiveFontSize(32)}px;
-  letter-spacing: -0.4px;
 `;

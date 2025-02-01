@@ -1,21 +1,17 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ImageBackground } from "react-native";
 import styled from "styled-components/native";
 import {
   responsiveFontSize,
   responsiveHeight,
   responsiveWidth,
 } from "../../utils/responsive";
-import { BlurView } from "expo-blur";
-import { Svg, Image } from "react-native-svg";
 import { useFonts } from "../../styles";
 
 // 이미지 임포트
-import BlurCircle from "../../assets/OnBoardingLogin/BlurCircle";
-import SocialLoginCoffee from "../../assets/OnBoardingLogin/SocialLoginCoffee.svg";
-import SocialLoginBackgroundImg from "../../assets/OnBoardingLogin/SocialLoginBackgroundImg.svg";
 import KakaoLoginBtn from "../../assets/OnBoardingLogin/KakaoLoginBtn.svg";
 import NaverLoginBtn from "../../assets/OnBoardingLogin/NaverLoginBtn.svg";
+import OnBoardingLoginPageImg from "../../assets/OnBoardingLogin/onBoardingLoginPageImg.png";
 
 export default function OnboardingLogin03({ navigation }) {
   const fontsLoaded = useFonts();
@@ -34,38 +30,23 @@ export default function OnboardingLogin03({ navigation }) {
       >
         <Login>로그인</Login>
       </View>
-      <View style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-        <View style={{ position: "relative", height: responsiveHeight(300), width: responsiveWidth(360) }}>
-          <BlurCircle marginLeft={`${responsiveWidth(80)}px`} marginTop={`${responsiveHeight(120)}px`} />
-          <SocialLoginCoffee
-            style={{
-              position: "absolute",
-              width: responsiveWidth(182),
-              height: responsiveHeight(205),
-              left: responsiveWidth(90),
-              top: responsiveHeight(60),
-              zIndex: 100,
-            }}
-          />
-          <SocialLoginBackgroundImg
-            style={{
-              position: "absolute",
-              width: responsiveWidth(161),
-              height: responsiveHeight(162),
-              left: responsiveWidth(120),
-              top: responsiveHeight(32),
-              zIndex: 10,
-            }}
-          />
-        </View>
+      <View style={{ justifyContent: "center", alignItems: "center", marginRight: responsiveWidth(50), marginTop: responsiveHeight(30) }}>
+        <ImageBackground
+          source={OnBoardingLoginPageImg}
+          style={{
+            width: responsiveWidth(240),
+            height: responsiveWidth(240),
+            overflow: "hidden",
+          }}
+        />
       </View>
+
       <View
         style={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           gap: 16,
-          marginTop: responsiveHeight(12),
           marginBottom: responsiveHeight(40),
         }}
       >

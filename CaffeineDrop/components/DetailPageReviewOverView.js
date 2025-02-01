@@ -22,8 +22,10 @@ export default function DetailPageReviewOverView() {
     <ReviewOverViewContainer>
       <ReviewOverViewTitle>항목별 세부 평점</ReviewOverViewTitle>
       <ReviewOverViewRate>
-        <ReviewOverViewRateText>1.0</ReviewOverViewRateText>
-        <Text style={{ position: "absolute", top: 64, left: 15 }}>종합평점</Text>
+        <View style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <ReviewOverViewRateText>1.0</ReviewOverViewRateText>
+          <Text style={{ fontSize: responsiveFontSize(12), fontFamily: "PretendardMedium", lineHeight: responsiveHeight(16.56), letterSpacing: -0.3 }}>종합평점</Text>
+        </View>
         <View style={{ gap: responsiveHeight(5) }}>
           <View style={{ display: "flex", flexDirection: "row", gap: responsiveWidth(3), paddingBottom: responsiveHeight(5) }}>
             <Star width={responsiveWidth(20)} height={responsiveHeight(20)} />
@@ -58,7 +60,7 @@ export default function DetailPageReviewOverView() {
           >
             <View style={{ display: "flex", flexDirection: "row", gap: 24 }}>
               <ReviewOverViewDetailRateTheme>
-                <Text>맛</Text>
+                <Theme>맛</Theme>
               </ReviewOverViewDetailRateTheme>
               <ReviewOverViewDetailRateStars>
                 <StarIcon filled={true} />
@@ -81,7 +83,7 @@ export default function DetailPageReviewOverView() {
           >
             <View style={{ display: "flex", flexDirection: "row", gap: 24 }}>
               <ReviewOverViewDetailRateTheme>
-                <Text>인테리어</Text>
+                <Theme>인테리어</Theme>
               </ReviewOverViewDetailRateTheme>
               <ReviewOverViewDetailRateStars>
                 <StarIcon filled={true} />
@@ -102,7 +104,7 @@ export default function DetailPageReviewOverView() {
           >
             <View style={{ display: "flex", flexDirection: "row", gap: 24 }}>
               <ReviewOverViewDetailRateTheme>
-                <Text>청결도</Text>
+                <Theme>청결도</Theme>
               </ReviewOverViewDetailRateTheme>
               <ReviewOverViewDetailRateStars>
                 <StarIcon filled={true} />
@@ -123,7 +125,7 @@ export default function DetailPageReviewOverView() {
           >
             <View style={{ display: "flex", flexDirection: "row", gap: 24 }}>
               <ReviewOverViewDetailRateTheme>
-                <Text>가심비</Text>
+                <Theme>가심비</Theme>
               </ReviewOverViewDetailRateTheme>
               <ReviewOverViewDetailRateStars>
                 <StarIcon filled={true} />
@@ -155,10 +157,8 @@ const ReviewOverViewContainer = styled.View`
 const ReviewOverViewTitle = styled.Text`
   color: #000;
   text-align: center;
-  font-family: Pretendard;
+  font-family: "PretendardSemiBold";
   font-size: ${responsiveFontSize(24)}px;
-  font-style: normal;
-  font-weight: 600;
   line-height: ${responsiveHeight(33.12)}px;
   letter-spacing: -0.6px;
   text-transform: uppercase;
@@ -173,10 +173,8 @@ const ReviewOverViewRate = styled.View`
 
 const ReviewOverViewRateText = styled.Text`
   color: #000;
-  font-family: Pretendard;
+  font-family: "PretendardSemiBold";
   font-size: ${responsiveFontSize(50)}px;
-  font-style: normal;
-  font-weight: 600;
   line-height: ${responsiveHeight(69)}px;
   letter-spacing: -1.25px;
   text-transform: uppercase;
@@ -184,10 +182,8 @@ const ReviewOverViewRateText = styled.Text`
 
 const ReviewCountText = styled.Text`
   color: #666666;
-  font-family: Pretendard;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(12)}px;
-  font-style: normal;
-  font-weight: 500;
   line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3px;
   text-transform: uppercase;
@@ -195,10 +191,8 @@ const ReviewCountText = styled.Text`
 
 const ReviewCount = styled.Text`
   color: #000000;
-  font-family: Pretendard;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(12)}px;
-  font-style: normal;
-  font-weight: 500;
   line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3px;
   text-transform: uppercase;
@@ -216,11 +210,19 @@ const ReviewOverViewDetailRateTheme = styled.View`
   flex-direction: row;
   width: ${responsiveWidth(60)}px;
   height: ${responsiveHeight(27)}px;
-  padding: ${responsiveWidth(5)}px 0;
+  padding: ${responsiveHeight(5)}px 0;
   align-items: center;
   justify-content: center;
   border-bottom-width: 1px;
   border-color: #000;
+`;
+
+const Theme = styled.Text`
+  color: #000;
+  font-family: "PretendardMedium";
+  font-size: ${responsiveFontSize(12)}px;
+  line-height: ${responsiveHeight(16.56)}px;
+  letter-spacing: -0.3px;
 `;
 
 const ReviewOverViewDetailRateStars = styled.View`
@@ -233,10 +235,8 @@ const ReviewOverViewDetailRateStars = styled.View`
 
 const ReviewOverViewDetailRateScore = styled.Text`
   color: #000;
-  font-family: Pretendard;
+  font-family: "PretendardSemiBold";
   font-size: ${responsiveFontSize(14)}px;
-  font-style: normal;
-  font-weight: 600;
   line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: -0.35px;
   padding-left: ${responsiveWidth(8)}px;

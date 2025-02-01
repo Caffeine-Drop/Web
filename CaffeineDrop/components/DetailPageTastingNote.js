@@ -83,7 +83,7 @@ export default function DetailPageTastingNote() {
           <TastingNoteBar score={4} maxScore={5} />
         </View>
         {/* 여기까지 단맛(Sweetness) */}
-        {/* 여기부터 밸런스(Balence) */}
+        {/* 여기부터 밸런스(Balance) */}
         <View
           style={{
             display: "flex",
@@ -92,7 +92,7 @@ export default function DetailPageTastingNote() {
           }}
         >
           <TastingNoteTextContainer>
-            <TastingNoteText>밸런스(Balence)</TastingNoteText>
+            <TastingNoteText>밸런스(Balance)</TastingNoteText>
             <View
               style={{
                 display: "flex",
@@ -183,7 +183,7 @@ const Stroke = styled.View`
 const Container = styled.View`
   display: flex;
   flex-direction: column;
-  gap: responsiveWidth(12);
+  gap: ${responsiveWidth(12)}px;
   padding: ${responsiveHeight(12)}px 0 ${responsiveHeight(20)}px;
 `;
 
@@ -203,9 +203,8 @@ const TastingNoteTextContainer = styled.View`
 
 const TastingNoteText = styled.Text`
   color: #666;
-  font-family: Pretendard;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(12)}px;
-  font-weight: 500;
   line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3px;
 `;
@@ -213,18 +212,16 @@ const TastingNoteText = styled.Text`
 const TastingNoteRate = styled.Text`
   color: #321900;
   text-align: right;
-  font-family: Pretendard;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(12)}px;
-  font-weight: 500;
   line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3px;
 `;
 
 const TastingNoteRateTotal = styled.Text`
   color: #666;
-  font-family: Pretendard;
+  font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(12)}px;
-  font-weight: 500;
   line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3px;
 `;

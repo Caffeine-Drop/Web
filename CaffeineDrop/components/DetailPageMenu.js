@@ -75,7 +75,7 @@ const MenuImgContainer = styled.View`
 
 const Title = styled.Text`
   font-size: ${responsiveFontSize(20)}px;
-  font-weight: 600;
+  font-family: "PretendardSemiBold";
   line-height: ${responsiveHeight(27.6)}px;
   padding-left: ${responsiveWidth(24)}px;
   color: #000000;
@@ -93,8 +93,7 @@ const SignatureMenuContainer = styled.View`
 
 const SignatureMenuTitle = styled.Text`
   font-size: ${responsiveFontSize(16)}px;
-  font-weight: 700;
-  font-style: normal;
+  font-family: "PretendardBold";
   line-height: ${responsiveHeight(22.08)}px;
   padding-left: ${responsiveWidth(24)}px;
 `;
@@ -121,13 +120,13 @@ const SignatureMenuImg = styled.Image`
 
 const MenuName = styled.Text`
   font-size: ${responsiveFontSize(14)}px;
-  font-weight: 600;
+  font-family: "PretendardSemiBold";
   line-height: ${responsiveHeight(19.32)}px;
 `;
 
 const MenuPrice = styled.Text`
   font-size: ${responsiveFontSize(12)}px;
-  font-weight: 500;
+  font-family: "PretendardMedium";
   line-height: ${responsiveHeight(19.32)}px;
 `;
 

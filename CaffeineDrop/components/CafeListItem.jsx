@@ -7,11 +7,12 @@ import {
   responsiveHeight,
 } from "../utils/responsive";
 import styled from "styled-components/native";
+import CafeListItemSkeleton from "./CafeListItemSkeleton";
 import HeartIcon from "../assets/home/HeartIcon.jsx";
 import StarIcon from "../assets/home/StarIcon.svg";
 import { useFonts } from "../styles";
 
-const CafeListItem = ({ cafe, isSelected }) => {
+const CafeListItem = ({ cafe, isSelected, isLoading }) => {
   const fontsLoaded = useFonts();
 
   const navigation = useNavigation(); // navigation 객체 가져오기
@@ -22,8 +23,8 @@ const CafeListItem = ({ cafe, isSelected }) => {
 
   const isBothBadges = cafe.isFavorite && cafe.isSpecialty;
 
-  if (!fontsLoaded) {
-    return null; // 폰트 로드될 때까지 렌더링 안 함
+  if (!fontsLoaded || isLoading) {
+    return <CafeListItemSkeleton />;
   }
 
   return (
@@ -231,7 +232,7 @@ const ClosedSubText = styled.Text`
   font-style: normal;
   font-weight: 400;
   padding-bottom: ${responsiveHeight(8)}px;
-  line-height: ${responsiveHeight(19.32)}px;
+  line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3;
 `;
 
@@ -241,7 +242,7 @@ const ClosedText = styled.Text`
   color: #fafafa;
   font-style: normal;
   font-weight: 700;
-  line-height: ${responsiveHeight(19.32)}px;
+  line-height: ${responsiveHeight(22.08)}px;
   letter-spacing: -0.4;
 `;
 
@@ -266,7 +267,7 @@ const BadgeText = styled.Text`
   font-family: PretendardMedium;
   font-size: ${responsiveFontSize(10)}px;
   font-weight: 500;
-  line-height: ${responsiveHeight(19.32)}px;
+  line-height: ${responsiveHeight(13.8)}px;
   letter-spacing: -0.25;
   color: #fafafa;
 `;
@@ -280,7 +281,7 @@ const Title = styled.Text`
   font-family: PretendardSemiBold;
   font-size: ${responsiveFontSize(18)}px;
   font-weight: 600;
-  line-height: ${responsiveHeight(19.32)}px;
+  line-height: ${responsiveHeight(24.84)}px;
   letter-spacing: -0.45;
   padding-bottom: ${responsiveHeight(8)}px;
 `;
@@ -302,7 +303,7 @@ const DistanceBadge = styled.Text`
   font-family: PretendardRegular;
   font-size: ${responsiveFontSize(10)}px;
   font-weight: 400;
-  line-height: ${responsiveHeight(19.32)}px;
+  line-height: ${responsiveHeight(13.8)}px;
   letter-spacing: -0.25;
   padding: ${responsiveHeight(2)}px ${responsiveWidth(4)}px;
   margin-right: ${responsiveWidth(4)}px;
@@ -314,7 +315,7 @@ const Distance = styled.Text`
   font-family: PretendardRegular;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 400;
-  line-height: ${responsiveHeight(19.32)}px;
+  line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3;
   margin-right: ${responsiveWidth(12)}px;
 `;
@@ -323,7 +324,7 @@ const HashTag = styled.Text`
   font-family: PretendardRegular;
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 400;
-  line-height: ${responsiveHeight(19.32)}px;
+  line-height: ${responsiveHeight(16.56)}px;
   letter-spacing: -0.3;
   color: #666;
 `;

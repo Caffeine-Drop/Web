@@ -50,7 +50,7 @@ export default function SettingPage03({ navigation }) {
         {/* 목록 3개 포함하는 큰 박스 */}
         <ListWrapper>
           <List>
-            <ListInnerBox>
+            <ListInnerBox onPress={() => {}}>
               <InnerText>
                 개인정보 수입 이용 동의 <DateText>2024.06.25</DateText>
               </InnerText>
@@ -58,7 +58,7 @@ export default function SettingPage03({ navigation }) {
             </ListInnerBox>
           </List>
           <List>
-            <ListInnerBox>
+            <ListInnerBox onPress={() => {}}>
               <InnerText>
                 개인정보 제3자 이용 동의 <DateText>2024.06.25</DateText>
               </InnerText>
@@ -66,7 +66,7 @@ export default function SettingPage03({ navigation }) {
             </ListInnerBox>
           </List>
           <List>
-            <ListInnerBox>
+            <ListInnerBox onPress={() => {}}>
               <InnerText>
                 서비스 이용 약관 <DateText>2024.06.25</DateText>
               </InnerText>
@@ -146,7 +146,7 @@ const ListWrapper = styled.View`
   padding-right: ${responsiveWidth(24)}px;
 `;
 const List = styled.View``;
-const ListInnerBox = styled.View`
+const ListInnerBox = styled(TouchableOpacity)`
   display: flex;
   flex-direction: row;
   justify-content: space-between;

@@ -46,20 +46,14 @@ export default function SettingPage02({ navigation }) {
 
       {/* 두번째 줄 박스 두개 */}
       <Box2>
-        <InnerBox2>
+        <InnerBox2 onPress={() => {}}>
           <InnerText>서비스 이용 약관</InnerText>
-          <TouchableOpacity onPress={() => navigation.navigate("")}>
-            <NextButton />
-          </TouchableOpacity>
+          <NextButton />
         </InnerBox2>
 
-        <InnerBox2>
+        <InnerBox2 onPress={() => navigation.navigate("SettingPage03")}>
           <InnerText>개인 정보 처리 방침</InnerText>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("SettingPage03")}
-          >
-            <NextButton />
-          </TouchableOpacity>
+          <NextButton />
         </InnerBox2>
       </Box2>
     </Container>
@@ -121,7 +115,7 @@ const InnerBox1 = styled.View`
   justify-content: space-between;
 `;
 
-const InnerBox2 = styled.View`
+const InnerBox2 = styled(TouchableOpacity)`
   flex-direction: row;
   justify-content: space-between;
   padding-top: ${responsiveHeight(20)}px;

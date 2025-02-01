@@ -8,6 +8,7 @@ import {
 import styled from "styled-components/native";
 import TopFilter from "./TopFilter";
 import CafeListItem from "./CafeListItem";
+import CafeListItemSkeleton from "./CafeListItemSkeleton";
 import SortFilterModal from "./SortFilterModal";
 import TimeFilterModal from "./TimeFilterModal";
 import UpIcon from "../assets/home/UpIcon.svg";
@@ -28,6 +29,8 @@ const SearchResults = ({ isVisible, isSettingMode, onClose, onSlideDown }) => {
   const [selectedSort, setSelectedSort] = useState("인기순");
   const [selectedTime, setSelectedTime] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [cafeList, setCafeList] = useState([]);
 
   // 모서리 반경 애니메이션 설정
   const borderRadius = translateY.interpolate({
@@ -47,6 +50,42 @@ const SearchResults = ({ isVisible, isSettingMode, onClose, onSlideDown }) => {
       useNativeDriver: true,
     }).start();
   }, [isVisible, isSettingMode]);
+
+  useEffect(() => {
+    if (isVisible) {
+      setIsLoading(true); // 검색 결과가 보일 때마다 로딩 시작
+      // 데이터 로딩 시뮬레이션
+      setTimeout(() => {
+        setCafeList([
+          {
+            id: 1,
+            name: "언힙커피로스터스",
+            location: "인천 미추홀구 인하로67번길 6 2층",
+            distance: "600m",
+            hashtag: "#24시간",
+            rating: 4.0,
+            reviews: 605,
+            isFavorite: true,
+            isSpecialty: true,
+            isClosed: false,
+          },
+          {
+            id: 2,
+            name: "언힙커피로스터스",
+            location: "인천 미추홀구 인하로67번길 6 2층",
+            distance: "600m",
+            hashtag: "#24시간",
+            rating: 4.0,
+            reviews: 605,
+            isFavorite: true,
+            isSpecialty: true,
+            isClosed: true,
+          },
+        ]);
+        setIsLoading(false);
+      }, 2000); // 2초 후 로딩 종료
+    }
+  }, [isVisible]);
 
   // 슬라이드 핸들링
   const panResponder = useRef(
@@ -160,34 +199,18 @@ const SearchResults = ({ isVisible, isSettingMode, onClose, onSlideDown }) => {
 
         {/* 카페 리스트 */}
         <CafeList>
-          <CafeListItem
-            cafe={{
-              name: "언힙커피로스터스",
-              location: "인천 미추홀구 인하로67번길 6 2층",
-              distance: "600m",
-              hashtag: "#24시간",
-              rating: 4.0,
-              reviews: 605,
-              isFavorite: true,
-              isSpecialty: true,
-              isClosed: false,
-            }}
-            isSelected={false}
-          />
-          <CafeListItem
-            cafe={{
-              name: "언힙커피로스터스",
-              location: "인천 미추홀구 인하로67번길 6 2층",
-              distance: "600m",
-              hashtag: "#24시간",
-              rating: 4.0,
-              reviews: 605,
-              isFavorite: true,
-              isSpecialty: true,
-              isClosed: true,
-            }}
-            isSelected={false}
-          />
+          {isLoading ? (
+            // 로딩 중일 때 스켈레톤 UI 표시
+            <>
+              <CafeListItemSkeleton />
+              <CafeListItemSkeleton />
+              <CafeListItemSkeleton />
+            </>
+          ) : (
+            cafeList.map((cafe, index) => (
+              <CafeListItem key={index} cafe={cafe} isSelected={false} />
+            ))
+          )}
         </CafeList>
       </AnimatedContainer>
 

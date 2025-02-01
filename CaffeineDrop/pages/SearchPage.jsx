@@ -274,16 +274,18 @@ const SearchPage = () => {
         </MapContainer>
       )}
 
-      <SearchResults
-        isVisible={showSearchResults}
-        isSettingMode={isMapVisible}
-        onClose={() => {
-          setShowSearchResults(false);
-          setIsMapVisible(true);
-          setIsSettingComplete(true);
-        }}
-        onSlideDown={handleSlideDown}
-      />
+      {!isNewSlideVisible && (
+        <SearchResults
+          isVisible={showSearchResults}
+          isSettingMode={isMapVisible}
+          onClose={() => {
+            setShowSearchResults(false);
+            setIsMapVisible(true);
+            setIsSettingComplete(true);
+          }}
+          onSlideDown={handleSlideDown}
+        />
+      )}
 
       {isNewSlideVisible && (
         <SearchWordSlide onClose={() => setIsNewSlideVisible(false)}>

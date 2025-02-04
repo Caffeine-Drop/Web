@@ -122,7 +122,7 @@ export default function SettingAskPage({ navigation }) {
           <SelectBoxTitle>
             <SelectBoxTitleText>문의 유형</SelectBoxTitleText>
           </SelectBoxTitle>
-          <SelectBox>
+          <SelectBox onPress={toggleModal} isModalVisible={isModalVisible}>
             <SelectBoxText>
               {selectedOption || "문의 유형을 선택해주세요"}
             </SelectBoxText>
@@ -291,7 +291,7 @@ const SelectBoxTitleText = styled.Text`
   line-height: ${responsiveHeight(19.32)}px;
   letter-spacing: ${responsiveWidth(-0.35)};
 `;
-const SelectBox = styled.View`
+const SelectBox = styled(TouchableOpacity)`
   display: flex;
   flex-direction: row;
   justify-content: space-between;

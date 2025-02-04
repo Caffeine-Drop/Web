@@ -62,6 +62,16 @@ export default function SettingAskPage({ navigation }) {
       }).start();
     } else {
       console.log("버튼 스타일 변경 여부 = " + false);
+      Animated.timing(buttonBackgroundColor, {
+        toValue: 0,
+        duration: 900,
+        useNativeDriver: false,
+      }).start();
+      Animated.timing(buttonTextColor, {
+        toValue: 0,
+        duration: 900,
+        useNativeDriver: false,
+      }).start();
       console.log(selectedOption);
       console.log(email);
       console.log(content);

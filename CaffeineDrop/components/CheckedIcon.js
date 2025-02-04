@@ -8,14 +8,14 @@ import {
   responsiveHeight,
 } from "../utils/responsive";
 
-const CheckedIconWrapper = styled(TouchableOpacity)`
+const CheckedIconWrapper = styled.View`
   width: ${responsiveWidth(20)}px;
   height: ${responsiveHeight(20)}px;
   flex-shrink: 0;
 `;
 
-const CheckedIcon = ({ onPress }) => (
-  <CheckedIconWrapper onPress={onPress}>
+const CheckedIcon = () => (
+  <CheckedIconWrapper>
     <Svg
       xmlns="http://www.w3.org/2000/svg"
       width={`${responsiveWidth(20)}px`}

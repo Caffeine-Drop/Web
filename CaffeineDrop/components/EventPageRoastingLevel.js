@@ -19,12 +19,14 @@ const RoastingLevel = ({ score, maxScore }) => {
       }}
     >
       <Container>
+        <Separator />
         {levels.map((isFilled, index) => (
           <BoxWrapper key={index}>
             <Box filled={isFilled} />
             {index < maxScore - 1 && <Separator />}
           </BoxWrapper>
         ))}
+        <Separator />
       </Container>
     </View>
   );
@@ -41,7 +43,7 @@ const BoxWrapper = styled.View`
 `;
 
 const Box = styled.View`
-  width: ${responsiveWidth(28)}px;
+  width: ${responsiveWidth(24.5)}px;
   height: ${responsiveHeight(4)}px;
   background-color: ${(props) => (props.filled ? "black" : "#EBEBEB")};
 `;

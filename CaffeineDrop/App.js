@@ -41,10 +41,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="OnboardingLogin01" component={OnboardingLogin01} />
+        {/* <Stack.Screen name="OnboardingLogin01" component={OnboardingLogin01} />
         <Stack.Screen name="OnboardingLogin03" component={OnboardingLogin03} />
         <Stack.Screen name="OnboardingLogin04" component={OnboardingLogin04} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
         <Stack.Screen name="SearchPage" component={SearchPage} />
         <Stack.Screen name="DetailPage" component={DetailPage} />
         <Stack.Screen name="DetailPageImage" component={DetailPageImage} />

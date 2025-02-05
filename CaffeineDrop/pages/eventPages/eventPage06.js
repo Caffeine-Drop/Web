@@ -20,6 +20,8 @@ import BackIcon from "../../components/BackIcon";
 import BlackTextCircle from "../../components/BlackTextCircle";
 import BlurIcon from "../../components/BlurIcon";
 import { LinearGradient } from "expo-linear-gradient";
+import RoastingLevel from "../../components/EventPageRoastingLevel";
+import EventPageTastingNote from "../../components/EventPageTastingNote";
 
 import BrazilImage from "../../components/Card_Brazil";
 import ColombiaImage from "../../components/Card_Colombia";
@@ -65,113 +67,42 @@ export default function EventPage06({ navigation }) {
                   </ContentText>
                 </ContentContainer>
               </TextContainer>
-
-              <ResultChartWrapper>
-                <ResultInnerBox>
-                  <ResultName>
-                    <ResultText>향(Aroma, AfterTaste)</ResultText>
-                    <ResultScore>
-                      4.0
-                      <Text style={{ color: "#666666" }}>/5</Text>
-                    </ResultScore>
-                  </ResultName>
-                  <ResultChartSpace>
-                    <ResultChart>
-                      <LeftLine />
-                      <ResultBrown></ResultBrown>
-                      <ResultGrey></ResultGrey>
-                      <RightLine />
-                    </ResultChart>
-                  </ResultChartSpace>
-                </ResultInnerBox>
-
-                <ResultInnerBox>
-                  <ResultName>
-                    <ResultText>산미(Acidity)</ResultText>
-                    <ResultScore>
-                      4.0
-                      <Text style={{ color: "#666666" }}>/5</Text>
-                    </ResultScore>
-                  </ResultName>
-
-                  <ResultChartSpace>
-                    <ResultChart>
-                      <LeftLine />
-                      <ResultBrown></ResultBrown>
-                      <ResultGrey></ResultGrey>
-                      <RightLine />
-                    </ResultChart>
-                  </ResultChartSpace>
-                </ResultInnerBox>
-
-                <ResultInnerBox>
-                  <ResultName>
-                    <ResultText>바디감(Body)</ResultText>
-                    <ResultScore>
-                      4.0
-                      <Text style={{ color: "#666666" }}>/5</Text>
-                    </ResultScore>
-                  </ResultName>
-                  <ResultChartSpace>
-                    <ResultChart>
-                      <LeftLine />
-                      <ResultBrown></ResultBrown>
-                      <ResultGrey></ResultGrey>
-                      <RightLine />
-                    </ResultChart>
-                  </ResultChartSpace>
-                </ResultInnerBox>
-
-                <ResultInnerBox>
-                  <ResultName>
-                    <ResultText>
-                      로스팅 정도(SCAA 기준) |
-                      <Text style={{ color: "#000000" }}> 시나몬</Text>
-                    </ResultText>
-                    <ResultScore>
-                      2<Text style={{ color: "#666666" }}>/8</Text>
-                    </ResultScore>
-                  </ResultName>
-                  <ResultChartSpace>
-                    <ResultChart>
-                      <LeftLine />
-                      <ResultSmallBrownWrapper>
-                        <ResultSmallBrown />
-                        <SmallRightLine />
-                      </ResultSmallBrownWrapper>
-                      <ResultSmallBrownWrapper>
-                        <ResultSmallBrown />
-                        <SmallRightLine />
-                      </ResultSmallBrownWrapper>
-
-                      <ResultSmallGreyWrapper>
-                        <ResultSmallGrey />
-                        <SmallRightLine />
-                      </ResultSmallGreyWrapper>
-                      <ResultSmallGreyWrapper>
-                        <ResultSmallGrey />
-                        <SmallRightLine />
-                      </ResultSmallGreyWrapper>
-                      <ResultSmallGreyWrapper>
-                        <ResultSmallGrey />
-                        <SmallRightLine />
-                      </ResultSmallGreyWrapper>
-                      <ResultSmallGreyWrapper>
-                        <ResultSmallGrey />
-                        <SmallRightLine />
-                      </ResultSmallGreyWrapper>
-                      <ResultSmallGreyWrapper>
-                        <ResultSmallGrey />
-                        <SmallRightLine />
-                      </ResultSmallGreyWrapper>
-                      <ResultSmallGreyWrapper>
-                        <ResultSmallGrey />
-                        <SmallRightLine />
-                      </ResultSmallGreyWrapper>
-                    </ResultChart>
-                  </ResultChartSpace>
-                </ResultInnerBox>
-              </ResultChartWrapper>
+              {/* //////////////////////////////// */}
+              <View>
+                <EventPageTastingNote />
+              </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: responsiveWidth(12),
+                  paddingBottom: responsiveHeight(36),
+                  paddingLeft: responsiveWidth(24),
+                  paddingRight: responsiveWidth(24),
+                }}
+              >
+                <LoastingDegree>
+                  <LoastingDegreeContent>
+                    <LoastingDegreeText>
+                      로스팅 정도(SCAA 기준)
+                    </LoastingDegreeText>
+                    <LoastingDegreeText>|</LoastingDegreeText>
+                    <LoastingDegreeLateText>시나몬</LoastingDegreeLateText>
+                  </LoastingDegreeContent>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                    }}
+                  >
+                    <LoastingDegreeLate>2</LoastingDegreeLate>
+                    <LoastingDegreeText>/8</LoastingDegreeText>
+                  </View>
+                </LoastingDegree>
+                <RoastingLevel score={2} maxScore={8} />
+              </View>
+              {/* //////////////////////////////// */}
             </GreyColorBox>
 
             <ResultCardWrapper>
@@ -278,167 +209,6 @@ const ContentText = styled.Text`
   text-align: center;
   letter-spacing: -0.35px;
 `;
-
-const ResultChartWrapper = styled.View`
-  margin-left: ${responsiveWidth(24)}px;
-  margin-right: ${responsiveWidth(24)}px;
-  margin-bottom: ${responsiveWidth(24)}px;
-  display: flex;
-  gap: ${responsiveHeight(12)}px;
-`;
-
-//목록 상자
-const ResultInnerBox = styled.View`
-  display: flex;
-  gap: ${responsiveHeight(8)}px;
-`;
-
-//이름과 점수 공간 ///////////////////////
-const ResultName = styled.View`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-const ResultText = styled.Text`
-  color: #666;
-  font-family: PretendardMedium;
-  font-size: ${responsiveFontSize(12)}px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: ${responsiveHeight(16.56)}px;
-  letter-spacing: -0.3px;
-`;
-
-const ResultScore = styled.Text`
-  color: #321900;
-  text-align: right;
-  font-family: PretendardMedium;
-  font-size: ${responsiveFontSize(12)}px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: ${responsiveHeight(16.56)}px;
-  letter-spacing: -0.3px;
-`;
-
-//막대그래프 공간 ///////////////////////
-const ResultChartSpace = styled.View`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: ${responsiveHeight(12)}px;
-`;
-
-const ResultChart = styled.View`
-  width: ${responsiveWidth(224)}px;
-  height: ${responsiveHeight(24)}px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-`;
-const LeftLine = styled.View`
-  position: absolute;
-  width: ${responsiveWidth(1)}px;
-  height: ${responsiveHeight(9)}px;
-  background-color: #d9d9d9;
-  z-index: 7;
-
-  ${Platform.select({
-    ios: `
-            left: ${isTablet ? responsiveWidth(-1.5) : responsiveWidth(-1.5)}px;
-            top: ${isTablet ? responsiveHeight(7.5) : responsiveWidth(7.67)}px;
-        `,
-    android: `
-            left: ${isTablet ? responsiveWidth(-1.3) : responsiveWidth(-1.5)}px;
-            top: ${isTablet ? responsiveHeight(7.5) : responsiveWidth(6)}px;
-        `,
-    web: `
-            left: ${isTablet ? responsiveWidth(-1.5) : responsiveWidth(-1.5)}px;
-            top: ${isTablet ? responsiveHeight(7) : responsiveWidth(7.3)}px;
-        `,
-  })}
-`;
-const RightLine = styled.View`
-  position: absolute;
-  width: ${responsiveWidth(1)}px;
-  height: ${responsiveHeight(9)}px;
-  background-color: #d9d9d9;
-  z-index: 2;
-
-  ${Platform.select({
-    ios: `
-            right: ${isTablet ? responsiveWidth(0) : responsiveWidth(0)}px;
-            top: ${isTablet ? responsiveHeight(7.66) : responsiveWidth(7.66)}px;
-        `,
-    android: `
-            right: ${isTablet ? responsiveWidth(0) : responsiveWidth(0)}px;
-            top: ${isTablet ? responsiveHeight(7.6) : responsiveWidth(6)}px;
-        `,
-    web: `
-            right: ${isTablet ? responsiveWidth(0) : responsiveWidth(0)}px;
-            top: ${isTablet ? responsiveHeight(7.3) : responsiveWidth(7.3)}px;
-        `,
-  })}
-`;
-//로스팅 정도 맨마지막 막대그래프 (오른쪽)회색 구분선
-const SmallRightLine = styled.View`
-  position: absolute;
-  right: 0;
-  top: ${responsiveHeight(-2.1)}px;
-  width: ${responsiveWidth(1)}px;
-  height: ${responsiveHeight(9)}px;
-  background-color: #d9d9d9;
-  z-index: 5;
-`;
-const ResultBrown = styled.View`
-  background-color: #000000;
-  width: ${responsiveWidth(154)}px;
-  height: ${responsiveHeight(5)}px;
-  z-index: 1;
-`;
-const ResultGrey = styled.View`
-  background-color: #ebebeb;
-  width: ${responsiveWidth(70)}px;
-  height: ${responsiveHeight(5)}px;
-  z-index: 0;
-`;
-const ResultSmallBrownWrapper = styled.View`
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-const ResultSmallGreyWrapper = styled.View`
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-//마지막 그래프 검은 부분
-const ResultSmallBrown = styled.View`
-  background-color: #000000;
-  height: ${responsiveHeight(5)}px;
-  z-index: 4;
-
-  ${Platform.select({
-    ios: `
-            width: ${isTablet ? responsiveWidth(30) : responsiveWidth(30)}px;
-        `,
-    android: `
-            width: ${isTablet ? responsiveWidth(28.5) : responsiveWidth(28)}px;
-        `,
-    web: `
-            width: ${isTablet ? responsiveWidth(28) : responsiveWidth(28)}px;
-        `,
-  })}
-`;
-const ResultSmallGrey = styled.View`
-  background-color: #ebebeb;
-  width: ${responsiveWidth(28)}px;
-  height: ${responsiveHeight(5)}px;
-  z-index: 3;
-`;
 ////////////////////////////////////////////
 const ResultCardWrapper = styled.View`
   display: flex;
@@ -449,7 +219,6 @@ const ResultCardWrapper = styled.View`
   margin-top: ${responsiveHeight(50)}px;
   margin-left: ${responsiveWidth(24)}px;
   margin-right: ${responsiveWidth(24)}px;
-  margin-bottom: ${responsiveHeight(40)}px;
 `;
 const ResultHeaderBox = styled.View``;
 const InnerText = styled.Text`
@@ -466,7 +235,44 @@ const InnerText = styled.Text`
 const ResultContentBox = styled.View`
   justify-content: center;
 `;
+//////////////////////////////////////////////
+const LoastingDegree = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
 
+const LoastingDegreeContent = styled.View`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: ${responsiveWidth(6)}px;
+`;
+
+const LoastingDegreeText = styled.Text`
+  color: #666;
+  font-family: "PretendardMedium";
+  font-size: ${responsiveFontSize(12)}px;
+  line-height: ${responsiveHeight(16.56)}px;
+  letter-spacing: -0.3px;
+`;
+
+const LoastingDegreeLate = styled.Text`
+  color: #321900;
+  font-family: "PretendardMedium";
+  font-size: ${responsiveFontSize(12)}px;
+  line-height: ${responsiveHeight(16.56)}px;
+  letter-spacing: -0.3px;
+`;
+
+const LoastingDegreeLateText = styled.Text`
+  color: #000;
+  font-family: "PretendardMedium";
+  font-size: ${responsiveFontSize(12)}px;
+  line-height: ${responsiveHeight(16.56)}px;
+  letter-spacing: -0.3px;
+`;
 //////////////////////////////////////////////
 const Footer = styled.View`
   position: absolute;

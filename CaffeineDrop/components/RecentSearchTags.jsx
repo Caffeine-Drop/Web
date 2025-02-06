@@ -56,6 +56,7 @@ const Container = styled.View`
   margin-top: ${responsiveHeight(24)}px;
   border-bottom-width: 1px;
   border-bottom-color: #f1f1f1;
+  min-height: ${responsiveHeight(102)}px;
 `;
 
 const Header = styled.View`

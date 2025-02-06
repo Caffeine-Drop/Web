@@ -5,15 +5,16 @@ import {
   responsiveHeight,
 } from "../utils/responsive";
 import styled from "styled-components/native";
+import RecentSearchTagsSkeleton from "./RecentSearchTagsSkeleton";
 import DeleteIcon from "../assets/search/DeleteIcon.svg";
 import { useFonts } from "../styles";
 
-const RecentSearchTags = ({ recentSearches, onClearAll }) => {
+const RecentSearchTags = ({ recentSearches, onClearAll, isLoading }) => {
   const [searchTags, setSearchTags] = useState(recentSearches); // 상태로 관리
   const fontsLoaded = useFonts();
 
-  if (!fontsLoaded) {
-    return null; // 폰트 로드될 때까지 렌더링 안 함
+  if (!fontsLoaded || isLoading) {
+    return <RecentSearchTagsSkeleton />;
   }
 
   const handleClearAll = () => {

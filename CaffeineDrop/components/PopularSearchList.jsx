@@ -5,9 +5,10 @@ import {
   responsiveHeight,
 } from "../utils/responsive";
 import styled from "styled-components/native";
+import PopularSearchListSkeleton from "./PopularSearchListSkeleton";
 import { useFonts } from "../styles";
 
-const PopularSearchList = ({ popularSearches }) => {
+const PopularSearchList = ({ popularSearches, isLoading }) => {
   const fontsLoaded = useFonts();
 
   // 열 기준으로 데이터 재구성
@@ -16,8 +17,8 @@ const PopularSearchList = ({ popularSearches }) => {
     popularSearches.slice(colIndex * rowCount, (colIndex + 1) * rowCount)
   );
 
-  if (!fontsLoaded) {
-    return null; // 폰트 로드될 때까지 렌더링 안 함
+  if (!fontsLoaded || isLoading) {
+    return <PopularSearchListSkeleton />;
   }
 
   return (

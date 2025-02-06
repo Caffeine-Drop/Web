@@ -31,6 +31,7 @@ const ANIMATION_DURATION = 300; // 애니메이션 지속 시간
 
 const SearchPage = () => {
   const fontsLoaded = useFonts();
+  const [isLoading, setIsLoading] = useState(true);
 
   const popularSearches = [
     "카이막",
@@ -60,6 +61,17 @@ const SearchPage = () => {
   const [isInSearchMode, setIsInSearchMode] = useState(false); // 🔹 검색 설정 모드 상태
   const [searchText, setSearchText] = useState("");
   const [isNewSlideVisible, setIsNewSlideVisible] = useState(false);
+
+  React.useEffect(() => {
+    setTimeout(() => setIsLoading(false), 2000);
+  }, []);
+
+  React.useEffect(() => {
+    if (isNewSlideVisible) {
+      setIsLoading(true); // 🔥 새로 열릴 때마다 스켈레톤 보이게 설정
+      setTimeout(() => setIsLoading(false), 2000); // 2초 후 로딩 종료
+    }
+  }, [isNewSlideVisible]);
 
   const translateY = useRef(new Animated.Value(DEFAULT_POSITION)).current;
   const animatedLocations = useRef([
@@ -297,24 +309,32 @@ const SearchPage = () => {
 
       {isNewSlideVisible && (
         <SearchWordSlide onClose={() => setIsNewSlideVisible(false)}>
-          <PopularSearchList popularSearches={popularSearches} />
+          <PopularSearchList
+            popularSearches={popularSearches}
+            isLoading={isLoading}
+          />
           <RecentSearchTags
             recentSearches={recentSearches}
             onClearAll={handleClearAll}
+            isLoading={isLoading}
           />
-          <RecommendedCafes cafes={recommendedCafes} />
+          <RecommendedCafes cafes={recommendedCafes} isLoading={isLoading} />
         </SearchWordSlide>
       )}
 
       {/* 검색 추천 UI */}
       {!showSearchResults && !isMapVisible && (
         <>
-          <PopularSearchList popularSearches={popularSearches} />
+          <PopularSearchList
+            popularSearches={popularSearches}
+            isLoading={isLoading}
+          />
           <RecentSearchTags
             recentSearches={recentSearches}
             onClearAll={handleClearAll}
+            isLoading={isLoading}
           />
-          <RecommendedCafes cafes={recommendedCafes} />
+          <RecommendedCafes cafes={recommendedCafes} isLoading={isLoading} />
         </>
       )}
     </Container>

@@ -7,11 +7,12 @@ import {
   responsiveHeight,
 } from "../utils/responsive";
 import styled from "styled-components/native";
+import RecommendedCafesSkeleton from "./RecommendedCafesSkeleton";
 import ExclamationIcon from "../assets/search/ExclamationIcon.svg";
 import StarIcon from "../assets/search/StarIcon.svg";
 import { useFonts } from "../styles";
 
-const RecommendedCafes = ({ cafes }) => {
+const RecommendedCafes = ({ cafes, isLoading }) => {
   const fontsLoaded = useFonts();
   const navigation = useNavigation();
 
@@ -19,8 +20,8 @@ const RecommendedCafes = ({ cafes }) => {
     navigation.navigate("DetailPage", { cafe }); // DetailPage로 이동
   };
 
-  if (!fontsLoaded) {
-    return null; // 폰트 로드될 때까지 렌더링 안 함
+  if (!fontsLoaded || isLoading) {
+    return <RecommendedCafesSkeleton />;
   }
 
   return (

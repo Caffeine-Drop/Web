@@ -1,31 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
 } from "../utils/responsive";
 import styled from "styled-components/native";
+import RecentSearchTagsSkeleton from "./RecentSearchTagsSkeleton";
 import DeleteIcon from "../assets/search/DeleteIcon.svg";
 import { useFonts } from "../styles";
 
-const RecentSearchTags = ({ recentSearches, onClearAll }) => {
+const RecentSearchTags = ({ recentSearches, onClearAll, isLoading }) => {
+  const [searchTags, setSearchTags] = useState(recentSearches); // 상태로 관리
   const fontsLoaded = useFonts();
 
-  if (!fontsLoaded) {
-    return null; // 폰트 로드될 때까지 렌더링 안 함
+  if (!fontsLoaded || isLoading) {
+    return <RecentSearchTagsSkeleton />;
   }
+
+  const handleClearAll = () => {
+    setSearchTags([]); // 모든 태그 삭제
+    if (onClearAll) onClearAll(); // 부모 컴포넌트의 onClearAll 콜백 호출
+  };
+
+  const handleDeleteTag = (index) => {
+    const updatedTags = searchTags.filter((_, i) => i !== index); // 해당 인덱스를 제외한 태그 목록
+    setSearchTags(updatedTags);
+  };
 
   return (
     <Container>
       <Header>
         <Title>최근 검색어</Title>
-        <ClearText onPress={onClearAll}>모두 삭제</ClearText>
+        <ClearText onPress={handleClearAll}>모두 삭제</ClearText>
       </Header>
       <TagList horizontal showsHorizontalScrollIndicator={false}>
-        {recentSearches.map((search, index) => (
+        {searchTags.map((search, index) => (
           <Tag key={index}>
             <TagText>{search}</TagText>
-            <DeleteIconWrapper>
+            <DeleteIconWrapper onPress={() => handleDeleteTag(index)}>
               <DeleteIcon
                 width={`${responsiveWidth(19)}px`}
                 height={`${responsiveHeight(19)}px`}
@@ -44,6 +56,7 @@ const Container = styled.View`
   margin-top: ${responsiveHeight(24)}px;
   border-bottom-width: 1px;
   border-bottom-color: #f1f1f1;
+  min-height: ${responsiveHeight(102)}px;
 `;
 
 const Header = styled.View`
@@ -80,7 +93,7 @@ const TagList = styled.ScrollView`
 `;
 
 const Tag = styled.View`
-  flex-direction: row; /* 태그 텍스트와 아이콘을 가로로 배치 */
+  flex-direction: row;
   height: ${responsiveHeight(36)}px;
   align-items: center;
   justify-content: center;

@@ -1,20 +1,27 @@
 import React from "react";
-import { FlatList } from "react-native";
+import { FlatList, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
 } from "../utils/responsive";
 import styled from "styled-components/native";
+import RecommendedCafesSkeleton from "./RecommendedCafesSkeleton";
 import ExclamationIcon from "../assets/search/ExclamationIcon.svg";
 import StarIcon from "../assets/search/StarIcon.svg";
 import { useFonts } from "../styles";
 
-const RecommendedCafes = ({ cafes }) => {
+const RecommendedCafes = ({ cafes, isLoading }) => {
   const fontsLoaded = useFonts();
+  const navigation = useNavigation();
 
-  if (!fontsLoaded) {
-    return null; // 폰트 로드될 때까지 렌더링 안 함
+  const handlePress = (cafe) => {
+    navigation.navigate("DetailPage", { cafe }); // DetailPage로 이동
+  };
+
+  if (!fontsLoaded || isLoading) {
+    return <RecommendedCafesSkeleton />;
   }
 
   return (
@@ -33,27 +40,29 @@ const RecommendedCafes = ({ cafes }) => {
         horizontal
         data={cafes}
         renderItem={({ item, index }) => (
-          <CafeCard
-            style={{
-              marginLeft:
-                index === 0 ? responsiveWidth(24) : responsiveWidth(6),
-            }}
-          >
-            <CafeText numberOfLines={1} ellipsizeMode="tail">
-              {item.name}
-            </CafeText>
-            <DistanceWrapper>
-              <DistanceLabel>거리</DistanceLabel>
-              <DistanceValue>{item.distance}</DistanceValue>
-            </DistanceWrapper>
-            <Rating>
-              <StarIcon
-                width={`${responsiveWidth(18)}px`}
-                height={`${responsiveHeight(18)}px`}
-              />
-              <RatingText>{parseFloat(item.rating).toFixed(1)}</RatingText>
-            </Rating>
-          </CafeCard>
+          <TouchableOpacity onPress={() => handlePress(item)}>
+            <CafeCard
+              style={{
+                marginLeft:
+                  index === 0 ? responsiveWidth(24) : responsiveWidth(6),
+              }}
+            >
+              <CafeText numberOfLines={1} ellipsizeMode="tail">
+                {item.name}
+              </CafeText>
+              <DistanceWrapper>
+                <DistanceLabel>거리</DistanceLabel>
+                <DistanceValue>{item.distance}</DistanceValue>
+              </DistanceWrapper>
+              <Rating>
+                <StarIcon
+                  width={`${responsiveWidth(18)}px`}
+                  height={`${responsiveHeight(18)}px`}
+                />
+                <RatingText>{parseFloat(item.rating).toFixed(1)}</RatingText>
+              </Rating>
+            </CafeCard>
+          </TouchableOpacity>
         )}
         keyExtractor={(item, index) => index.toString()}
         showsHorizontalScrollIndicator={false}

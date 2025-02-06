@@ -12,7 +12,7 @@ const FULLY_EXPANDED_POSITION = responsiveHeight(162); // 슬라이드가 올라
 const DEFAULT_POSITION = SCREEN_HEIGHT - responsiveHeight(356); // 기본 위치 (px)
 const ANIMATION_DURATION = 300; // 애니메이션 지속 시간 (ms)
 
-const SearchWordSlide = ({ onClose, children }) => {
+const SearchWordSlide = ({ onClose, children, isLoading }) => {
   // translateY를 DEFAULT_POSITION으로 초기화
   const translateY = useRef(new Animated.Value(DEFAULT_POSITION)).current;
 
@@ -33,7 +33,8 @@ const SearchWordSlide = ({ onClose, children }) => {
 
       // 드래그 중 translateY 업데이트
       onPanResponderMove: (_, gestureState) => {
-        if (gestureState.dy > 0) { // 아래로 드래그만 허용
+        if (gestureState.dy > 0) {
+          // 아래로 드래그만 허용
           const newY = gestureState.dy + FULLY_EXPANDED_POSITION;
           translateY.setValue(newY);
         }
@@ -81,11 +82,10 @@ const SearchWordSlide = ({ onClose, children }) => {
       <DragHandleWrapper>
         <DragHandle />
       </DragHandleWrapper>
-      
+
+      {isLoading ? <SkeletonLoader /> : children}
       {/* 슬라이드 내부에 전달된 children 렌더링 */}
-      <ContentScrollView>
-        {children}
-      </ContentScrollView>
+      <ContentScrollView>{children}</ContentScrollView>
     </AnimatedContainer>
   );
 };

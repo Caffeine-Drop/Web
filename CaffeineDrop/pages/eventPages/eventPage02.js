@@ -22,7 +22,7 @@ import BlurIcon2 from "../../components/BlurIcon2";
 import CoffeeImage from "../../components/Coffee";
 import { LinearGradient } from "expo-linear-gradient";
 import { Platform } from "react-native";
-
+import { useRoute } from "@react-navigation/native";
 import { Dimensions } from "react-native";
 
 // 화면 너비 가져오기
@@ -149,6 +149,7 @@ const SelectOption = ({ text, score, isSelected, onPress }) => {
 
 export default function EventPage02({ navigation }) {
   const progress = useRef(new Animated.Value(0)).current;
+  const route = useRoute();
 
   useEffect(() => {
     // 페이지가 로드될 때 애니메이션 시작
@@ -164,14 +165,12 @@ export default function EventPage02({ navigation }) {
     outputRange: ["0%", "25%"], // 너비를 0%에서 100%로 애니메이션
   });
 
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption1, setSelectedOption] = useState(null);
   const buttonBackgroundColor = useRef(new Animated.Value(0)).current;
   const buttonTextColor = useRef(new Animated.Value(0)).current;
 
   const handleSelectOption = (index) => {
     setSelectedOption(index);
-
-    //사용자가 몇번을 골랐는지 출력해서 확인
     console.log(`Selected index: ${index}`);
 
     Animated.timing(buttonBackgroundColor, {
@@ -250,26 +249,30 @@ export default function EventPage02({ navigation }) {
               <SelectOption
                 text="매우 그렇다"
                 score="5점"
-                isSelected={selectedOption === 0}
+                isSelected={selectedOption1 === 0}
                 onPress={() => handleSelectOption(0)}
               />
               <SelectOption
                 text="보통이다"
                 score="4점"
-                isSelected={selectedOption === 1}
+                isSelected={selectedOption1 === 1}
                 onPress={() => handleSelectOption(1)}
               />
               <SelectOption
                 text="그렇지 않다"
                 score="3점"
-                isSelected={selectedOption === 2}
+                isSelected={selectedOption1 === 2}
                 onPress={() => handleSelectOption(2)}
               />
             </SelectContainer>
           </Content>
         </ScrollView>
         <Footer>
-          <TouchableOpacity onPress={() => navigation.navigate("EventPage03")}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("EventPage03", { selectedOption1 })
+            }
+          >
             <AnimatedButtonWrapper
               style={{ backgroundColor: buttonBackgroundColorInterpolate }}
             >

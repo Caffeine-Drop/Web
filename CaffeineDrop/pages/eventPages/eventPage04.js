@@ -21,7 +21,7 @@ import BlurIcon2 from "../../components/BlurIcon2";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { Platform } from "react-native";
-
+import { useRoute } from "@react-navigation/native";
 import { Dimensions } from "react-native";
 
 // 화면 너비 가져오기
@@ -147,6 +147,16 @@ const SelectOption = ({ text, score, isSelected, onPress }) => {
 };
 
 export default function EventPage04({ navigation }) {
+  const route = useRoute();
+  const selectedOption1 = route.params?.selectedOption1;
+  const selectedOption2 = route.params?.selectedOption2;
+
+  useEffect(() => {
+    if (selectedOption1 !== undefined) {
+      console.log("가져온 값 =", selectedOption1, selectedOption2);
+    }
+  }, [selectedOption1, selectedOption2]);
+
   const progress = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -163,7 +173,7 @@ export default function EventPage04({ navigation }) {
     outputRange: ["50%", "75%"], // 너비를 0%에서 100%로 애니메이션
   });
 
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption3, setSelectedOption] = useState(null);
   const buttonBackgroundColor = useRef(new Animated.Value(0)).current;
   const buttonTextColor = useRef(new Animated.Value(0)).current;
 
@@ -248,26 +258,34 @@ export default function EventPage04({ navigation }) {
             <SelectOption
               text="매우 그렇다"
               score="3점"
-              isSelected={selectedOption === 0}
+              isSelected={selectedOption3 === 0}
               onPress={() => handleSelectOption(0)}
             />
             <SelectOption
               text="보통이다"
               score="4점"
-              isSelected={selectedOption === 1}
+              isSelected={selectedOption3 === 1}
               onPress={() => handleSelectOption(1)}
             />
             <SelectOption
               text="그렇지 않다"
               score="5점"
-              isSelected={selectedOption === 2}
+              isSelected={selectedOption3 === 2}
               onPress={() => handleSelectOption(2)}
             />
           </SelectContainer>
         </Content>
 
         <Footer>
-          <TouchableOpacity onPress={() => navigation.navigate("EventPage05")}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("EventPage05", {
+                selectedOption1,
+                selectedOption2,
+                selectedOption3,
+              })
+            }
+          >
             <AnimatedButtonWrapper
               style={{ backgroundColor: buttonBackgroundColorInterpolate }}
             >

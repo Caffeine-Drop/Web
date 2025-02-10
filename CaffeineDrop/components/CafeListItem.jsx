@@ -48,11 +48,7 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
                       borderBottomRightRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 오른쪽 아래 모서리 제거
                     }}
                   >
-                    <HeartIcon
-                      color="#FFFFFF"
-                      size={10}
-                      style={{ marginRight: 4 }}
-                    />
+                    <HeartIcon color="#FFFFFF" size={responsiveWidth(10)} />
                     <BadgeText>좋아요</BadgeText>
                   </Badge>
                 )}
@@ -128,7 +124,11 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
                 <Distance>{cafe.distance}</Distance>
                 <HashTag>{cafe.hashtag}</HashTag>
                 <RatingContainer>
-                  <StarIcon width={12} height={12} style={{ marginRight: 5 }} />
+                  <StarIcon
+                    width={responsiveWidth(12)}
+                    height={responsiveHeight(12)}
+                    style={{ marginRight: responsiveWidth(5) }}
+                  />
                   <RatingText>
                     <RatingNumber>
                       {parseFloat(cafe.rating).toFixed(1)}
@@ -269,6 +269,7 @@ const BadgeText = styled.Text`
   font-weight: 500;
   line-height: ${responsiveHeight(13.8)}px;
   letter-spacing: -0.25;
+  margin-left: ${responsiveWidth(4)}px;
   color: #fafafa;
 `;
 

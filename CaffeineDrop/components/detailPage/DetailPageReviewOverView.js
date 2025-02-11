@@ -5,12 +5,12 @@ import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 import styled from "styled-components/native";
 
 // 이미지 임포트
-import Star from "../assets/DetailPage/DetailPageStarImg.svg";
-import BlankStar from "../assets/DetailPage/DetailPageBlankStarImg.svg";
+import Star from "../../assets/DetailPage/DetailPageStarImg.svg";
+import BlankStar from "../../assets/DetailPage/DetailPageBlankStarImg.svg";
 
 const StarIcon = ({ filled }) => {
   const Icon = filled ? Star : BlankStar;
@@ -22,17 +22,51 @@ export default function DetailPageReviewOverView() {
     <ReviewOverViewContainer>
       <ReviewOverViewTitle>항목별 세부 평점</ReviewOverViewTitle>
       <ReviewOverViewRate>
-        <View style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <ReviewOverViewRateText>1.0</ReviewOverViewRateText>
-          <Text style={{ fontSize: responsiveFontSize(12), fontFamily: "PretendardMedium", lineHeight: responsiveHeight(16.56), letterSpacing: -0.3 }}>종합평점</Text>
+          <Text
+            style={{
+              fontSize: responsiveFontSize(12),
+              fontFamily: "PretendardMedium",
+              lineHeight: responsiveHeight(16.56),
+              letterSpacing: -0.3,
+            }}
+          >
+            종합평점
+          </Text>
         </View>
         <View style={{ gap: responsiveHeight(5) }}>
-          <View style={{ display: "flex", flexDirection: "row", gap: responsiveWidth(3), paddingBottom: responsiveHeight(5) }}>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: responsiveWidth(3),
+              paddingBottom: responsiveHeight(5),
+            }}
+          >
             <Star width={responsiveWidth(20)} height={responsiveHeight(20)} />
-            <BlankStar width={responsiveWidth(20)} height={responsiveHeight(20)} />
-            <BlankStar width={responsiveWidth(20)} height={responsiveHeight(20)} />
-            <BlankStar width={responsiveWidth(20)} height={responsiveHeight(20)} />
-            <BlankStar width={responsiveWidth(20)} height={responsiveHeight(20)} />
+            <BlankStar
+              width={responsiveWidth(20)}
+              height={responsiveHeight(20)}
+            />
+            <BlankStar
+              width={responsiveWidth(20)}
+              height={responsiveHeight(20)}
+            />
+            <BlankStar
+              width={responsiveWidth(20)}
+              height={responsiveHeight(20)}
+            />
+            <BlankStar
+              width={responsiveWidth(20)}
+              height={responsiveHeight(20)}
+            />
           </View>
           <View style={{ display: "flex", flexDirection: "row" }}>
             <ReviewCountText>후기 | </ReviewCountText>

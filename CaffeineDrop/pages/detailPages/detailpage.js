@@ -7,22 +7,22 @@ import {
   Animated,
 } from "react-native";
 import styled from "styled-components/native";
-import { useFonts } from "../styles";
+import { useFonts } from "../../styles";
 
 import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 
 // 컴포넌트
-import DetailPageHeader from "../components/DetailPageHeader";
-import DetailPageWriteReviewButton from "../components/DetailPageWriteReviewButton";
-import DetailPageHome from "../pages/detailpagehome";
-import DetailPageReview from "../pages/detailpagereview";
-import DetailPageImage from "../pages/detailpageimage";
-import DetailPageBeansInfo from "../pages/detailpagebeansinfo";
-import BackButton from "../components/BackButton";
+import DetailPageHeader from "../../components/detailPage/DetailPageHeader";
+import DetailPageWriteReviewButton from "../../components/detailPage/DetailPageWriteReviewButton";
+import DetailPageHome from "../../pages/detailPages/detailpagehome";
+import DetailPageReview from "../../pages/detailPages/detailpagereview";
+import DetailPageImage from "../../pages/detailPages/detailpageimage";
+import DetailPageBeansInfo from "../../pages/detailPages/detailpagebeansinfo";
+import BackButton from "../../components/BackButton";
 
 export default function DetailPage({ navigation, route }) {
   const { cafe } = route.params || {};
@@ -51,9 +51,12 @@ export default function DetailPage({ navigation, route }) {
       duration: 500,
       useNativeDriver: true,
     }).start();
-  
+
     if (scrollViewRef.current) {
-      scrollViewRef.current.scrollTo({ y: responsiveHeight(340), animated: true });
+      scrollViewRef.current.scrollTo({
+        y: responsiveHeight(340),
+        animated: true,
+      });
     }
   };
 
@@ -102,7 +105,11 @@ export default function DetailPage({ navigation, route }) {
           <View style={{ width: "100%", flexDirection: "column" }}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <BackButton
-                style={{ position: "absolute", width: responsiveWidth(24), height: responsiveWidth(24) }}
+                style={{
+                  position: "absolute",
+                  width: responsiveWidth(24),
+                  height: responsiveWidth(24),
+                }}
                 onPress={() => navigation.goBack()}
               />
               <FixedHeaderText>언힙커피로스터스</FixedHeaderText>
@@ -132,7 +139,12 @@ export default function DetailPage({ navigation, route }) {
           </View>
         </FixedHeader>
       )}
-      <ScrollView ref={scrollViewRef} onScroll={handleScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        ref={scrollViewRef}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        showsVerticalScrollIndicator={false}
+      >
         <DetailPageHeader navigation={navigation} isScrolled={isScrolled} />
         <View>
           <Container>

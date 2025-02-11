@@ -5,15 +5,15 @@ import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 
 // 이미지 파일 경로
-import DetailPageMainImg from "../assets/DetailPage/DetailPageMainImg.png";
-import Profile from "../assets/DetailPage/Profile.svg";
-import ReviewStarIcon from "../assets/DetailPage/ReviewStarIcon.svg";
+import DetailPageMainImg from "../../assets/DetailPage/DetailPageMainImg.png";
+import Profile from "../../assets/DetailPage/Profile.svg";
+import ReviewStarIcon from "../../assets/DetailPage/ReviewStarIcon.svg";
 
 // 컴포넌트
-import BackButton from "../components/BackButton";
+import BackButton from "../../components/BackButton";
 
 export default function DetailPageImageDetail({ navigation }) {
   const scrollViewRef = useRef(null);
@@ -67,7 +67,14 @@ export default function DetailPageImageDetail({ navigation }) {
     <View style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 0.6)" }}>
       <Container>
         <Header>
-          <BackButton style={{ position: "absolute", width: responsiveWidth(24), height: responsiveWidth(24) }} onPress={() => navigation.goBack()} />
+          <BackButton
+            style={{
+              position: "absolute",
+              width: responsiveWidth(24),
+              height: responsiveWidth(24),
+            }}
+            onPress={() => navigation.goBack()}
+          />
           <ViewDetailText>카페 상세보기</ViewDetailText>
         </Header>
         <ImageContainer>

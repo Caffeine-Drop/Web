@@ -7,11 +7,11 @@ import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 
 // 이미지 임포트
-import PlusIcon from "../assets/DetailPage/PlusIcon.svg";
-import MinusIcon from "../assets/DetailPage/MinusIcon.svg";
+import PlusIcon from "../../assets/DetailPage/PlusIcon.svg";
+import MinusIcon from "../../assets/DetailPage/MinusIcon.svg";
 
 // 컴포넌트 임포트
 import RoastingLevel from "./DetailPageRoastingLevel";
@@ -108,10 +108,14 @@ export default function DetailPageCoffeeInfo() {
                   }}
                 >
                   <CuppingNote>
-                    <Text style={{ fontSize: responsiveFontSize(14) }}>#호두</Text>
+                    <Text style={{ fontSize: responsiveFontSize(14) }}>
+                      #호두
+                    </Text>
                   </CuppingNote>
                   <CuppingNote>
-                    <Text style={{ fontSize: responsiveFontSize(14) }}>#코코아</Text>
+                    <Text style={{ fontSize: responsiveFontSize(14) }}>
+                      #코코아
+                    </Text>
                   </CuppingNote>
                 </View>
               </View>

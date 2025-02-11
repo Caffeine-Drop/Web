@@ -1,6 +1,6 @@
 import React from "react";
-import DetailPageCoffeeBeanInfo from "../components/DetailPageCoffeeBeanInfo";
-import DetailPageEmpty from "../components/DetailPageEmpty";
+import DetailPageCoffeeBeanInfo from "../../components/detailPage/DetailPageCoffeeBeanInfo";
+import DetailPageEmpty from "../../components/detailPage/DetailPageEmpty";
 
 export default function DetailPageBeansInfo({ selectedTab }) {
   return (
@@ -16,4 +16,3 @@ export default function DetailPageBeansInfo({ selectedTab }) {
     </>
   );
 }
-

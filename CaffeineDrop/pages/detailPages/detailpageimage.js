@@ -7,11 +7,11 @@ import {
   ActivityIndicator,
 } from "react-native";
 import styled from "styled-components/native";
-import { responsiveWidth, responsiveHeight } from "../utils/responsive";
+import { responsiveWidth, responsiveHeight } from "../../utils/responsive";
 
 // 이미지 파일 경로
 // import DetailPageMainImg from "../assets/DetailPage/DetailPageMainImg.svg";
-import DetailPageMainImg from "../assets/DetailPage/DetailPageMainImg.png";
+import DetailPageMainImg from "../../assets/DetailPage/DetailPageMainImg.png";
 
 export default function DetailPageImage({ selectedTab, navigation }) {
   const [loading, setLoading] = useState(true);

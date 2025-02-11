@@ -13,19 +13,19 @@ import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 import * as ImagePicker from "expo-image-picker";
 
 // 이미지 임포트
-import SpecialtyCoffeeLogo from "../assets/DetailPage/SpecialtyCoffeeLogo.svg";
-import Star from "../assets/DetailPage/DetailPageStarImg.svg";
-import BlankStar from "../assets/DetailPage/DetailPageBlankStarImg.svg";
-import DownIcon from "../assets/ReviewPage/DownIcon.svg";
-import AddReviewImageButton from "../assets/ReviewPage/AddReviewImageButton.svg";
-import MinusIcon from "../assets/ReviewPage/MinusIcon.svg";
+import SpecialtyCoffeeLogo from "../../assets/DetailPage/SpecialtyCoffeeLogo.svg";
+import Star from "../../assets/DetailPage/DetailPageStarImg.svg";
+import BlankStar from "../../assets/DetailPage/DetailPageBlankStarImg.svg";
+import DownIcon from "../../assets/ReviewPage/DownIcon.svg";
+import AddReviewImageButton from "../../assets/ReviewPage/AddReviewImageButton.svg";
+import MinusIcon from "../../assets/ReviewPage/MinusIcon.svg";
 
 // 컴포넌트 임포트
-import BackButton from "../components/BackButton";
+import BackButton from "../../components/BackButton";
 
 const StarIcon = ({ filled }) => {
   const Icon = filled ? Star : BlankStar;
@@ -122,7 +122,11 @@ export default function ReviewPage({ navigation }) {
         <View style={{ width: "100%", flexDirection: "column" }}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <BackButton
-              style={{ position: "absolute", width: responsiveWidth(24), height: responsiveWidth(24) }}
+              style={{
+                position: "absolute",
+                width: responsiveWidth(24),
+                height: responsiveWidth(24),
+              }}
               onPress={() => navigation.goBack()}
             />
             <FixedHeaderText>리뷰 작성하기</FixedHeaderText>

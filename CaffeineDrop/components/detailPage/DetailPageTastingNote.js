@@ -5,7 +5,7 @@ import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 
 export default function DetailPageTastingNote() {
   return (
@@ -141,11 +141,11 @@ const TastingNoteBar = ({ score, maxScore }) => {
 
   return (
     <TastingNoteBarContainer>
-        <Stroke />
-        <Bar>
-          <Fill width={`${fillPercentage}%`} />
-        </Bar>
-        <Stroke />
+      <Stroke />
+      <Bar>
+        <Fill width={`${fillPercentage}%`} />
+      </Bar>
+      <Stroke />
     </TastingNoteBarContainer>
   );
 };

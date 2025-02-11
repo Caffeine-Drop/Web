@@ -2,9 +2,9 @@ import React from "react";
 import { View, ScrollView } from "react-native";
 
 // 컴포넌트
-import DetailPageReviewOverView from "../components/DetailPageReviewOverView";
-import DetailPageReviews from "../components/DetailPageReviews";
-import DetailPageEmpty from "../components/DetailPageEmpty";
+import DetailPageReviewOverView from "../../components/detailPage/DetailPageReviewOverView";
+import DetailPageReviews from "../../components/detailPage/DetailPageReviews";
+import DetailPageEmpty from "../../components/detailPage/DetailPageEmpty";
 export default function DetailPageReview({
   selectedTab,
   onViewMoreReviewPress,

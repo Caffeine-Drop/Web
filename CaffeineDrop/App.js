@@ -29,6 +29,8 @@ import EventPage05 from "./pages/eventPages/eventPage05";
 import EventPage06 from "./pages/eventPages/eventPage06";
 import EventPage11 from "./pages/eventPages/eventPage11";
 import EventPage12 from "./pages/eventPages/eventPage12";
+import PrivatePolicyPage from "./pages/termsPages/privatePolicyPage";
+import TermsOfServicePage from "./pages/termsPages/termsOfServicePage";
 
 const Stack = createNativeStackNavigator();
 
@@ -71,6 +73,11 @@ export default function App() {
         <Stack.Screen name="SettingPage03" component={SettingPage03} />
         <Stack.Screen name="SettingPage04" component={SettingPage04} />
         <Stack.Screen name="SettingPage05" component={SettingPage05} />
+        <Stack.Screen name="PrivatePolicyPage" component={PrivatePolicyPage} />
+        <Stack.Screen
+          name="TermsOfServicePage"
+          component={TermsOfServicePage}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

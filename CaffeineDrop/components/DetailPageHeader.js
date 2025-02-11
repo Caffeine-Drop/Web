@@ -45,7 +45,7 @@ export default function DetailPageHeader({ navigation, isScrolled }) {
           }}
         />
         <Header>
-          <BackButton onPress={() => navigation.goBack()} />
+          <BackButton style={{ position: "absolute", width: responsiveWidth(24), height: responsiveWidth(24), zIndex: 1002 }} onPress={() => navigation.goBack()} />
           <ViewDetailText>카페 상세보기</ViewDetailText>
         </Header>
         <View
@@ -161,11 +161,13 @@ const Container = styled.View`
 
 const Header = styled.View`
   position: absolute;
-  top: 50px;
+  top: ${responsiveHeight(50)}px;
   width: 100%;
   flex-direction: row;
   align-items: center;
   padding: 0;
+  padding-top: ${responsiveHeight(20)}px;
+  z-index: 1006;
 `;
 
 const ViewDetailText = styled.Text`

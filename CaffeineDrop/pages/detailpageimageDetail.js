@@ -67,7 +67,7 @@ export default function DetailPageImageDetail({ navigation }) {
     <View style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 0.6)" }}>
       <Container>
         <Header>
-          <BackButton onPress={() => navigation.goBack()} />
+          <BackButton style={{ position: "absolute", width: responsiveWidth(24), height: responsiveWidth(24) }} onPress={() => navigation.goBack()} />
           <ViewDetailText>카페 상세보기</ViewDetailText>
         </Header>
         <ImageContainer>

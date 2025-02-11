@@ -122,7 +122,7 @@ export default function ReviewPage({ navigation }) {
         <View style={{ width: "100%", flexDirection: "column" }}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <BackButton
-              style={{ position: "absolute" }}
+              style={{ position: "absolute", width: responsiveWidth(24), height: responsiveWidth(24) }}
               onPress={() => navigation.goBack()}
             />
             <FixedHeaderText>리뷰 작성하기</FixedHeaderText>

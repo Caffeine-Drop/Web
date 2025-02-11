@@ -102,7 +102,7 @@ export default function DetailPage({ navigation, route }) {
           <View style={{ width: "100%", flexDirection: "column" }}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <BackButton
-                style={{ position: "absolute" }}
+                style={{ position: "absolute", width: responsiveWidth(24), height: responsiveWidth(24) }}
                 onPress={() => navigation.goBack()}
               />
               <FixedHeaderText>언힙커피로스터스</FixedHeaderText>
@@ -203,7 +203,7 @@ const FixedHeader = styled.View`
   width: 100%;
   flex-direction: row;
   align-items: center;
-  padding-top: 38px;
+  padding-top: ${responsiveHeight(38)}px;
   background-color: #756555;
   z-index: 1000;
 `;

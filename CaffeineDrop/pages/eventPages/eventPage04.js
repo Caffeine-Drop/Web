@@ -15,9 +15,9 @@ import {
 } from "../../utils/responsive";
 import styled from "styled-components/native";
 import BackIcon from "../../components/BackIcon";
-import BlackTextCircle from "../../components/BlackTextCircle";
-import BlurIcon from "../../components/BlurIcon";
-import BlurIcon2 from "../../components/BlurIcon2";
+import BlackTextCircle from "../../components/eventPage/BlackTextCircle";
+import BlurIcon from "../../components/eventPage/BlurIcon";
+import BlurIcon2 from "../../components/eventPage/BlurIcon2";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { Platform } from "react-native";

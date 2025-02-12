@@ -17,20 +17,18 @@ import {
 } from "../../utils/responsive";
 import styled from "styled-components/native";
 import BackIcon from "../../components/BackIcon";
-import BlackTextCircle from "../../components/BlackTextCircle";
-import BlurIcon from "../../components/BlurIcon";
 import { LinearGradient } from "expo-linear-gradient";
-import RoastingLevel from "../../components/EventPageRoastingLevel";
-import EventPageTastingNote from "../../components/EventPageTastingNote";
+import RoastingLevel from "../../components/eventPage/EventPageRoastingLevel";
+import EventPageTastingNote from "../../components/eventPage/EventPageTastingNote";
 
-import BrazilImage from "../../components/Card_Brazil";
-import ColombiaImage from "../../components/Card_Colombia";
-import CostaRicaImage from "../../components/Card_CostaRica";
-import EthiopiaImage from "../../components/Card_Ethiopia";
-import GuatemalaImage from "../../components/Card_Guatemala";
-import IndonesiaImage from "../../components/Card_Indonesia";
-import KenyaImage from "../../components/Card_Kenya";
-import VietnamImage from "../../components/Card_Vietnam";
+import BrazilImage from "../../components/eventPage/Card_Brazil";
+import ColombiaImage from "../../components/eventPage/Card_Colombia";
+import CostaRicaImage from "../../components/eventPage/Card_CostaRica";
+import EthiopiaImage from "../../components/eventPage/Card_Ethiopia";
+import GuatemalaImage from "../../components/eventPage/Card_Guatemala";
+import IndonesiaImage from "../../components/eventPage/Card_Indonesia";
+import KenyaImage from "../../components/eventPage/Card_Kenya";
+import VietnamImage from "../../components/eventPage/Card_Vietnam";
 
 import { useRoute } from "@react-navigation/native";
 import { Dimensions } from "react-native";

@@ -1,12 +1,12 @@
 import React from "react";
 import { Image } from "react-native";
 import styled from "styled-components/native";
-import DripPng from "../assets/EventPage/Drip.png";
+import ColombiaPng from "../../assets/EventPage/SouthAmerica2.png";
 import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 
 import { Dimensions } from "react-native";
 
@@ -16,13 +16,13 @@ const { width, height } = Dimensions.get("window");
 // 태블릿 판별 기준 (보통 width가 600px 이상이면 태블릿)
 const isTablet = width >= 600;
 
-const DripImage = () => {
-  return <StyledImage source={DripPng} />;
+const ColombiaImage = () => {
+  return <StyledImage source={ColombiaPng} />;
 };
 
 const StyledImage = styled.Image`
-  width: ${responsiveWidth(342.938)}px;
-  height: ${isTablet ? responsiveHeight(444.438) : responsiveHeight(342.438)}px;
+  width: ${responsiveWidth(185)}px;
+  height: ${isTablet ? responsiveHeight(351) : responsiveHeight(283)}px;
 `;
 
-export default DripImage;
+export default ColombiaImage;

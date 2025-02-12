@@ -16,10 +16,10 @@ import {
 } from "../../utils/responsive";
 import styled from "styled-components/native";
 import BackIcon from "../../components/BackIcon";
-import BlackTextCircle from "../../components/BlackTextCircle";
-import BlurIcon from "../../components/BlurIcon";
-import BlurIcon2 from "../../components/BlurIcon2";
-import CoffeeImage from "../../components/Coffee";
+import BlackTextCircle from "../../components/eventPage/BlackTextCircle";
+import BlurIcon from "../../components/eventPage/BlurIcon";
+import BlurIcon2 from "../../components/eventPage/BlurIcon2";
+import CoffeeImage from "../../components/eventPage/Coffee";
 import { LinearGradient } from "expo-linear-gradient";
 import { Platform } from "react-native";
 import { useRoute } from "@react-navigation/native";

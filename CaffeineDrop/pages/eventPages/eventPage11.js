@@ -16,13 +16,10 @@ import {
 } from "../../utils/responsive";
 import styled from "styled-components/native";
 import BackIcon from "../../components/BackIcon";
-import BlackTextCircle from "../../components/BlackTextCircle";
-import BlurIcon from "../../components/BlurIcon";
-import { LinearGradient } from "expo-linear-gradient";
-import LoadingImg from "../../components/LoadingImg";
-import Loading1 from "../../components/Loading1";
-import Loading2 from "../../components/Loading2";
-import Loading3 from "../../components/Loading3";
+import LoadingImg from "../../components/eventPage/LoadingImg";
+import Loading1 from "../../components/eventPage/Loading1";
+import Loading2 from "../../components/eventPage/Loading2";
+import Loading3 from "../../components/eventPage/Loading3";
 import { useRoute } from "@react-navigation/native";
 
 export default function EventPage11({ navigation }) {
@@ -39,7 +36,7 @@ export default function EventPage11({ navigation }) {
         selectedOption1,
         selectedOption2,
         selectedOption3,
-        selectedOption4,
+        selectedOption4
       );
     }
   }, [selectedOption1, selectedOption2, selectedOption3, selectedOption4]);
@@ -97,7 +94,7 @@ export default function EventPage11({ navigation }) {
       selectedOption1,
       selectedOption2,
       selectedOption3,
-      selectedOption4,
+      selectedOption4
     );
 
     // 커피 국가별 데이터 (향미, 산미, 바디감)
@@ -122,7 +119,7 @@ export default function EventPage11({ navigation }) {
       let distance = Math.sqrt(
         Math.pow(aroma - selectedOption1, 2) +
           Math.pow(acidity - selectedOption2, 2) +
-          Math.pow(body - selectedOption4, 2),
+          Math.pow(body - selectedOption4, 2)
       );
 
       console.log(`${country} 거리값: ${distance.toFixed(3)}`);

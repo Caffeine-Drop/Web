@@ -5,7 +5,7 @@ import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 
 export default function EventPageTastingNote({ aroma, acidity, body }) {
   return (

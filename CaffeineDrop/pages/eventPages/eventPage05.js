@@ -15,9 +15,9 @@ import {
 } from "../../utils/responsive";
 import styled from "styled-components/native";
 import BackIcon from "../../components/BackIcon";
-import BlurIcon from "../../components/BlurIcon";
-import BlurIcon2 from "../../components/BlurIcon2";
-import BlackTextCircle from "../../components/BlackTextCircle";
+import BlurIcon from "../../components/eventPage/BlurIcon";
+import BlurIcon2 from "../../components/eventPage/BlurIcon2";
+import BlackTextCircle from "../../components/eventPage/BlackTextCircle";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { Platform } from "react-native";
@@ -158,7 +158,7 @@ export default function EventPage05({ navigation }) {
         "가져온 값 =",
         selectedOption1,
         selectedOption2,
-        selectedOption3,
+        selectedOption3
       );
     }
   }, [selectedOption1, selectedOption2, selectedOption3]);

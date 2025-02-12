@@ -61,7 +61,8 @@ const FilterContainer = styled.View`
   padding-top: ${responsiveHeight(10)}px;
   padding-bottom: ${responsiveHeight(11)}px;
   display: flex;
-  height: ${responsiveHeight(48)}px;
+  height: auto;
+  min-height: ${responsiveHeight(48)}px;
 `;
 
 const FilterContainerWrapper = styled.View`
@@ -74,4 +75,5 @@ const FilterContainerWrapper = styled.View`
 `;
 const FilterScrollView = styled.ScrollView`
   flex-direction: row;
+  flex-grow: 1;
 `;

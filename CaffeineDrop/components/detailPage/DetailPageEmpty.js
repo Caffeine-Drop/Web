@@ -5,19 +5,25 @@ import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 
-import EmptyIcon from "../assets/DetailPage/EmptyIcon.svg";
+import EmptyIcon from "../../assets/DetailPage/EmptyIcon.svg";
 
-export default function DetailPageEmpty({ mainText1, mainText2, subText1, subText2, selectedTab }) {
+export default function DetailPageEmpty({
+  mainText1,
+  mainText2,
+  subText1,
+  subText2,
+  selectedTab,
+}) {
   return (
     <Container>
       {selectedTab === "review" && (
         <Header>
           <ReviewTitle>
             <Title>이용자 리뷰</Title>
-          <ReviewCount>0건</ReviewCount>
-        </ReviewTitle>
+            <ReviewCount>0건</ReviewCount>
+          </ReviewTitle>
         </Header>
       )}
       <ContentContainer>

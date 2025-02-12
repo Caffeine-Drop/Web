@@ -13,16 +13,16 @@ import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 
-import { useFonts } from "../styles";
+import { useFonts } from "../../styles";
 
 // 목업 이미지
-import DetailMainImg from "../assets/DetailPage/DetailPageMainImg.png";
-import mockupImg2 from "../assets/DetailPage/mockupImg2.png";
-import mockupImg3 from "../assets/DetailPage/mockupImg3.png";
-import DetailPageLoadingImg from "../assets/DetailPage/DetailPageLoadingImg.png";
-import ViewMoreButtonIcon from "../assets/DetailPage/ViewMoreButton.svg";
+import DetailMainImg from "../../assets/DetailPage/DetailPageMainImg.png";
+import mockupImg2 from "../../assets/DetailPage/mockupImg2.png";
+import mockupImg3 from "../../assets/DetailPage/mockupImg3.png";
+import DetailPageLoadingImg from "../../assets/DetailPage/DetailPageLoadingImg.png";
+import ViewMoreButtonIcon from "../../assets/DetailPage/ViewMoreButton.svg";
 
 export default function DetailPageImg({ navigation, onViewMoreImgPress }) {
   const fontsLoaded = useFonts();

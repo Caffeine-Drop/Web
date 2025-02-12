@@ -9,15 +9,19 @@ import {
 } from "react-native";
 
 import styled from "styled-components/native";
-import { responsiveFontSize, responsiveWidth, responsiveHeight } from "../utils/responsive";
+import {
+  responsiveFontSize,
+  responsiveWidth,
+  responsiveHeight,
+} from "../../utils/responsive";
 
 // 목업 이미지
-import menuImg from "../assets/DetailPage/menuImg.png";
-import blankMenuImg from "../assets/DetailPage/blankMenuImg.png";
-import signatureMenuImg1 from "../assets/DetailPage/signatureMenuImg1.png";
-import signatureMenuImg2 from "../assets/DetailPage/signatureMenuImg2.png";
-import signatureMenuImg3 from "../assets/DetailPage/signatureMenuImg3.png";
-import signatureMenuImg4 from "../assets/DetailPage/signatureMenuImg4.png";
+import menuImg from "../../assets/DetailPage/menuImg.png";
+import blankMenuImg from "../../assets/DetailPage/blankMenuImg.png";
+import signatureMenuImg1 from "../../assets/DetailPage/signatureMenuImg1.png";
+import signatureMenuImg2 from "../../assets/DetailPage/signatureMenuImg2.png";
+import signatureMenuImg3 from "../../assets/DetailPage/signatureMenuImg3.png";
+import signatureMenuImg4 from "../../assets/DetailPage/signatureMenuImg4.png";
 
 export default function DetailpageMenu() {
   return (
@@ -129,5 +133,3 @@ const MenuPrice = styled.Text`
   font-family: "PretendardMedium";
   line-height: ${responsiveHeight(19.32)}px;
 `;
-
-

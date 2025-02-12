@@ -5,14 +5,14 @@ import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 import styled from "styled-components/native";
 
 export default function DetailPageCategory() {
   return (
     <Container>
       <CategoryContainer>
-          <CategoryTitle>카페 분류</CategoryTitle>
+        <CategoryTitle>카페 분류</CategoryTitle>
         <CategoryList>
           <Category>
             {/* 여기 부분에 카테고리 가져오면 텍스트 길이에 따라 자동으로 감싸짐*/}
@@ -202,4 +202,3 @@ const BusinessHourTime = styled.Text`
   line-height: ${responsiveFontSize(21)}px;
   letter-spacing: -0.35px;
 `;
-

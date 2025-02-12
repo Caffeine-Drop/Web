@@ -7,10 +7,10 @@ import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 
 // 이미지 임포트
-import RLogo from "../assets/DetailPage/RLogo.svg";
+import RLogo from "../../assets/DetailPage/RLogo.svg";
 
 export default function DetailPageWriteReviewButton({ navigation }) {
   return (
@@ -24,7 +24,9 @@ export default function DetailPageWriteReviewButton({ navigation }) {
         start={{ x: 0.85, y: 0 }}
         end={{ x: 0.27, y: 1 }}
       >
-        <TouchableOpacityWrapper onPress={() => navigation.navigate("ReviewPage")}>
+        <TouchableOpacityWrapper
+          onPress={() => navigation.navigate("ReviewPage")}
+        >
           <RLogo width={responsiveWidth(19)} height={responsiveHeight(19)} />
           <WriteReviewText>리뷰 작성하기</WriteReviewText>
         </TouchableOpacityWrapper>

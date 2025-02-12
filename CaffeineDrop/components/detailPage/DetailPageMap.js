@@ -5,16 +5,16 @@ import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 import styled from "styled-components/native";
 
 // 이미지 임포트
-import DetailPageMapImg from "../assets/DetailPage/DetailPageMapImg.png";
-import SubtractIcon from "../assets/DetailPage/SubtractIcon.svg";
-import SearchRoadButton from "../assets/DetailPage/SearchRoadButton.svg";
-import NaverSearchLoad from "../assets/DetailPage/NaverSearchLoad.svg";
-import KakaoSearchLoad from "../assets/DetailPage/KakaoSearchLoad.svg";
-import DistanceLogo from "../assets/DetailPage/DistanceLogo.svg";
+import DetailPageMapImg from "../../assets/DetailPage/DetailPageMapImg.png";
+import SubtractIcon from "../../assets/DetailPage/SubtractIcon.svg";
+import SearchRoadButton from "../../assets/DetailPage/SearchRoadButton.svg";
+import NaverSearchLoad from "../../assets/DetailPage/NaverSearchLoad.svg";
+import KakaoSearchLoad from "../../assets/DetailPage/KakaoSearchLoad.svg";
+import DistanceLogo from "../../assets/DetailPage/DistanceLogo.svg";
 
 export default function DetailPageMap() {
   const [isBtnClicked, setIsBtnClicked] = useState(false);
@@ -85,33 +85,33 @@ export default function DetailPageMap() {
                 left: 0,
                 top: 0,
                 width: responsiveWidth(312),
-              height: responsiveHeight(130),
-              backgroundColor: "rgba(0, 0, 0, 0.2)",
-              borderRadius: responsiveWidth(12),
-            }}
-          />
-          <TouchableOpacity>
-            <NaverSearchLoad
-            style={{
-              position: "absolute",
-              left: responsiveWidth(0),
-              top: responsiveHeight(20),
-              width: responsiveWidth(145),
-              height: responsiveHeight(60),
+                height: responsiveHeight(130),
+                backgroundColor: "rgba(0, 0, 0, 0.2)",
+                borderRadius: responsiveWidth(12),
               }}
             />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <KakaoSearchLoad
-              style={{
-                position: "absolute",
-                left: responsiveWidth(0),
-                top: responsiveHeight(70),
-                width: responsiveWidth(145),
-              height: responsiveHeight(60),
-            }}
-            />
-          </TouchableOpacity>
+            <TouchableOpacity>
+              <NaverSearchLoad
+                style={{
+                  position: "absolute",
+                  left: responsiveWidth(0),
+                  top: responsiveHeight(20),
+                  width: responsiveWidth(145),
+                  height: responsiveHeight(60),
+                }}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <KakaoSearchLoad
+                style={{
+                  position: "absolute",
+                  left: responsiveWidth(0),
+                  top: responsiveHeight(70),
+                  width: responsiveWidth(145),
+                  height: responsiveHeight(60),
+                }}
+              />
+            </TouchableOpacity>
           </>
         )}
       </MapContainer>
@@ -142,9 +142,9 @@ const Container = styled.View`
   padding-left: ${responsiveWidth(24)};
   padding-right: ${responsiveWidth(24)};
   background-color: #fafafa;
-  `;
-  
-  const MapContainer = styled.View`
+`;
+
+const MapContainer = styled.View`
   position: relative;
   width: ${responsiveWidth(312)}px;
   height: ${responsiveHeight(130)}px;

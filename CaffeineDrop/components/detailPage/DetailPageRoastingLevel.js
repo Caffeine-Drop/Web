@@ -5,21 +5,27 @@ import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 
 const RoastingLevel = ({ score, maxScore }) => {
   const levels = Array.from({ length: maxScore }, (_, i) => i < score);
 
   return (
-    <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+    <View
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+      }}
+    >
       <Container>
-      {levels.map((isFilled, index) => (
-        <BoxWrapper key={index}>
-          <Box filled={isFilled} />
-          {index < maxScore - 1 && <Separator />}
-        </BoxWrapper>
-      ))}
-    </Container>
+        {levels.map((isFilled, index) => (
+          <BoxWrapper key={index}>
+            <Box filled={isFilled} />
+            {index < maxScore - 1 && <Separator />}
+          </BoxWrapper>
+        ))}
+      </Container>
     </View>
   );
 };

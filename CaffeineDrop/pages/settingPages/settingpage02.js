@@ -46,12 +46,12 @@ export default function SettingPage02({ navigation }) {
 
       {/* 두번째 줄 박스 두개 */}
       <Box2>
-        <InnerBox2 onPress={() => {}}>
+        <InnerBox2 onPress={() => navigation.navigate("TermsOfServicePage")}>
           <InnerText>서비스 이용 약관</InnerText>
           <NextButton />
         </InnerBox2>
 
-        <InnerBox2 onPress={() => navigation.navigate("SettingPage03")}>
+        <InnerBox2 onPress={() => navigation.navigate("PrivatePolicyPage")}>
           <InnerText>개인 정보 처리 방침</InnerText>
           <NextButton />
         </InnerBox2>

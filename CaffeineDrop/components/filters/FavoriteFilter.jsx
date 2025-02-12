@@ -19,7 +19,11 @@ const FavoriteFilter = ({ isSelected, onSelect, isFirst }) => {
   return (
     <FilterButton onPress={onSelect} selected={isSelected} isFirst={isFirst}>
       <FilterContent>
-        <HeartIcon color="#E91111" size={15} style={{ marginRight: 5 }} />
+        <HeartIcon
+          color="#E91111"
+          size={responsiveWidth(15)}
+          style={{ marginRight: 5 }}
+        />
         <FilterText selected={isSelected}>좋아요</FilterText>
       </FilterContent>
     </FilterButton>

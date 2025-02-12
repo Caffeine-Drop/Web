@@ -9,12 +9,12 @@ import OnboardingLogin01 from "./pages/onBoardingLogin/onBoardingLogin01";
 import OnboardingLogin03 from "./pages/onBoardingLogin/onBoardingLogin03";
 import OnboardingLogin04 from "./pages/onBoardingLogin/onBoardingLogin04";
 import SpecialtyOptions from "./components/SpecialtyOptions";
-import DetailPage from "./pages/detailpage";
+import DetailPage from "./pages/detailPages/detailpage";
 import HomeScreen from "./pages/HomeScreen";
 import SearchPage from "./pages/SearchPage";
-import DetailPageImage from "./pages/detailpageimage";
-import DetailPageImageDetail from "./pages/detailpageimageDetail";
-import ReviewPage from "./pages/reviewpage";
+import DetailPageImage from "./pages/detailPages/detailpageimage";
+import DetailPageImageDetail from "./pages/detailPages/detailpageimageDetail";
+import ReviewPage from "./pages/reviewPage/reviewpage";
 import SettingPage01 from "./pages/settingPages/settingpage01";
 import SettingPage02 from "./pages/settingPages/settingpage02";
 import SettingPage03 from "./pages/settingPages/settingpage03";
@@ -29,6 +29,8 @@ import EventPage05 from "./pages/eventPages/eventPage05";
 import EventPage06 from "./pages/eventPages/eventPage06";
 import EventPage11 from "./pages/eventPages/eventPage11";
 import EventPage12 from "./pages/eventPages/eventPage12";
+import PrivatePolicyPage from "./pages/termsPages/privatePolicyPage";
+import TermsOfServicePage from "./pages/termsPages/termsOfServicePage";
 
 const Stack = createNativeStackNavigator();
 
@@ -71,6 +73,11 @@ export default function App() {
         <Stack.Screen name="SettingPage03" component={SettingPage03} />
         <Stack.Screen name="SettingPage04" component={SettingPage04} />
         <Stack.Screen name="SettingPage05" component={SettingPage05} />
+        <Stack.Screen name="PrivatePolicyPage" component={PrivatePolicyPage} />
+        <Stack.Screen
+          name="TermsOfServicePage"
+          component={TermsOfServicePage}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

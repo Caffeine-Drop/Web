@@ -1,15 +1,15 @@
 import React from "react";
 import { View, ScrollView } from "react-native";
 import styled from "styled-components/native";
-import { responsiveWidth, responsiveHeight } from "../utils/responsive";
+import { responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import { LinearGradient } from "expo-linear-gradient";
 
 // 컴포넌트
-import DetailPageImg from "../components/DetailPageImg";
-import DetailpageMenu from "../components/DetailPageMenu";
-import DetailPageMap from "../components/DetailPageMap";
-import DetailPageCategory from "../components/DetailPageCategory";
-import DetailPageReviews from "../components/DetailPageReviews";
+import DetailPageImg from "../../components/detailPage/DetailPageImg";
+import DetailpageMenu from "../../components/detailPage/DetailPageMenu";
+import DetailPageMap from "../../components/detailPage/DetailPageMap";
+import DetailPageCategory from "../../components/detailPage/DetailPageCategory";
+import DetailPageReviews from "../../components/detailPage/DetailPageReviews";
 
 export default function DetailPageHome({
   onViewMoreImgPress,
@@ -20,7 +20,10 @@ export default function DetailPageHome({
   return (
     <View style={{ flex: 1 }}>
       <ScrollView>
-        <DetailPageImg onViewMoreImgPress={onViewMoreImgPress} navigation={navigation} />
+        <DetailPageImg
+          onViewMoreImgPress={onViewMoreImgPress}
+          navigation={navigation}
+        />
         <DetailpageMenu />
         <DetailPageMap />
         <DetailPageCategory />

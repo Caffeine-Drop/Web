@@ -3,21 +3,21 @@ import styled from "styled-components/native";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 
 // 이미지 임포트
-import Profile from "../assets/DetailPage/Profile.svg";
+import Profile from "../../assets/DetailPage/Profile.svg";
 // import ProfileImage from "../assets/DetailPage/Profile.png";
-import ViewMoreButton from "../assets/DetailPage/ViewMoreButton.svg";
-import ReviewStarIcon from "../assets/DetailPage/ReviewStarIcon.svg";
-import BlankMenuImage from "../assets/DetailPage/blankMenuImg.png";
-import SignatureMenuImg1 from "../assets/DetailPage/signatureMenuImg1.png";
-import SignatureMenuImg2 from "../assets/DetailPage/signatureMenuImg2.png";
-import SignatureMenuImg3 from "../assets/DetailPage/signatureMenuImg3.png";
-import PlusIcon from "../assets/DetailPage/PlusIcon.svg";
+import ViewMoreButton from "../../assets/DetailPage/ViewMoreButton.svg";
+import ReviewStarIcon from "../../assets/DetailPage/ReviewStarIcon.svg";
+import BlankMenuImage from "../../assets/DetailPage/blankMenuImg.png";
+import SignatureMenuImg1 from "../../assets/DetailPage/signatureMenuImg1.png";
+import SignatureMenuImg2 from "../../assets/DetailPage/signatureMenuImg2.png";
+import SignatureMenuImg3 from "../../assets/DetailPage/signatureMenuImg3.png";
+import PlusIcon from "../../assets/DetailPage/PlusIcon.svg";
 
 import {
   responsiveFontSize,
   responsiveHeight,
   responsiveWidth,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 
 export default function DetailPageReviews({
   selectedTab,

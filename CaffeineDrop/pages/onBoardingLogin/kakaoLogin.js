@@ -5,7 +5,7 @@ import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 
 const REST_API_KEY = "3ea09531351683eee9c653d0f2a6511f";
-const REDIRECT_URI = "http://13.124.11.195/oauth2/kakao";
+const REDIRECT_URI = "http://13.124.11.195:3000/oauth2/login/kakao";
 const INJECTED_JAVASCRIPT = `window.ReactNativeWebView.postMessage('message from webView')`;
 
 const KaKaoLogin = ({ navigation }) => {
@@ -40,7 +40,7 @@ const KaKaoLogin = ({ navigation }) => {
         navigation.navigate("OnboardingLogin04");
       })
       .catch((error) => {
-        // console.log(error);
+        console.log(error);
       });
   };
 

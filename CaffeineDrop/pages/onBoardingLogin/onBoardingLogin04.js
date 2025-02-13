@@ -7,8 +7,11 @@ import {
   Platform,
   TouchableOpacity,
   Image,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import styled from "styled-components/native";
+import axios from "axios";
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -27,10 +30,68 @@ export default function OnBoardingLogin04({ navigation }) {
   const [nickname, setNickname] = useState("");
   const [isDuplicate, setIsDuplicate] = useState(false);
   const [hasChecked, setHasChecked] = useState(false);
-
+  const [userId, setUserId] = useState("1");
   if (!fontsLoaded) {
     return null; // 폰트 로딩이 안되면 아무것도 렌더링하지 않음
   }
+
+  async function createNickname(userId, nickname) {
+    try {
+      const response = await axios.post(
+        "http://13.124.11.195:3000/users/nickname",
+        {
+          userId: userId,
+          nickname: nickname,
+        }
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(
+        "Error:",
+        error.response ? error.response.data : error.message
+      );
+      return null; 
+    }
+  }
+  
+  const handleSave = async () => {
+    try {
+      console.log("userId:", userId, "nickname:", nickname); // 디버깅용 로그
+      const data = await createNickname(userId, nickname);
+      console.log(data);
+      navigation.navigate("HomeScreen");
+      // if (data && data.result === "Success") {
+      //   navigation.navigate("HomeScreen");
+      // } else {
+      //   console.error("Nickname creation failed:", data);
+      // }
+    } catch (error) {
+      console.error("Failed to save nickname:", error);
+    }
+  };
+
+  async function checkNickname(nickname) {
+    try {
+      const response = await axios.get(
+        "http://13.124.11.195:3000/users/nickname/check",
+        { nickname: nickname }
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error:", error.response.data);
+    }
+  }
+
+  const handleCheckNickname = async () => {
+    const data = await checkNickname(nickname);
+    // console.log(data);
+    if (data.success.isNotOverlap) {
+      setIsDuplicate(false);
+    } else {
+      setIsDuplicate(true);
+    }
+  };
 
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -43,6 +104,8 @@ export default function OnBoardingLogin04({ navigation }) {
       setProfileImage(result.assets[0].uri);
     }
   };
+
+  // ... existing code ...
 
   return (
     <KeyboardAvoidingView
@@ -97,7 +160,12 @@ export default function OnBoardingLogin04({ navigation }) {
                     }}
                   />
                 ) : (
-                  <DefaultProfileImg style={{ width: responsiveWidth(110), height: responsiveHeight(110) }} />
+                  <DefaultProfileImg
+                    style={{
+                      width: responsiveWidth(110),
+                      height: responsiveHeight(110),
+                    }}
+                  />
                 )}
                 <EditIcon
                   style={{
@@ -113,7 +181,13 @@ export default function OnBoardingLogin04({ navigation }) {
             </TouchableOpacity>
           </View>
           <View style={{ display: "flex" }}>
-            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
               <Text
                 style={{
                   fontFamily: "PretendardBold",
@@ -148,22 +222,24 @@ export default function OnBoardingLogin04({ navigation }) {
                 alignItems: "center",
               }}
             >
-              <TextInput
-                placeholder="닉네임을 입력해주세요"
-                value={nickname}
-                onChangeText={setNickname}
-                style={{
-                  flex: 1,
-                  height: responsiveHeight(44),
-                  paddingHorizontal: 8,
-                  paddingVertical: 12,
-                  fontFamily: "PretendardRegular",
-                  fontSize: responsiveFontSize(16),
-                  lineHeight: responsiveHeight(22.08),
-                  color: "#000",
-                  letterSpacing: -0.4,
-                }}
-              />
+              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <TextInput
+                  placeholder="닉네임을 입력해주세요"
+                  value={nickname}
+                  onChangeText={setNickname}
+                  style={{
+                    flex: 1,
+                    height: responsiveHeight(44),
+                    paddingHorizontal: 8,
+                    paddingVertical: 12,
+                    fontFamily: "PretendardRegular",
+                    fontSize: responsiveFontSize(16),
+                    lineHeight: responsiveHeight(22.08),
+                    color: "#000",
+                    letterSpacing: -0.4,
+                  }}
+                />
+              </TouchableWithoutFeedback>
               {nickname.length > 0 && (
                 <TouchableOpacity
                   onPress={() => {
@@ -196,7 +272,7 @@ export default function OnBoardingLogin04({ navigation }) {
           <DuplicateButton
             onPress={() => {
               setHasChecked(true);
-              setIsDuplicate(!isDuplicate);
+              handleCheckNickname();
             }}
             disabled={!nickname}
           >
@@ -217,9 +293,7 @@ export default function OnBoardingLogin04({ navigation }) {
           hasChecked={hasChecked}
           isDuplicate={isDuplicate}
           disabled={!hasChecked || isDuplicate}
-          onPress={() => {
-            navigation.navigate("HomeScreen");
-          }}
+          onPress={handleSave}
         >
           <Text
             style={{

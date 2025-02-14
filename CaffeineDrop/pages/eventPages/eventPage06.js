@@ -47,12 +47,13 @@ export default function EventPage06({ navigation }) {
   let selectedOption3 = route.params?.selectedOption3; //쓴맛
   let selectedOption4 = route.params?.selectedOption4; //바디감
 
-  useEffect(() => {
-    console.log("가져온 추천 국가 = " + recommendedCountry);
-    console.log("향 = " + selectedOption1);
-    console.log("산미 = " + selectedOption2);
-    console.log("바디감 = " + selectedOption4);
-  }, [recommendedCountry]);
+  // useEffect(() => {
+  //   console.log("로스팅 아이디 = " + roastingLevel);
+  //   console.log("향 = " + selectedOption1);
+  //   console.log("산미 = " + selectedOption2);
+  //   console.log("바디감 = " + selectedOption4);
+  //   console.log("가져온 추천 국가 = " + recommendedCountry);
+  // }, [recommendedCountry]);
 
   // 국가별 이미지 매핑
   const countryImages = {
@@ -64,6 +65,18 @@ export default function EventPage06({ navigation }) {
     Indonesia: <IndonesiaImage />,
     Kenya: <KenyaImage />,
     Vietnam: <VietnamImage />,
+  };
+
+  // 국가별 한글 매핑
+  const countryNames = {
+    Ethiopia: "에티오피아",
+    Kenya: "케냐",
+    Brazil: "브라질",
+    Colombia: "콜롬비아",
+    Guatemala: "과테말라",
+    CostaRica: "코스타리카",
+    Indonesia: "인도네시아",
+    Vietnam: "베트남",
   };
 
   let roastingLevel = 0;
@@ -87,6 +100,15 @@ export default function EventPage06({ navigation }) {
     roastingName = "풀시티";
     roastingLevel = 6;
   }
+
+  const data = {
+    roasting_id: roastingLevel,
+    aroma: selectedOption1,
+    acidity: selectedOption2,
+    body: selectedOption4,
+    country: countryNames[recommendedCountry] || recommendedCountry,
+  };
+  console.log(data);
 
   return (
     <Container>

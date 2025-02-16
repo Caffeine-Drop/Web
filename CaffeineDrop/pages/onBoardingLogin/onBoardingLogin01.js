@@ -17,16 +17,16 @@ import CoffeeCupIcon from "../../assets/OnBoardingLogin/CoffeeCupIcon.svg";
 export default function OnboardingLogin01() {
   const fontsLoaded = useFonts();
   const navigation = useNavigation();
-  const { token, storeToken } = useContext(AuthContext);  // Context에서 token과 storeToken 가져오기
+  const { accessToken, refreshToken } = useContext(AuthContext);  // Context에서 token과 storeToken 가져오기
 
   // 로그인 여부에 따라 화면 전환 다르게 하기 위한 코드
   useEffect(() => {
     const navigateAfterDelay = async () => {
       try {
         // Retrieve the token from AsyncStorage
-        const storedToken = await AsyncStorage.getItem("userAccessToken");
+        const storedToken = await AsyncStorage.getItem("RefreshToken");
         setTimeout(() => {
-          if (storedToken) {
+          if (!storedToken) {
             navigation.replace("HomeScreen");
           } else {
             navigation.replace("OnboardingLogin03");
@@ -45,7 +45,7 @@ export default function OnboardingLogin01() {
     setTimeout(() => {
       navigateAfterDelay();
     }, 300); // 300ms 후 navigateAfterDelay 호출
-  }, [navigation, storeToken]);
+  }, [navigation, refreshToken]);
 
   if (!fontsLoaded) {
     return (

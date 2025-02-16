@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -12,6 +12,8 @@ import {
 } from "react-native";
 import styled from "styled-components/native";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigation } from "@react-navigation/native";
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -24,18 +26,20 @@ import DefaultProfileImg from "../../assets/OnBoardingLogin/DefaultProfileImg.sv
 import EditIcon from "../../assets/OnBoardingLogin/EditIcon.svg";
 import DeleteIcon from "../../assets/OnBoardingLogin/DeleteIcon.svg";
 
-export default function OnBoardingLogin04({ navigation }) {
+export default function OnBoardingLogin04() {
   const fontsLoaded = useFonts();
+  const navigation = useNavigation();
+  const { accessToken, storeAccessToken, userId } = useContext(AuthContext);
   const [profileImage, setProfileImage] = useState(null);
   const [nickname, setNickname] = useState("");
   const [isDuplicate, setIsDuplicate] = useState(false);
   const [hasChecked, setHasChecked] = useState(false);
-  const [userId, setUserId] = useState("1");
+
   if (!fontsLoaded) {
     return null; // 폰트 로딩이 안되면 아무것도 렌더링하지 않음
   }
 
-  async function createNickname(userId, nickname) {
+  async function createNickname(nickname) {
     try {
       const response = await axios.post(
         "http://13.124.11.195:3000/users/nickname",

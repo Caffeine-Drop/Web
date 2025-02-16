@@ -46,16 +46,16 @@ const KaKaoLogin = () => {
     })
       .then((response) => {
         console.log(response.data);
-        // userId = response.data.success.id;
-        // AccessToken = response.data.success.accessToken;
-        // RefreshToken = response.data.success.refreshToken;
+        userId = response.data.success.id;
+        AccessToken = response.data.success.accessToken;
+        RefreshToken = response.data.success.refreshToken;
 
         //테스트 코드
-        AccessToken = response.data.access_token;
-        // console.log(AccessToken, userId, RefreshToken);
-        // storeAccessToken(AccessToken);
-        // storeUserId(userId);
-        // storeRefreshToken(RefreshToken);
+        // AccessToken = response.data.access_token;
+
+        storeAccessToken(AccessToken);
+        storeUserId(userId);
+        storeRefreshToken(RefreshToken);
         console.log("Navigation 직전");
         console.log("Current Routes:", navigation.getState());
 

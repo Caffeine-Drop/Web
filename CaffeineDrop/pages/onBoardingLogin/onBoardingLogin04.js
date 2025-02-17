@@ -87,7 +87,7 @@ export default function OnBoardingLogin04() {
       const response = await axios.get(
         `http://13.124.11.195:3000/users/nickname/check`,
         {
-          nickname: userNickname,
+          params: { nickname: userNickname },
         }
       );
       console.log(response.data);

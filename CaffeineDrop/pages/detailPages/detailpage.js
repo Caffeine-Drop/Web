@@ -1,14 +1,15 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
   ScrollView,
   TouchableOpacity,
   Animated,
+  ActivityIndicator,
 } from "react-native";
 import styled from "styled-components/native";
 import { useFonts } from "../../styles";
-
+import axios from "axios";
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -26,6 +27,8 @@ import BackButton from "../../components/BackButton";
 
 export default function DetailPage({ navigation, route }) {
   const { cafe } = route.params || {};
+  const [isLoading, setIsLoading] = useState(true);
+  const [apiData, setApiData] = useState(null);
   const [selectedTab, setSelectedTab] = useState("home");
   const fadeAnim = useState(new Animated.Value(1))[0];
   const [isScrolled, setIsScrolled] = useState(false);
@@ -33,10 +36,29 @@ export default function DetailPage({ navigation, route }) {
   const scrollViewRef = useRef(null);
   const fontsLoaded = useFonts();
 
+  useEffect(() => {
+    axios.get("http://13.124.11.195:3000/cafes/1")
+      .then((response) => {
+        console.log(response.data);
+        setApiData(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
   if (!fontsLoaded) {
     return null; // 폰트 로딩이 안되면 아무것도 렌더링하지 않음
   }
-
   const handleScroll = (event) => {
     const scrollY = event.nativeEvent.contentOffset.y;
     setIsScrolled(scrollY > responsiveHeight(10));
@@ -78,6 +100,7 @@ export default function DetailPage({ navigation, route }) {
             cafe={cafe}
             selectedTab={selectedTab}
             navigation={navigation}
+            apiData={apiData}
             onViewMoreImgPress={() => handleTabPress("image")}
             onViewMoreReviewPress={() => {
               handleTabPress("review");
@@ -145,7 +168,11 @@ export default function DetailPage({ navigation, route }) {
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
       >
-        <DetailPageHeader navigation={navigation} isScrolled={isScrolled} />
+        <DetailPageHeader
+          navigation={navigation}
+          isScrolled={isScrolled}
+          apiData={apiData}
+        />
         <View>
           <Container>
             <NavBar>

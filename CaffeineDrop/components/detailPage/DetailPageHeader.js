@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   Button,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import {
   responsiveFontSize,
@@ -13,6 +14,7 @@ import {
   responsiveHeight,
 } from "../../utils/responsive";
 import styled from "styled-components/native";
+import axios from "axios";
 
 // 이미지 assets
 import DetailMainImg from "../../assets/DetailPage/DetailPageMainImg.png";
@@ -27,8 +29,29 @@ import HeaderStarBlankIcon from "../../assets/DetailPage/HeaderStarBlankIcon.svg
 // 컴포넌트
 import BackButton from "../../components/BackButton";
 
-export default function DetailPageHeader({ navigation, isScrolled }) {
+export default function DetailPageHeader({ navigation, isScrolled, apiData }) {
   const [isLiked, setIsLiked] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [rating, setRating] = useState(0);
+  useEffect(() => {
+    axios.get("http://13.124.11.195:3000/reviews/1/ratings")
+      .then((response) => {
+        console.log(response.data.data.averageRating);
+        setRating(response.data.data.averageRating);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
   return (
     <View style={{ flex: 1 }}>
       <Container>
@@ -80,8 +103,8 @@ export default function DetailPageHeader({ navigation, isScrolled }) {
               preserveAspectRatio: "none",
             }}
           />
-          <TitleText>언힙커피로스터스</TitleText>
-          <AddressText>인천 미추홀구 인하로67번길 6 2층</AddressText>
+          <TitleText>{apiData.name}</TitleText>
+          <AddressText>{apiData.address}</AddressText>
           <View
             style={{
               display: "flex",
@@ -111,7 +134,7 @@ export default function DetailPageHeader({ navigation, isScrolled }) {
             }}
           >
             <ReviewRateContainer>
-              <ReviewRateText>4.0</ReviewRateText>
+              <ReviewRateText>{rating}</ReviewRateText>
               <View style={{ display: "flex", flexDirection: "row" }}>
                 <HeaderStarIcon
                   style={{

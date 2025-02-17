@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -20,6 +20,7 @@ import {
   responsiveHeight,
 } from "../../utils/responsive";
 import * as ImagePicker from "expo-image-picker";
+import * as ImageManipulator from "expo-image-manipulator";
 import { useFonts } from "../../styles";
 // 이미지 임포트
 import DefaultProfileImg from "../../assets/OnBoardingLogin/DefaultProfileImg.svg";
@@ -29,10 +30,10 @@ import DeleteIcon from "../../assets/OnBoardingLogin/DeleteIcon.svg";
 export default function OnBoardingLogin04() {
   const fontsLoaded = useFonts();
   const navigation = useNavigation();
-  const { accessToken, storeAccessToken, userId, nickname, storeNickname } =
+  const { accessToken, userId, storeNickname, LoggedPlatform } =
     useContext(AuthContext);
   const [profileImage, setProfileImage] = useState(null);
-  const [userNickname, setUserNickname] = useState("");
+  const [userNickname, setUserNickname] = useState("qweqwe");
   const [isDuplicate, setIsDuplicate] = useState(false);
   const [hasChecked, setHasChecked] = useState(false);
 
@@ -45,8 +46,13 @@ export default function OnBoardingLogin04() {
       const response = await axios.post(
         "http://13.124.11.195:3000/users/nickname",
         {
-          userId: userId,
           nickname: nickname,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            Provider: LoggedPlatform,
+          },
         }
       );
       console.log(response.data);
@@ -62,8 +68,8 @@ export default function OnBoardingLogin04() {
 
   const handleSave = async () => {
     try {
-      console.log("userId:", userId, "nickname:", nickname); // 디버깅용 로그
-      const data = await createNickname(userId, nickname);
+      console.log("userId:", userId, "nickname:", userNickname); // 디버깅용 로그
+      const data = await createNickname(userNickname);
       console.log(data);
       navigation.navigate("HomeScreen");
       // if (data && data.result === "Success") {
@@ -79,9 +85,12 @@ export default function OnBoardingLogin04() {
   async function checkNickname() {
     try {
       const response = await axios.get(
-        `http://13.124.11.195:3000/users/nickname/check/${userId}`,
-        { params: { nickname: nickname } }
+        `http://13.124.11.195:3000/users/nickname/check`,
+        {
+          nickname: userNickname,
+        }
       );
+      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log(
@@ -105,11 +114,43 @@ export default function OnBoardingLogin04() {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       quality: 1,
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaType: "photo",
     });
 
     if (!result.canceled) {
-      setProfileImage(result.assets[0].uri);
+      const imageUri = result.assets[0].uri;
+
+      const manipulatedImage = await ImageManipulator.manipulateAsync(
+        imageUri,
+        [],
+        { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
+      );
+
+      setProfileImage(manipulatedImage.uri);
+
+      const formData = new FormData();
+      formData.append("file", {
+        uri: manipulatedImage.uri,
+        name: "profile.jpg",
+        type: "image/jpeg",
+      });
+
+      try {
+        const response = await axios.post(
+          "http://13.124.11.195:3000/users/profile-image",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${accessToken}`,
+              Provider: LoggedPlatform,
+            },
+          }
+        );
+        console.log("이미지 업로드 성공", response.data);
+      } catch (error) {
+        console.error("이미지 업로드 실패", error);
+      }
     }
   };
 
@@ -234,7 +275,13 @@ export default function OnBoardingLogin04() {
                 <TextInput
                   placeholder="닉네임을 입력해주세요"
                   value={userNickname}
-                  onChangeText={setUserNickname}
+                  onChangeText={(text) => {
+                    if (text.length <= 20) {
+                      // 최대 20자 제한
+                      setUserNickname(text);
+                      setHasChecked(false); // 닉네임이 변경되면 hasChecked를 false로 설정
+                    }
+                  }}
                   style={{
                     flex: 1,
                     height: responsiveHeight(44),

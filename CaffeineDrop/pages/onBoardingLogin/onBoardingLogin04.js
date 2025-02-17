@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   View,
   Text,
@@ -29,9 +29,10 @@ import DeleteIcon from "../../assets/OnBoardingLogin/DeleteIcon.svg";
 export default function OnBoardingLogin04() {
   const fontsLoaded = useFonts();
   const navigation = useNavigation();
-  const { accessToken, storeAccessToken, userId } = useContext(AuthContext);
+  const { accessToken, storeAccessToken, userId, nickname, storeNickname } =
+    useContext(AuthContext);
   const [profileImage, setProfileImage] = useState(null);
-  const [nickname, setNickname] = useState("");
+  const [userNickname, setUserNickname] = useState("");
   const [isDuplicate, setIsDuplicate] = useState(false);
   const [hasChecked, setHasChecked] = useState(false);
 
@@ -55,10 +56,10 @@ export default function OnBoardingLogin04() {
         "Error:",
         error.response ? error.response.data : error.message
       );
-      return null; 
+      return null;
     }
   }
-  
+
   const handleSave = async () => {
     try {
       console.log("userId:", userId, "nickname:", nickname); // 디버깅용 로그
@@ -75,21 +76,24 @@ export default function OnBoardingLogin04() {
     }
   };
 
-  async function checkNickname(nickname) {
+  async function checkNickname() {
     try {
       const response = await axios.get(
-        "http://13.124.11.195:3000/users/nickname/check",
-        { nickname: nickname }
+        `http://13.124.11.195:3000/users/nickname/check/${userId}`,
+        { params: { nickname: nickname } }
       );
       return response.data;
     } catch (error) {
-      console.log("Error:", error.response.data);
+      console.log(
+        "Error:",
+        error.response ? error.response.data : error.message
+      );
     }
   }
 
   const handleCheckNickname = async () => {
-    const data = await checkNickname(nickname);
-    // console.log(data);
+    const data = await checkNickname();
+    // console.log(data.data.success.isNotOverlap);
     if (data.success.isNotOverlap) {
       setIsDuplicate(false);
     } else {
@@ -214,7 +218,7 @@ export default function OnBoardingLogin04() {
                   letterSpacing: -0.35,
                 }}
               >
-                {nickname.length}/20
+                {userNickname.length}/20
               </Text>
             </View>
             <View
@@ -229,8 +233,8 @@ export default function OnBoardingLogin04() {
               <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <TextInput
                   placeholder="닉네임을 입력해주세요"
-                  value={nickname}
-                  onChangeText={setNickname}
+                  value={userNickname}
+                  onChangeText={setUserNickname}
                   style={{
                     flex: 1,
                     height: responsiveHeight(44),
@@ -244,10 +248,10 @@ export default function OnBoardingLogin04() {
                   }}
                 />
               </TouchableWithoutFeedback>
-              {nickname.length > 0 && (
+              {userNickname.length > 0 && (
                 <TouchableOpacity
                   onPress={() => {
-                    setNickname("");
+                    setUserNickname("");
                     setHasChecked(false);
                     setIsDuplicate(false);
                   }}
@@ -275,10 +279,11 @@ export default function OnBoardingLogin04() {
           </View>
           <DuplicateButton
             onPress={() => {
+              storeNickname(userNickname);
               setHasChecked(true);
               handleCheckNickname();
             }}
-            disabled={!nickname}
+            disabled={!userNickname}
           >
             <Text
               style={{

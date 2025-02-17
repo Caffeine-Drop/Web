@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [userId, setUserId] = useState(null);
   const [refreshToken, setRefreshToken] = useState(null);
   const [nickname, setNickname] = useState(null);
+  const [LoggedPlatform, setLoggedPlatform] = useState(null);
 
   // 앱 시작 시 각 토큰을 AsyncStorage에서 개별적으로 가져오기
   useEffect(() => {
@@ -45,9 +46,21 @@ export const AuthProvider = ({ children }) => {
       }
     };
 
+    const fetchLoggedPlatform = async () => {
+      try {
+        const storedLoggedPlatform = await AsyncStorage.getItem("LoggedPlatform");
+        if (storedLoggedPlatform) {
+          setLoggedPlatform(storedLoggedPlatform);
+        }
+      } catch (error) {
+        console.error("Error fetching logged platform from AsyncStorage:", error);
+      }
+    };
+
     fetchAccessToken();
     fetchUserId();
     fetchRefreshToken();
+    fetchLoggedPlatform();
   }, []);
 
   // 각 토큰을 저장하는 함수
@@ -85,6 +98,14 @@ export const AuthProvider = ({ children }) => {
       console.error("Error saving nickname to AsyncStorage:", error);
     }
   };
+
+  const storeLoggedPlatform = async (LoggedPlatform) => {
+    try {
+      await AsyncStorage.setItem("LoggedPlatform", LoggedPlatform);
+    } catch (error) {
+      console.error("Error saving logged platform to AsyncStorage:", error);
+    }
+  };
   // AuthContext로 값 제공
   return (
     <AuthContext.Provider
@@ -93,10 +114,12 @@ export const AuthProvider = ({ children }) => {
         userId,
         refreshToken,
         nickname,
+        LoggedPlatform,
         storeAccessToken,
         storeUserId,
         storeRefreshToken,
         storeNickname,
+        storeLoggedPlatform,
       }}
     >
       {children}

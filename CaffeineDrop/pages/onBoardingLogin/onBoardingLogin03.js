@@ -89,7 +89,7 @@ export default function OnboardingLogin03({ navigation }) {
         }}
       >
         <TouchableOpacity
-          onPress={() => navigation.navigate("OnboardingLogin04")}
+          onPress={() => navigation.navigate("KakaoLogin")}
           style={{
             width: responsiveWidth(312),
             height: responsiveHeight(48),

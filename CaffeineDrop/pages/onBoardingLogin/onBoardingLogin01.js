@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
 import styled from "styled-components/native";
 import {
@@ -9,6 +9,7 @@ import {
 import { useFonts } from "../../styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import { AuthContext } from "../../context/AuthContext";  // Context 가져오기
 
 //이미지 임포트
 import CoffeeCupIcon from "../../assets/OnBoardingLogin/CoffeeCupIcon.svg";
@@ -16,25 +17,25 @@ import CoffeeCupIcon from "../../assets/OnBoardingLogin/CoffeeCupIcon.svg";
 export default function OnboardingLogin01() {
   const fontsLoaded = useFonts();
   const navigation = useNavigation();
+  const { accessToken, refreshToken } = useContext(AuthContext);  // Context에서 token과 storeToken 가져오기
 
   // 로그인 여부에 따라 화면 전환 다르게 하기 위한 코드
   useEffect(() => {
     const navigateAfterDelay = async () => {
       try {
-        // 실제 코드(토큰 가져오기)
-        // const token = await AsyncStorage.getItem("userToken");
-        //테스트 코드(따옴표 안에 값을 넣으면 로그인 되었다는 의미(토큰 가져왔다는 의미))
-        const token = "";
+        // Retrieve the token from AsyncStorage
+        const storedToken = await AsyncStorage.getItem("RefreshToken");
         setTimeout(() => {
-          if (token) {
+          if (storedToken) {
+            console.log("refreshToken: ", storedToken);
             navigation.replace("HomeScreen");
           } else {
             navigation.replace("OnboardingLogin03");
           }
-        }, 1500); // 1500ms 후 네비게이션
+        }, 1500); // Navigate after 1500ms
       } catch (e) {
         console.error(e);
-        // 에러 발생 시에도 일정 시간 후 네비게이션
+        // Navigate to OnboardingLogin03 after 1500ms in case of error
         setTimeout(() => {
           navigation.replace("OnboardingLogin03");
         }, 1500);
@@ -45,7 +46,7 @@ export default function OnboardingLogin01() {
     setTimeout(() => {
       navigateAfterDelay();
     }, 300); // 300ms 후 navigateAfterDelay 호출
-  }, [navigation]);
+  }, [navigation, refreshToken]);
 
   if (!fontsLoaded) {
     return (

@@ -3,10 +3,12 @@ import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StyleSheet, Text, View, Platform } from "react-native";
+import { AuthProvider } from "./context/AuthContext";
 
 // 각 페이지 임포트
 import OnboardingLogin01 from "./pages/onBoardingLogin/onBoardingLogin01";
 import OnboardingLogin03 from "./pages/onBoardingLogin/onBoardingLogin03";
+import KakaoLogin from "./pages/onBoardingLogin/kakaoLogin";
 import OnboardingLogin04 from "./pages/onBoardingLogin/onBoardingLogin04";
 import SpecialtyOptions from "./components/SpecialtyOptions";
 import DetailPage from "./pages/detailPages/detailpage";
@@ -41,10 +43,12 @@ export default function App() {
     }
   }, []);
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="OnboardingLogin01" component={OnboardingLogin01} />
-        <Stack.Screen name="OnboardingLogin03" component={OnboardingLogin03} />
+    <AuthProvider>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="OnboardingLogin01" component={OnboardingLogin01} />
+          <Stack.Screen name="OnboardingLogin03" component={OnboardingLogin03} />
+          <Stack.Screen name="KakaoLogin" component={KakaoLogin} />
         <Stack.Screen name="OnboardingLogin04" component={OnboardingLogin04} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="SearchPage" component={SearchPage} />
@@ -73,13 +77,9 @@ export default function App() {
         <Stack.Screen name="SettingPage03" component={SettingPage03} />
         <Stack.Screen name="SettingPage04" component={SettingPage04} />
         <Stack.Screen name="SettingPage05" component={SettingPage05} />
-        <Stack.Screen name="PrivatePolicyPage" component={PrivatePolicyPage} />
-        <Stack.Screen
-          name="TermsOfServicePage"
-          component={TermsOfServicePage}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AuthProvider>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -7,24 +7,33 @@ import {
   Platform,
   TouchableOpacity,
   Image,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import styled from "styled-components/native";
+import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigation } from "@react-navigation/native";
 import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
 } from "../../utils/responsive";
 import * as ImagePicker from "expo-image-picker";
+import * as ImageManipulator from "expo-image-manipulator";
 import { useFonts } from "../../styles";
 // 이미지 임포트
 import DefaultProfileImg from "../../assets/OnBoardingLogin/DefaultProfileImg.svg";
 import EditIcon from "../../assets/OnBoardingLogin/EditIcon.svg";
 import DeleteIcon from "../../assets/OnBoardingLogin/DeleteIcon.svg";
 
-export default function OnBoardingLogin04({ navigation }) {
+export default function OnBoardingLogin04() {
   const fontsLoaded = useFonts();
+  const navigation = useNavigation();
+  const { accessToken, userId, storeNickname, LoggedPlatform } =
+    useContext(AuthContext);
   const [profileImage, setProfileImage] = useState(null);
-  const [nickname, setNickname] = useState("");
+  const [userNickname, setUserNickname] = useState("qweqwe");
   const [isDuplicate, setIsDuplicate] = useState(false);
   const [hasChecked, setHasChecked] = useState(false);
 
@@ -32,17 +41,117 @@ export default function OnBoardingLogin04({ navigation }) {
     return null; // 폰트 로딩이 안되면 아무것도 렌더링하지 않음
   }
 
+  async function createNickname(nickname) {
+    try {
+      const response = await axios.post(
+        "http://13.124.11.195:3000/users/nickname",
+        {
+          nickname: nickname,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            Provider: LoggedPlatform,
+          },
+        }
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(
+        "Error:",
+        error.response ? error.response.data : error.message
+      );
+      return null;
+    }
+  }
+
+  const handleSave = async () => {
+    try {
+      console.log("userId:", userId, "nickname:", userNickname); // 디버깅용 로그
+      const data = await createNickname(userNickname);
+      console.log(data);
+      navigation.navigate("HomeScreen");
+      // if (data && data.result === "Success") {
+      //   navigation.navigate("HomeScreen");
+      // } else {
+      //   console.error("Nickname creation failed:", data);
+      // }
+    } catch (error) {
+      console.error("Failed to save nickname:", error);
+    }
+  };
+
+  async function checkNickname() {
+    try {
+      const response = await axios.get(
+        `http://13.124.11.195:3000/users/nickname/check/${userNickname}`,
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(
+        "Error:",
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+
+  const handleCheckNickname = async () => {
+    const data = await checkNickname();
+    // console.log(data.data.success.isNotOverlap);
+    if (data.success.isNotOverlap) {
+      setIsDuplicate(false);
+    } else {
+      setIsDuplicate(true);
+    }
+  };
+
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       quality: 1,
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaType: "photo",
     });
 
     if (!result.canceled) {
-      setProfileImage(result.assets[0].uri);
+      const imageUri = result.assets[0].uri;
+
+      const manipulatedImage = await ImageManipulator.manipulateAsync(
+        imageUri,
+        [],
+        { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
+      );
+
+      setProfileImage(manipulatedImage.uri);
+
+      const formData = new FormData();
+      formData.append("file", {
+        uri: manipulatedImage.uri,
+        name: "profile.jpg",
+        type: "image/jpeg",
+      });
+
+      try {
+        const response = await axios.post(
+          "http://13.124.11.195:3000/users/profile-image",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${accessToken}`,
+              Provider: LoggedPlatform,
+            },
+          }
+        );
+        console.log("이미지 업로드 성공", response.data);
+      } catch (error) {
+        console.error("이미지 업로드 실패", error);
+      }
     }
   };
+
+  // ... existing code ...
 
   return (
     <KeyboardAvoidingView
@@ -97,7 +206,12 @@ export default function OnBoardingLogin04({ navigation }) {
                     }}
                   />
                 ) : (
-                  <DefaultProfileImg style={{ width: responsiveWidth(110), height: responsiveHeight(110) }} />
+                  <DefaultProfileImg
+                    style={{
+                      width: responsiveWidth(110),
+                      height: responsiveHeight(110),
+                    }}
+                  />
                 )}
                 <EditIcon
                   style={{
@@ -113,7 +227,13 @@ export default function OnBoardingLogin04({ navigation }) {
             </TouchableOpacity>
           </View>
           <View style={{ display: "flex" }}>
-            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
               <Text
                 style={{
                   fontFamily: "PretendardBold",
@@ -136,7 +256,7 @@ export default function OnBoardingLogin04({ navigation }) {
                   letterSpacing: -0.35,
                 }}
               >
-                {nickname.length}/20
+                {userNickname.length}/20
               </Text>
             </View>
             <View
@@ -148,26 +268,34 @@ export default function OnBoardingLogin04({ navigation }) {
                 alignItems: "center",
               }}
             >
-              <TextInput
-                placeholder="닉네임을 입력해주세요"
-                value={nickname}
-                onChangeText={setNickname}
-                style={{
-                  flex: 1,
-                  height: responsiveHeight(44),
-                  paddingHorizontal: 8,
-                  paddingVertical: 12,
-                  fontFamily: "PretendardRegular",
-                  fontSize: responsiveFontSize(16),
-                  lineHeight: responsiveHeight(22.08),
-                  color: "#000",
-                  letterSpacing: -0.4,
-                }}
-              />
-              {nickname.length > 0 && (
+              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <TextInput
+                  placeholder="닉네임을 입력해주세요"
+                  value={userNickname}
+                  onChangeText={(text) => {
+                    if (text.length <= 20) {
+                      // 최대 20자 제한
+                      setUserNickname(text);
+                      setHasChecked(false); // 닉네임이 변경되면 hasChecked를 false로 설정
+                    }
+                  }}
+                  style={{
+                    flex: 1,
+                    height: responsiveHeight(44),
+                    paddingHorizontal: 8,
+                    paddingVertical: 12,
+                    fontFamily: "PretendardRegular",
+                    fontSize: responsiveFontSize(16),
+                    lineHeight: responsiveHeight(22.08),
+                    color: "#000",
+                    letterSpacing: -0.4,
+                  }}
+                />
+              </TouchableWithoutFeedback>
+              {userNickname.length > 0 && (
                 <TouchableOpacity
                   onPress={() => {
-                    setNickname("");
+                    setUserNickname("");
                     setHasChecked(false);
                     setIsDuplicate(false);
                   }}
@@ -195,10 +323,11 @@ export default function OnBoardingLogin04({ navigation }) {
           </View>
           <DuplicateButton
             onPress={() => {
+              storeNickname(userNickname);
               setHasChecked(true);
-              setIsDuplicate(!isDuplicate);
+              handleCheckNickname();
             }}
-            disabled={!nickname}
+            disabled={!userNickname}
           >
             <Text
               style={{
@@ -217,9 +346,7 @@ export default function OnBoardingLogin04({ navigation }) {
           hasChecked={hasChecked}
           isDuplicate={isDuplicate}
           disabled={!hasChecked || isDuplicate}
-          onPress={() => {
-            navigation.navigate("HomeScreen");
-          }}
+          onPress={handleSave}
         >
           <Text
             style={{

@@ -16,7 +16,7 @@ import NaverSearchLoad from "../../assets/DetailPage/NaverSearchLoad.svg";
 import KakaoSearchLoad from "../../assets/DetailPage/KakaoSearchLoad.svg";
 import DistanceLogo from "../../assets/DetailPage/DistanceLogo.svg";
 
-export default function DetailPageMap() {
+export default function DetailPageMap({ distance, apiData }) {
   const [isBtnClicked, setIsBtnClicked] = useState(false);
 
   const handleBtnClicked = () => {
@@ -115,7 +115,7 @@ export default function DetailPageMap() {
           </>
         )}
       </MapContainer>
-      <CaffeeAddress>인천 미추홀구 인하로67번길 6 2층</CaffeeAddress>
+      <CaffeeAddress>{apiData.address}</CaffeeAddress>
       <View
         style={{
           flexDirection: "row",
@@ -130,7 +130,7 @@ export default function DetailPageMap() {
             preserveAspectRatio: "none",
           }}
         />
-        <Distance>600m</Distance>
+        <Distance>{distance}km</Distance>
       </View>
     </Container>
   );

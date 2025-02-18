@@ -8,7 +8,7 @@ import {
   responsiveWidth,
   responsiveHeight,
 } from "../../utils/responsive";
-import SpecialPageCircle from "../../components/SpecialPage_circle";
+import SpecialPageCircle from "../../components/eventPage/SpecialPage_circle";
 
 import { Dimensions } from "react-native";
 

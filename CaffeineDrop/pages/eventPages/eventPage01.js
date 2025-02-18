@@ -7,7 +7,7 @@ import {
   responsiveHeight,
 } from "../../utils/responsive";
 import BackIcon from "../../components/BackIcon";
-import Drip from "../../components/Drip";
+import Drip from "../../components/eventPage/Drip";
 
 import { Dimensions } from "react-native";
 

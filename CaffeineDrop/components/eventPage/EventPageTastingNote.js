@@ -5,9 +5,9 @@ import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 
-export default function EventPageTastingNote() {
+export default function EventPageTastingNote({ aroma, acidity, body }) {
   return (
     <Container>
       <TastingNoteContainer>
@@ -28,11 +28,11 @@ export default function EventPageTastingNote() {
                 alignItems: "center",
               }}
             >
-              <TastingNoteRate>4.0</TastingNoteRate>
+              <TastingNoteRate>{aroma.toFixed(1)}</TastingNoteRate>
               <TastingNoteRateTotal>/5</TastingNoteRateTotal>
             </View>
           </TastingNoteTextContainer>
-          <TastingNoteBar score={4} maxScore={5} />
+          <TastingNoteBar score={aroma} maxScore={5} />
         </View>
         {/* 여기까지 향(Aroma, AfterTaste) */}
         {/* 여기부터 산미(Acidity) */}
@@ -52,11 +52,11 @@ export default function EventPageTastingNote() {
                 alignItems: "center",
               }}
             >
-              <TastingNoteRate>4.0</TastingNoteRate>
+              <TastingNoteRate>{acidity.toFixed(1)}</TastingNoteRate>
               <TastingNoteRateTotal>/5</TastingNoteRateTotal>
             </View>
           </TastingNoteTextContainer>
-          <TastingNoteBar score={4} maxScore={5} />
+          <TastingNoteBar score={acidity} maxScore={5} />
         </View>
         {/* 산미(Acidity) */}
 
@@ -77,11 +77,11 @@ export default function EventPageTastingNote() {
                 alignItems: "center",
               }}
             >
-              <TastingNoteRate>4.0</TastingNoteRate>
+              <TastingNoteRate>{body.toFixed(1)}</TastingNoteRate>
               <TastingNoteRateTotal>/5</TastingNoteRateTotal>
             </View>
           </TastingNoteTextContainer>
-          <TastingNoteBar score={4} maxScore={5} />
+          <TastingNoteBar score={body} maxScore={5} />
         </View>
         {/* 여기까지 바디감(Body) */}
       </TastingNoteContainer>

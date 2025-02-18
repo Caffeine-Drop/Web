@@ -32,12 +32,13 @@ import HeaderStarBlankIcon from "../../assets/DetailPage/HeaderStarBlankIcon.svg
 // 컴포넌트
 import BackButton from "../../components/BackButton";
 
-export default function DetailPageHeader({ navigation, apiData, distance }) {
+export default function DetailPageHeader({ navigation, apiData, distance, images }) {
   const [isLiked, setIsLiked] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [rating, setRating] = useState(0);
   const [isSpecialty, setIsSpecialty] = useState(false);
   const { accessToken, LoggedPlatform } = useContext(AuthContext);
+  const thumbnailImage = images.find((image) => image.is_thumbnail === true);
   useEffect(() => {
     Promise.all([
       axios.get("http://13.124.11.195:3000/reviews/1/ratings"),
@@ -83,7 +84,7 @@ export default function DetailPageHeader({ navigation, apiData, distance }) {
     <View style={{ flex: 1 }}>
       <Container>
         <Image
-          source={DetailMainImg}
+          source={{ uri: thumbnailImage.image_url }}
           style={{
             width: responsiveWidth(360),
             height: responsiveHeight(400),

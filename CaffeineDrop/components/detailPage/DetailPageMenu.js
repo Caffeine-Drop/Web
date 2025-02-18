@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,8 @@ import {
   Button,
   Dimensions,
   ScrollView,
+  TouchableOpacity,
+  Modal,
 } from "react-native";
 
 import styled from "styled-components/native";
@@ -23,24 +25,78 @@ import signatureMenuImg2 from "../../assets/DetailPage/signatureMenuImg2.png";
 import signatureMenuImg3 from "../../assets/DetailPage/signatureMenuImg3.png";
 import signatureMenuImg4 from "../../assets/DetailPage/signatureMenuImg4.png";
 
-export default function DetailpageMenu() {
+export default function DetailpageMenu({ images, menuItems }) {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  // 메뉴판 이미지
+  const menuImage = images.find((image) => image.cafe_image_id === 2);
+  // 가게 메뉴 이미지
+  const signatureMenuImages = menuItems;
   return (
     <Container>
       <Title>메뉴</Title>
       <MenuImgContainer>
-        <MenuImg source={menuImg} />
-        <MenuImg source={blankMenuImg} />
+        <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+          <MenuImg source={{ uri: menuImage.image_url }} />
+        </TouchableOpacity>
+        {isModalVisible && (
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={isModalVisible}
+            onRequestClose={() => {
+              setIsModalVisible(false);
+            }}
+          >
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 22,
+              }}
+            >
+              <View
+                style={{
+                  margin: 20,
+                  backgroundColor: "white",
+                  borderRadius: 20,
+                  padding: 35,
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  source={{ uri: menuImage.image_url }}
+                  style={{
+                    width: responsiveWidth(300),
+                    height: responsiveHeight(300),
+                    resizeMode: "contain",
+                  }}
+                />
+                <Button onPress={() => setIsModalVisible(false)} title="닫기" />
+              </View>
+            </View>
+          </Modal>
+        )}
       </MenuImgContainer>
       <SignatureMenuContainer>
         <SignatureMenuTitle>시그니처 메뉴</SignatureMenuTitle>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <SignatureMenuImgContainer>
-            <SignatureMenu>
-              <SignatureMenuImg source={signatureMenuImg1} />
-              <MenuName>토피넛 라떼</MenuName>
-              <MenuPrice>5,000원</MenuPrice>
-            </SignatureMenu>
-            <SignatureMenu>
+            {signatureMenuImages.map((item) => (
+              <SignatureMenu key={item.name}>
+                <SignatureMenuImg
+                  style={{
+                    width: responsiveWidth(80),
+                    height: responsiveHeight(80),
+                    resizeMode: "contain",
+                  }}
+                  source={{ uri: item.image_url }}
+                />
+                <MenuName>{item.name}</MenuName>
+                <MenuPrice>{item.price}원</MenuPrice>
+              </SignatureMenu>
+            ))}
+            {/* <SignatureMenu>
               <SignatureMenuImg source={signatureMenuImg2} />
               <MenuName>민트 커피</MenuName>
               <MenuPrice>5,000원</MenuPrice>
@@ -54,7 +110,7 @@ export default function DetailpageMenu() {
               <SignatureMenuImg source={signatureMenuImg4} />
               <MenuName>얼 그레이 티</MenuName>
               <MenuPrice>5,000원</MenuPrice>
-            </SignatureMenu>
+            </SignatureMenu> */}
           </SignatureMenuImgContainer>
         </ScrollView>
       </SignatureMenuContainer>

@@ -15,6 +15,7 @@ import {
   responsiveWidth,
   responsiveHeight,
 } from "../../utils/responsive";
+import * as Location from 'expo-location';
 
 // 컴포넌트
 import DetailPageHeader from "../../components/detailPage/DetailPageHeader";
@@ -24,6 +25,7 @@ import DetailPageReview from "../../pages/detailPages/detailpagereview";
 import DetailPageImage from "../../pages/detailPages/detailpageimage";
 import DetailPageBeansInfo from "../../pages/detailPages/detailpagebeansinfo";
 import BackButton from "../../components/BackButton";
+import { CalculateDistance } from '../../components/CalculateDistance';
 
 export default function DetailPage({ navigation, route }) {
   const { cafe } = route.params || {};
@@ -31,6 +33,7 @@ export default function DetailPage({ navigation, route }) {
   const [apiData, setApiData] = useState(null);
   const [selectedTab, setSelectedTab] = useState("home");
   const fadeAnim = useState(new Animated.Value(1))[0];
+  const [cafeDistance, setCafeDistance] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isNavBarFixed, setIsNavBarFixed] = useState(false);
   const scrollViewRef = useRef(null);
@@ -47,6 +50,39 @@ export default function DetailPage({ navigation, route }) {
         console.log(error);
       });
   }, []);
+
+  useEffect(() => {
+    if (!apiData) return; // Ensure apiData is available
+
+    const fetchData = async () => {
+      try {
+        // 위치 권한 요청
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          console.log('위치 권한이 거부되었습니다.');
+          return;
+        }
+  
+        // 현재 위치 가져오기
+        let currentLocation = await Location.getCurrentPositionAsync({});
+        const currentCoords = {
+          latitude: currentLocation.coords.latitude,
+          longitude: currentLocation.coords.longitude,
+        };
+        const cafeCoords = {
+          latitude: apiData.latitude,
+          longitude: apiData.longitude,
+        };
+        const distance = CalculateDistance(currentCoords, cafeCoords);
+        setCafeDistance(distance.toFixed(1));
+        console.log(`카페까지의 거리: ${distance.toFixed(1)} km`);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    fetchData();
+  }, [apiData]);
   
   if (isLoading) {
     return (
@@ -172,6 +208,7 @@ export default function DetailPage({ navigation, route }) {
           navigation={navigation}
           isScrolled={isScrolled}
           apiData={apiData}
+          distance={cafeDistance}
         />
         <View>
           <Container>

@@ -33,7 +33,7 @@ export default function OnBoardingLogin04() {
   const { accessToken, userId, storeNickname, LoggedPlatform } =
     useContext(AuthContext);
   const [profileImage, setProfileImage] = useState(null);
-  const [userNickname, setUserNickname] = useState("qweqwe");
+  const [userNickname, setUserNickname] = useState("");
   const [isDuplicate, setIsDuplicate] = useState(false);
   const [hasChecked, setHasChecked] = useState(false);
 

@@ -16,6 +16,8 @@ import {
 import styled from "styled-components/native";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
+import * as Location from 'expo-location';
+import { CalculateDistance } from '../CalculateDistance';
 
 // 이미지 assets
 import DetailMainImg from "../../assets/DetailPage/DetailPageMainImg.png";
@@ -36,6 +38,7 @@ export default function DetailPageHeader({ navigation, apiData }) {
   const [isLoading, setIsLoading] = useState(true);
   const [rating, setRating] = useState(0);
   const [isSpecialty, setIsSpecialty] = useState(false);
+  const [distance, setDistance] = useState(0);
   const { accessToken, LoggedPlatform } = useContext(AuthContext);
   useEffect(() => {
     Promise.all([
@@ -52,6 +55,37 @@ export default function DetailPageHeader({ navigation, apiData }) {
       .catch((error) => {
         console.log(error);
       });
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // 위치 권한 요청
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          console.log('위치 권한이 거부되었습니다.');
+          return;
+        }
+  
+        // 현재 위치 가져오기
+        let currentLocation = await Location.getCurrentPositionAsync({});
+        const currentCoords = {
+          latitude: currentLocation.coords.latitude,
+          longitude: currentLocation.coords.longitude,
+        };
+        const cafeCoords = {
+          latitude: apiData.latitude,
+          longitude: apiData.longitude,
+        };
+        const distance = CalculateDistance(currentCoords, cafeCoords);
+        setDistance(distance.toFixed(1));
+        console.log(`카페까지의 거리: ${distance.toFixed(1)} km`);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    fetchData();
   }, []);
 
   const handleCafeLike = async () => {
@@ -156,7 +190,7 @@ export default function DetailPageHeader({ navigation, apiData }) {
                 preserveAspectRatio: "none",
               }}
             />
-            <DistanceText>1.2km</DistanceText>
+            <DistanceText>{distance}km</DistanceText>
           </View>
           <View
             style={{

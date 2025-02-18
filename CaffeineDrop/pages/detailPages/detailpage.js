@@ -37,6 +37,8 @@ export default function DetailPage({ navigation, route }) {
   const [cafeDistance, setCafeDistance] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isNavBarFixed, setIsNavBarFixed] = useState(false);
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
   const scrollViewRef = useRef(null);
   const fontsLoaded = useFonts();
 
@@ -51,6 +53,9 @@ export default function DetailPage({ navigation, route }) {
         // console.log(cafeResponse.data);
         console.log(beansResponse.data.success);
         setApiData(cafeResponse.data);
+        setLatitude(cafeResponse.data.latitude);
+        setLongitude(cafeResponse.data.longitude);
+        console.log(latitude, longitude);
         setBeansInfo(beansResponse.data.success);
         console.log(beansInfo);
         setIsLoading(false);
@@ -150,6 +155,8 @@ export default function DetailPage({ navigation, route }) {
             navigation={navigation}
             distance={cafeDistance}           
             apiData={apiData}
+            latitude={latitude}
+            longitude={longitude}
             onViewMoreImgPress={() => handleTabPress("image")}
             onViewMoreReviewPress={() => {
               handleTabPress("review");

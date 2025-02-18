@@ -8,7 +8,7 @@ import {
 } from "../../utils/responsive";
 import styled from "styled-components/native";
 
-export default function DetailPageCategory() {
+export default function DetailPageCategory({ apiData }) {
   return (
     <Container>
       <CategoryContainer>
@@ -20,7 +20,7 @@ export default function DetailPageCategory() {
           </Category>
           <Category>
             {/* 여기 부분에 카테고리 가져오면 텍스트 길이에 따라 자동으로 감싸짐*/}
-            <CategoryText>프랜차이즈123123123</CategoryText>
+            <CategoryText>주차장</CategoryText>
           </Category>
         </CategoryList>
       </CategoryContainer>
@@ -30,7 +30,7 @@ export default function DetailPageCategory() {
             <Text>전화번호</Text>
           </TelText>
           <TelNumber>
-            <Text>010-1234-5678</Text>
+            <Text>{apiData.phone_number}</Text>
           </TelNumber>
         </Tel>
       </TelContainer>
@@ -39,21 +39,27 @@ export default function DetailPageCategory() {
           <Text>영업시간</Text>
         </BusinessHourText>
         <BusinessHourList>
-          <BusinessHour>
-            <BusinessHourDay>월</BusinessHourDay>
-            <Separator>|</Separator>
-            <BusinessHourTime>09:00 ~ 22:00</BusinessHourTime>
-          </BusinessHour>
-          <BusinessHour>
-            <BusinessHourDay>화</BusinessHourDay>
-            <Separator>|</Separator>
-            <BusinessHourTime>09:00 ~ 22:00</BusinessHourTime>
-          </BusinessHour>
-          <BusinessHour>
-            <BusinessHourDay>수</BusinessHourDay>
-            <Separator>|</Separator>
-            <BusinessHourTime>09:00 ~ 22:00</BusinessHourTime>
-          </BusinessHour>
+          {apiData.operating_hours.map((hour, index) => (
+            <BusinessHour key={index}>
+              <BusinessHourDay>{hour.day_of_week}</BusinessHourDay>
+              <Separator>|</Separator>
+              <BusinessHourTime>
+                {hour.open_time && hour.close_time
+                  ? `${new Date(hour.open_time).toLocaleTimeString("ko-KR", {
+                      timeZone: "UTC",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: false,
+                    })} ~ ${new Date(hour.close_time).toLocaleTimeString("ko-KR", {
+                    timeZone: "UTC",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                  })}`
+                  : "휴무"}
+              </BusinessHourTime>
+            </BusinessHour>
+          ))}
         </BusinessHourList>
       </BusinessHourContainer>
     </Container>
@@ -169,9 +175,10 @@ const BusinessHourText = styled.Text`
 
 const BusinessHourList = styled.View`
   display: flex;
+  justify-content: flex-start;
   flex-direction: column;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
   gap: ${responsiveWidth(20)}px;
 `;
 
@@ -197,6 +204,7 @@ const Separator = styled.Text`
 
 const BusinessHourTime = styled.Text`
   color: #000;
+  text-align: left;
   font-size: ${responsiveFontSize(14)}px;
   font-family: "PretendardMedium";
   line-height: ${responsiveFontSize(21)}px;

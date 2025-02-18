@@ -6,6 +6,7 @@ import {
   Button,
   Dimensions,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 
 import styled from "styled-components/native";
@@ -24,9 +25,14 @@ import mockupImg3 from "../../assets/DetailPage/mockupImg3.png";
 import DetailPageLoadingImg from "../../assets/DetailPage/DetailPageLoadingImg.png";
 import ViewMoreButtonIcon from "../../assets/DetailPage/ViewMoreButton.svg";
 
-export default function DetailPageImg({ navigation, onViewMoreImgPress }) {
+export default function DetailPageImg({
+  navigation,
+  onViewMoreImgPress,
+  images,
+}) {
   const fontsLoaded = useFonts();
   const [isLoading, setIsLoading] = useState(true);
+  const thumbnailImage = images.find((image) => image.is_thumbnail === true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -66,10 +72,14 @@ export default function DetailPageImg({ navigation, onViewMoreImgPress }) {
           />
         ) : (
           <TouchableOpacity
-            onPress={() => navigation.navigate("DetailPageImageDetail")}
+            onPress={() =>
+              Alert.alert("알림", "업체 등록 사진입니다", [
+                { text: "확인", onPress: () => {} },
+              ])
+            }
           >
             <Image
-              source={DetailMainImg}
+              source={{ uri: thumbnailImage.image_url }}
               style={{
                 width: responsiveWidth(156),
                 height: responsiveHeight(156),

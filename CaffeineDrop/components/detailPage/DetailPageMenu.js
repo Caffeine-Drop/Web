@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Modal,
 } from "react-native";
+import { PanGestureHandler } from "react-native-gesture-handler";
 
 import styled from "styled-components/native";
 import {
@@ -47,34 +48,43 @@ export default function DetailpageMenu({ images, menuItems }) {
               setIsModalVisible(false);
             }}
           >
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: 22,
+            <PanGestureHandler
+              onGestureEvent={({ nativeEvent }) => {
+                if (nativeEvent.translationY > 100) {
+                  setIsModalVisible(false);
+                }
               }}
             >
               <View
                 style={{
-                  margin: 20,
-                  backgroundColor: "white",
-                  borderRadius: 20,
-                  padding: 35,
+                  flex: 1,
+                  justifyContent: "center",
                   alignItems: "center",
+                  marginTop: 22,
+                  backgroundColor: "rgba(0, 0, 0, 0.32)",
                 }}
               >
-                <Image
-                  source={{ uri: menuImage.image_url }}
+                <View
                   style={{
-                    width: responsiveWidth(300),
-                    height: responsiveHeight(300),
-                    resizeMode: "contain",
+                    flex: 1,
+                    backgroundColor: "rgba(0, 0, 0, 0.32)",
+                    borderRadius: 20,
+                    padding: 35,
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
-                />
-                <Button onPress={() => setIsModalVisible(false)} title="닫기" />
+                >
+                  <Image
+                    source={{ uri: menuImage.image_url }}
+                    style={{
+                      width: responsiveWidth(300),
+                      height: responsiveHeight(400),
+                      resizeMode: "contain",
+                    }}
+                  />
+                </View>
               </View>
-            </View>
+            </PanGestureHandler>
           </Modal>
         )}
       </MenuImgContainer>
@@ -96,21 +106,6 @@ export default function DetailpageMenu({ images, menuItems }) {
                 <MenuPrice>{item.price}원</MenuPrice>
               </SignatureMenu>
             ))}
-            {/* <SignatureMenu>
-              <SignatureMenuImg source={signatureMenuImg2} />
-              <MenuName>민트 커피</MenuName>
-              <MenuPrice>5,000원</MenuPrice>
-            </SignatureMenu>
-            <SignatureMenu>
-              <SignatureMenuImg source={signatureMenuImg3} />
-              <MenuName>허니 블랙티</MenuName>
-              <MenuPrice>5,000원</MenuPrice>
-            </SignatureMenu>
-            <SignatureMenu>
-              <SignatureMenuImg source={signatureMenuImg4} />
-              <MenuName>얼 그레이 티</MenuName>
-              <MenuPrice>5,000원</MenuPrice>
-            </SignatureMenu> */}
           </SignatureMenuImgContainer>
         </ScrollView>
       </SignatureMenuContainer>

@@ -7,7 +7,7 @@ import {
   responsiveHeight,
 } from "../../utils/responsive";
 import BackIcon from "../../components/BackIcon";
-import NextButton from "../../components/NextButton";
+import NextButton from "../../components/settingPage/NextButton";
 import { useFonts } from "../../styles";
 
 export default function SettingPage02({ navigation }) {

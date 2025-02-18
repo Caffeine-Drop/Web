@@ -1,7 +1,7 @@
 import React from "react";
 import { Image } from "react-native";
 import styled from "styled-components/native";
-import { responsiveWidth, responsiveHeight } from "../utils/responsive";
+import { responsiveWidth, responsiveHeight } from "../../utils/responsive";
 
 const StyledImageWrapper = styled.View`
   width: ${responsiveWidth(318)}px;

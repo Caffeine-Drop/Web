@@ -7,9 +7,9 @@ import {
   responsiveHeight,
 } from "../../utils/responsive";
 import BackIcon from "../../components/BackIcon";
-import DefaultSettingImage from "../../components/DefaultSettingImage";
-import KaKaoIcon from "../../components/KaKaoIcon";
-import NextButton from "../../components/NextButton";
+import DefaultSettingImage from "../../components/settingPage/DefaultSettingImage";
+import KaKaoIcon from "../../components/settingPage/KaKaoIcon";
+import NextButton from "../../components/settingPage/NextButton";
 import { useFonts } from "../../styles";
 import { useNavigation } from "@react-navigation/native";
 

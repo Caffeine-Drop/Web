@@ -12,10 +12,17 @@ import HeartIcon from "../assets/home/HeartIcon.jsx";
 import StarIcon from "../assets/home/StarIcon.svg";
 import { useFonts } from "../styles";
 
+import useFetchSpecialty from "../hooks/useFetchSpecialty";
+
 const CafeListItem = ({ cafe, isSelected, isLoading }) => {
   const fontsLoaded = useFonts();
 
   const navigation = useNavigation(); // navigation 객체 가져오기
+
+  const { isSpecialty, isLoading: isSpecialtyLoading } = useFetchSpecialty(
+    cafe.cafe_id
+  );
+  console.log("🔥 isSpecialty in CafeListItem:", isSpecialty); // ✅ 값 확인
 
   const handlePress = () => {
     navigation.navigate("DetailPage", { cafeId: cafe.cafe_id }); // DetailPage로 이동
@@ -30,9 +37,9 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
   // 현재 카페가 영업 중인지 확인 (null이면 영업 시간 정보 없음)
   const isClosed = cafe.operating_hour === null;
   // 배지 표시 여부
-  const isBothBadges = cafe.isFavorite && cafe.isSpecialty;
+  const isBothBadges = cafe.isFavorite && isSpecialty;
 
-  if (!fontsLoaded || isLoading) {
+  if (!fontsLoaded || isLoading || isSpecialtyLoading) {
     return <CafeListItemSkeleton />;
   }
 
@@ -46,28 +53,29 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
         <ListContainer>
           <ImageContainer>
             {/* 배지 컨테이너 (ScrollView 외부) */}
-            {(cafe.isFavorite || cafe.isSpecialty) && (
+            {(cafe.isFavorite || isSpecialty) && (
               <BadgeContainer>
                 {/* 좋아요 배지 */}
                 {cafe.isFavorite && (
                   <Badge
                     style={{
                       backgroundColor: "#E91111",
-                      borderTopRightRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 오른쪽 위 모서리 제거
-                      borderBottomRightRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 오른쪽 아래 모서리 제거
+                      borderTopRightRadius: isBothBadges ? 0 : 4, // ✅ 스페셜티가 있으면 오른쪽 위 모서리 없앰
+                      borderBottomRightRadius: isBothBadges ? 0 : 4, // ✅ 스페셜티가 있으면 오른쪽 아래 모서리 없앰
                     }}
                   >
                     <HeartIcon color="#FFFFFF" size={responsiveWidth(10)} />
                     <BadgeText>좋아요</BadgeText>
                   </Badge>
                 )}
+
                 {/* Specialty Coffee 배지 */}
-                {cafe.isSpecialty && (
+                {!isSpecialty && (
                   <Badge
                     style={{
                       backgroundColor: "#321900",
-                      borderTopLeftRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 왼쪽 위 모서리 제거
-                      borderBottomLeftRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 왼쪽 아래 모서리 제거
+                      borderTopLeftRadius: isBothBadges ? 0 : 4, // ✅ 좋아요가 있으면 왼쪽 위 모서리 없앰
+                      borderBottomLeftRadius: isBothBadges ? 0 : 4, // ✅ 좋아요가 있으면 왼쪽 아래 모서리 없앰
                     }}
                   >
                     <BadgeText>Specialty Coffee</BadgeText>

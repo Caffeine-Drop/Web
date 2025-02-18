@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   Platform,
   ScrollView,
@@ -17,21 +17,20 @@ import {
 } from "../../utils/responsive";
 import styled from "styled-components/native";
 import BackIcon from "../../components/BackIcon";
-import BlackTextCircle from "../../components/BlackTextCircle";
-import BlurIcon from "../../components/BlurIcon";
 import { LinearGradient } from "expo-linear-gradient";
-import RoastingLevel from "../../components/EventPageRoastingLevel";
-import EventPageTastingNote from "../../components/EventPageTastingNote";
+import RoastingLevel from "../../components/eventPage/EventPageRoastingLevel";
+import EventPageTastingNote from "../../components/eventPage/EventPageTastingNote";
 
-import BrazilImage from "../../components/Card_Brazil";
-import ColombiaImage from "../../components/Card_Colombia";
-import CostaRicaImage from "../../components/Card_CostaRica";
-import EthiopiaImage from "../../components/Card_Ethiopia";
-import GuatemalaImage from "../../components/Card_Guatemala";
-import IndonesiaImage from "../../components/Card_Indonesia";
-import KenyaImage from "../../components/Card_Kenya";
-import VietnamImage from "../../components/Card_Vietnam";
+import BrazilImage from "../../components/eventPage/Card_Brazil";
+import ColombiaImage from "../../components/eventPage/Card_Colombia";
+import CostaRicaImage from "../../components/eventPage/Card_CostaRica";
+import EthiopiaImage from "../../components/eventPage/Card_Ethiopia";
+import GuatemalaImage from "../../components/eventPage/Card_Guatemala";
+import IndonesiaImage from "../../components/eventPage/Card_Indonesia";
+import KenyaImage from "../../components/eventPage/Card_Kenya";
+import VietnamImage from "../../components/eventPage/Card_Vietnam";
 
+import { useRoute } from "@react-navigation/native";
 import { Dimensions } from "react-native";
 
 // 화면 너비 가져오기
@@ -41,6 +40,76 @@ const { width } = Dimensions.get("window");
 const isTablet = width >= 600;
 
 export default function EventPage06({ navigation }) {
+  const route = useRoute();
+  const recommendedCountry = route.params?.recommendedCountry;
+  let selectedOption1 = route.params?.selectedOption1; //향
+  let selectedOption2 = route.params?.selectedOption2; //산미
+  let selectedOption3 = route.params?.selectedOption3; //쓴맛
+  let selectedOption4 = route.params?.selectedOption4; //바디감
+
+  // useEffect(() => {
+  //   console.log("로스팅 아이디 = " + roastingLevel);
+  //   console.log("향 = " + selectedOption1);
+  //   console.log("산미 = " + selectedOption2);
+  //   console.log("바디감 = " + selectedOption4);
+  //   console.log("가져온 추천 국가 = " + recommendedCountry);
+  // }, [recommendedCountry]);
+
+  // 국가별 이미지 매핑
+  const countryImages = {
+    Brazil: <BrazilImage />,
+    Colombia: <ColombiaImage />,
+    CostaRica: <CostaRicaImage />,
+    Ethiopia: <EthiopiaImage />,
+    Guatemala: <GuatemalaImage />,
+    Indonesia: <IndonesiaImage />,
+    Kenya: <KenyaImage />,
+    Vietnam: <VietnamImage />,
+  };
+
+  // 국가별 한글 매핑
+  const countryNames = {
+    Ethiopia: "에티오피아",
+    Kenya: "케냐",
+    Brazil: "브라질",
+    Colombia: "콜롬비아",
+    Guatemala: "과테말라",
+    CostaRica: "코스타리카",
+    Indonesia: "인도네시아",
+    Vietnam: "베트남",
+  };
+
+  let roastingLevel = 0;
+  let roastingName = "";
+
+  //로스팅 정도
+  if (selectedOption3 == 5) {
+    //쓴맛이 5점인가
+    roastingName = "이탈리안";
+    roastingLevel = 8;
+  } else if (selectedOption4 == 5) {
+    //바디감이 5점인가
+    roastingName = "프랜치";
+    roastingLevel = 7;
+  } else if (selectedOption2 == 5) {
+    //산도는 5점인가
+    roastingName = "시나몬";
+    roastingLevel = 2;
+  } else {
+    //다 아니면
+    roastingName = "풀시티";
+    roastingLevel = 6;
+  }
+
+  const data = {
+    roasting_id: roastingLevel,
+    aroma: selectedOption1,
+    acidity: selectedOption2,
+    body: selectedOption4,
+    country: countryNames[recommendedCountry] || recommendedCountry,
+  };
+  console.log(data);
+
   return (
     <Container>
       <InnerContainer>
@@ -52,7 +121,7 @@ export default function EventPage06({ navigation }) {
         </Navbar>
 
         {/* Scrollable Content */}
-        <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
+        <ScrollView>
           <Content>
             <GreyColorBox>
               <TextContainer>
@@ -69,7 +138,11 @@ export default function EventPage06({ navigation }) {
               </TextContainer>
               {/* //////////////////////////////// */}
               <View>
-                <EventPageTastingNote />
+                <EventPageTastingNote
+                  aroma={selectedOption1}
+                  acidity={selectedOption2}
+                  body={selectedOption4}
+                />
               </View>
               <View
                 style={{
@@ -87,7 +160,9 @@ export default function EventPage06({ navigation }) {
                       로스팅 정도(SCAA 기준)
                     </LoastingDegreeText>
                     <LoastingDegreeText>|</LoastingDegreeText>
-                    <LoastingDegreeLateText>시나몬</LoastingDegreeLateText>
+                    <LoastingDegreeLateText>
+                      {roastingName}
+                    </LoastingDegreeLateText>
                   </LoastingDegreeContent>
                   <View
                     style={{
@@ -96,11 +171,13 @@ export default function EventPage06({ navigation }) {
                       alignItems: "center",
                     }}
                   >
-                    <LoastingDegreeLate>2</LoastingDegreeLate>
+                    <LoastingDegreeLate>
+                      {roastingLevel.toFixed(1)}
+                    </LoastingDegreeLate>
                     <LoastingDegreeText>/8</LoastingDegreeText>
                   </View>
                 </LoastingDegree>
-                <RoastingLevel score={2} maxScore={8} />
+                <RoastingLevel score={roastingLevel} maxScore={8} />
               </View>
               {/* //////////////////////////////// */}
             </GreyColorBox>
@@ -111,7 +188,12 @@ export default function EventPage06({ navigation }) {
               </ResultHeaderBox>
 
               <ResultContentBox>
-                <BrazilImage />
+                {/* recommendedCountry가 존재하면 해당 이미지 표시 */}
+                {recommendedCountry && countryImages[recommendedCountry] ? (
+                  countryImages[recommendedCountry]
+                ) : (
+                  <Text>추천 원두가 없습니다.</Text>
+                )}
               </ResultContentBox>
             </ResultCardWrapper>
           </Content>
@@ -275,11 +357,23 @@ const LoastingDegreeLateText = styled.Text`
 `;
 //////////////////////////////////////////////
 const Footer = styled.View`
-  position: absolute;
-  top: ${isTablet ? responsiveHeight(1040) : responsiveHeight(965)}px;
   width: 100%;
+  ${Platform.select({
+    ios: `
+        margin-top: ${responsiveHeight(10)}px;
+    `,
+    android: `
+        margin-top: ${responsiveHeight(40)}px;
+    `,
+    web: `
+        margin-top: ${responsiveHeight(965)}px;
+    `,
+  })}
   display: inline-flex;
-  padding: 0px 24px 58px 24px;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-bottom: 58px;
+
   flex-direction: column;
   align-items: center;
   gap: 8px;

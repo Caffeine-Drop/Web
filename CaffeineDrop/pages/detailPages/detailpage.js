@@ -1,19 +1,21 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
   ScrollView,
   TouchableOpacity,
   Animated,
+  ActivityIndicator,
 } from "react-native";
 import styled from "styled-components/native";
 import { useFonts } from "../../styles";
-
+import axios from "axios";
 import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
 } from "../../utils/responsive";
+import * as Location from 'expo-location';
 
 // 컴포넌트
 import DetailPageHeader from "../../components/detailPage/DetailPageHeader";
@@ -23,20 +25,101 @@ import DetailPageReview from "../../pages/detailPages/detailpagereview";
 import DetailPageImage from "../../pages/detailPages/detailpageimage";
 import DetailPageBeansInfo from "../../pages/detailPages/detailpagebeansinfo";
 import BackButton from "../../components/BackButton";
+import { CalculateDistance } from '../../components/CalculateDistance';
 
 export default function DetailPage({ navigation, route }) {
   const { cafe } = route.params || {};
+  const [isLoading, setIsLoading] = useState(true);
+  const [apiData, setApiData] = useState(null);
+  const [images, setImages] = useState(null);
+  const [menuItems, setMenuItems] = useState(null);
+  const [beansInfo, setBeansInfo] = useState(null);
   const [selectedTab, setSelectedTab] = useState("home");
   const fadeAnim = useState(new Animated.Value(1))[0];
+  const [cafeDistance, setCafeDistance] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isNavBarFixed, setIsNavBarFixed] = useState(false);
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
   const scrollViewRef = useRef(null);
   const fontsLoaded = useFonts();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const [cafeResponse, beansResponse] = await Promise.all([
+          axios.get("http://13.124.11.195:3000/cafes/1"),
+          axios.get("http://13.124.11.195:3000/cafes/1/beans"),
+        ]);
+        // console.log(cafeResponse.data);
+        // console.log(beansResponse.data.success);
+        setApiData(cafeResponse.data);
+        // images는 상세페이지 메인 이미지랑 메뉴판 사진 들어있는 곳
+        setImages(cafeResponse.data.images);
+        // MenuItems는 시그니처 메뉴 사진 들어있는 곳곳
+        setMenuItems(cafeResponse.data.menu_items);
+        console.log("menuItems: ", menuItems);
+        setLatitude(cafeResponse.data.latitude);
+        setLongitude(cafeResponse.data.longitude);
+        console.log("위도: ", latitude);
+        console.log("경도: ", longitude);
+        setBeansInfo(beansResponse.data.success);
+        // console.log(beansInfo);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (!apiData) return; // Ensure apiData is available
+
+    const fetchData = async () => {
+      try {
+        // 위치 권한 요청
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          console.log('위치 권한이 거부되었습니다.');
+          return;
+        }
+  
+        // 현재 위치 가져오기
+        let currentLocation = await Location.getCurrentPositionAsync({});
+        const currentCoords = {
+          latitude: currentLocation.coords.latitude,
+          longitude: currentLocation.coords.longitude,
+        };
+        const cafeCoords = {
+          latitude: apiData.latitude,
+          longitude: apiData.longitude,
+        };
+        const distance = CalculateDistance(currentCoords, cafeCoords);
+        setCafeDistance(distance.toFixed(1));
+        console.log(`카페까지의 거리: ${distance.toFixed(1)} km`);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    fetchData();
+  }, [apiData]);
+  
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
   if (!fontsLoaded) {
     return null; // 폰트 로딩이 안되면 아무것도 렌더링하지 않음
   }
-
   const handleScroll = (event) => {
     const scrollY = event.nativeEvent.contentOffset.y;
     setIsScrolled(scrollY > responsiveHeight(10));
@@ -78,6 +161,12 @@ export default function DetailPage({ navigation, route }) {
             cafe={cafe}
             selectedTab={selectedTab}
             navigation={navigation}
+            distance={cafeDistance}           
+            apiData={apiData}
+            images={images}
+            menuItems={menuItems}
+            latitude={latitude}
+            longitude={longitude}
             onViewMoreImgPress={() => handleTabPress("image")}
             onViewMoreReviewPress={() => {
               handleTabPress("review");
@@ -88,13 +177,17 @@ export default function DetailPage({ navigation, route }) {
           />
         );
       case "review":
-        return <DetailPageReview selectedTab={selectedTab} />;
+        return <DetailPageReview selectedTab={selectedTab} apiData={apiData} />;
       case "image":
         return (
-          <DetailPageImage selectedTab={selectedTab} navigation={navigation} />
+          <DetailPageImage
+            selectedTab={selectedTab}
+            navigation={navigation}
+            apiData={apiData}
+          />
         );
       case "beansinfo":
-        return <DetailPageBeansInfo />;
+        return <DetailPageBeansInfo selectedTab={selectedTab} beansInfo={beansInfo} />;
     }
   };
 
@@ -112,7 +205,7 @@ export default function DetailPage({ navigation, route }) {
                 }}
                 onPress={() => navigation.goBack()}
               />
-              <FixedHeaderText>언힙커피로스터스</FixedHeaderText>
+              <FixedHeaderText>{apiData.name}</FixedHeaderText>
             </View>
             {isNavBarFixed && (
               <NavBar>
@@ -145,7 +238,13 @@ export default function DetailPage({ navigation, route }) {
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
       >
-        <DetailPageHeader navigation={navigation} isScrolled={isScrolled} />
+        <DetailPageHeader
+          navigation={navigation}
+          isScrolled={isScrolled}
+          apiData={apiData}
+          images={images}
+          distance={cafeDistance}
+        />
         <View>
           <Container>
             <NavBar>

@@ -5,7 +5,7 @@ import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 
 const RoastingLevel = ({ score, maxScore }) => {
   const levels = Array.from({ length: maxScore }, (_, i) => i < score);

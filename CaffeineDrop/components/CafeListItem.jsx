@@ -12,18 +12,34 @@ import HeartIcon from "../assets/home/HeartIcon.jsx";
 import StarIcon from "../assets/home/StarIcon.svg";
 import { useFonts } from "../styles";
 
+import useFetchSpecialty from "../hooks/useFetchSpecialty";
+
 const CafeListItem = ({ cafe, isSelected, isLoading }) => {
   const fontsLoaded = useFonts();
 
   const navigation = useNavigation(); // navigation 객체 가져오기
 
+  const { isSpecialty, isLoading: isSpecialtyLoading } = useFetchSpecialty(
+    cafe.cafe_id
+  );
+  console.log("🔥 isSpecialty in CafeListItem:", isSpecialty); // ✅ 값 확인
+
   const handlePress = () => {
-    navigation.navigate("DetailPage", { cafe }); // DetailPage로 이동
+    navigation.navigate("DetailPage", { cafeId: cafe.cafe_id }); // DetailPage로 이동
   };
 
-  const isBothBadges = cafe.isFavorite && cafe.isSpecialty;
+  // 대표 이미지 (메인 사진)
+  const thumbnail =
+    cafe.images?.find((img) => img.is_thumbnail) || cafe.images?.[0];
+  // 리뷰 사진 (menu_items에서 가져오기)
+  const reviewImages =
+    cafe.menu_items?.map((menu) => menu.image_url).slice(0, 3) || [];
+  // 현재 카페가 영업 중인지 확인 (null이면 영업 시간 정보 없음)
+  const isClosed = cafe.operating_hour === null;
+  // 배지 표시 여부
+  const isBothBadges = cafe.isFavorite && isSpecialty;
 
-  if (!fontsLoaded || isLoading) {
+  if (!fontsLoaded || isLoading || isSpecialtyLoading) {
     return <CafeListItemSkeleton />;
   }
 
@@ -36,29 +52,30 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
       >
         <ListContainer>
           <ImageContainer>
-            {/* ✅ 배지 컨테이너 (ScrollView 외부) */}
-            {(cafe.isFavorite || cafe.isSpecialty) && (
+            {/* 배지 컨테이너 (ScrollView 외부) */}
+            {(cafe.isFavorite || isSpecialty) && (
               <BadgeContainer>
                 {/* 좋아요 배지 */}
                 {cafe.isFavorite && (
                   <Badge
                     style={{
                       backgroundColor: "#E91111",
-                      borderTopRightRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 오른쪽 위 모서리 제거
-                      borderBottomRightRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 오른쪽 아래 모서리 제거
+                      borderTopRightRadius: isBothBadges ? 0 : 4, // ✅ 스페셜티가 있으면 오른쪽 위 모서리 없앰
+                      borderBottomRightRadius: isBothBadges ? 0 : 4, // ✅ 스페셜티가 있으면 오른쪽 아래 모서리 없앰
                     }}
                   >
                     <HeartIcon color="#FFFFFF" size={responsiveWidth(10)} />
                     <BadgeText>좋아요</BadgeText>
                   </Badge>
                 )}
+
                 {/* Specialty Coffee 배지 */}
-                {cafe.isSpecialty && (
+                {!isSpecialty && (
                   <Badge
                     style={{
                       backgroundColor: "#321900",
-                      borderTopLeftRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 왼쪽 위 모서리 제거
-                      borderBottomLeftRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 왼쪽 아래 모서리 제거
+                      borderTopLeftRadius: isBothBadges ? 0 : 4, // ✅ 좋아요가 있으면 왼쪽 위 모서리 없앰
+                      borderBottomLeftRadius: isBothBadges ? 0 : 4, // ✅ 좋아요가 있으면 왼쪽 아래 모서리 없앰
                     }}
                   >
                     <BadgeText>Specialty Coffee</BadgeText>
@@ -76,49 +93,34 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
                 paddingRight: responsiveWidth(16), // 마지막 이미지 오른쪽 여백
               }}
             >
-              {/* 첫 번째 이미지 */}
-              <ImagePlaceholder
-                isClosed={cafe.isClosed}
-                style={{
-                  width: responsiveWidth(150),
-                  height: responsiveHeight(150),
-                  marginRight: responsiveWidth(4),
-                }}
-              >
-                {cafe.isClosed && (
+              {/* ✅ 첫 번째 이미지 (대표 이미지) */}
+              <ThumbnailWrapper>
+                {thumbnail ? (
+                  <CafeImage source={{ uri: "https://ifh.cc/g/1mfJ2p.jpg" }} />
+                ) : (
+                  <CafeImagePlaceholder />
+                )}
+                {/* ✅ 미운영 알림 (영업 전일 때) */}
+                {isClosed && (
                   <ClosedOverlay>
                     <ClosedSubText>미운영 알림</ClosedSubText>
                     <ClosedText>현재 영업</ClosedText>
                     <ClosedText>준비중이에요!</ClosedText>
                   </ClosedOverlay>
                 )}
-              </ImagePlaceholder>
+              </ThumbnailWrapper>
 
-              {/* 두 번째 이미지 */}
-              <ImagePlaceholder
-                isClosed={cafe.isClosed}
-                style={{
-                  width: responsiveWidth(112.5),
-                  height: responsiveHeight(150),
-                  marginRight: responsiveWidth(4),
-                }}
-              />
-
-              {/* 세 번째 이미지 */}
-              <ImagePlaceholder
-                isClosed={cafe.isClosed}
-                style={{
-                  width: responsiveWidth(112.5),
-                  height: responsiveHeight(150),
-                }}
-              />
+              {/* ✅ 두 번째 & 세 번째 이미지 (리뷰 사진) */}
+              {reviewImages.map((img, index) => (
+                <Thumbnail key={index} source={{ uri: img }} />
+              ))}
             </ScrollView>
           </ImageContainer>
 
           <TouchableOpacity onPress={handlePress}>
             <Info>
               <Title>{cafe.name}</Title>
-              <Location>{cafe.location}</Location>
+              <Location>{cafe.address}</Location>
               <Details>
                 <DistanceBadge>거리</DistanceBadge>
                 <Distance>{cafe.distance}</Distance>
@@ -168,6 +170,32 @@ const ListContainer = styled.View`
 
 const ImageContainer = styled.View`
   position: relative; /* 배지와 이미지가 같은 컨텍스트를 공유 */
+`;
+
+const ThumbnailWrapper = styled.View`
+  position: relative;
+`;
+
+const CafeImage = styled.Image`
+  width: ${responsiveWidth(150)}px;
+  height: ${responsiveHeight(150)}px;
+  border-radius: 12px;
+`;
+
+const CafeImagePlaceholder = styled.View`
+  width: ${responsiveWidth(150)}px;
+  height: ${responsiveHeight(150)}px;
+  background-color: #d9d9d9;
+  border-radius: 12px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Thumbnail = styled.Image`
+  width: ${responsiveWidth(112.5)}px;
+  height: ${responsiveHeight(150)}px;
+  border-radius: 8px;
+  margin-left: ${responsiveWidth(4)}px;
 `;
 
 const ImagePlaceholder = styled.View`

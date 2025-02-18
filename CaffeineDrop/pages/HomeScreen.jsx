@@ -32,6 +32,8 @@ import DownIcon from "../assets/home/DownIcon.svg";
 import UpIcon from "../assets/home/UpIcon.svg";
 import { useFonts } from "../styles";
 
+import useFetchCafeList from "../hooks/useFetchCafeList";
+
 const GNB_HEIGHT = responsiveHeight(94); // GNB 높이
 const DEFAULT_POSITION = responsiveHeight(316); // Bottom Sheet 기본 위치
 
@@ -50,8 +52,24 @@ const HomeScreen = ({ navigation }) => {
   const [showLogo, setShowLogo] = useState(true);
   const [showBottomContainer, setShowBottomContainer] = useState(false);
   const [selectedCafe, setSelectedCafe] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [cafeList, setCafeList] = useState([]);
+  const { cafeList, isLoading, error, setCafeList } = useFetchCafeList();
+  {
+    /*
+  if (isLoading) {
+    return (
+      <LoadingContainer>
+        <ActivityIndicator size="large" color="#000" />
+        <Text>카페 정보를 불러오는 중...</Text>
+      </LoadingContainer>
+    );
+  }
+*/
+  }
+  if (error) {
+    return (
+      <NoResults message="카페 데이터를 불러오는 중 오류가 발생했습니다." />
+    );
+  }
 
   const initialLocations = [
     { id: "cafe1", top: responsiveHeight(76), left: responsiveWidth(170) },
@@ -69,37 +87,37 @@ const HomeScreen = ({ navigation }) => {
   ).current;
 
   const [selectedFilter, setSelectedFilter] = useState(null); // 선택된 필터 상태 관리
-  useEffect(() => {
-    // 데이터 로딩 시뮬레이션
-    setTimeout(() => {
-      setCafeList([
-        {
-          id: 1,
-          name: "언힙커피로스터스",
-          location: "인천 미추홀구 인하로67번길 6 2층",
-          distance: "600m",
-          hashtag: "#24시간",
-          rating: 4.0,
-          reviews: 605,
-          isFavorite: true,
-          isSpecialty: true,
-          isBothBadges: true,
-        },
-        {
-          id: 2,
-          name: "언힙커피로스터스",
-          location: "인천 미추홀구 인하로67번길 6 2층",
-          distance: "600m",
-          hashtag: "#24시간",
-          rating: 4.0,
-          reviews: 605,
-          isSpecialty: true,
-          isClosed: true,
-        },
-      ]);
-      setIsLoading(false);
-    }, 2000); // 2초 후 로딩 종료
-  }, []);
+  // useEffect(() => {
+  //   // 데이터 로딩 시뮬레이션
+  //   setTimeout(() => {
+  //     setCafeList([
+  //       {
+  //         id: 1,
+  //         name: "언힙커피로스터스",
+  //         location: "인천 미추홀구 인하로67번길 6 2층",
+  //         distance: "600m",
+  //         hashtag: "#24시간",
+  //         rating: 4.0,
+  //         reviews: 605,
+  //         isFavorite: true,
+  //         isSpecialty: true,
+  //         isBothBadges: true,
+  //       },
+  //       {
+  //         id: 2,
+  //         name: "언힙커피로스터스",
+  //         location: "인천 미추홀구 인하로67번길 6 2층",
+  //         distance: "600m",
+  //         hashtag: "#24시간",
+  //         rating: 4.0,
+  //         reviews: 605,
+  //         isSpecialty: true,
+  //         isClosed: true,
+  //       },
+  //     ]);
+  //     setIsLoading(false);
+  //   }, 2000); // 2초 후 로딩 종료
+  // }, []);
   // const [cafeList, setCafeList] = useState([
   //   { id: 1, name: "카페1" },
   //   { id: 2, name: "카페2" },
@@ -602,6 +620,47 @@ const HomeScreen = ({ navigation }) => {
           {/* 카페 리스트 또는 NoResults */}
           <CafeList>
             {isLoading ? (
+              // ✅ 로딩 중이면 스켈레톤 UI 표시
+              <>
+                <CafeListItemSkeleton />
+                <CafeListItemSkeleton />
+                <CafeListItemSkeleton />
+              </>
+            ) : error ? (
+              // ✅ 오류 발생 시 메시지 표시
+              <NoResults message="카페 데이터를 불러오는 중 오류가 발생했습니다." />
+            ) : cafeList.length === 0 ? (
+              // ✅ 데이터가 없을 때 메시지 표시
+              <NoResults message="등록된 카페가 없습니다." />
+            ) : isCafeLocationSelected && selectedLocation ? (
+              // ✅ 특정 카페를 선택했을 때 (첫 번째 카페만 표시)
+              cafeList
+                .filter((cafe) => cafe.cafe_id === selectedLocation)
+                .map((cafe) => (
+                  <CafeListItem
+                    key={cafe.cafe_id}
+                    cafe={cafe}
+                    isSelected={true}
+                    navigation={navigation}
+                  />
+                ))
+            ) : (
+              // ✅ 전체 카페 리스트 표시
+              cafeList.map((cafe, index) => (
+                <CafeListItem
+                  key={cafe.cafe_id}
+                  cafe={cafe}
+                  isFirst={index === 0} // 첫 번째 아이템 여부 전달
+                  isSelected={false}
+                  navigation={navigation}
+                />
+              ))
+            )}
+          </CafeList>
+
+          {/* 카페 리스트 또는 NoResults
+          <CafeList>
+            {isLoading ? (
               // 로딩 중일 때 스켈레톤 UI 표시
               isCafeLocationSelected && selectedLocation ? (
                 <CafeListItemSkeleton /> // 카페 아이콘 클릭 시 하나만 표시
@@ -637,7 +696,7 @@ const HomeScreen = ({ navigation }) => {
                 />
               ))
             )}
-          </CafeList>
+          </CafeList> */}
         </AnimatedBottomSheet>
 
         <Animated.View

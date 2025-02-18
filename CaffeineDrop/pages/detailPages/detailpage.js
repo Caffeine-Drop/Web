@@ -15,7 +15,7 @@ import {
   responsiveWidth,
   responsiveHeight,
 } from "../../utils/responsive";
-import * as Location from 'expo-location';
+import * as Location from "expo-location";
 
 // 컴포넌트
 import DetailPageHeader from "../../components/detailPage/DetailPageHeader";
@@ -25,7 +25,7 @@ import DetailPageReview from "../../pages/detailPages/detailpagereview";
 import DetailPageImage from "../../pages/detailPages/detailpageimage";
 import DetailPageBeansInfo from "../../pages/detailPages/detailpagebeansinfo";
 import BackButton from "../../components/BackButton";
-import { CalculateDistance } from '../../components/CalculateDistance';
+import { CalculateDistance } from "../../components/CalculateDistance";
 
 export default function DetailPage({ navigation, route }) {
   const { cafe } = route.params || {};
@@ -83,11 +83,11 @@ export default function DetailPage({ navigation, route }) {
       try {
         // 위치 권한 요청
         let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          console.log('위치 권한이 거부되었습니다.');
+        if (status !== "granted") {
+          console.log("위치 권한이 거부되었습니다.");
           return;
         }
-  
+
         // 현재 위치 가져오기
         let currentLocation = await Location.getCurrentPositionAsync({});
         const currentCoords = {
@@ -105,10 +105,10 @@ export default function DetailPage({ navigation, route }) {
         console.log(error);
       }
     };
-  
+
     fetchData();
   }, [apiData]);
-  
+
   if (isLoading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -158,10 +158,10 @@ export default function DetailPage({ navigation, route }) {
       case "home":
         return (
           <DetailPageHome
-            cafe={cafe}
+            cafe={cafeDetail}
             selectedTab={selectedTab}
             navigation={navigation}
-            distance={cafeDistance}           
+            distance={cafeDistance}
             apiData={apiData}
             images={images}
             menuItems={menuItems}
@@ -187,7 +187,12 @@ export default function DetailPage({ navigation, route }) {
           />
         );
       case "beansinfo":
-        return <DetailPageBeansInfo selectedTab={selectedTab} beansInfo={beansInfo} />;
+        return (
+          <DetailPageBeansInfo
+            selectedTab={selectedTab}
+            beansInfo={beansInfo}
+          />
+        );
     }
   };
 

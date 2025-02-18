@@ -26,7 +26,7 @@ export default function OnboardingLogin01() {
         // Retrieve the token from AsyncStorage
         const storedToken = await AsyncStorage.getItem("RefreshToken");
         setTimeout(() => {
-          if (storedToken) {
+          if (!storedToken) {
             console.log("refreshToken: ", storedToken);
             navigation.replace("HomeScreen");
           } else {

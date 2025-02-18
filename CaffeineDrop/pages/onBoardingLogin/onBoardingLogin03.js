@@ -100,7 +100,7 @@ export default function OnboardingLogin03({ navigation }) {
           <KakaoLoginBtn style={{ width: "100%", height: "100%" }} />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate("OnboardingLogin04")}
+          onPress={() => navigation.navigate("NaverLogin")}
           style={{
             width: responsiveWidth(312),
             height: responsiveHeight(48),

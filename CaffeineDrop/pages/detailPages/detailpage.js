@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -24,14 +24,22 @@ import DetailPageImage from "../../pages/detailPages/detailpageimage";
 import DetailPageBeansInfo from "../../pages/detailPages/detailpagebeansinfo";
 import BackButton from "../../components/BackButton";
 
+import useFetchCafeDetail from "../../hooks/useFetchCafeDetail";
+
 export default function DetailPage({ navigation, route }) {
   const { cafe } = route.params || {};
+  const cafeId = route.params?.cafeId; // ✅ cafeId만 받아옴
+  const { cafeDetail, isLoading, error } = useFetchCafeDetail(cafeId); // ✅ cafeId로 API 호출
   const [selectedTab, setSelectedTab] = useState("home");
   const fadeAnim = useState(new Animated.Value(1))[0];
   const [isScrolled, setIsScrolled] = useState(false);
   const [isNavBarFixed, setIsNavBarFixed] = useState(false);
   const scrollViewRef = useRef(null);
   const fontsLoaded = useFonts();
+
+  useEffect(() => {
+    console.log("불러올 카페 ID:", cafeId);
+  }, [cafeId]);
 
   if (!fontsLoaded) {
     return null; // 폰트 로딩이 안되면 아무것도 렌더링하지 않음
@@ -75,7 +83,7 @@ export default function DetailPage({ navigation, route }) {
       case "home":
         return (
           <DetailPageHome
-            cafe={cafe}
+            cafe={cafeDetail}
             selectedTab={selectedTab}
             navigation={navigation}
             onViewMoreImgPress={() => handleTabPress("image")}

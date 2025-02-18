@@ -7,8 +7,8 @@ import {
   responsiveHeight,
 } from "../../utils/responsive";
 import BackIcon from "../../components/BackIcon";
-import BlurIcon from "../../components/BlurIcon";
-import BlurIcon2 from "../../components/BlurIcon2";
+import BlurIcon from "../../components/eventPage/BlurIcon";
+import BlurIcon2 from "../../components/eventPage/BlurIcon2";
 import { useFonts } from "../../styles";
 
 export default function SettingPage03({ navigation }) {

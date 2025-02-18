@@ -9,17 +9,16 @@ import Svg, {
   FeBlend,
   FeGaussianBlur,
 } from "react-native-svg";
-import { View, StyleSheet } from "react-native";
 import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 
-export default function BlurIcon2(props) {
+export default function BlurIcon(props) {
   return (
     <Image
-      source={require("../assets/EventPage/Ellipse02.png")}
+      source={require("../../assets/EventPage/Ellipse01.png")}
       style={{
         width: responsiveWidth(268),
         height: responsiveHeight(380),

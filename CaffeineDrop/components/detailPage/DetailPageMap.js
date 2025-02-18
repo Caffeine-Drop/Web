@@ -75,12 +75,13 @@ export default function DetailPageMap({
             top: responsiveHeight(0),
             width: responsiveWidth(312),
             height: responsiveHeight(130),
+            borderRadius: responsiveWidth(12),
           }}
           initialRegion={{
             latitude: latitude,
             longitude: longitude,
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.005,
+            latitudeDelta: 0.002,
+            longitudeDelta: 0.002,
           }}
           scrollEnabled={false}
         ></MapView>

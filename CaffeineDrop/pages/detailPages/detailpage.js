@@ -31,6 +31,7 @@ export default function DetailPage({ navigation, route }) {
   const { cafe } = route.params || {};
   const [isLoading, setIsLoading] = useState(true);
   const [apiData, setApiData] = useState(null);
+  const [beansInfo, setBeansInfo] = useState(null);
   const [selectedTab, setSelectedTab] = useState("home");
   const fadeAnim = useState(new Animated.Value(1))[0];
   const [cafeDistance, setCafeDistance] = useState(0);
@@ -40,15 +41,26 @@ export default function DetailPage({ navigation, route }) {
   const fontsLoaded = useFonts();
 
   useEffect(() => {
-    axios.get("http://13.124.11.195:3000/cafes/1")
-      .then((response) => {
-        console.log(response.data);
-        setApiData(response.data);
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const [cafeResponse, beansResponse] = await Promise.all([
+          axios.get("http://13.124.11.195:3000/cafes/1"),
+          axios.get("http://13.124.11.195:3000/cafes/1/beans"),
+        ]);
+        // console.log(cafeResponse.data);
+        console.log(beansResponse.data.success);
+        setApiData(cafeResponse.data);
+        setBeansInfo(beansResponse.data.success);
+        console.log(beansInfo);
         setIsLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.log(error);
-      });
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -136,6 +148,7 @@ export default function DetailPage({ navigation, route }) {
             cafe={cafe}
             selectedTab={selectedTab}
             navigation={navigation}
+            distance={cafeDistance}           
             apiData={apiData}
             onViewMoreImgPress={() => handleTabPress("image")}
             onViewMoreReviewPress={() => {
@@ -147,13 +160,17 @@ export default function DetailPage({ navigation, route }) {
           />
         );
       case "review":
-        return <DetailPageReview selectedTab={selectedTab} />;
+        return <DetailPageReview selectedTab={selectedTab} apiData={apiData} />;
       case "image":
         return (
-          <DetailPageImage selectedTab={selectedTab} navigation={navigation} />
+          <DetailPageImage
+            selectedTab={selectedTab}
+            navigation={navigation}
+            apiData={apiData}
+          />
         );
       case "beansinfo":
-        return <DetailPageBeansInfo />;
+        return <DetailPageBeansInfo selectedTab={selectedTab} beansInfo={beansInfo} />;
     }
   };
 
@@ -171,7 +188,7 @@ export default function DetailPage({ navigation, route }) {
                 }}
                 onPress={() => navigation.goBack()}
               />
-              <FixedHeaderText>언힙커피로스터스</FixedHeaderText>
+              <FixedHeaderText>{apiData.name}</FixedHeaderText>
             </View>
             {isNavBarFixed && (
               <NavBar>

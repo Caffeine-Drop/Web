@@ -31,6 +31,8 @@ export default function DetailPage({ navigation, route }) {
   const { cafe } = route.params || {};
   const [isLoading, setIsLoading] = useState(true);
   const [apiData, setApiData] = useState(null);
+  const [images, setImages] = useState(null);
+  const [menuItems, setMenuItems] = useState(null);
   const [beansInfo, setBeansInfo] = useState(null);
   const [selectedTab, setSelectedTab] = useState("home");
   const fadeAnim = useState(new Animated.Value(1))[0];
@@ -51,13 +53,19 @@ export default function DetailPage({ navigation, route }) {
           axios.get("http://13.124.11.195:3000/cafes/1/beans"),
         ]);
         // console.log(cafeResponse.data);
-        console.log(beansResponse.data.success);
+        // console.log(beansResponse.data.success);
         setApiData(cafeResponse.data);
+        // images는 상세페이지 메인 이미지랑 메뉴판 사진 들어있는 곳
+        setImages(cafeResponse.data.images);
+        // MenuItems는 시그니처 메뉴 사진 들어있는 곳곳
+        setMenuItems(cafeResponse.data.menu_items);
+        console.log("menuItems: ", menuItems);
         setLatitude(cafeResponse.data.latitude);
         setLongitude(cafeResponse.data.longitude);
-        console.log(latitude, longitude);
+        console.log("위도: ", latitude);
+        console.log("경도: ", longitude);
         setBeansInfo(beansResponse.data.success);
-        console.log(beansInfo);
+        // console.log(beansInfo);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -155,6 +163,8 @@ export default function DetailPage({ navigation, route }) {
             navigation={navigation}
             distance={cafeDistance}           
             apiData={apiData}
+            images={images}
+            menuItems={menuItems}
             latitude={latitude}
             longitude={longitude}
             onViewMoreImgPress={() => handleTabPress("image")}
@@ -232,6 +242,7 @@ export default function DetailPage({ navigation, route }) {
           navigation={navigation}
           isScrolled={isScrolled}
           apiData={apiData}
+          images={images}
           distance={cafeDistance}
         />
         <View>

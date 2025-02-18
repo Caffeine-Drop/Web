@@ -4,7 +4,7 @@ import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 
 const SpecialPageCircle = ({ fill = "#825A32" }) => {
   return (

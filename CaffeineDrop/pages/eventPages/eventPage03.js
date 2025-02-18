@@ -16,13 +16,13 @@ import {
 } from "../../utils/responsive";
 import styled from "styled-components/native";
 import BackIcon from "../../components/BackIcon";
-import BlackTextCircle from "../../components/BlackTextCircle";
-import BlurIcon from "../../components/BlurIcon";
-import BlurIcon2 from "../../components/BlurIcon2";
+import BlackTextCircle from "../../components/eventPage/BlackTextCircle";
+import BlurIcon from "../../components/eventPage/BlurIcon";
+import BlurIcon2 from "../../components/eventPage/BlurIcon2";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { Platform } from "react-native";
-
+import { useRoute } from "@react-navigation/native";
 import { Dimensions } from "react-native";
 
 // 화면 너비 가져오기
@@ -148,6 +148,15 @@ const SelectOption = ({ text, score, isSelected, onPress }) => {
 };
 
 export default function EventPage03({ navigation }) {
+  const route = useRoute();
+  const selectedOption1 = route.params?.selectedOption1; // 전달된 값 가져오기
+
+  useEffect(() => {
+    if (selectedOption1 !== undefined) {
+      console.log("가져온 값 =", selectedOption1);
+    }
+  }, [selectedOption1]);
+
   const progress = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -164,12 +173,13 @@ export default function EventPage03({ navigation }) {
     outputRange: ["25%", "50%"], // 너비를 0%에서 100%로 애니메이션
   });
 
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption2, setSelectedOption] = useState(null);
   const buttonBackgroundColor = useRef(new Animated.Value(0)).current;
   const buttonTextColor = useRef(new Animated.Value(0)).current;
 
   const handleSelectOption = (index) => {
     setSelectedOption(index);
+    console.log(`Selected index: ${index}`);
 
     Animated.timing(buttonBackgroundColor, {
       toValue: 1,
@@ -248,26 +258,33 @@ export default function EventPage03({ navigation }) {
             <SelectOption
               text="매우 그렇다"
               score="5점"
-              isSelected={selectedOption === 0}
+              isSelected={selectedOption2 === 0}
               onPress={() => handleSelectOption(0)}
             />
             <SelectOption
               text="보통이다"
               score="4점"
-              isSelected={selectedOption === 1}
+              isSelected={selectedOption2 === 1}
               onPress={() => handleSelectOption(1)}
             />
             <SelectOption
               text="그렇지 않다"
               score="3점"
-              isSelected={selectedOption === 2}
+              isSelected={selectedOption2 === 2}
               onPress={() => handleSelectOption(2)}
             />
           </SelectContainer>
         </Content>
 
         <Footer>
-          <TouchableOpacity onPress={() => navigation.navigate("EventPage04")}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("EventPage04", {
+                selectedOption1,
+                selectedOption2,
+              })
+            }
+          >
             <AnimatedButtonWrapper
               style={{ backgroundColor: buttonBackgroundColorInterpolate }}
             >

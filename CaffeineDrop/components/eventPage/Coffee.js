@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { ScrollView, Animated } from "react-native";
 import styled from "styled-components/native";
-import CoffeePng from "../assets/EventPage/Coffee.png";
-import { responsiveWidth, responsiveHeight } from "../utils/responsive";
+import CoffeePng from "../../assets/EventPage/Coffee.png";
+import { responsiveWidth, responsiveHeight } from "../../utils/responsive";
 import { Dimensions } from "react-native";
 
 // 화면 크기 가져오기
@@ -29,7 +29,7 @@ const CoffeeImage = () => {
           duration: 500,
           useNativeDriver: true,
         }),
-      ]),
+      ])
     );
 
     pulseAnimation.start();

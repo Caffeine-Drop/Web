@@ -1,28 +1,73 @@
-import React, { useState } from 'react';
-import { View, Button } from 'react-native';
-import { WebView } from 'react-native-webview';
-import axios from 'axios';
-import { NAVER_CLIENT_ID, NAVER_CLIENT_SECRET, NAVER_REDIRECT_URI } from '@env';
+import React, { useState, useContext } from "react";
+import { View, Platform } from "react-native";
+import { WebView } from "react-native-webview";
+import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigation } from "@react-navigation/native";
+import { NAVER_CLIENT_ID, NAVER_CLIENT_SECRET, NAVER_REDIRECT_URI } from "@env";
 
 const CLIENT_ID = NAVER_CLIENT_ID;
 const CLIENT_SECRET = NAVER_CLIENT_SECRET;
 const REDIRECT_URI = NAVER_REDIRECT_URI;
-const STATE = 'RANDOM_STATE';
+const STATE = "RANDOM_STATE";
 
-export default function App() {
-  const [authUrl, setAuthUrl] = useState(null);
+export default function NaverLogin() {
+  const navigation = useNavigation();
+  const {
+    storeAccessToken,
+    storeUserId,
+    storeRefreshToken,
+    storeLoggedPlatform,
+  } = useContext(AuthContext);
 
-  const handleLogin = () => {
-    const url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&state=${STATE}`;
-    setAuthUrl(url);
-  };
+  const authUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&state=${STATE}`;
 
-  const handleWebViewNavigationStateChange = (newNavState) => {
-    const { url } = newNavState;
-    if (url.startsWith(REDIRECT_URI)) {
-      const authorizationCode = extractAuthorizationCode(url);
-      requestAccessToken(authorizationCode);
-      setAuthUrl(null); // Close the WebView
+  const requestToken = async (code) => {
+    var AccessToken = "none";
+    var userId = "none";
+    var RefreshToken = "none";
+    console.log("Authorization code: ", code);
+    try {
+      const response = await axios.post(
+        "http://13.124.11.195:3000/oauth2/login/naver",
+        {
+          grant_type: "authorization_code",
+          code: code,
+          state: STATE,
+          redirect_uri: REDIRECT_URI,
+        },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+      console.log(response.data);
+      userId = response.data.success.id;
+      AccessToken = response.data.success.accessToken;
+      RefreshToken = response.data.success.refreshToken;
+      console.log("userId: ", userId);
+      console.log("AccessToken: ", AccessToken);
+      console.log("RefreshToken: ", RefreshToken);
+      console.log("Logged Platform: ", "naver");
+      storeAccessToken(AccessToken);
+      storeUserId(userId);
+      storeRefreshToken(RefreshToken);
+      storeLoggedPlatform("naver");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "OnboardingLogin04" }],
+      });
+    } catch (error) {
+      if (error.response) {
+        console.log("Error Response Data:", error.response.data);
+        console.log("Error Response Status:", error.response.status);
+        console.log("Error Response Headers:", error.response.headers);
+      } else if (error.request) {
+        console.log("Error Request:", error.request);
+      } else {
+        console.log("Error Message:", error.message);
+      }
     }
   };
 
@@ -31,37 +76,22 @@ export default function App() {
     return codeMatch ? codeMatch[1] : null;
   };
 
-  const requestAccessToken = async (authorizationCode) => {
-    const tokenUrl = `https://nid.naver.com/oauth2.0/token`;
-    const params = new URLSearchParams();
-    params.append('grant_type', 'authorization_code');
-    params.append('client_id', CLIENT_ID);
-    params.append('client_secret', CLIENT_SECRET);
-    params.append('code', authorizationCode);
-    params.append('state', STATE);
-
-    try {
-      const response = await axios.post(tokenUrl, params, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      });
-      console.log('Access Token:', response.data.access_token);
-      // Use the access token to fetch user information
-    } catch (error) {
-      console.error('Error fetching access token:', error);
-    }
-  };
-
   return (
     <View style={{ flex: 1, paddingTop: 30 }}>
-      {authUrl ? (
+      {Platform.OS === "ios" ? (
         <WebView
-          source={{ uri: authUrl }}
-          onNavigationStateChange={handleWebViewNavigationStateChange}
+          source={{
+            uri: authUrl,
+          }}
+          onNavigationStateChange={(event) => {
+            const code = extractAuthorizationCode(event.url);
+            if (code) {
+              requestToken(code);
+            }
+          }}
         />
       ) : (
-        <Button title="Login with Naver" onPress={handleLogin} />
+        <View>{/* 다른 플랫폼에서는 빈 View를 렌더링 */}</View>
       )}
     </View>
   );

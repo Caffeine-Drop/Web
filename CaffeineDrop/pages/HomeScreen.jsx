@@ -11,6 +11,7 @@ import {
   TouchableWithoutFeedback,
   StyleSheet,
 } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -38,6 +39,13 @@ const GNB_HEIGHT = responsiveHeight(94); // GNB 높이
 const DEFAULT_POSITION = responsiveHeight(316); // Bottom Sheet 기본 위치
 
 const HomeScreen = ({ navigation }) => {
+  const [region, setRegion] = useState({
+    latitude: 37.5665, // 기본값: 서울
+    longitude: 126.978,
+    latitudeDelta: 0.01,
+    longitudeDelta: 0.01,
+  });
+
   const fontsLoaded = useFonts();
   const translateY = useRef(new Animated.Value(DEFAULT_POSITION)).current;
   const locationTranslateY = useRef(new Animated.Value(0)).current; // CurrentLocationIcon 이동용
@@ -54,38 +62,47 @@ const HomeScreen = ({ navigation }) => {
   const [selectedCafe, setSelectedCafe] = useState(null);
   const { cafeList, setCafeList, isLoading, setIsLoading, error } =
     useFetchCafeList();
-  {
-    /*
-  if (isLoading) {
-    return (
-      <LoadingContainer>
-        <ActivityIndicator size="large" color="#000" />
-        <Text>카페 정보를 불러오는 중...</Text>
-      </LoadingContainer>
-    );
-  }
-*/
-  }
+
+  useEffect(() => {
+    if (cafeList.length > 0) {
+      setRegion({
+        latitude: cafeList[0].latitude, // 첫 번째 카페 위치로 초기 설정
+        longitude: cafeList[0].longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      });
+    }
+  }, [cafeList]);
+
+  // if (isLoading) {
+  //   return (
+  //     <LoadingContainer>
+  //       <ActivityIndicator size="large" color="#000" />
+  //       <Text>카페 정보를 불러오는 중...</Text>
+  //     </LoadingContainer>
+  //   );
+  // }
+
   if (error) {
     return (
       <NoResults message="카페 데이터를 불러오는 중 오류가 발생했습니다." />
     );
   }
 
-  const initialLocations = [
-    { id: "cafe1", top: responsiveHeight(76), left: responsiveWidth(170) },
-    { id: "cafe2", top: responsiveHeight(126), left: responsiveWidth(100) },
-    { id: "cafe3", top: responsiveHeight(146), left: responsiveWidth(230) },
-    { id: "cafe4", top: responsiveHeight(196), left: responsiveWidth(160) },
-  ];
+  // const initialLocations = [
+  //   { id: "cafe1", top: responsiveHeight(76), left: responsiveWidth(170) },
+  //   { id: "cafe2", top: responsiveHeight(126), left: responsiveWidth(100) },
+  //   { id: "cafe3", top: responsiveHeight(146), left: responsiveWidth(230) },
+  //   { id: "cafe4", top: responsiveHeight(196), left: responsiveWidth(160) },
+  // ];
 
-  const animatedLocations = useRef(
-    initialLocations.map((loc) => ({
-      id: loc.id,
-      top: new Animated.Value(loc.top),
-      left: new Animated.Value(loc.left),
-    }))
-  ).current;
+  // const animatedLocations = useRef(
+  //   initialLocations.map((loc) => ({
+  //     id: loc.id,
+  //     top: new Animated.Value(loc.top),
+  //     left: new Animated.Value(loc.left),
+  //   }))
+  // ).current;
 
   const [selectedFilter, setSelectedFilter] = useState(null); // 선택된 필터 상태 관리
 
@@ -413,44 +430,42 @@ const HomeScreen = ({ navigation }) => {
         )}
 
         {/* 지도 */}
-        <MapBackground source={require("../assets/home/MapImage.png")}>
-          <MapContainer>
-            {animatedLocations.map((loc) => (
-              <Animated.View
-                key={loc.id}
-                style={{
-                  position: "absolute",
-                  top: loc.top,
-                  left: loc.left,
-                }}
-              >
-                <TouchableOpacity onPress={() => handleSelectLocation(loc.id)}>
-                  <CafeLocation
-                    isSelected={selectedLocation === loc.id}
-                    onSelect={() => handleSelectLocation(loc.id)}
-                  />
-                </TouchableOpacity>
-              </Animated.View>
-            ))}
-          </MapContainer>
-
-          {/* 현재 위치 아이콘 */}
-          <Animated.View
-            style={{
-              position: "absolute",
-              top: responsiveHeight(249),
-              left: responsiveWidth(24),
-              transform: [{ translateY: locationTranslateY }],
-            }}
+        <MapWrapper>
+          <MapView
+            style={styles.map}
+            initialRegion={region}
+            region={region}
+            showsUserLocation={true}
+            onRegionChangeComplete={(newRegion) => setRegion(newRegion)}
           >
-            <TouchableOpacity onPress={resetToInitialState}>
-              <CurrentLocationIcon
-                width={`${responsiveWidth(50)}px`}
-                height={`${responsiveHeight(50)}px`}
-              />
-            </TouchableOpacity>
-          </Animated.View>
-        </MapBackground>
+            {cafeList.map((cafe) => (
+              <Marker
+                key={cafe.id}
+                coordinate={{
+                  latitude: cafe.latitude,
+                  longitude: cafe.longitude,
+                }}
+                onPress={() =>
+                  setRegion({
+                    latitude: cafe.latitude,
+                    longitude: cafe.longitude,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005,
+                  })
+                }
+              >
+                <CafeLocation isSelected={false} />
+              </Marker>
+            ))}
+          </MapView>
+
+          <CurrentLocationButton onPress={() => setRegion(region)}>
+            <CurrentLocationIcon
+              width={responsiveWidth(50)}
+              height={responsiveHeight(50)}
+            />
+          </CurrentLocationButton>
+        </MapWrapper>
 
         {/* GNB (고정) */}
         <GNBContainer>
@@ -691,6 +706,13 @@ const HomeScreen = ({ navigation }) => {
 
 export default HomeScreen;
 
+const styles = StyleSheet.create({
+  map: {
+    width: "100%",
+    height: "100%",
+  },
+});
+
 const Container = styled.View`
   flex: 1;
   background-color: #fafafa;
@@ -710,6 +732,14 @@ const MapContainer = styled.View`
   position: relative;
   width: ${responsiveWidth(360)}px;
   height: ${responsiveHeight(349)}px;
+`;
+
+const MapWrapper = styled.View`
+  position: absolute;
+  top: ${responsiveHeight(94)}px;
+  width: ${responsiveWidth(360)}px;
+  height: ${responsiveHeight(349)}px;
+  align-self: center;
 `;
 
 const GNBContainer = styled.View`
@@ -791,4 +821,15 @@ const LogoButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   z-index: 3000;
+`;
+
+const CurrentLocationButton = styled.TouchableOpacity`
+  position: absolute;
+  bottom: ${responsiveHeight(57)}px;
+  left: ${responsiveWidth(24)}px;
+  shadow-color: #000;
+  shadow-opacity: 0.1;
+  shadow-radius: 4px;
+  elevation: 5;
+  z-index: 50;
 `;

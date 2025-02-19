@@ -39,8 +39,8 @@ const KaKaoLogin = () => {
         },
       });
       console.log(response.data);
-      if (!response.data.success.nickname) {
-        console.log("닉네임 있음 페이지 이동 : homeScreen");
+      if (response.data.success.nickname) {
+        console.log("닉네임 있음 페이지 이동 : HomeScreen");
         navigation.reset({
           index: 0,
           routes: [{ name: "HomeScreen" }],

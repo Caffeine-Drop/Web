@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
+import axios from "axios";
+import * as Location from "expo-location";
 import { useNavigation } from "@react-navigation/native";
 import {
   responsiveFontSize,
@@ -16,8 +18,11 @@ import useFetchSpecialty from "../hooks/useFetchSpecialty";
 
 const CafeListItem = ({ cafe, isSelected, isLoading }) => {
   const fontsLoaded = useFonts();
-
   const navigation = useNavigation(); // navigation 객체 가져오기
+
+  const [apiData, setApiData] = useState(null);
+  const [cafeDistance, setCafeDistance] = useState(null);
+  const [isLoadingData, setIsLoadingData] = useState(true);
 
   const { isSpecialty, isLoading: isSpecialtyLoading } = useFetchSpecialty(
     cafe.cafe_id
@@ -40,7 +45,86 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
   // 배지 표시 여부
   const isBothBadges = cafe.isFavorite && isSpecialty;
 
-  if (!fontsLoaded || isLoading || isSpecialtyLoading) {
+  // ✅ 1. API 호출하여 데이터 가져오기 (DetailPage와 동일한 방식)
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoadingData(true);
+      try {
+        const response = await axios.get(
+          `http://13.124.11.195:3000/cafes/${cafe.cafe_id}`
+        );
+        setApiData(response.data);
+        console.log("📌 Cafe API Data:", response.data);
+      } catch (error) {
+        console.log("🚨 API 요청 실패:", error);
+      } finally {
+        setIsLoadingData(false);
+      }
+    };
+
+    if (cafe.cafe_id) fetchData();
+  }, [cafe.cafe_id]);
+
+  // ✅ 2. 현재 위치 가져오고 거리 계산 (DetailPage와 동일한 방식)
+  useEffect(() => {
+    if (!apiData) return; // ✅ apiData가 로드되지 않으면 실행 안 함
+
+    const fetchDistance = async () => {
+      try {
+        // 위치 권한 요청
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          console.log("위치 권한이 거부되었습니다.");
+          return;
+        }
+
+        // 현재 위치 가져오기
+        let currentLocation = await Location.getCurrentPositionAsync({});
+        const currentCoords = {
+          latitude: currentLocation.coords.latitude,
+          longitude: currentLocation.coords.longitude,
+        };
+
+        // 카페 위치 정보 확인
+        if (!apiData.latitude || !apiData.longitude) {
+          console.log("📌 카페의 위도/경도 정보가 없습니다.");
+          return;
+        }
+
+        const cafeCoords = {
+          latitude: apiData.latitude,
+          longitude: apiData.longitude,
+        };
+
+        // 거리 계산
+        const distance = calculateDistance(currentCoords, cafeCoords);
+        setCafeDistance(distance.toFixed(1)); // 소수점 한 자리까지 반올림
+        console.log(`🔥 카페까지의 거리: ${distance.toFixed(1)} km`);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchDistance();
+  }, [apiData]); // ✅ apiData가 변경될 때 실행
+
+  // ✅ 거리 계산 함수 (Haversine 공식 사용)
+  const calculateDistance = (coord1, coord2) => {
+    const toRad = (value) => (value * Math.PI) / 180;
+    const R = 6371; // 지구 반지름 (km)
+    const dLat = toRad(coord2.latitude - coord1.latitude);
+    const dLon = toRad(coord2.longitude - coord1.longitude);
+    const lat1 = toRad(coord1.latitude);
+    const lat2 = toRad(coord2.latitude);
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c; // 거리 (km)
+  };
+
+  if (!fontsLoaded || isLoading || isSpecialtyLoading || isLoadingData) {
     return <CafeListItemSkeleton />;
   }
 
@@ -121,10 +205,12 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
           <TouchableOpacity onPress={handlePress}>
             <Info>
               <Title>{cafe.name}</Title>
-              <Location>{cafe.address}</Location>
+              <CafeLocation>{cafe.address}</CafeLocation>
               <Details>
                 <DistanceBadge>거리</DistanceBadge>
-                <Distance>{cafe.distance}</Distance>
+                <Distance>
+                  {cafeDistance !== null ? `${cafeDistance} km` : "계산 중..."}
+                </Distance>
                 <HashTag>{cafe.hashtag}</HashTag>
                 <RatingContainer>
                   <StarIcon
@@ -316,7 +402,7 @@ const Title = styled.Text`
   padding-bottom: ${responsiveHeight(8)}px;
 `;
 
-const Location = styled.Text`
+const CafeLocation = styled.Text`
   font-family: PretendardRegular;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 400;

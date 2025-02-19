@@ -52,7 +52,8 @@ const HomeScreen = ({ navigation }) => {
   const [showLogo, setShowLogo] = useState(true);
   const [showBottomContainer, setShowBottomContainer] = useState(false);
   const [selectedCafe, setSelectedCafe] = useState(null);
-  const { cafeList, isLoading, error, setCafeList } = useFetchCafeList();
+  const { cafeList, setCafeList, isLoading, setIsLoading, error } =
+    useFetchCafeList();
   {
     /*
   if (isLoading) {
@@ -87,41 +88,6 @@ const HomeScreen = ({ navigation }) => {
   ).current;
 
   const [selectedFilter, setSelectedFilter] = useState(null); // 선택된 필터 상태 관리
-  // useEffect(() => {
-  //   // 데이터 로딩 시뮬레이션
-  //   setTimeout(() => {
-  //     setCafeList([
-  //       {
-  //         id: 1,
-  //         name: "언힙커피로스터스",
-  //         location: "인천 미추홀구 인하로67번길 6 2층",
-  //         distance: "600m",
-  //         hashtag: "#24시간",
-  //         rating: 4.0,
-  //         reviews: 605,
-  //         isFavorite: true,
-  //         isSpecialty: true,
-  //         isBothBadges: true,
-  //       },
-  //       {
-  //         id: 2,
-  //         name: "언힙커피로스터스",
-  //         location: "인천 미추홀구 인하로67번길 6 2층",
-  //         distance: "600m",
-  //         hashtag: "#24시간",
-  //         rating: 4.0,
-  //         reviews: 605,
-  //         isSpecialty: true,
-  //         isClosed: true,
-  //       },
-  //     ]);
-  //     setIsLoading(false);
-  //   }, 2000); // 2초 후 로딩 종료
-  // }, []);
-  // const [cafeList, setCafeList] = useState([
-  //   { id: 1, name: "카페1" },
-  //   { id: 2, name: "카페2" },
-  // ]); // 카페 리스트 상태 (예시)
 
   // 필터 클릭 시 처리
   const handleFilterSelect = (filterName) => {

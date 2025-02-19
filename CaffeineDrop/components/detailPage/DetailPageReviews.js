@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 
 // 이미지 임포트
 import Profile from "../../assets/DetailPage/Profile.svg";
@@ -22,13 +22,17 @@ import {
 export default function DetailPageReviews({
   selectedTab,
   onViewMoreReviewPress,
+  reviews = { data: { reviews: [] } },
 }) {
+  console.log("reviews: ", reviews.data.reviews[1].images);
+  // console.log(reviews.data.reviews[0].evaluations);
+
   return (
     <Container>
       <Header>
         <ReviewTitle>
           <Title>이용자 리뷰</Title>
-          <ReviewCount>15건</ReviewCount>
+          <ReviewCount>{reviews.data.reviews.length}건</ReviewCount>
         </ReviewTitle>
         {selectedTab !== "review" && (
           <ReviewViewMoreButton onPress={onViewMoreReviewPress}>
@@ -41,23 +45,27 @@ export default function DetailPageReviews({
         )}
       </Header>
       <ReviewList>
-        <Review>
-          <ReviewUserInfo>
-            <Profile
-              width={responsiveWidth(34)}
-              height={responsiveWidth(34)}
-              preserveAspectRatio="xMinYMin meet"
-            />
-            <ReviewUser>
-              <ReviewUserNickName>닉네임</ReviewUserNickName>
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <ReviewCreatedAt>2025.01.12</ReviewCreatedAt>
+        {reviews.data.reviews.map((review) => (
+          <Review key={review.review_id}>
+            <ReviewUserInfo>
+              {review.user.profile_image_url ? (
+                <Image
+                  source={{ uri: review.user.profile_image_url }}
+                  style={{
+                    width: responsiveWidth(34),
+                    height: responsiveWidth(34),
+                    borderRadius: responsiveWidth(17),
+                  }}
+                />
+              ) : (
+                <Profile
+                  width={responsiveWidth(34)}
+                  height={responsiveWidth(34)}
+                  preserveAspectRatio="xMinYMin meet"
+                />
+              )}
+              <ReviewUser>
+                <ReviewUserNickName>{review.user.nickname}</ReviewUserNickName>
                 <View
                   style={{
                     display: "flex",
@@ -65,56 +73,70 @@ export default function DetailPageReviews({
                     alignItems: "center",
                   }}
                 >
-                  <ReviewStarIcon
-                    width={responsiveWidth(12)}
-                    height={responsiveHeight(12)}
-                  />
-                  <ReviewRating>4.0</ReviewRating>
+                  <ReviewCreatedAt>
+                    {new Date(review.created_at).toISOString().split("T")[0]}
+                  </ReviewCreatedAt>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                    }}
+                  >
+                    <ReviewStarIcon
+                      width={responsiveWidth(12)}
+                      height={responsiveHeight(12)}
+                    />
+                    <ReviewRating>
+                      {review.evaluations.length > 0
+                        ? (
+                            review.evaluations.reduce(
+                              (sum, evaluation) => sum + evaluation.rating,
+                              0
+                            ) / review.evaluations.length
+                          ).toFixed(1)
+                        : 0}
+                    </ReviewRating>
+                  </View>
                 </View>
-              </View>
-            </ReviewUser>
-          </ReviewUserInfo>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <ReviewPictures>
-              <ReviewPictureImage
-                source={BlankMenuImage}
-                resizeMode="stretch"
-              />
-              <ReviewPictureImage
-                source={SignatureMenuImg1}
-                resizeMode="stretch"
-              />
-              <ReviewPictureImage
-                source={SignatureMenuImg2}
-                resizeMode="stretch"
-              />
-              <ReviewPictureImage
-                source={SignatureMenuImg3}
-                resizeMode="stretch"
-              />
-            </ReviewPictures>
-          </ScrollView>
-          <ReviewContent>
-            <Text
-              style={{
-                color: "#000",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                fontSize: responsiveFontSize(12),
-                fontFamily: "PretendardRegular",
-                lineHeight: responsiveFontSize(16.56),
-                letterSpacing: "-0.3",
-                flexWrap: "wrap",
-                width: "100%",
-              }}
-            >
-              도시 위에 소음 넘쳐나는 트러블 여유 없는 걸음 이건 마치 정글
-              멍하니 또 한숨이
-            </Text>
-          </ReviewContent>
-        </Review>
+              </ReviewUser>
+            </ReviewUserInfo>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <ReviewPictures>
+                {review.images && review.images.length > 0 && (
+                  <ReviewPictures>
+                    {review.images.map((image, index) => (
+                      <ReviewPictureImage
+                        key={index}
+                        source={{ uri: image }}
+                        resizeMode="stretch"
+                      />
+                    ))}
+                  </ReviewPictures>
+                )}
+              </ReviewPictures>
+            </ScrollView>
+            <ReviewContent>
+              <Text
+                style={{
+                  color: "#000",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  fontSize: responsiveFontSize(12),
+                  fontFamily: "PretendardRegular",
+                  lineHeight: responsiveFontSize(16.56),
+                  letterSpacing: "-0.3",
+                  flexWrap: "wrap",
+                  width: "100%",
+                }}
+              >
+                {review.content}
+              </Text>
+            </ReviewContent>
+          </Review>
+        ))}
         {/* 리뷰 추가 */}
-        <Review>
+        {/* <Review>
           <ReviewUserInfo>
             <Profile
               width={responsiveWidth(34)}
@@ -165,7 +187,7 @@ export default function DetailPageReviews({
               멍하니 또 한숨이
             </Text>
           </ReviewContent>
-        </Review>
+        </Review> */}
       </ReviewList>
       {/* 하단 리뷰 추가 버튼 */}
       <ReviewAddButton>

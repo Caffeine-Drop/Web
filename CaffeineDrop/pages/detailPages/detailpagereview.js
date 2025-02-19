@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, ScrollView } from "react-native";
 
 // 컴포넌트
@@ -11,14 +11,8 @@ export default function DetailPageReview({
   reviews,
   ratings,
 }) {
-  console.log("reviews: ", reviews.data.reviews);
-  console.log("tastingRating: ", ratings.data.detailedRatings[0].rating);
-  console.log("interiorRating: ", ratings.data.detailedRatings[1].rating);
-  console.log("cleanlinessRating: ", ratings.data.detailedRatings[2].rating);
-  console.log(
-    "costPerformanceRating: ",
-    ratings.data.detailedRatings[3].rating
-  );
+  useEffect(() => {
+  },[reviews]);
   return (
     <View style={{ flex: 1 }}>
       <ScrollView>

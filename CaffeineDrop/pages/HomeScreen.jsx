@@ -33,6 +33,7 @@ import DownIcon from "../assets/home/DownIcon.svg";
 import UpIcon from "../assets/home/UpIcon.svg";
 import { useFonts } from "../styles";
 
+import axios from "axios";
 import useFetchCafeList from "../hooks/useFetchCafeList";
 
 const GNB_HEIGHT = responsiveHeight(94); // GNB 높이
@@ -53,7 +54,6 @@ const HomeScreen = ({ navigation }) => {
   const [isDirectionsPressed, setIsDirectionsPressed] = useState(false); // 버튼 눌림 상태 관리
 
   const [cafeData, setCafeData] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   const [sortModalVisible, setSortModalVisible] = useState(false);
   const [timeModalVisible, setTimeModalVisible] = useState(false);
@@ -107,7 +107,29 @@ const HomeScreen = ({ navigation }) => {
   //   }))
   // ).current;
 
-  const [selectedFilter, setSelectedFilter] = useState(null); // 선택된 필터 상태 관리
+  const [selectedFilter, setSelectedFilter] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const fetchCafes = async (filterName) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `http://13.124.11.195:3000/like?filter=${filterName}`
+      );
+      const data = await response.json();
+      setCafeList(data.cafeList || []);
+    } catch (error) {
+      console.error("🚨 카페 리스트 불러오기 실패:", error);
+      setCafeList([]); // 에러 발생 시 빈 리스트 설정
+    } finally {
+      setIsLoading(false); // ✅ API 요청 후 로딩 상태 해제
+    }
+  };
+
+  // const onFilterSelect = (filterName) => {
+  //   setSelectedFilter(filterName);
+  //   fetchCafes(filterName); // 필터 선택 시 API 요청 실행
+  // };
 
   // 필터에 맞는 카페 데이터를 가져오는 함수
   const getFilteredCafes = async (filter) => {
@@ -125,93 +147,100 @@ const HomeScreen = ({ navigation }) => {
     }
   };
 
-  // 필터 선택 시 호출되는 함수
-  const onFilterSelect = (filter) => {
-    setSelectedFilter(filter);
-    getFilteredCafes(filter); // 선택된 필터로 카페 데이터 가져오기
-  };
+  // // 필터 선택 시 호출되는 함수
+  // const onFilterSelect = (filter) => {
+  //   setSelectedFilter(filter);
+  //   getFilteredCafes(filter); // 선택된 필터로 카페 데이터 가져오기
+  // };
 
-  useEffect(() => {
-    if (selectedFilter) {
-      getFilteredCafes(selectedFilter); // 초기 필터 적용 시 데이터 가져오기
-    }
-  }, [selectedFilter]);
+  // useEffect(() => {
+  //   if (selectedFilter) {
+  //     getFilteredCafes(selectedFilter); // 초기 필터 적용 시 데이터 가져오기
+  //   }
+  // }, [selectedFilter]);
 
   // 필터 클릭 시 처리
   const handleFilterSelect = (filterName) => {
     setIsLoading(true); // 필터 클릭 시 로딩 시작
-
-    if (selectedFilter === filterName) {
-      // 동일한 필터 클릭 시 초기 상태로 복구
-      setSelectedFilter(null);
-
-      setTimeout(() => {
-        // 2초 후 초기 리스트로 복원
-        setCafeList([
-          {
-            id: 2,
-            name: "언힙커피로스터스",
-            location: "인천 미추홀구 인하로67번길 6 2층",
-            distance: "600m",
-            hashtag: "#24시간",
-            rating: 4.0,
-            reviews: 605,
-            isFavorite: true,
-            isSpecialty: true,
-          },
-          {
-            id: 1,
-            name: "언힙커피로스터스",
-            location: "인천 미추홀구 인하로67번길 6 2층",
-            distance: "600m",
-            hashtag: "#24시간",
-            rating: 4.0,
-            reviews: 605,
-            isSpecialty: true,
-            isClosed: true,
-          },
-        ]);
-        setIsLoading(false); // 로딩 종료
-      }, 2000); // 2초 후 로딩 종료
-    } else {
-      // 새로운 필터 클릭 시 선택
-      setSelectedFilter(filterName);
-
-      setTimeout(() => {
-        if (filterName === "unmanned") {
-          setCafeList([]); // 무인 카페 필터 시 리스트 없음
-        } else if (filterName === "specialty") {
-          setCafeList([
-            {
-              id: 3,
-              name: "블루보틀",
-              location: "서울 성동구 왕십리로 8",
-              distance: "800m",
-              hashtag: "#스페셜티 #핸드드립",
-              rating: 4.7,
-              reviews: 900,
-              isFavorite: true,
-              isSpecialty: true,
-            },
-          ]);
-        } else {
-          // 기본 필터일 때 리스트
-          setCafeList([
-            {
-              id: 4,
-              name: "카페 라떼아트",
-              location: "서울 마포구 서교동 123",
-              distance: "1.5km",
-              hashtag: "#라떼아트 #디저트맛집",
-              rating: 4.2,
-              reviews: 310,
-            },
-          ]);
-        }
-        setIsLoading(false); // 필터 적용 후 로딩 종료
-      }, 2000);
-    }
+    setTimeout(() => {
+      if (selectedFilter === filterName) {
+        // 동일한 필터 클릭 시 초기 상태로 복구
+        setSelectedFilter(null);
+        fetchCafes(null); // 기본 리스트 가져오기
+      } else {
+        setSelectedFilter(filterName);
+        fetchCafes(filterName); // 선택한 필터로 API 요청
+      }
+      setIsLoading(false); // 로딩 종료
+    }, 500);
   };
+  //   setTimeout(() => {
+  //     // 2초 후 초기 리스트로 복원
+  //     setCafeList([
+  //       {
+  //         id: 2,
+  //         name: "언힙커피로스터스",
+  //         location: "인천 미추홀구 인하로67번길 6 2층",
+  //         distance: "600m",
+  //         hashtag: "#24시간",
+  //         rating: 4.0,
+  //         reviews: 605,
+  //         isFavorite: true,
+  //         isSpecialty: true,
+  //       },
+  //       {
+  //         id: 1,
+  //         name: "언힙커피로스터스",
+  //         location: "인천 미추홀구 인하로67번길 6 2층",
+  //         distance: "600m",
+  //         hashtag: "#24시간",
+  //         rating: 4.0,
+  //         reviews: 605,
+  //         isSpecialty: true,
+  //         isClosed: true,
+  //       },
+  //     ]);
+  //     setIsLoading(false); // 로딩 종료
+  //   }, 2000); // 2초 후 로딩 종료
+  // } else {
+  //   // 새로운 필터 클릭 시 선택
+  //   setSelectedFilter(filterName);
+
+  //     setTimeout(() => {
+  //       if (filterName === "unmanned") {
+  //         setCafeList([]); // 무인 카페 필터 시 리스트 없음
+  //       } else if (filterName === "specialty") {
+  //         setCafeList([
+  //           {
+  //             id: 3,
+  //             name: "블루보틀",
+  //             location: "서울 성동구 왕십리로 8",
+  //             distance: "800m",
+  //             hashtag: "#스페셜티 #핸드드립",
+  //             rating: 4.7,
+  //             reviews: 900,
+  //             isFavorite: true,
+  //             isSpecialty: true,
+  //           },
+  //         ]);
+  //       } else {
+  //         // 기본 필터일 때 리스트
+  //         setCafeList([
+  //           {
+  //             id: 4,
+  //             name: "카페 라떼아트",
+  //             location: "서울 마포구 서교동 123",
+  //             distance: "1.5km",
+  //             hashtag: "#라떼아트 #디저트맛집",
+  //             rating: 4.2,
+  //             reviews: 310,
+  //           },
+  //         ]);
+  //       }
+  //       setIsLoading(false); // 필터 적용 후 로딩 종료
+  //     }, 2000);
+  //   }
+  // };
 
   const handleBackgroundPress = () => {
     if (selectedLocation) {

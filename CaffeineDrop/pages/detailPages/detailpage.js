@@ -31,8 +31,8 @@ export default function DetailPage({ navigation, route }) {
   const { cafeId } = route.params || {};
   const [isLoading, setIsLoading] = useState(true);
   const [apiData, setApiData] = useState(null);
-  const [images, setImages] = useState(null);
-  const [menuItems, setMenuItems] = useState(null);
+  const [images, setImages] = useState([]);
+  const [menuItems, setMenuItems] = useState([]);
   const [beansInfo, setBeansInfo] = useState(null);
   const [selectedTab, setSelectedTab] = useState("home");
   const fadeAnim = useState(new Animated.Value(1))[0];
@@ -49,22 +49,22 @@ export default function DetailPage({ navigation, route }) {
       setIsLoading(true);
       try {
         const [cafeResponse, beansResponse] = await Promise.all([
-          axios.get("http://13.124.11.195:3000/cafes/1"),
-          axios.get("http://13.124.11.195:3000/cafes/1/beans"),
+          axios.get(`http://13.124.11.195:3000/cafes/${cafeId}`),
+          axios.get(`http://13.124.11.195:3000/cafes/${cafeId}/beans`),
         ]);
         // console.log(cafeResponse.data);
         // console.log(beansResponse.data.success);
         setApiData(cafeResponse.data);
         // images는 상세페이지 메인 이미지랑 메뉴판 사진 들어있는 곳
-        setImages(cafeResponse.data.images);
+        setImages(cafeResponse.data.images || []);
         // MenuItems는 시그니처 메뉴 사진 들어있는 곳곳
-        setMenuItems(cafeResponse.data.menu_items);
+        setMenuItems(cafeResponse.data.menu_items || []);
         console.log("menuItems: ", menuItems);
         setLatitude(cafeResponse.data.latitude);
         setLongitude(cafeResponse.data.longitude);
         console.log("위도: ", latitude);
         console.log("경도: ", longitude);
-        setBeansInfo(beansResponse.data.success);
+        setBeansInfo(beansResponse.data.success || []);
         // console.log(beansInfo);
         setIsLoading(false);
       } catch (error) {

@@ -135,7 +135,7 @@ const HomeScreen = ({ navigation }) => {
         // 2초 후 초기 리스트로 복원
         setCafeList([
           {
-            id: 1,
+            id: 2,
             name: "언힙커피로스터스",
             location: "인천 미추홀구 인하로67번길 6 2층",
             distance: "600m",
@@ -146,7 +146,7 @@ const HomeScreen = ({ navigation }) => {
             isSpecialty: true,
           },
           {
-            id: 2,
+            id: 1,
             name: "언힙커피로스터스",
             location: "인천 미추홀구 인하로67번길 6 2층",
             distance: "600m",

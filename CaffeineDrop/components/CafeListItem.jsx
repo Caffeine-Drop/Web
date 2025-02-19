@@ -31,6 +31,12 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
   const [loadingRating, setLoadingRating] = useState(true);
   const [loadingReviews, setLoadingReviews] = useState(true);
 
+  const [isBothBadges, setIsBothBadges] = useState(false);
+
+  useEffect(() => {
+    setIsBothBadges(cafe.isFavorite && isSpecialty);
+  }, [cafe.isFavorite, isSpecialty]); // ✅ cafe.isFavorite, isSpecialty 변경 시 업데이트
+
   const [isLiked, setIsLiked] = useState(false);
 
   useEffect(() => {
@@ -67,8 +73,6 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
     cafe.menu_items?.map((menu) => menu.image_url).slice(0, 3) || [];
   // 현재 카페가 영업 중인지 확인 (null이면 영업 시간 정보 없음)
   const isClosed = cafe.operating_hour === null;
-  // 배지 표시 여부
-  const isBothBadges = cafe.isFavorite && isSpecialty;
 
   // ✅ 1. API 호출하여 데이터 가져오기 (DetailPage와 동일한 방식)
   useEffect(() => {

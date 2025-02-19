@@ -17,7 +17,6 @@ import BackButton from "../../components/BackButton";
 
 export default function DetailPageImageDetail({ navigation, route }) {
   const { reviews, ratings, review } = route.params;
-  console.log(review);
   const scrollViewRef = useRef(null);
 
   const images = review.images.map((image, index) => ([
@@ -74,10 +73,17 @@ export default function DetailPageImageDetail({ navigation, route }) {
         </ImageContainer>
         <Review>
           <ReviewUserInfo>
-            <Profile
-              width={responsiveWidth(34)}
-              height={responsiveHeight(34)}
-            />
+            {review.user.profile_image_url ? (
+              <Image
+                source={{ uri: review.user.profile_image_url }}
+                style={{ width: responsiveWidth(34), height: responsiveHeight(34), borderRadius: responsiveWidth(17)}}
+              />
+            ) : (
+              <Profile
+                width={responsiveWidth(34)}
+                height={responsiveHeight(34)}
+              />
+            )}
             <ReviewUser>
               <ReviewUserNickName>{review.user.nickname}</ReviewUserNickName>
               <View

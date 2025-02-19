@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -16,6 +16,7 @@ import {
   responsiveHeight,
 } from "../../utils/responsive";
 import * as Location from 'expo-location';
+import { AuthContext } from "../../context/AuthContext";
 
 // 컴포넌트
 import DetailPageHeader from "../../components/detailPage/DetailPageHeader";
@@ -34,11 +35,15 @@ export default function DetailPage({ navigation, route }) {
   const [images, setImages] = useState(null);
   const [menuItems, setMenuItems] = useState(null);
   const [beansInfo, setBeansInfo] = useState(null);
+  const [isSpecialty, setIsSpecialty] = useState(null);
+  const [reviews, setReviews] = useState(null);
+  const [ratings, setRatings] = useState(null);
   const [selectedTab, setSelectedTab] = useState("home");
   const fadeAnim = useState(new Animated.Value(1))[0];
   const [cafeDistance, setCafeDistance] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isNavBarFixed, setIsNavBarFixed] = useState(false);
+  const { accessToken, LoggedPlatform } = useContext(AuthContext);
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
   const scrollViewRef = useRef(null);
@@ -48,9 +53,17 @@ export default function DetailPage({ navigation, route }) {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const [cafeResponse, beansResponse] = await Promise.all([
+        const [cafeResponse, beansResponse, specialtyResponse, reviewsResponse, ratingsResponse] = await Promise.all([
           axios.get("http://13.124.11.195:3000/cafes/1"),
           axios.get("http://13.124.11.195:3000/cafes/1/beans"),
+          axios.get("http://13.124.11.195:3000/cafes/1/specialty"),
+          axios.get("http://13.124.11.195:3000/reviews/1", {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              Provider: LoggedPlatform,
+            },
+          }),
+          axios.get("http://13.124.11.195:3000/reviews/1/ratings"),
         ]);
         // console.log(cafeResponse.data);
         // console.log(beansResponse.data.success);
@@ -59,11 +72,11 @@ export default function DetailPage({ navigation, route }) {
         setImages(cafeResponse.data.images);
         // MenuItems는 시그니처 메뉴 사진 들어있는 곳곳
         setMenuItems(cafeResponse.data.menu_items);
-        console.log("menuItems: ", menuItems);
+        setIsSpecialty(specialtyResponse.data.success);
+        setReviews(reviewsResponse.data);
+        setRatings(ratingsResponse.data);
         setLatitude(cafeResponse.data.latitude);
         setLongitude(cafeResponse.data.longitude);
-        console.log("위도: ", latitude);
-        console.log("경도: ", longitude);
         setBeansInfo(beansResponse.data.success);
         // console.log(beansInfo);
         setIsLoading(false);
@@ -78,7 +91,13 @@ export default function DetailPage({ navigation, route }) {
 
   useEffect(() => {
     if (!apiData) return; // Ensure apiData is available
-
+    console.log("로그인 플랫폼: ", LoggedPlatform);
+    console.log("엑세스토큰: ", accessToken);
+    console.log("위도: ", latitude);
+    console.log("경도: ", longitude);
+    console.log("리뷰: ", reviews);
+    console.log("메뉴: ", menuItems);
+    console.log("평점: ", ratings);
     const fetchData = async () => {
       try {
         // 위치 권한 요청
@@ -165,6 +184,8 @@ export default function DetailPage({ navigation, route }) {
             apiData={apiData}
             images={images}
             menuItems={menuItems}
+            reviews={reviews}
+            ratings={ratings}
             latitude={latitude}
             longitude={longitude}
             onViewMoreImgPress={() => handleTabPress("image")}
@@ -177,13 +198,15 @@ export default function DetailPage({ navigation, route }) {
           />
         );
       case "review":
-        return <DetailPageReview selectedTab={selectedTab} apiData={apiData} />;
+        return <DetailPageReview selectedTab={selectedTab} apiData={apiData} reviews={reviews} ratings={ratings} />;
       case "image":
         return (
           <DetailPageImage
             selectedTab={selectedTab}
             navigation={navigation}
             apiData={apiData}
+            reviews={reviews}
+            ratings={ratings}
           />
         );
       case "beansinfo":
@@ -270,7 +293,7 @@ export default function DetailPage({ navigation, route }) {
           </Container>
         </View>
       </ScrollView>
-      <DetailPageWriteReviewButton navigation={navigation} />
+      <DetailPageWriteReviewButton navigation={navigation} apiData={apiData} isSpecialty={isSpecialty}/>
     </View>
   );
 }

@@ -21,6 +21,8 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
   const fontsLoaded = useFonts();
   const navigation = useNavigation(); // navigation 객체 가져오기
 
+  const { likedCafes } = useContext(AuthContext);
+
   const [apiData, setApiData] = useState(null);
   const [cafeDistance, setCafeDistance] = useState(null);
   const [isLoadingData, setIsLoadingData] = useState(true);
@@ -29,6 +31,7 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
   const [loadingRating, setLoadingRating] = useState(true);
   const [loadingReviews, setLoadingReviews] = useState(true);
 
+  const isLiked = likedCafes.includes(cafe.cafe_id);
   const { isSpecialty, isLoading: isSpecialtyLoading } = useFetchSpecialty(
     cafe.cafe_id
   );
@@ -214,6 +217,36 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
     fetchCafeData();
   }, [cafe.cafe_id, accessToken, LoggedPlatform]);
 
+  // ✅ 좋아요 정보 가져오기
+  useEffect(() => {
+    const fetchLikedCafes = async () => {
+      if (!accessToken || !LoggedPlatform) {
+        console.error("🚨 인증 정보가 없습니다. API 요청을 취소합니다.");
+        return;
+      }
+
+      try {
+        const response = await axios.get("http://13.124.11.195:3000/like", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            Provider: LoggedPlatform,
+          },
+        });
+
+        if (response.data && response.data.cafeList) {
+          const isCafeLiked = response.data.cafeList.some(
+            (likedCafe) => likedCafe.cafe_id === cafe.cafe_id
+          );
+          setIsLiked(isCafeLiked);
+        }
+      } catch (error) {
+        console.error("🚨 좋아요 API 요청 실패:", error);
+      }
+    };
+
+    fetchLikedCafes();
+  }, [cafe.cafe_id, accessToken, LoggedPlatform]);
+
   // useEffect(() => {
   //   const fetchCafeData = async () => {
   //     if (!accessToken || !LoggedPlatform) {
@@ -300,10 +333,10 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
         <ListContainer>
           <ImageContainer>
             {/* 배지 컨테이너 (ScrollView 외부) */}
-            {(cafe.isFavorite !== undefined || isSpecialty !== undefined) && (
+            {(isLiked !== undefined || isSpecialty !== undefined) && (
               <BadgeContainer>
                 {/* 좋아요 배지 */}
-                {cafe.isFavorite && (
+                {isLiked && (
                   <Badge
                     style={{
                       backgroundColor: "#E91111",

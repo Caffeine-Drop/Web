@@ -16,7 +16,7 @@ import {
 import styled from "styled-components/native";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
-import * as Location from 'expo-location';
+import * as Location from "expo-location";
 
 // 이미지 assets
 import DetailMainImg from "../../assets/DetailPage/DetailPageMainImg.png";
@@ -32,7 +32,12 @@ import HeaderStarBlankIcon from "../../assets/DetailPage/HeaderStarBlankIcon.svg
 // 컴포넌트
 import BackButton from "../../components/BackButton";
 
-export default function DetailPageHeader({ navigation, apiData, distance, images }) {
+export default function DetailPageHeader({
+  navigation,
+  apiData,
+  distance,
+  images,
+}) {
   const [isLiked, setIsLiked] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [rating, setRating] = useState(0);

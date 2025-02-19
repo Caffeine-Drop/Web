@@ -831,5 +831,5 @@ const CurrentLocationButton = styled.TouchableOpacity`
   shadow-opacity: 0.1;
   shadow-radius: 4px;
   elevation: 5;
-  z-index: 50;
+  z-index: 20;
 `;

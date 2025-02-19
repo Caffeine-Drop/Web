@@ -28,7 +28,7 @@ import BackButton from "../../components/BackButton";
 import { CalculateDistance } from "../../components/CalculateDistance";
 
 export default function DetailPage({ navigation, route }) {
-  const { cafe } = route.params || {};
+  const { cafeId } = route.params || {};
   const [isLoading, setIsLoading] = useState(true);
   const [apiData, setApiData] = useState(null);
   const [images, setImages] = useState(null);
@@ -73,8 +73,8 @@ export default function DetailPage({ navigation, route }) {
       }
     };
 
-    fetchData();
-  }, []);
+    if (cafeId) fetchData();
+  }, [cafeId]);
 
   useEffect(() => {
     if (!apiData) return; // Ensure apiData is available
@@ -158,7 +158,7 @@ export default function DetailPage({ navigation, route }) {
       case "home":
         return (
           <DetailPageHome
-            cafe={cafeDetail}
+            cafe={apiData}
             selectedTab={selectedTab}
             navigation={navigation}
             distance={cafeDistance}

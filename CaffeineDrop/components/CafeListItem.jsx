@@ -25,6 +25,7 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
   console.log("🔥 isSpecialty in CafeListItem:", isSpecialty); // ✅ 값 확인
 
   const handlePress = () => {
+    console.log("Navigating to DetailPage with cafeId:", cafe.cafe_id);
     navigation.navigate("DetailPage", { cafeId: cafe.cafe_id }); // DetailPage로 이동
   };
 

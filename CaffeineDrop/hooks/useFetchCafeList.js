@@ -35,7 +35,7 @@ const useFetchCafeList = () => {
     fetchCafes();
   }, []);
 
-  return { cafeList, isLoading, error };
+  return { cafeList, setCafeList, isLoading, setIsLoading, error };
 };
 
 export default useFetchCafeList;

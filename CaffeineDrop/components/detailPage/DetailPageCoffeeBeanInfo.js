@@ -17,36 +17,25 @@ import MinusIcon from "../../assets/DetailPage/MinusIcon.svg";
 import RoastingLevel from "./DetailPageRoastingLevel";
 import DetailPageTastingNote from "./DetailPageTastingNote";
 
-// 원두 정보
-// 추후 API 연동 시 원두 정보 어떻게 가져올 지 로직
-// 원두 정보를 info 배열에 넣어서 가져오기
-// 원두 분류에 블랜딩인지, 싱글인지에 따라 보여지는 정보가 달라짐
-// 그 조건은 삼항 연산자로 처리
-const coffeeBeans = [
-  {
-    id: 1,
-    name: "C 타입 블랜딩",
-    classification: ["블랜딩", "스페셜티 미인증"],
-  },
-  { id: 2, name: "D 타입 블랜딩", classification: ["싱글", "스페셜티 인증"] },
-  // 다른 원두 정보를 추가하세요
-];
-
-export default function DetailPageCoffeeInfo() {
+export default function DetailPageCoffeeInfo({ beansInfo }) {
   const [visibleInfoIds, setVisibleInfoIds] = useState([]);
+  console.log(beansInfo.bean[0].is_specialty);
+  console.log(beansInfo.bean[0].description);
 
-  const toggleInfoVisibility = (id) => {
+  const toggleInfoVisibility = (bean_id) => {
     setVisibleInfoIds((prev) =>
-      prev.includes(id) ? prev.filter((infoId) => infoId !== id) : [...prev, id]
+      prev.includes(bean_id)
+        ? prev.filter((infoId) => infoId !== bean_id)
+        : [...prev, bean_id]
     );
   };
 
   return (
     <Container>
-      {coffeeBeans.map((bean) => (
-        <CoffeeBeanInfo key={bean.id}>
-          <TouchableOpacity onPress={() => toggleInfoVisibility(bean.id)}>
-            <Number>{bean.id.toString().padStart(2, "0")}</Number>
+      {beansInfo.bean.map((bean) => (
+        <CoffeeBeanInfo key={bean.bean_id}>
+          <TouchableOpacity onPress={() => toggleInfoVisibility(bean.bean_id)}>
+            <Number>{bean.bean_id.toString().padStart(2, "0")}</Number>
             <View
               style={{
                 display: "flex",
@@ -55,7 +44,7 @@ export default function DetailPageCoffeeInfo() {
               }}
             >
               <CoffeeBeanName>{bean.name}</CoffeeBeanName>
-              {visibleInfoIds.includes(bean.id) ? (
+              {visibleInfoIds.includes(bean.bean_id) ? (
                 <MinusIcon
                   width={responsiveWidth(24)}
                   height={responsiveHeight(24)}
@@ -68,7 +57,7 @@ export default function DetailPageCoffeeInfo() {
               )}
             </View>
           </TouchableOpacity>
-          {visibleInfoIds.includes(bean.id) && (
+          {visibleInfoIds.includes(bean.bean_id) && (
             // 여기부터 원두 분류
             <InfoContainer>
               <View style={{ gap: responsiveHeight(12) }}>
@@ -82,18 +71,32 @@ export default function DetailPageCoffeeInfo() {
                     gap: responsiveWidth(8),
                   }}
                 >
-                  {bean.classification.map((classification, index) => (
-                    <CoffeeBeanClassification
-                      key={index}
-                      classification={classification}
-                    >
-                      <CoffeeBeanClassificationText
-                        classification={classification}
-                      >
-                        {classification}
+                  {bean.description === "블랜딩 원두" ? (
+                    <CoffeeBeanDescription>
+                      <CoffeeBeanDescriptionText>
+                        {bean.description.substring(0, 3)}
+                      </CoffeeBeanDescriptionText>
+                    </CoffeeBeanDescription>
+                  ) : (
+                    <CoffeeBeanDescription>
+                      <CoffeeBeanDescriptionText>
+                        {bean.description.substring(0, 2)}
+                      </CoffeeBeanDescriptionText>
+                    </CoffeeBeanDescription>
+                  )}
+                  {bean.is_specialty ? (
+                    <CoffeeBeanClassification classification="스페셜티 인증">
+                      <CoffeeBeanClassificationText classification="스페셜티 인증">
+                        스페셜티 인증
                       </CoffeeBeanClassificationText>
                     </CoffeeBeanClassification>
-                  ))}
+                  ) : (
+                    <CoffeeBeanClassification classification="스페셜티 미인증">
+                      <CoffeeBeanClassificationText classification="스페셜티 미인증">
+                        스페셜티 미인증
+                      </CoffeeBeanClassificationText>
+                    </CoffeeBeanClassification>
+                  )}
                 </View>
               </View>
               {/* 여기까지 원두 정보 */}
@@ -107,16 +110,21 @@ export default function DetailPageCoffeeInfo() {
                     gap: responsiveWidth(6),
                   }}
                 >
-                  <CuppingNote>
-                    <Text style={{ fontSize: responsiveFontSize(14) }}>
-                      #호두
-                    </Text>
-                  </CuppingNote>
-                  <CuppingNote>
-                    <Text style={{ fontSize: responsiveFontSize(14) }}>
-                      #코코아
-                    </Text>
-                  </CuppingNote>
+                  {beansInfo.bean_tag
+                    .filter((tag) => tag.bean_id === bean.bean_id)
+                    .map((tag) => {
+                      const tagName = beansInfo.cuffingTag.find(
+                        (cuffingTag) =>
+                          cuffingTag.cuffing_tag_id === tag.cuffing_tag_id
+                      )?.name;
+                      return (
+                        <CuppingNote key={tag.cuffing_tag_id}>
+                          <Text style={{ fontSize: responsiveFontSize(14) }}>
+                            #{tagName}
+                          </Text>
+                        </CuppingNote>
+                      );
+                    })}
                 </View>
               </View>
               {/* 여기까지 Cupping Note */}
@@ -134,7 +142,7 @@ export default function DetailPageCoffeeInfo() {
               {/* 여기까지 비고 */}
               {/* 원두 분류에 "싱글"이 포함되어 있으면 추가 정보 출력 */}
               {/* 여기부터 로스팅 정도 */}
-              {bean.classification.includes("싱글") && (
+              {bean.is_single_origin && (
                 <>
                   <View
                     style={{
@@ -223,6 +231,27 @@ const InfoContainer = styled.View`
 `;
 
 const CoffeeBeanClassificationTitle = styled.Text`
+  color: #333;
+  font-family: "PretendardMedium";
+  font-size: ${responsiveFontSize(14)}px;
+  line-height: ${responsiveHeight(19.32)}px;
+  letter-spacing: -0.35px;
+`;
+
+const CoffeeBeanDescription = styled.View`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding: ${responsiveHeight(4)}px ${responsiveWidth(16)}px;
+  border-width: 0.5px;
+  border-color: #d9d9d9;
+  border-radius: ${responsiveHeight(41)}px;
+  background-color: #f5f5f5;
+  gap: ${responsiveWidth(8)}px;
+`;
+
+const CoffeeBeanDescriptionText = styled.Text`
   color: #000;
   font-family: "PretendardMedium";
   font-size: ${responsiveFontSize(14)}px;

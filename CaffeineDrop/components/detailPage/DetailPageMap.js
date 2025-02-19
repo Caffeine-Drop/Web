@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import MapView from "react-native-maps";
+import { View, Text, TouchableOpacity, Linking } from "react-native";
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -9,20 +9,39 @@ import {
 import styled from "styled-components/native";
 
 // 이미지 임포트
-import DetailPageMapImg from "../../assets/DetailPage/DetailPageMapImg.png";
+// import DetailPageMapImg from "../../assets/DetailPage/DetailPageMapImg.png";
 import SubtractIcon from "../../assets/DetailPage/SubtractIcon.svg";
 import SearchRoadButton from "../../assets/DetailPage/SearchRoadButton.svg";
 import NaverSearchLoad from "../../assets/DetailPage/NaverSearchLoad.svg";
 import KakaoSearchLoad from "../../assets/DetailPage/KakaoSearchLoad.svg";
 import DistanceLogo from "../../assets/DetailPage/DistanceLogo.svg";
 
-export default function DetailPageMap() {
+export default function DetailPageMap({
+  distance,
+  apiData,
+  latitude,
+  longitude,
+}) {
   const [isBtnClicked, setIsBtnClicked] = useState(false);
 
   const handleBtnClicked = () => {
     setIsBtnClicked(true);
     console.log("btn clicked");
     setTimeout(() => setIsBtnClicked(false), 2000);
+  };
+
+  const openNaverMap = (latitude, longitude, name) => {
+    const url = `nmap://route/public?dlat=${latitude}&dlng=${longitude}&dname=${encodeURIComponent(name)}`;
+    Linking.openURL(url).catch(() => {
+      alert('네이버 지도 앱이 설치되어 있지 않습니다.');
+    });
+  };
+  
+  const openKakaoMap = (latitude, longitude) => {
+    const url = `kakaomap://route?ep=${latitude},${longitude}&by=CAR`;
+    Linking.openURL(url).catch(() => {
+      alert('카카오 지도 앱이 설치되어 있지 않습니다.');
+    });
   };
 
   return (
@@ -38,7 +57,7 @@ export default function DetailPageMap() {
         카페 이용 정보
       </Text>
       <MapContainer isBtnClicked={isBtnClicked}>
-        <Image
+        {/* <Image
           source={DetailPageMapImg}
           style={{
             position: "absolute",
@@ -48,7 +67,24 @@ export default function DetailPageMap() {
             height: responsiveHeight(130),
             resizeMode: "cover",
           }}
-        />
+        /> */}
+        <MapView
+          style={{
+            position: "absolute",
+            left: responsiveWidth(0),
+            top: responsiveHeight(0),
+            width: responsiveWidth(312),
+            height: responsiveHeight(130),
+            borderRadius: responsiveWidth(12),
+          }}
+          initialRegion={{
+            latitude: latitude,
+            longitude: longitude,
+            latitudeDelta: 0.002,
+            longitudeDelta: 0.002,
+          }}
+          scrollEnabled={false}
+        ></MapView>
         <SubtractIcon
           style={{
             position: "absolute",
@@ -90,7 +126,7 @@ export default function DetailPageMap() {
                 borderRadius: responsiveWidth(12),
               }}
             />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => openNaverMap(latitude, longitude, apiData.name)}>
               <NaverSearchLoad
                 style={{
                   position: "absolute",
@@ -101,7 +137,7 @@ export default function DetailPageMap() {
                 }}
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => openKakaoMap(latitude, longitude)}>
               <KakaoSearchLoad
                 style={{
                   position: "absolute",
@@ -115,7 +151,7 @@ export default function DetailPageMap() {
           </>
         )}
       </MapContainer>
-      <CaffeeAddress>인천 미추홀구 인하로67번길 6 2층</CaffeeAddress>
+      <CaffeeAddress>{apiData.address}</CaffeeAddress>
       <View
         style={{
           flexDirection: "row",
@@ -130,7 +166,7 @@ export default function DetailPageMap() {
             preserveAspectRatio: "none",
           }}
         />
-        <Distance>600m</Distance>
+        <Distance>{distance}km</Distance>
       </View>
     </Container>
   );

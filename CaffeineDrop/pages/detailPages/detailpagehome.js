@@ -16,6 +16,12 @@ export default function DetailPageHome({
   selectedTab,
   onViewMoreReviewPress,
   navigation,
+  apiData,
+  images,
+  menuItems,
+  distance,
+  latitude,
+  longitude,
 }) {
   return (
     <View style={{ flex: 1 }}>
@@ -23,10 +29,16 @@ export default function DetailPageHome({
         <DetailPageImg
           onViewMoreImgPress={onViewMoreImgPress}
           navigation={navigation}
+          images={images}
         />
-        <DetailpageMenu />
-        <DetailPageMap />
-        <DetailPageCategory />
+        <DetailpageMenu apiData={apiData} images={images} menuItems={menuItems}/>
+        <DetailPageMap
+          distance={distance}
+          apiData={apiData}
+          latitude={latitude}
+          longitude={longitude}
+        />
+        <DetailPageCategory apiData={apiData} />
         <StyledGradientBox
           colors={["rgba(0, 0, 0, 0.00)", "rgba(0, 0, 0, 0.02)"]}
           start={{ x: 0, y: 0 }}

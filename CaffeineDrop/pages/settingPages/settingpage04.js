@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, Button, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import {
@@ -10,16 +10,35 @@ import BackIcon from "../../components/BackIcon";
 import BlurIcon from "../../components/eventPage/BlurIcon";
 import BlurIcon2 from "../../components/eventPage/BlurIcon2";
 import { useFonts } from "../../styles";
+import { AuthContext } from "../../context/AuthContext"; //context 가져오기
+import axios from "axios";
 
 export default function SettingPage03({ navigation }) {
   const fontsLoaded = useFonts();
+  const { accessToken, userId, storeNickname, LoggedPlatform } =
+    useContext(AuthContext);
 
   if (!fontsLoaded) {
     return null;
   }
 
-  const handleToggle = () => {
-    setIsEnabled(!isEnabled);
+  const handlePreferredBeanDelete = async () => {
+    try {
+      const response = await axios.delete(
+        `http://13.124.11.195:3000/users/preferred-bean`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+            Provider: LoggedPlatform,
+          },
+        }
+      );
+      console.log("Response:", response.data);
+      navigation.navigate("OnboardingLogin01"); // 로딩 화면 이동
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -48,7 +67,7 @@ export default function SettingPage03({ navigation }) {
       </ContentContainer>
 
       {/* 탈퇴하기 버튼 */}
-      <DeleteButton>
+      <DeleteButton onPress={handlePreferredBeanDelete}>
         <ButtonText>탈퇴하기</ButtonText>
       </DeleteButton>
 

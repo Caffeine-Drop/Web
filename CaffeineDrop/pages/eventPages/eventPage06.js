@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import {
   Platform,
   ScrollView,
@@ -30,8 +30,10 @@ import IndonesiaImage from "../../components/eventPage/Card_Indonesia";
 import KenyaImage from "../../components/eventPage/Card_Kenya";
 import VietnamImage from "../../components/eventPage/Card_Vietnam";
 
+import axios from "axios";
 import { useRoute } from "@react-navigation/native";
 import { Dimensions } from "react-native";
+import { AuthContext } from "../../context/AuthContext"; //context 가져오기
 
 // 화면 너비 가져오기
 const { width } = Dimensions.get("window");
@@ -109,6 +111,31 @@ export default function EventPage06({ navigation }) {
     country: countryNames[recommendedCountry] || recommendedCountry,
   };
   console.log(data);
+
+  const { accessToken, userId, storeNickname, LoggedPlatform } =
+    useContext(AuthContext);
+  const [profileImage, setProfileImage] = useState(null);
+  const [userNickname, setUserNickname] = useState("");
+
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post(
+        `http://13.124.11.195:3000/users/preferred-bean`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+            Provider: LoggedPlatform,
+          },
+        }
+      );
+      console.log("Response:", response.data);
+      navigation.navigate("HomeScreen"); // 홈 화면 이동
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   return (
     <Container>
@@ -199,7 +226,7 @@ export default function EventPage06({ navigation }) {
           </Content>
 
           <Footer>
-            <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+            <TouchableOpacity onPress={handleSubmit}>
               <ButtonWrapper>
                 <ButtonText>완료하기</ButtonText>
               </ButtonWrapper>

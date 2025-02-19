@@ -23,6 +23,8 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
   const [apiData, setApiData] = useState(null);
   const [cafeDistance, setCafeDistance] = useState(null);
   const [isLoadingData, setIsLoadingData] = useState(true);
+  const [averageRating, setAverageRating] = useState(null);
+  const [loadingRating, setLoadingRating] = useState(true);
 
   const { isSpecialty, isLoading: isSpecialtyLoading } = useFetchSpecialty(
     cafe.cafe_id
@@ -124,7 +126,33 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
     return R * c; // 거리 (km)
   };
 
-  if (!fontsLoaded || isLoading || isSpecialtyLoading || isLoadingData) {
+  useEffect(() => {
+    const fetchAverageRating = async () => {
+      try {
+        const response = await axios.get(
+          `http://13.124.11.195:3000/reviews/${cafe.cafe_id}/ratings`
+        );
+        setAverageRating(response.data.data.averageRating);
+      } catch (error) {
+        console.error(
+          `Error fetching ratings for cafe ${cafe.cafe_id}:`,
+          error
+        );
+      } finally {
+        setLoadingRating(false);
+      }
+    };
+
+    fetchAverageRating();
+  }, [cafe.cafe_id]);
+
+  if (
+    !fontsLoaded ||
+    isLoading ||
+    isSpecialtyLoading ||
+    isLoadingData ||
+    loadingRating
+  ) {
     return <CafeListItemSkeleton />;
   }
 
@@ -220,7 +248,9 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
                   />
                   <RatingText>
                     <RatingNumber>
-                      {parseFloat(cafe.rating).toFixed(1)}
+                      {averageRating
+                        ? parseFloat(averageRating).toFixed(1)
+                        : "N/A"}
                     </RatingNumber>
                     <RatingSeparator> | </RatingSeparator>
                     <RatingReviews>{cafe.reviews}</RatingReviews>

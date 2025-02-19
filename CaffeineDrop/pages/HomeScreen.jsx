@@ -114,15 +114,31 @@ const HomeScreen = ({ navigation }) => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `http://13.124.11.195:3000/like?filter=${filterName}`
+        `http://13.124.11.195:3000/like?filter=${filterName}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer 6VSTCSYSqp926_PCIBLYHelPumxA5IsMAAAAAQorDKcAAAGVHw-EBW1lzvpaqIEo`, // 토큰
+            provider: "kakao", // naver 또는 kakao
+            "Content-Type": "application/json",
+          },
+        }
       );
+
       const data = await response.json();
-      setCafeList(data.cafeList || []);
+      console.log("✅ 백엔드 응답 데이터:", data);
+
+      if (data && Array.isArray(data.cafeList)) {
+        setCafeList(data.cafeList);
+      } else {
+        console.warn("🚨 데이터가 올바른 형식이 아닙니다:", data);
+        setCafeList([]);
+      }
     } catch (error) {
       console.error("🚨 카페 리스트 불러오기 실패:", error);
-      setCafeList([]); // 에러 발생 시 빈 리스트 설정
+      setCafeList([]);
     } finally {
-      setIsLoading(false); // ✅ API 요청 후 로딩 상태 해제
+      setIsLoading(false);
     }
   };
 

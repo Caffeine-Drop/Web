@@ -41,9 +41,17 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
     }
   }, [likedCafes, cafe.cafe_id]);
 
-  const { isSpecialty, isLoading: isSpecialtyLoading } = useFetchSpecialty(
-    cafe.cafe_id
-  );
+  const [isSpecialty, setIsSpecialty] = useState(false);
+  const { isSpecialty: fetchedSpecialty, isLoading: isSpecialtyLoading } =
+    useFetchSpecialty(cafe.cafe_id);
+
+  // ✅ useEffect를 사용해 isSpecialty 값을 업데이트
+  useEffect(() => {
+    if (!isSpecialtyLoading) {
+      setIsSpecialty(fetchedSpecialty);
+    }
+  }, [fetchedSpecialty, isSpecialtyLoading]);
+
   console.log("🔥 isSpecialty in CafeListItem:", isSpecialty); // ✅ 값 확인
 
   const handlePress = () => {

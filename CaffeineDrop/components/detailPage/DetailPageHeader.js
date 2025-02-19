@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   Button,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import {
   responsiveFontSize,
@@ -13,6 +14,9 @@ import {
   responsiveHeight,
 } from "../../utils/responsive";
 import styled from "styled-components/native";
+import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
+import * as Location from 'expo-location';
 
 // 이미지 assets
 import DetailMainImg from "../../assets/DetailPage/DetailPageMainImg.png";
@@ -22,18 +26,65 @@ import DistanceLogo from "../../assets/DetailPage/DistanceLogo.svg";
 import CaffeeLikeDefault from "../../assets/DetailPage/CaffeeLikeDefault.svg";
 import CaffeeLike from "../../assets/DetailPage/CaffeeLike.svg";
 import HeaderStarIcon from "../../assets/DetailPage/HeaderStarIcon.svg";
+import HeaderStarHalfIcon from "../../assets/DetailPage/HeaderStarHalfIcon.svg";
 import HeaderStarBlankIcon from "../../assets/DetailPage/HeaderStarBlankIcon.svg";
 
 // 컴포넌트
 import BackButton from "../../components/BackButton";
 
-export default function DetailPageHeader({ navigation, isScrolled }) {
+export default function DetailPageHeader({ navigation, apiData, distance, images }) {
   const [isLiked, setIsLiked] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [rating, setRating] = useState(0);
+  const [isSpecialty, setIsSpecialty] = useState(false);
+  const { accessToken, LoggedPlatform } = useContext(AuthContext);
+  const thumbnailImage = images.find((image) => image.is_thumbnail === true);
+  useEffect(() => {
+    Promise.all([
+      axios.get("http://13.124.11.195:3000/reviews/1/ratings"),
+      axios.get("http://13.124.11.195:3000/cafes/1/specialty"),
+    ])
+      .then((responses) => {
+        console.log("카페 평균 별점: ", responses[0].data.data.averageRating);
+        setRating(responses[0].data.data.averageRating);
+        console.log("스페셜티 여부: ", responses[1].data.success);
+        setIsSpecialty(responses[1].data.success);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const handleCafeLike = async () => {
+    const response = await axios.post(
+      "http://13.124.11.195:3000/like/1",
+      {
+        cafe_id: 1,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          Provider: LoggedPlatform,
+        },
+      }
+    );
+    console.log(response.data.like.message);
+    setIsLiked(!isLiked);
+  };
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
   return (
     <View style={{ flex: 1 }}>
       <Container>
         <Image
-          source={DetailMainImg}
+          source={{ uri: thumbnailImage.image_url }}
           style={{
             width: responsiveWidth(360),
             height: responsiveHeight(400),
@@ -73,15 +124,24 @@ export default function DetailPageHeader({ navigation, isScrolled }) {
             zIndex: 1000,
           }}
         >
-          <SpecialtyCoffeeLogo
-            style={{
-              width: responsiveWidth(88),
-              height: responsiveHeight(22),
-              preserveAspectRatio: "none",
-            }}
-          />
-          <TitleText>언힙커피로스터스</TitleText>
-          <AddressText>인천 미추홀구 인하로67번길 6 2층</AddressText>
+          {isSpecialty ? (
+            <SpecialtyCoffeeLogo
+              style={{
+                width: responsiveWidth(88),
+                height: responsiveHeight(22),
+                preserveAspectRatio: "none",
+              }}
+            />
+          ) : (
+            <View
+              style={{
+                width: responsiveWidth(88),
+                height: responsiveHeight(22),
+              }}
+            />
+          )}
+          <TitleText>{apiData.name}</TitleText>
+          <AddressText>{apiData.address}</AddressText>
           <View
             style={{
               display: "flex",
@@ -98,7 +158,7 @@ export default function DetailPageHeader({ navigation, isScrolled }) {
                 preserveAspectRatio: "none",
               }}
             />
-            <DistanceText>1.2km</DistanceText>
+            <DistanceText>{distance}km</DistanceText>
           </View>
           <View
             style={{
@@ -111,41 +171,44 @@ export default function DetailPageHeader({ navigation, isScrolled }) {
             }}
           >
             <ReviewRateContainer>
-              <ReviewRateText>4.0</ReviewRateText>
+              <ReviewRateText>{rating.toFixed(1)}</ReviewRateText>
               <View style={{ display: "flex", flexDirection: "row" }}>
-                <HeaderStarIcon
-                  style={{
-                    width: responsiveWidth(15),
-                    height: responsiveWidth(15),
-                  }}
-                />
-                <HeaderStarIcon
-                  style={{
-                    width: responsiveWidth(15),
-                    height: responsiveWidth(15),
-                  }}
-                />
-                <HeaderStarIcon
-                  style={{
-                    width: responsiveWidth(15),
-                    height: responsiveWidth(15),
-                  }}
-                />
-                <HeaderStarIcon
-                  style={{
-                    width: responsiveWidth(15),
-                    height: responsiveWidth(15),
-                  }}
-                />
-                <HeaderStarBlankIcon
-                  style={{
-                    width: responsiveWidth(15),
-                    height: responsiveWidth(15),
-                  }}
-                />
+                {[...Array(Math.floor(rating))].map((_, i) => (
+                  <HeaderStarIcon
+                    key={i}
+                    style={{
+                      width: responsiveWidth(15),
+                      height: responsiveWidth(15),
+                    }}
+                  />
+                ))}
+                {rating % 1 > 0.5 ? (
+                  <HeaderStarHalfIcon
+                    style={{
+                      width: responsiveWidth(15),
+                      height: responsiveWidth(15),
+                    }}
+                  />
+                ) : (
+                  <HeaderStarBlankIcon
+                    style={{
+                      width: responsiveWidth(15),
+                      height: responsiveWidth(15),
+                    }}
+                  />
+                )}
+                {[...Array(5 - Math.ceil(rating))].map((_, i) => (
+                  <HeaderStarBlankIcon
+                    key={i}
+                    style={{
+                      width: responsiveWidth(15),
+                      height: responsiveWidth(15),
+                    }}
+                  />
+                ))}
               </View>
             </ReviewRateContainer>
-            <TouchableOpacity onPress={() => setIsLiked(!isLiked)}>
+            <TouchableOpacity onPress={handleCafeLike}>
               {isLiked ? (
                 <CaffeeLike
                   style={{

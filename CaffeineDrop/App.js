@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StyleSheet, Text, View, Platform } from "react-native";
@@ -43,9 +44,10 @@ export default function App() {
     }
   }, []);
   return (
-    <AuthProvider>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <AuthProvider>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="OnboardingLogin01" component={OnboardingLogin01} />
           <Stack.Screen name="OnboardingLogin03" component={OnboardingLogin03} />
           <Stack.Screen name="KakaoLogin" component={KakaoLogin} />
@@ -58,7 +60,7 @@ export default function App() {
           name="DetailPageImageDetail"
           component={DetailPageImageDetail}
           options={{
-            presentation: "transparentModal", // Use transparent modal presentation
+            presentation: "transparentModal",
           }}
         />
         <Stack.Screen name="ReviewPage" component={ReviewPage} />
@@ -78,8 +80,9 @@ export default function App() {
         <Stack.Screen name="SettingPage04" component={SettingPage04} />
         <Stack.Screen name="SettingPage05" component={SettingPage05} />
         </Stack.Navigator>
-      </NavigationContainer>
-    </AuthProvider>
+        </NavigationContainer>
+      </AuthProvider>
+    </GestureHandlerRootView>
   );
 }
 

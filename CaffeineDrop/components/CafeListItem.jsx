@@ -31,7 +31,16 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
   const [loadingRating, setLoadingRating] = useState(true);
   const [loadingReviews, setLoadingReviews] = useState(true);
 
-  const isLiked = likedCafes.includes(cafe.cafe_id);
+  const [isLiked, setIsLiked] = useState(false);
+
+  useEffect(() => {
+    if (likedCafes.includes(cafe.cafe_id)) {
+      setIsLiked(true);
+    } else {
+      setIsLiked(false);
+    }
+  }, [likedCafes, cafe.cafe_id]);
+
   const { isSpecialty, isLoading: isSpecialtyLoading } = useFetchSpecialty(
     cafe.cafe_id
   );

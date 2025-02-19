@@ -52,6 +52,9 @@ const HomeScreen = ({ navigation }) => {
   const bottomContainerTranslateY = useRef(new Animated.Value(66)).current;
   const [isDirectionsPressed, setIsDirectionsPressed] = useState(false); // 버튼 눌림 상태 관리
 
+  const [cafeData, setCafeData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const [sortModalVisible, setSortModalVisible] = useState(false);
   const [timeModalVisible, setTimeModalVisible] = useState(false);
   const [selectedSort, setSelectedSort] = useState("");
@@ -105,6 +108,34 @@ const HomeScreen = ({ navigation }) => {
   // ).current;
 
   const [selectedFilter, setSelectedFilter] = useState(null); // 선택된 필터 상태 관리
+
+  // 필터에 맞는 카페 데이터를 가져오는 함수
+  const getFilteredCafes = async (filter) => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `http://localhost:3000/like?filter=${filter}`
+      );
+      const data = await response.json();
+      setCafeData(data.cafeList);
+    } catch (error) {
+      console.error("카페 데이터 로딩 오류:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 필터 선택 시 호출되는 함수
+  const onFilterSelect = (filter) => {
+    setSelectedFilter(filter);
+    getFilteredCafes(filter); // 선택된 필터로 카페 데이터 가져오기
+  };
+
+  useEffect(() => {
+    if (selectedFilter) {
+      getFilteredCafes(selectedFilter); // 초기 필터 적용 시 데이터 가져오기
+    }
+  }, [selectedFilter]);
 
   // 필터 클릭 시 처리
   const handleFilterSelect = (filterName) => {

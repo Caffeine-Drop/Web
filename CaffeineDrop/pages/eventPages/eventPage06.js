@@ -131,8 +131,7 @@ export default function EventPage06({ navigation }) {
         }
       );
       console.log("Response:", response.data);
-      //성공적으로 요청이 완료되면 홈 화면 이동
-      navigation.navigate("HomeScreen");
+      navigation.navigate("HomeScreen"); // 홈 화면 이동
     } catch (error) {
       console.error("Error:", error);
     }

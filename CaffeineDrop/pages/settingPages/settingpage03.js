@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Text, Button, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import {
@@ -9,17 +9,24 @@ import {
 import BackIcon from "../../components/BackIcon";
 import NextButton from "../../components/NextButton";
 import { useFonts } from "../../styles";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function SettingPage03({ navigation }) {
   const fontsLoaded = useFonts();
+  const { accessToken } = useContext(AuthContext);
+  const [isEnabled, setIsEnabled] = useState(false);
 
-  if (!fontsLoaded) {
-    return null; // 폰트 로딩이 안되면 아무것도 렌더링하지 않음
-  }
+  useEffect(() => {
+    console.log("Effect 1");
+  }, []);
 
   const handleToggle = () => {
     setIsEnabled(!isEnabled);
   };
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <Container>

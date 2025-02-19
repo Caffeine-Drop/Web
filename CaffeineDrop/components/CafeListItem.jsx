@@ -139,27 +139,15 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
         console.error("🚨 인증 정보가 없습니다. API 요청을 취소합니다.");
         return;
       }
+
       try {
         console.log("📡 Sending request with headers:", {
           Authorization: `Bearer ${accessToken}`,
           Provider: LoggedPlatform,
         });
 
-        // ⭐ 별점 가져오기
-        const ratingResponse = await axios.get(
-          `http://13.124.11.195:3000/reviews/${cafe.cafe_id}/ratings`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              Provider: LoggedPlatform,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        setAverageRating(ratingResponse.data.data.averageRating);
-
-        // ⭐ 리뷰 개수 가져오기 (안전한 데이터 접근)
-        const reviewsResponse = await axios.get(
+        // ✅ 1️⃣ 리뷰 개수 가져오기
+        const fetchReviews = axios.get(
           `http://13.124.11.195:3000/reviews/${cafe.cafe_id}`,
           {
             headers: {
@@ -170,26 +158,53 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
           }
         );
 
-        console.log("✅ 리뷰 API 응답:", reviewsResponse.data);
+        // ✅ 2️⃣ 별점 가져오기
+        const fetchRatings = axios.get(
+          `http://13.124.11.195:3000/reviews/${cafe.cafe_id}/ratings`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              Provider: LoggedPlatform,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-        // 📌 응답 데이터에서 리뷰 개수 가져오기
-        if (
+        // ✅ 3️⃣ **Specialty 여부 가져오기 (직접 API 요청)**
+        const fetchSpecialty = axios.get(
+          `http://13.124.11.195:3000/cafes/${cafe.cafe_id}/specialty`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              Provider: LoggedPlatform,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        // ✅ 모든 API를 순차적으로 실행하고 결과를 받아옴
+        const [reviewsResponse, ratingResponse, specialtyResponse] =
+          await Promise.all([fetchReviews, fetchRatings, fetchSpecialty]);
+
+        // ✅ 상태 업데이트
+        setReviewCount(
           reviewsResponse.data.result === "Success" &&
-          reviewsResponse.data.data &&
-          reviewsResponse.data.data.reviews
-        ) {
-          setReviewCount(reviewsResponse.data.data.reviews.length);
-        } else {
-          setReviewCount(0); // ✅ 리뷰가 없으면 0으로 설정
-        }
+            reviewsResponse.data.data &&
+            reviewsResponse.data.data.reviews
+            ? reviewsResponse.data.data.reviews.length
+            : 0
+        );
+
+        setAverageRating(ratingResponse.data.data.averageRating || "N/A");
+
+        // ✅ **스페셜티 정보 업데이트**
+        const specialtyData = specialtyResponse.data.isSpecialty || false;
+        setIsSpecialty(specialtyData);
+
+        // ✅ **배지 업데이트**
+        setIsBothBadges(cafe.isFavorite && specialtyData);
       } catch (error) {
         console.error(`🚨 API 요청 실패 (cafe_id: ${cafe.cafe_id}):`, error);
-        if (error.response) {
-          console.error("📌 Response Data:", error.response.data);
-          console.error("📌 Response Status:", error.response.status);
-        }
-
-        setReviewCount(0); // ✅ 서버 에러 발생 시에도 안전하게 0으로 설정
       } finally {
         setLoadingRating(false);
         setLoadingReviews(false);
@@ -198,6 +213,72 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
 
     fetchCafeData();
   }, [cafe.cafe_id, accessToken, LoggedPlatform]);
+
+  // useEffect(() => {
+  //   const fetchCafeData = async () => {
+  //     if (!accessToken || !LoggedPlatform) {
+  //       console.error("🚨 인증 정보가 없습니다. API 요청을 취소합니다.");
+  //       return;
+  //     }
+  //     try {
+  //       console.log("📡 Sending request with headers:", {
+  //         Authorization: `Bearer ${accessToken}`,
+  //         Provider: LoggedPlatform,
+  //       });
+
+  //       // ⭐ 별점 가져오기
+  //       const ratingResponse = await axios.get(
+  //         `http://13.124.11.195:3000/reviews/${cafe.cafe_id}/ratings`,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${accessToken}`,
+  //             Provider: LoggedPlatform,
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       );
+  //       setAverageRating(ratingResponse.data.data.averageRating);
+
+  //       // ⭐ 리뷰 개수 가져오기 (안전한 데이터 접근)
+  //       const reviewsResponse = await axios.get(
+  //         `http://13.124.11.195:3000/reviews/${cafe.cafe_id}`,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${accessToken}`,
+  //             Provider: LoggedPlatform,
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       );
+
+  //       console.log("✅ 리뷰 API 응답:", reviewsResponse.data);
+
+  //       // 📌 응답 데이터에서 리뷰 개수 가져오기
+  //       if (
+  //         reviewsResponse.data.result === "Success" &&
+  //         reviewsResponse.data.data &&
+  //         reviewsResponse.data.data.reviews
+  //       ) {
+  //         setReviewCount(reviewsResponse.data.data.reviews.length);
+  //       } else {
+  //         setReviewCount(0); // ✅ 리뷰가 없으면 0으로 설정
+  //       }
+  //     } catch (error) {
+  //       console.error(`🚨 API 요청 실패 (cafe_id: ${cafe.cafe_id}):`, error);
+  //       if (error.response) {
+  //         console.error("📌 Response Data:", error.response.data);
+  //         console.error("📌 Response Status:", error.response.status);
+  //       }
+
+  //       setReviewCount(0); // ✅ 서버 에러 발생 시에도 안전하게 0으로 설정
+  //     } finally {
+  //       setLoadingRating(false);
+  //       setLoadingReviews(false);
+  //     }
+  //   };
+
+  //   fetchCafeData();
+  // }, [cafe.cafe_id, accessToken, LoggedPlatform]);
 
   if (
     !fontsLoaded ||
@@ -219,7 +300,7 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
         <ListContainer>
           <ImageContainer>
             {/* 배지 컨테이너 (ScrollView 외부) */}
-            {(cafe.isFavorite || isSpecialty) && (
+            {(cafe.isFavorite !== undefined || isSpecialty !== undefined) && (
               <BadgeContainer>
                 {/* 좋아요 배지 */}
                 {cafe.isFavorite && (

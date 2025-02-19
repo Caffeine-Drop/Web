@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { View, Text, Button, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import {
@@ -9,16 +9,25 @@ import {
 import BackIcon from "../../components/BackIcon";
 import DefaultSettingImage from "../../components/settingPage/DefaultSettingImage";
 import KaKaoIcon from "../../components/settingPage/KaKaoIcon";
+import NaverIcon from "../../components/settingPage/NaverIcon";
 import NextButton from "../../components/settingPage/NextButton";
 import { useFonts } from "../../styles";
 import { useNavigation } from "@react-navigation/native";
 
+import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
+
 export default function SettingPage01({ navigation }) {
   const fontsLoaded = useFonts();
+  const { accessToken, userId, nickname, LoggedPlatform } =
+    useContext(AuthContext);
 
   if (!fontsLoaded) {
     return null;
   }
+
+  console.log(LoggedPlatform);
+  console.log(nickname);
 
   return (
     <Container>
@@ -36,18 +45,30 @@ export default function SettingPage01({ navigation }) {
             <DefaultSettingImage />
           </ImageBox>
           <NameBox>
-            <NameText>다니엘</NameText>
+            <NameText>{nickname}</NameText>
           </NameBox>
           <LoginBox>
             <LoginButton>
               <LoginInnerBox>
+                {/* 아이콘 공간 */}
                 <IconSpace>
                   <IconBox>
-                    <KaKaoIcon />
+                    {LoggedPlatform === "kakao" ? (
+                      <KaKaoIcon />
+                    ) : LoggedPlatform === "naver" ? (
+                      <NaverIcon />
+                    ) : null}
                   </IconBox>
                 </IconSpace>
+
                 <TextSpace>
-                  <LoginText>카카오 소셜 로그인</LoginText>
+                  <Text>
+                    {LoggedPlatform === "kakao"
+                      ? "카카오 소셜 로그인"
+                      : LoggedPlatform === "naver"
+                      ? "네이버 소셜 로그인"
+                      : "로그인"}
+                  </Text>
                 </TextSpace>
               </LoginInnerBox>
             </LoginButton>

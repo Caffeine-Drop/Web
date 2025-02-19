@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
 import axios from "axios";
 import * as Location from "expo-location";
+import { AuthContext } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import {
   responsiveFontSize,
@@ -24,7 +25,9 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
   const [cafeDistance, setCafeDistance] = useState(null);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [averageRating, setAverageRating] = useState(null);
+  const [reviewCount, setReviewCount] = useState(null);
   const [loadingRating, setLoadingRating] = useState(true);
+  const [loadingReviews, setLoadingReviews] = useState(true);
 
   const { isSpecialty, isLoading: isSpecialtyLoading } = useFetchSpecialty(
     cafe.cafe_id
@@ -126,32 +129,82 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
     return R * c; // 거리 (km)
   };
 
+  const { accessToken, LoggedPlatform } = useContext(AuthContext);
+  console.log("🔥 Token:", accessToken);
+  console.log("🔥 Provider:", LoggedPlatform);
+
   useEffect(() => {
-    const fetchAverageRating = async () => {
+    const fetchCafeData = async () => {
+      if (!accessToken || !LoggedPlatform) {
+        console.error("🚨 인증 정보가 없습니다. API 요청을 취소합니다.");
+        return;
+      }
       try {
-        const response = await axios.get(
-          `http://13.124.11.195:3000/reviews/${cafe.cafe_id}/ratings`
+        console.log("📡 Sending request with headers:", {
+          Authorization: `Bearer ${accessToken}`,
+          Provider: LoggedPlatform,
+        });
+
+        // ⭐ 별점 가져오기
+        const ratingResponse = await axios.get(
+          `http://13.124.11.195:3000/reviews/${cafe.cafe_id}/ratings`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              Provider: LoggedPlatform,
+              "Content-Type": "application/json",
+            },
+          }
         );
-        setAverageRating(response.data.data.averageRating);
+        setAverageRating(ratingResponse.data.data.averageRating);
+
+        // ⭐ 리뷰 개수 가져오기 (안전한 데이터 접근)
+        const reviewsResponse = await axios.get(
+          `http://13.124.11.195:3000/reviews/${cafe.cafe_id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              Provider: LoggedPlatform,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        console.log("✅ 리뷰 API 응답:", reviewsResponse.data);
+
+        // 📌 응답 데이터에서 리뷰 개수 가져오기
+        if (
+          reviewsResponse.data.result === "Success" &&
+          reviewsResponse.data.data &&
+          reviewsResponse.data.data.reviews
+        ) {
+          setReviewCount(reviewsResponse.data.data.reviews.length);
+        } else {
+          setReviewCount(0); // ✅ 리뷰가 없으면 0으로 설정
+        }
       } catch (error) {
-        console.error(
-          `Error fetching ratings for cafe ${cafe.cafe_id}:`,
-          error
-        );
+        console.error(`🚨 API 요청 실패 (cafe_id: ${cafe.cafe_id}):`, error);
+        if (error.response) {
+          console.error("📌 Response Data:", error.response.data);
+          console.error("📌 Response Status:", error.response.status);
+        }
+
+        setReviewCount(0); // ✅ 서버 에러 발생 시에도 안전하게 0으로 설정
       } finally {
         setLoadingRating(false);
+        setLoadingReviews(false);
       }
     };
 
-    fetchAverageRating();
-  }, [cafe.cafe_id]);
+    fetchCafeData();
+  }, [cafe.cafe_id, accessToken, LoggedPlatform]);
 
   if (
     !fontsLoaded ||
     isLoading ||
     isSpecialtyLoading ||
-    isLoadingData ||
-    loadingRating
+    loadingRating ||
+    loadingReviews
   ) {
     return <CafeListItemSkeleton />;
   }
@@ -253,7 +306,9 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
                         : "N/A"}
                     </RatingNumber>
                     <RatingSeparator> | </RatingSeparator>
-                    <RatingReviews>{cafe.reviews}</RatingReviews>
+                    <RatingReviews>
+                      {reviewCount !== null ? reviewCount : "0"}
+                    </RatingReviews>
                   </RatingText>
                 </RatingContainer>
               </Details>

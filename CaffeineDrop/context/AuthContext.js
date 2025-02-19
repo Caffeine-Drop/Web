@@ -48,12 +48,17 @@ export const AuthProvider = ({ children }) => {
 
     const fetchLoggedPlatform = async () => {
       try {
-        const storedLoggedPlatform = await AsyncStorage.getItem("LoggedPlatform");
+        const storedLoggedPlatform = await AsyncStorage.getItem(
+          "LoggedPlatform"
+        );
         if (storedLoggedPlatform) {
           setLoggedPlatform(storedLoggedPlatform);
         }
       } catch (error) {
-        console.error("Error fetching logged platform from AsyncStorage:", error);
+        console.error(
+          "Error fetching logged platform from AsyncStorage:",
+          error
+        );
       }
     };
 

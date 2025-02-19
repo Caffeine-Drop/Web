@@ -205,20 +205,19 @@ const LoginButton = styled.View`
   align-items: center;
   justify-content: center;
   gap: ${responsiveWidth(4)}px;
-  width: ${responsiveWidth(122)}px;
+  width: ${responsiveWidth(135)}px;
   height: ${responsiveHeight(25)}px;
   border-radius: 24px;
   background: #e5e3e1;
 `;
 const LoginInnerBox = styled.View`
   flex-direction: row;
-  gap: ${responsiveWidth(4)}px;
+  gap: ${responsiveWidth(10)}px;
 `;
 const IconSpace = styled.View`
   justify-content: center;
   align-text: center;
   border-radius: 16px;
-  background: #fee500;
   width: ${responsiveWidth(16)}px;
   height: ${responsiveHeight(16)}px;
 `;

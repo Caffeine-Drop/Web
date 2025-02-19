@@ -5,8 +5,8 @@ import { responsiveWidth, responsiveHeight } from "../../utils/responsive";
 export default function NaverIcon(props) {
   return (
     <Svg
-      width={responsiveWidth(16)}
-      height={responsiveHeight(16)}
+      width={responsiveWidth(20)}
+      height={responsiveHeight(21)}
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

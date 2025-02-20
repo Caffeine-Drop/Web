@@ -1,15 +1,17 @@
-import React, { useContext } from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useState, useContext } from "react";
+import { View, Platform } from "react-native";
 import { WebView } from "react-native-webview";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
-import { REST_API_KEY, REDIRECT_URI } from "@env";
+import { NAVER_CLIENT_ID, NAVER_CLIENT_SECRET, NAVER_REDIRECT_URI } from "@env";
 
-const INJECTED_JAVASCRIPT = `window.ReactNativeWebView.postMessage('message from webView')`;
+const CLIENT_ID = NAVER_CLIENT_ID;
+const CLIENT_SECRET = NAVER_CLIENT_SECRET;
+const REDIRECT_URI = NAVER_REDIRECT_URI;
+const STATE = "RANDOM_STATE";
 
-const KaKaoLogin = () => {
-  console.log("카카오 로그인 실행");
+export default function NaverLogin() {
   const navigation = useNavigation();
   const {
     storeAccessToken,
@@ -18,17 +20,7 @@ const KaKaoLogin = () => {
     storeLoggedPlatform,
   } = useContext(AuthContext);
 
-  function KakaoLoginWebView(data) {
-    const exp = "code=";
-    var condition = data.indexOf(exp);
-    if (condition != -1) {
-      var code = data.substring(condition + exp.length);
-      console.log("code: ", code);
-      requestToken(code);
-    } else {
-      console.log("Authorization code not found in the URL");
-    }
-  }
+  const authUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&state=${STATE}`;
 
   const requestUserInfo = async (accessToken, platform) => {
     try {
@@ -61,16 +53,19 @@ const KaKaoLogin = () => {
     var AccessToken = "none";
     var userId = "none";
     var RefreshToken = "none";
+    console.log("Authorization code: ", code);
     try {
       const response = await axios.post(
-        "http://13.124.11.195:3000/oauth2/login/kakao",
+        "http://13.124.11.195:3000/oauth2/login/naver",
         {
+          grant_type: "authorization_code",
           code: code,
+          state: STATE,
           redirect_uri: REDIRECT_URI,
         },
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
           },
         }
       );
@@ -81,14 +76,14 @@ const KaKaoLogin = () => {
       console.log("userId: ", userId);
       console.log("AccessToken: ", AccessToken);
       console.log("RefreshToken: ", RefreshToken);
-
+      console.log("Logged Platform: ", "naver");
       storeAccessToken(AccessToken);
       storeUserId(userId);
       storeRefreshToken(RefreshToken);
-      storeLoggedPlatform("kakao");
+      storeLoggedPlatform("naver");
 
       // Check user info after storing tokens
-      await requestUserInfo(AccessToken, "kakao");
+      await requestUserInfo(AccessToken, "naver");
     } catch (error) {
       if (error.response) {
         console.log("Error Response Data:", error.response.data);
@@ -102,36 +97,28 @@ const KaKaoLogin = () => {
     }
   };
 
+  const extractAuthorizationCode = (url) => {
+    const codeMatch = url.match(/code=([^&]*)/);
+    return codeMatch ? codeMatch[1] : null;
+  };
+
   return (
-    <View style={Styles.container}>
-      <WebView
-        style={{ flex: 1 }}
-        originWhitelist={["*"]}
-        scalesPageToFit={false}
-        source={{
-          uri: `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`,
-        }}
-        injectedJavaScript={INJECTED_JAVASCRIPT}
-        javaScriptEnabled
-        // 1안 이거 안될 경우 2안 주석 해제
-        onMessage={(event) => {
-          KakaoLoginWebView(event.nativeEvent["url"]);
-          // }}
-          // 2안
-          // onNavigationStateChange={(event) => {
-          //   KakaoLoginWebView(event.url);
-        }}
-      />
+    <View style={{ flex: 1, paddingTop: 30 }}>
+      {Platform.OS === "ios" ? (
+        <WebView
+          source={{
+            uri: authUrl,
+          }}
+          onNavigationStateChange={(event) => {
+            const code = extractAuthorizationCode(event.url);
+            if (code) {
+              requestToken(code);
+            }
+          }}
+        />
+      ) : (
+        <View>{/* 다른 플랫폼에서는 빈 View를 렌더링 */}</View>
+      )}
     </View>
   );
-};
-
-export default KaKaoLogin;
-
-const Styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: 24,
-    backgroundColor: "#fff",
-  },
-});
+}

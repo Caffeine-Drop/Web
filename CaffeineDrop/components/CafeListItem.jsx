@@ -83,7 +83,7 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
           `http://13.124.11.195:3000/cafes/${cafe.cafe_id}`
         );
         setApiData(response.data);
-        console.log("📌 Cafe API Data:", response.data);
+        // console.log("📌 Cafe API Data:", response.data);
       } catch (error) {
         console.log("🚨 API 요청 실패:", error);
       } finally {

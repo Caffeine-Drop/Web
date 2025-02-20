@@ -94,21 +94,6 @@ const HomeScreen = ({ navigation }) => {
     );
   }
 
-  // const initialLocations = [
-  //   { id: "cafe1", top: responsiveHeight(76), left: responsiveWidth(170) },
-  //   { id: "cafe2", top: responsiveHeight(126), left: responsiveWidth(100) },
-  //   { id: "cafe3", top: responsiveHeight(146), left: responsiveWidth(230) },
-  //   { id: "cafe4", top: responsiveHeight(196), left: responsiveWidth(160) },
-  // ];
-
-  // const animatedLocations = useRef(
-  //   initialLocations.map((loc) => ({
-  //     id: loc.id,
-  //     top: new Animated.Value(loc.top),
-  //     left: new Animated.Value(loc.left),
-  //   }))
-  // ).current;
-
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -195,7 +180,7 @@ const HomeScreen = ({ navigation }) => {
 
   const handleBackgroundPress = () => {
     if (selectedLocation) {
-      resetToInitialState(); // 카페 위치 선택 시 초기화
+      // resetToInitialState(); // 카페 위치 선택 시 초기화
     }
 
     if (isDirectionsPressed) {
@@ -239,79 +224,79 @@ const HomeScreen = ({ navigation }) => {
     setSelectedCafe(cafe); // 선택된 카페 저장
   };
 
-  const resetToInitialState = () => {
-    setIsLoading(true);
+  // const resetToInitialState = () => {
+  //   setIsLoading(true);
 
-    Animated.parallel([
-      // 아이콘 위치 초기화
-      ...animatedLocations.map((loc, index) =>
-        Animated.timing(loc.top, {
-          toValue: initialLocations[index].top,
-          duration: 300,
-          useNativeDriver: false,
-        })
-      ),
-      ...animatedLocations.map((loc, index) =>
-        Animated.timing(loc.left, {
-          toValue: initialLocations[index].left,
-          duration: 300,
-          useNativeDriver: false,
-        })
-      ),
-      // Bottom Sheet 초기화
-      Animated.timing(translateY, {
-        toValue: DEFAULT_POSITION,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-      // CurrentLocationIcon 초기화
-      Animated.timing(locationTranslateY, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-      // BottomContainer 아래로 숨김
-      Animated.timing(bottomContainerTranslateY, {
-        toValue: 66,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-    ]).start(() => {
-      // 애니메이션 완료 후 상태 초기화
-      setShowFilters(true);
-      setSelectedLocation(null);
-      setIsCafeLocationSelected(false);
-      setShowBottomContainer(false);
-      setShowLogo(true);
-    });
-    setTimeout(() => {
-      setCafeList([
-        {
-          id: 1,
-          name: "언힙커피로스터스",
-          location: "인천 미추홀구 인하로67번길 6 2층",
-          distance: "600m",
-          hashtag: "#24시간",
-          rating: 4.0,
-          reviews: 605,
-          isFavorite: true,
-          isSpecialty: true,
-        },
-        {
-          id: 2,
-          name: "언힙커피로스터스",
-          location: "인천 미추홀구 인하로67번길 6 2층",
-          distance: "600m",
-          hashtag: "#24시간",
-          rating: 4.0,
-          reviews: 605,
-          isSpecialty: true,
-          isClosed: false,
-        },
-      ]);
-      setIsLoading(false); // 로딩 종료
-    }, 2000);
-  };
+  //   Animated.parallel([
+  //     // 아이콘 위치 초기화
+  //     ...animatedLocations.map((loc, index) =>
+  //       Animated.timing(loc.top, {
+  //         toValue: initialLocations[index].top,
+  //         duration: 300,
+  //         useNativeDriver: false,
+  //       })
+  //     ),
+  //     ...animatedLocations.map((loc, index) =>
+  //       Animated.timing(loc.left, {
+  //         toValue: initialLocations[index].left,
+  //         duration: 300,
+  //         useNativeDriver: false,
+  //       })
+  //     ),
+  //     // Bottom Sheet 초기화
+  //     Animated.timing(translateY, {
+  //       toValue: DEFAULT_POSITION,
+  //       duration: 300,
+  //       useNativeDriver: true,
+  //     }),
+  //     // CurrentLocationIcon 초기화
+  //     Animated.timing(locationTranslateY, {
+  //       toValue: 0,
+  //       duration: 300,
+  //       useNativeDriver: true,
+  //     }),
+  //     // BottomContainer 아래로 숨김
+  //     Animated.timing(bottomContainerTranslateY, {
+  //       toValue: 66,
+  //       duration: 300,
+  //       useNativeDriver: true,
+  //     }),
+  //   ]).start(() => {
+  //     // 애니메이션 완료 후 상태 초기화
+  //     setShowFilters(true);
+  //     setSelectedLocation(null);
+  //     setIsCafeLocationSelected(false);
+  //     setShowBottomContainer(false);
+  //     setShowLogo(true);
+  //   });
+  //   setTimeout(() => {
+  //     setCafeList([
+  //       {
+  //         id: 1,
+  //         name: "언힙커피로스터스",
+  //         location: "인천 미추홀구 인하로67번길 6 2층",
+  //         distance: "600m",
+  //         hashtag: "#24시간",
+  //         rating: 4.0,
+  //         reviews: 605,
+  //         isFavorite: true,
+  //         isSpecialty: true,
+  //       },
+  //       {
+  //         id: 2,
+  //         name: "언힙커피로스터스",
+  //         location: "인천 미추홀구 인하로67번길 6 2층",
+  //         distance: "600m",
+  //         hashtag: "#24시간",
+  //         rating: 4.0,
+  //         reviews: 605,
+  //         isSpecialty: true,
+  //         isClosed: false,
+  //       },
+  //     ]);
+  //     setIsLoading(false); // 로딩 종료
+  //   }, 2000);
+  // };
 
   const handleCurrentLocationPress = async () => {
     console.log("📍 현재 위치 가져오는 중...");
@@ -357,8 +342,8 @@ const HomeScreen = ({ navigation }) => {
     }).start();
   };
 
-  const handleSelectLocation = async (id, latitude, longitude) => {
-    if (selectedLocation === id) {
+  const handleSelectLocation = async (cafe_id, latitude, longitude) => {
+    if (selectedLocation === cafe_id) {
       console.log("🔄 동일한 카페를 다시 클릭: 초기 상태로 복귀");
 
       // 🔹 선택 해제 & 초기 상태 복구
@@ -391,9 +376,9 @@ const HomeScreen = ({ navigation }) => {
       return; // ✅ 여기서 종료 (초기화 모드)
     }
 
-    console.log("📍 선택된 카페 ID:", id);
+    console.log("📍 선택된 카페 ID:", cafe_id);
     setIsLoading(true);
-    setSelectedLocation(id);
+    setSelectedLocation(cafe_id);
     setIsCafeLocationSelected(true);
     setShowFilters(false);
     setShowLogo(false);
@@ -409,7 +394,7 @@ const HomeScreen = ({ navigation }) => {
 
     try {
       // ✅ API 요청: 특정 카페 정보 가져오기
-      const response = await fetch(`http://13.124.11.195:3000/cafe/${id}`);
+      const response = await fetch(`http://13.124.11.195:3000/cafe/${cafe_id}`);
       const data = await response.json();
 
       if (!response.ok) {
@@ -418,9 +403,12 @@ const HomeScreen = ({ navigation }) => {
 
       console.log("📡 불러온 카페 데이터:", data);
 
-      // ✅ 가져온 카페 정보 업데이트
-      setCafeList([data]); // 클릭한 카페만 리스트에 표시
-      setSelectedCafe(data); // ✅ BottomContainer에서 사용할 데이터 저장
+      if (data) {
+        setSelectedCafe(data); // ✅ 선택한 카페 정보 저장
+        setCafeList([data]); // ✅ 리스트도 업데이트
+      } else {
+        setSelectedCafe(null);
+      }
     } catch (error) {
       console.error("🚨 카페 데이터 불러오기 오류:", error);
       setSelectedCafe(null);
@@ -513,17 +501,21 @@ const HomeScreen = ({ navigation }) => {
           >
             {cafeList.map((cafe) => (
               <Marker
-                key={cafe.id}
+                key={cafe.cafe_id}
                 coordinate={{
                   latitude: cafe.latitude,
                   longitude: cafe.longitude,
                 }}
                 onPress={() =>
-                  handleSelectLocation(cafe.id, cafe.latitude, cafe.longitude)
+                  handleSelectLocation(
+                    cafe.cafe_id,
+                    cafe.latitude,
+                    cafe.longitude
+                  )
                 } // ✅ 좌표 추가
               >
                 <CafeLocation
-                  isSelected={selectedLocation === cafe.id}
+                  isSelected={selectedLocation === cafe.cafe_id}
                   cafeName={cafe.name}
                 />
               </Marker>

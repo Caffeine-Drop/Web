@@ -32,6 +32,8 @@ import CurrentLocationIcon from "../assets/home/CurrentLocationIcon.svg";
 import DownIcon from "../assets/home/DownIcon.svg";
 import UpIcon from "../assets/home/UpIcon.svg";
 import { useFonts } from "../styles";
+import axios from "axios";
+import { AuthContext } from "../context/AuthContext"; //context 가져오기
 
 import axios from "axios";
 import useFetchCafeList from "../hooks/useFetchCafeList";

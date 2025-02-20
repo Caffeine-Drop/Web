@@ -81,6 +81,8 @@ export default function App() {
         <Stack.Screen name="SettingPage03" component={SettingPage03} />
         <Stack.Screen name="SettingPage04" component={SettingPage04} />
         <Stack.Screen name="SettingPage05" component={SettingPage05} />
+        <Stack.Screen name="PrivatePolicyPage" component={PrivatePolicyPage} />
+        <Stack.Screen name="TermsOfServicePage" component={TermsOfServicePage} />
         </Stack.Navigator>
         </NavigationContainer>
       </AuthProvider>

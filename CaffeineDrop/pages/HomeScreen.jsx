@@ -378,36 +378,40 @@ const HomeScreen = ({ navigation }) => {
     }, 2000);
   };
 
-  const handleSelectLocation = (id) => {
+  const handleSelectLocation = async (id) => {
+    console.log("📍 선택된 카페 ID:", id);
     setIsLoading(true);
+    setSelectedLocation(id);
+    setIsCafeLocationSelected(true);
+    setShowFilters(false);
+    setShowLogo(false);
+    setShowBottomContainer(true); // ✅ BottomContainer 표시
 
-    const clickedLocation = animatedLocations.find((loc) => loc.id === id);
-    if (!clickedLocation) return;
+    try {
+      // ✅ API 요청: 특정 카페 정보 가져오기
+      const response = await fetch(`http://13.124.11.195:3000/cafe/${id}`);
+      const data = await response.json();
 
-    const centerX = responsiveWidth(160);
-    const centerY = responsiveHeight(116);
+      if (!response.ok) {
+        throw new Error("API 요청 실패");
+      }
 
-    const deltaY = centerY - clickedLocation.top.__getValue();
-    const deltaX = centerX - clickedLocation.left.__getValue();
+      console.log("📡 불러온 카페 데이터:", data);
 
-    // Bottom Sheet와 BottomContainer 애니메이션 병렬 실행
-    setShowBottomContainer(true); // 먼저 렌더링 활성화
+      // ✅ 가져온 카페 정보 업데이트
+      setCafeList([data]); // 클릭한 카페만 리스트에 표시
+      setSelectedCafe(data); // ✅ BottomContainer에서 사용할 데이터 저장
+    } catch (error) {
+      console.error("🚨 카페 데이터 불러오기 오류:", error);
+
+      // ❌ `setCafeList([])` 제거 → 기존 데이터 유지
+      setSelectedCafe(null); // BottomContainer에 오류 메시지 표시하기 위해 null 설정
+    } finally {
+      setIsLoading(false);
+    }
+
+    // ✅ API 요청 완료 후 애니메이션 실행
     Animated.parallel([
-      // 모든 아이콘 위치 이동
-      ...animatedLocations.map((loc) =>
-        Animated.timing(loc.top, {
-          toValue: loc.top.__getValue() + deltaY,
-          duration: 300,
-          useNativeDriver: false,
-        })
-      ),
-      ...animatedLocations.map((loc) =>
-        Animated.timing(loc.left, {
-          toValue: loc.left.__getValue() + deltaX,
-          duration: 300,
-          useNativeDriver: false,
-        })
-      ),
       // Bottom Sheet 위로 이동
       Animated.timing(translateY, {
         toValue: DEFAULT_POSITION - responsiveHeight(66),
@@ -422,34 +426,85 @@ const HomeScreen = ({ navigation }) => {
       }),
       // BottomContainer 위로 이동
       Animated.timing(bottomContainerTranslateY, {
-        toValue: 0,
+        toValue: 23,
         duration: 300,
         useNativeDriver: true,
       }),
     ]).start();
-
-    setSelectedLocation(id);
-    setIsCafeLocationSelected(true);
-    setShowFilters(false);
-    setShowLogo(false);
-
-    setTimeout(() => {
-      setIsLoading(false);
-      setCafeList([
-        {
-          id: 1,
-          name: "언힙커피로스터스",
-          location: "인천 미추홀구 인하로67번길 6 2층",
-          distance: "600m",
-          hashtag: "#24시간",
-          rating: 4.0,
-          reviews: 605,
-          isFavorite: true,
-          isSpecialty: true,
-        },
-      ]);
-    }, 2000);
   };
+
+  // const handleSelectLocation = (id) => {
+  //   setIsLoading(true);
+
+  //   const clickedLocation = animatedLocations.find((loc) => loc.id === id);
+  //   if (!clickedLocation) return;
+
+  //   const centerX = responsiveWidth(160);
+  //   const centerY = responsiveHeight(116);
+
+  //   const deltaY = centerY - clickedLocation.top.__getValue();
+  //   const deltaX = centerX - clickedLocation.left.__getValue();
+
+  //   // Bottom Sheet와 BottomContainer 애니메이션 병렬 실행
+  //   setShowBottomContainer(true); // 먼저 렌더링 활성화
+  //   Animated.parallel([
+  //     // 모든 아이콘 위치 이동
+  //     ...animatedLocations.map((loc) =>
+  //       Animated.timing(loc.top, {
+  //         toValue: loc.top.__getValue() + deltaY,
+  //         duration: 300,
+  //         useNativeDriver: false,
+  //       })
+  //     ),
+  //     ...animatedLocations.map((loc) =>
+  //       Animated.timing(loc.left, {
+  //         toValue: loc.left.__getValue() + deltaX,
+  //         duration: 300,
+  //         useNativeDriver: false,
+  //       })
+  //     ),
+  //     // Bottom Sheet 위로 이동
+  //     Animated.timing(translateY, {
+  //       toValue: DEFAULT_POSITION - responsiveHeight(66),
+  //       duration: 300,
+  //       useNativeDriver: true,
+  //     }),
+  //     // CurrentLocationIcon 이동
+  //     Animated.timing(locationTranslateY, {
+  //       toValue: -66,
+  //       duration: 300,
+  //       useNativeDriver: true,
+  //     }),
+  //     // BottomContainer 위로 이동
+  //     Animated.timing(bottomContainerTranslateY, {
+  //       toValue: 0,
+  //       duration: 300,
+  //       useNativeDriver: true,
+  //     }),
+  //   ]).start();
+
+  //   setSelectedLocation(id);
+  //   setIsCafeLocationSelected(true);
+  //   setShowFilters(false);
+  //   setShowLogo(false);
+
+  //   setTimeout(() => {
+  //     setIsLoading(false);
+  //     setCafeList([
+  //       {
+  //         id: 1,
+  //         name: "언힙커피로스터스",
+  //         location: "인천 미추홀구 인하로67번길 6 2층",
+  //         distance: "600m",
+  //         hashtag: "#24시간",
+  //         rating: 4.0,
+  //         reviews: 605,
+  //         isFavorite: true,
+  //         isSpecialty: true,
+  //       },
+  //     ]);
+  //   }, 2000);
+  // };
 
   const panResponder = useRef(
     PanResponder.create({
@@ -521,16 +576,9 @@ const HomeScreen = ({ navigation }) => {
                   latitude: cafe.latitude,
                   longitude: cafe.longitude,
                 }}
-                onPress={() =>
-                  setRegion({
-                    latitude: cafe.latitude,
-                    longitude: cafe.longitude,
-                    latitudeDelta: 0.005,
-                    longitudeDelta: 0.005,
-                  })
-                }
+                onPress={() => handleSelectLocation(cafe.id)}
               >
-                <CafeLocation isSelected={false} />
+                <CafeLocation isSelected={selectedLocation === cafe.id} />
               </Marker>
             ))}
           </MapView>
@@ -760,7 +808,7 @@ const HomeScreen = ({ navigation }) => {
           style={{
             transform: [{ translateY: bottomContainerTranslateY }],
             position: "absolute",
-            bottom: 0,
+            bottom: -23,
             width: "100%",
             zIndex: 1500,
           }}

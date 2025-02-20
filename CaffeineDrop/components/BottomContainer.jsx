@@ -82,7 +82,7 @@ const BottomContainerWrapper = styled.View`
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: ${responsiveHeight(67)}px;
+  height: ${responsiveHeight(109)}px;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;

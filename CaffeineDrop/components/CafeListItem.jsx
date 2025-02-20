@@ -246,7 +246,6 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
           setIsLiked(isCafeLiked);
         }
       } catch (error) {
-        console.error("🚨 좋아요 API 요청 실패:", error);
       }
     };
 

@@ -75,7 +75,6 @@ export default function DetailPageHeader({
             }}
           />
         ) : (<Image
-        source={DetailMainImg}
         style={{
           width: responsiveWidth(360),
           height: responsiveHeight(400),

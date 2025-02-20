@@ -62,13 +62,11 @@ export default function DetailPage({ navigation, route }) {
         setLatitude(cafeResponse.data.latitude);
         setLongitude(cafeResponse.data.longitude);
         setMenuItems(cafeResponse.data.menu_items || []);
-        console.log(cafeResponse.data);
 
         const specialtyResponse = await axios.get(
           `http://13.124.11.195:3000/cafes/${cafeId}/specialty`
         );
         setIsSpecialty(specialtyResponse.data.success);
-        console.log("스페셜티 여부: ", specialtyResponse.data.success);
 
         const reviewsResponse = await axios.get(
           `http://13.124.11.195:3000/reviews/${cafeId}`
@@ -83,7 +81,6 @@ export default function DetailPage({ navigation, route }) {
         // Fetch location and calculate distance after all data is loaded
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== "granted") {
-          console.log("위치 권한이 거부되었습니다.");
           return;
         }
 
@@ -98,19 +95,8 @@ export default function DetailPage({ navigation, route }) {
         };
         const distance = CalculateDistance(currentCoords, cafeCoords);
         setCafeDistance(distance.toFixed(1));
-        console.log(`카페까지의 거리: ${distance.toFixed(1)} km`);
-
         setIsLoading(false);
       } catch (error) {
-        console.log("cafeId: ", cafeId);
-        console.log(error);
-        console.log("로그인 플랫폼: ", LoggedPlatform);
-        console.log("엑세스토큰: ", accessToken);
-        console.log("위도: ", latitude);
-        console.log("경도: ", longitude);
-        console.log("리뷰: ", reviews);
-        console.log("메뉴: ", menuItems);
-        console.log("평점: ", ratings);
         setIsLoading(false);
       }
     };

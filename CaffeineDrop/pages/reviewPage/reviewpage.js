@@ -125,8 +125,6 @@ export default function ReviewPage({ navigation, route }) {
           },
         }
       );
-      console.log(response.data.images);
-      console.log(images);
       navigation.navigate("HomeScreen"); // 성공 시 뒤로 가기
     } catch (error) {
       console.error(error.message);

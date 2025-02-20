@@ -133,7 +133,7 @@ const DirectionsText = styled.Text`
 
 const OptionsContainer = styled.View`
   position: absolute;
-  bottom: ${responsiveHeight(76)}px;
+  bottom: ${responsiveHeight(110)}px;
   right: ${responsiveWidth(24)}px;
   align-items: flex-end;
   z-index: 2000;

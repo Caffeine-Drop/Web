@@ -29,11 +29,12 @@ export default function DetailPageImg({
   navigation,
   onViewMoreImgPress,
   images,
+  reviews,
 }) {
   const fontsLoaded = useFonts();
   const [isLoading, setIsLoading] = useState(true);
   const thumbnailImage = images.find((image) => image.is_thumbnail === true);
-
+  console.log(reviews.data.reviews);
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false); // 2초 후 로딩 상태를 false로 변경
@@ -89,24 +90,35 @@ export default function DetailPageImg({
           </TouchableOpacity>
         )}
         <SmallImgContainer>
-          {[
-            mockupImg2,
-            mockupImg3,
-            DetailPageLoadingImg,
-            DetailPageLoadingImg,
-          ].map((img, index) =>
-            isLoading ? (
-              <LoadingView
-                key={index}
-                style={{
-                  width: responsiveWidth(78),
-                  height: responsiveHeight(78),
-                }}
-              />
+          {reviews.data.reviews.map((review, reviewIndex) =>
+            review.images.length > 0 ? (
+              <TouchableOpacity
+                key={review.id || reviewIndex}
+                onPress={() =>
+                  navigation.navigate("DetailPageImageDetail", {
+                    review: review,
+                  })
+                }
+              >
+                {isLoading ? (
+                  <LoadingView
+                    style={{
+                      width: responsiveWidth(78),
+                      height: responsiveHeight(78),
+                    }}
+                  />
+                ) : (
+                  <Image
+                    source={{ uri: review.images[0].image_url }}
+                    style={{
+                      width: responsiveWidth(78),
+                      height: responsiveHeight(78),
+                    }}
+                  />
+                )}
+              </TouchableOpacity>
             ) : (
-              <Image
-                key={index}
-                source={img}
+              <LoadingView
                 style={{
                   width: responsiveWidth(78),
                   height: responsiveHeight(78),

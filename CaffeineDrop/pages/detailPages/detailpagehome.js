@@ -22,6 +22,8 @@ export default function DetailPageHome({
   distance,
   latitude,
   longitude,
+  reviews,
+  ratings,
 }) {
   return (
     <View style={{ flex: 1 }}>
@@ -30,6 +32,7 @@ export default function DetailPageHome({
           onViewMoreImgPress={onViewMoreImgPress}
           navigation={navigation}
           images={images}
+          reviews={reviews}
         />
         <DetailpageMenu apiData={apiData} images={images} menuItems={menuItems}/>
         <DetailPageMap
@@ -47,6 +50,8 @@ export default function DetailPageHome({
         <DetailPageReviews
           selectedTab={selectedTab}
           onViewMoreReviewPress={onViewMoreReviewPress}
+          reviews={reviews}
+          ratings={ratings}
         />
       </ScrollView>
     </View>

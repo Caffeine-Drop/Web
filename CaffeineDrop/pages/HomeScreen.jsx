@@ -75,8 +75,8 @@ const HomeScreen = ({ navigation }) => {
       setRegion({
         // latitude: cafeList[0].latitude, // 데모데이 장소 ㅋㅋ..
         // longitude: cafeList[0].longitude,
-        latitude: 37.467340284968,
-        longitude: 127.04073557297,
+        latitude: 37.469,
+        longitude: 127.04,
         latitudeDelta: 0.005,
         longitudeDelta: 0.005,
       });

@@ -379,13 +379,46 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const handleSelectLocation = async (id) => {
+    if (selectedLocation === id) {
+      console.log("🔄 동일한 카페를 다시 클릭: 초기 상태로 복귀");
+
+      // 🔹 선택 해제 & 초기 상태 복구
+      setSelectedLocation(null);
+      setSelectedCafe(null);
+      setShowFilters(true);
+      setShowLogo(true);
+      setShowBottomContainer(false);
+      setIsCafeLocationSelected(false);
+
+      // 🔹 Bottom Sheet와 애니메이션 초기 위치로 복귀
+      Animated.parallel([
+        Animated.timing(translateY, {
+          toValue: DEFAULT_POSITION,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.timing(locationTranslateY, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.timing(bottomContainerTranslateY, {
+          toValue: 66,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+      ]).start();
+
+      return; // ✅ 여기서 종료 (초기화 모드)
+    }
+
     console.log("📍 선택된 카페 ID:", id);
     setIsLoading(true);
     setSelectedLocation(id);
     setIsCafeLocationSelected(true);
     setShowFilters(false);
     setShowLogo(false);
-    setShowBottomContainer(true); // ✅ BottomContainer 표시
+    setShowBottomContainer(true);
 
     try {
       // ✅ API 요청: 특정 카페 정보 가져오기
@@ -403,28 +436,23 @@ const HomeScreen = ({ navigation }) => {
       setSelectedCafe(data); // ✅ BottomContainer에서 사용할 데이터 저장
     } catch (error) {
       console.error("🚨 카페 데이터 불러오기 오류:", error);
-
-      // ❌ `setCafeList([])` 제거 → 기존 데이터 유지
-      setSelectedCafe(null); // BottomContainer에 오류 메시지 표시하기 위해 null 설정
+      setSelectedCafe(null);
     } finally {
       setIsLoading(false);
     }
 
-    // ✅ API 요청 완료 후 애니메이션 실행
+    // ✅ API 요청 완료 후 애니메이션 실행 (BottomSheet 올리기)
     Animated.parallel([
-      // Bottom Sheet 위로 이동
       Animated.timing(translateY, {
         toValue: DEFAULT_POSITION - responsiveHeight(66),
         duration: 300,
         useNativeDriver: true,
       }),
-      // CurrentLocationIcon 이동
       Animated.timing(locationTranslateY, {
         toValue: -66,
         duration: 300,
         useNativeDriver: true,
       }),
-      // BottomContainer 위로 이동
       Animated.timing(bottomContainerTranslateY, {
         toValue: 23,
         duration: 300,
@@ -578,7 +606,10 @@ const HomeScreen = ({ navigation }) => {
                 }}
                 onPress={() => handleSelectLocation(cafe.id)}
               >
-                <CafeLocation isSelected={selectedLocation === cafe.id} />
+                <CafeLocation
+                  isSelected={selectedLocation === cafe.id}
+                  cafeName={cafe.name}
+                />
               </Marker>
             ))}
           </MapView>

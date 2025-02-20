@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import { View } from "react-native";
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -8,37 +8,27 @@ import {
 import styled from "styled-components/native";
 import CafeLocationIcon from "../assets/home/CafeLocationIcon.svg";
 import LocationHereIcon from "../assets/home/LocationHereIcon.svg";
-import { useFonts } from "../styles";
 
-const CafeLocation = ({ top, left, isSelected, onSelect }) => {
-  const fontsLoaded = useFonts();
-
-  if (!fontsLoaded) {
-    return null; // 폰트 로드될 때까지 렌더링 안 함
-  }
-
+const CafeLocation = ({ isSelected, cafeName }) => {
   return (
-    <TouchableOpacity
-      onPress={onSelect} // 선택되면 HomeScreen에서 상태 업데이트
-      style={{ position: "absolute", top, left, alignItems: "center" }}
-    >
+    <View style={{ alignItems: "center" }}>
       {isSelected ? (
         <LocationHereIcon
-          width={`${responsiveWidth(35)}px`}
-          height={`${responsiveHeight(44.375)}px`}
+          width={responsiveWidth(35)}
+          height={responsiveHeight(44.375)}
         />
       ) : (
         <>
           <CafeLocationIcon
-            width={`${responsiveWidth(30)}px`}
-            height={`${responsiveHeight(30)}px`}
+            width={responsiveWidth(30)}
+            height={responsiveHeight(30)}
           />
           <CafeLabel numberOfLines={1} ellipsizeMode="tail">
-            언힙 커피로
+            {cafeName}
           </CafeLabel>
         </>
       )}
-    </TouchableOpacity>
+    </View>
   );
 };
 
@@ -53,9 +43,9 @@ const CafeLabel = styled.Text`
   color: #000;
   text-align: center;
   margin-top: ${responsiveHeight(2)}px;
-  overflow: hidden; /* 텍스트 넘칠 경우 숨김 */
-  text-overflow: ellipsis; /* 말줄임표 처리 */
-  white-space: nowrap; /* 줄바꿈 방지 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   -webkit-text-stroke-width: 0.5;
   -webkit-text-stroke-color: #fafafa;
 `;

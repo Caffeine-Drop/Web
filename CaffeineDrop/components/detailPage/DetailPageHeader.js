@@ -16,7 +16,7 @@ import {
 import styled from "styled-components/native";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
-import * as Location from 'expo-location';
+import * as Location from "expo-location";
 
 // 이미지 assets
 import DetailMainImg from "../../assets/DetailPage/DetailPageMainImg.png";
@@ -32,35 +32,24 @@ import HeaderStarBlankIcon from "../../assets/DetailPage/HeaderStarBlankIcon.svg
 // 컴포넌트
 import BackButton from "../../components/BackButton";
 
-export default function DetailPageHeader({ navigation, apiData, distance, images }) {
+export default function DetailPageHeader({
+  navigation,
+  apiData,
+  distance,
+  images,
+  cafeId,
+  isSpecialty,
+  ratings,
+}) {
   const [isLiked, setIsLiked] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [rating, setRating] = useState(0);
-  const [isSpecialty, setIsSpecialty] = useState(false);
   const { accessToken, LoggedPlatform } = useContext(AuthContext);
   const thumbnailImage = images.find((image) => image.is_thumbnail === true);
-  useEffect(() => {
-    Promise.all([
-      axios.get("http://13.124.11.195:3000/reviews/1/ratings"),
-      axios.get("http://13.124.11.195:3000/cafes/1/specialty"),
-    ])
-      .then((responses) => {
-        console.log("카페 평균 별점: ", responses[0].data.data.averageRating);
-        setRating(responses[0].data.data.averageRating);
-        console.log("스페셜티 여부: ", responses[1].data.success);
-        setIsSpecialty(responses[1].data.success);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
 
   const handleCafeLike = async () => {
     const response = await axios.post(
-      "http://13.124.11.195:3000/like/1",
+      `http://13.124.11.195:3000/like/${cafeId}`,
       {
-        cafe_id: 1,
+        cafe_id: cafeId,
       },
       {
         headers: {
@@ -73,24 +62,26 @@ export default function DetailPageHeader({ navigation, apiData, distance, images
     setIsLiked(!isLiked);
   };
 
-  if (isLoading) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
-  }
   return (
     <View style={{ flex: 1 }}>
       <Container>
-        <Image
-          source={{ uri: thumbnailImage.image_url }}
+        {thumbnailImage ? (
+          <Image
+            source={{ uri: thumbnailImage.image_url }}
           style={{
             width: responsiveWidth(360),
             height: responsiveHeight(400),
             zIndex: 998,
-          }}
-        />
+            }}
+          />
+        ) : (<Image
+        style={{
+          width: responsiveWidth(360),
+          height: responsiveHeight(400),
+          zIndex: 998,
+            }}
+          />
+        )}
         <Image
           source={DetailPageGradient}
           style={{
@@ -171,18 +162,21 @@ export default function DetailPageHeader({ navigation, apiData, distance, images
             }}
           >
             <ReviewRateContainer>
-              <ReviewRateText>{rating.toFixed(1)}</ReviewRateText>
+              <ReviewRateText>
+                {ratings.data.averageRating.toFixed(1)}
+              </ReviewRateText>
               <View style={{ display: "flex", flexDirection: "row" }}>
-                {[...Array(Math.floor(rating))].map((_, i) => (
-                  <HeaderStarIcon
-                    key={i}
-                    style={{
+                {[...Array(Math.floor(ratings.data.averageRating))].map(
+                  (_, i) => (
+                    <HeaderStarIcon
+                      key={i}
+                      style={{
                       width: responsiveWidth(15),
                       height: responsiveWidth(15),
                     }}
                   />
                 ))}
-                {rating % 1 > 0.5 ? (
+                {ratings.data.averageRating % 1 > 0.5 ? (
                   <HeaderStarHalfIcon
                     style={{
                       width: responsiveWidth(15),
@@ -197,10 +191,11 @@ export default function DetailPageHeader({ navigation, apiData, distance, images
                     }}
                   />
                 )}
-                {[...Array(5 - Math.ceil(rating))].map((_, i) => (
-                  <HeaderStarBlankIcon
-                    key={i}
-                    style={{
+                {[...Array(5 - Math.ceil(ratings.data.averageRating))].map(
+                  (_, i) => (
+                    <HeaderStarBlankIcon
+                      key={i}
+                      style={{
                       width: responsiveWidth(15),
                       height: responsiveWidth(15),
                     }}

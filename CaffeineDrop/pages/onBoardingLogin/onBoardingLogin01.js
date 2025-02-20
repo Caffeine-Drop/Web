@@ -9,7 +9,7 @@ import {
 import { useFonts } from "../../styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import { AuthContext } from "../../context/AuthContext";  // Context 가져오기
+import { AuthContext } from "../../context/AuthContext"; // Context 가져오기
 
 //이미지 임포트
 import CoffeeCupIcon from "../../assets/OnBoardingLogin/CoffeeCupIcon.svg";
@@ -17,7 +17,7 @@ import CoffeeCupIcon from "../../assets/OnBoardingLogin/CoffeeCupIcon.svg";
 export default function OnboardingLogin01() {
   const fontsLoaded = useFonts();
   const navigation = useNavigation();
-  const { accessToken, refreshToken } = useContext(AuthContext);  // Context에서 token과 storeToken 가져오기
+  const { accessToken, refreshToken } = useContext(AuthContext); // Context에서 token과 storeToken 가져오기
 
   // 로그인 여부에 따라 화면 전환 다르게 하기 위한 코드
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -15,6 +15,9 @@ import {
   responsiveHeight,
 } from "../../utils/responsive";
 import * as ImagePicker from "expo-image-picker";
+import * as imageManipulator from "expo-image-manipulator";
+import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
 // 이미지 임포트
 import SpecialtyCoffeeLogo from "../../assets/DetailPage/SpecialtyCoffeeLogo.svg";
@@ -32,9 +35,17 @@ const StarIcon = ({ filled }) => {
   return <Icon width={responsiveWidth(20)} height={responsiveHeight(20)} />;
 };
 
-export default function ReviewPage({ navigation }) {
+export default function ReviewPage({ navigation, route }) {
+  const { accessToken, LoggedPlatform } = useContext(AuthContext);
+  const { cafeName, cafeAddress, cafeId } = route.params;
+  const { isSpecialty } = route.params;
   const [images, setImages] = useState([]);
   const [text, setText] = useState("");
+  const [tasteRating, setTasteRating] = useState(0);
+  const [interiorRating, setInteriorRating] = useState(0);
+  const [cleanlinessRating, setCleanlinessRating] = useState(0);
+  const [costPerformanceRating, setCostPerformanceRating] = useState(0);
+  const [totalRating, setTotalRating] = useState(0);
   const animationValue = useRef(new Animated.Value(0)).current;
   const recommendQuestion = [
     "커피는\n어떠셨나요?",
@@ -48,6 +59,8 @@ export default function ReviewPage({ navigation }) {
   const opacity = useRef(new Animated.Value(1)).current;
 
   const addImage = async () => {
+    console.log("addImage");
+    requestPermission();
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -57,12 +70,84 @@ export default function ReviewPage({ navigation }) {
     if (!result.canceled) {
       const newImageUri = result.assets[0].uri;
       setImages((prevImages) => [newImageUri, ...prevImages]);
+      console.log(images);
+    }
+  };
+  const requestPermission = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert("Sorry, we need camera roll permissions to make this work!");
+    }
+  };
+
+  const handleSubmitReview = async () => {
+    console.log(tasteRating);
+    console.log(interiorRating);
+    console.log(cleanlinessRating);
+    console.log(costPerformanceRating);
+    console.log(accessToken);
+    console.log(LoggedPlatform);
+    console.log(text);
+
+    try {
+      const formData = new FormData();
+      formData.append("content", text);
+      formData.append(
+        "evaluations",
+        JSON.stringify([
+          { criteriaId: 1, rating: tasteRating },
+          { criteriaId: 2, rating: interiorRating },
+          { criteriaId: 3, rating: cleanlinessRating },
+          { criteriaId: 4, rating: costPerformanceRating },
+        ])
+      );
+
+      images.forEach((imageUri, index) => {
+        if (!imageUri.startsWith("http")) {
+          // 이미지 URI를 파일로 처리하기 위해 `name`과 `type`을 지정
+          const file = {
+            uri: imageUri,
+            type: "image/jpeg",  // 이미지 형식에 맞게 지정
+            name: `image_${index}.jpeg`,  // 각 이미지마다 이름을 고유하게 설정
+          };
+          formData.append("images", file); // "images"라는 이름으로 이미지 파일을 첨부
+        }
+      });
+
+      const response = await axios.post(
+        `http://13.124.11.195:3000/reviews/${cafeId}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            Provider: LoggedPlatform,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      navigation.navigate("HomeScreen"); // 성공 시 뒤로 가기
+    } catch (error) {
+      console.error(error.message);
     }
   };
 
   const removeImage = (uri) => {
     setImages((prevImages) => prevImages.filter((image) => image !== uri));
   };
+
+  const handleStarPress = (setRating, rating) => {
+    setRating(rating);
+  };
+
+  useEffect(() => {
+    setTotalRating(
+      (tasteRating +
+        interiorRating +
+        cleanlinessRating +
+        costPerformanceRating) /
+        4
+    );
+  }, [tasteRating, interiorRating, cleanlinessRating, costPerformanceRating]);
 
   useEffect(() => {
     const animateIcon = () => {
@@ -135,21 +220,31 @@ export default function ReviewPage({ navigation }) {
       </FixedHeader>
       <ScrollView>
         <CoffeeInfo>
-          <SpecialtyCoffeeLogo
-            style={{
-              width: responsiveWidth(88),
-              height: responsiveHeight(22),
-              preserveAspectRatio: "none",
-            }}
-          />
+          {isSpecialty === true ? (
+            <SpecialtyCoffeeLogo
+              style={{
+                width: responsiveWidth(88),
+                height: responsiveHeight(22),
+                preserveAspectRatio: "none",
+              }}
+            />
+          ) : (
+            <View
+              style={{
+                width: responsiveWidth(88),
+                height: responsiveHeight(22),
+                preserveAspectRatio: "none",
+              }}
+            ></View>
+          )}
           <View
             style={{
               gap: responsiveHeight(12),
               paddingBottom: responsiveHeight(32),
             }}
           >
-            <CoffeeName>언힙커피로스터스</CoffeeName>
-            <CaffeeAddress>인천 미추홀구 인하로67번길 6 2층</CaffeeAddress>
+            <CoffeeName>{cafeName}</CoffeeName>
+            <CaffeeAddress>{cafeAddress}</CaffeeAddress>
           </View>
         </CoffeeInfo>
         <ReviewRateOverview>
@@ -182,15 +277,18 @@ export default function ReviewPage({ navigation }) {
                     <Theme>맛</Theme>
                   </ReviewOverViewDetailRateTheme>
                   <ReviewOverViewDetailRateStars>
-                    <StarIcon filled={true} />
-                    <StarIcon filled={true} />
-                    <StarIcon filled={true} />
-                    <StarIcon filled={false} />
-                    <StarIcon filled={false} />
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <TouchableOpacity
+                        key={i}
+                        onPress={() => handleStarPress(setTasteRating, i)}
+                      >
+                        <StarIcon filled={i <= tasteRating} />
+                      </TouchableOpacity>
+                    ))}
                   </ReviewOverViewDetailRateStars>
                 </View>
                 <ReviewOverViewDetailRateScore>
-                  3.0
+                  {tasteRating}.0
                 </ReviewOverViewDetailRateScore>
               </View>
               {/* 여기까지가 하나 */}
@@ -209,15 +307,18 @@ export default function ReviewPage({ navigation }) {
                     <Theme>인테리어</Theme>
                   </ReviewOverViewDetailRateTheme>
                   <ReviewOverViewDetailRateStars>
-                    <StarIcon filled={true} />
-                    <StarIcon filled={true} />
-                    <StarIcon filled={true} />
-                    <StarIcon filled={true} />
-                    <StarIcon filled={false} />
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <TouchableOpacity
+                        key={i}
+                        onPress={() => handleStarPress(setInteriorRating, i)}
+                      >
+                        <StarIcon filled={i <= interiorRating} />
+                      </TouchableOpacity>
+                    ))}
                   </ReviewOverViewDetailRateStars>
                 </View>
                 <ReviewOverViewDetailRateScore>
-                  4.0
+                  {interiorRating}.0
                 </ReviewOverViewDetailRateScore>
               </View>
               <View
@@ -234,15 +335,18 @@ export default function ReviewPage({ navigation }) {
                     <Theme>청결도</Theme>
                   </ReviewOverViewDetailRateTheme>
                   <ReviewOverViewDetailRateStars>
-                    <StarIcon filled={true} />
-                    <StarIcon filled={true} />
-                    <StarIcon filled={true} />
-                    <StarIcon filled={false} />
-                    <StarIcon filled={false} />
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <TouchableOpacity
+                        key={i}
+                        onPress={() => handleStarPress(setCleanlinessRating, i)}
+                      >
+                        <StarIcon filled={i <= cleanlinessRating} />
+                      </TouchableOpacity>
+                    ))}
                   </ReviewOverViewDetailRateStars>
                 </View>
                 <ReviewOverViewDetailRateScore>
-                  3.0
+                  {cleanlinessRating}.0
                 </ReviewOverViewDetailRateScore>
               </View>
               <View
@@ -259,21 +363,28 @@ export default function ReviewPage({ navigation }) {
                     <Theme>가심비</Theme>
                   </ReviewOverViewDetailRateTheme>
                   <ReviewOverViewDetailRateStars>
-                    <StarIcon filled={true} />
-                    <StarIcon filled={true} />
-                    <StarIcon filled={true} />
-                    <StarIcon filled={false} />
-                    <StarIcon filled={false} />
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <TouchableOpacity
+                        key={i}
+                        onPress={() =>
+                          handleStarPress(setCostPerformanceRating, i)
+                        }
+                      >
+                        <StarIcon filled={i <= costPerformanceRating} />
+                      </TouchableOpacity>
+                    ))}
                   </ReviewOverViewDetailRateStars>
                 </View>
                 <ReviewOverViewDetailRateScore>
-                  3.0
+                  {costPerformanceRating}.0
                 </ReviewOverViewDetailRateScore>
               </View>
             </View>
           </ReviewOverViewDetailRate>
           <ReviewOverViewRate>
-            <ReviewOverViewRateText>1.0</ReviewOverViewRateText>
+            <ReviewOverViewRateText>
+              {totalRating.toFixed(1)}
+            </ReviewOverViewRateText>
             <View style={{ gap: responsiveHeight(5) }}>
               <View
                 style={{
@@ -283,15 +394,13 @@ export default function ReviewPage({ navigation }) {
                   paddingBottom: responsiveHeight(5),
                 }}
               >
-                <StarIcon filled={true} />
-                <StarIcon filled={false} />
-                <StarIcon filled={false} />
-                <StarIcon filled={false} />
-                <StarIcon filled={false} />
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <StarIcon key={i} filled={i <= totalRating} />
+                ))}
               </View>
               <View style={{ display: "flex", flexDirection: "row" }}>
                 <ReviewCountText>종합평점 | </ReviewCountText>
-                <ReviewCount>1.0</ReviewCount>
+                <ReviewCount>{totalRating.toFixed(1)}</ReviewCount>
               </View>
             </View>
           </ReviewOverViewRate>
@@ -450,6 +559,7 @@ export default function ReviewPage({ navigation }) {
                 borderRadius: 12,
                 marginBottom: responsiveHeight(16),
               }}
+              onPress={handleSubmitReview}
             >
               <Text
                 style={{

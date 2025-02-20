@@ -9,6 +9,7 @@ import {
 import styled from "styled-components/native";
 
 export default function DetailPageCategory({ apiData }) {
+  console.log(apiData.address ? apiData.address : "주소 없음");
   return (
     <Container>
       <CategoryContainer>
@@ -30,7 +31,9 @@ export default function DetailPageCategory({ apiData }) {
             <Text>전화번호</Text>
           </TelText>
           <TelNumber>
-            <Text>{apiData.phone_number}</Text>
+            <Text>
+              {apiData.phone_number ? apiData.phone_number : "전화번호 없음"}
+            </Text>
           </TelNumber>
         </Tel>
       </TelContainer>
@@ -50,12 +53,15 @@ export default function DetailPageCategory({ apiData }) {
                       hour: "2-digit",
                       minute: "2-digit",
                       hour12: false,
-                    })} ~ ${new Date(hour.close_time).toLocaleTimeString("ko-KR", {
-                    timeZone: "UTC",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: false,
-                  })}`
+                    })} ~ ${new Date(hour.close_time).toLocaleTimeString(
+                      "ko-KR",
+                      {
+                        timeZone: "UTC",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: false,
+                      }
+                    )}`
                   : "휴무"}
               </BusinessHourTime>
             </BusinessHour>

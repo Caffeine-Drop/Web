@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
+import axios from "axios";
+import * as Location from "expo-location";
+import { AuthContext } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import {
   responsiveFontSize,
@@ -12,18 +15,316 @@ import HeartIcon from "../assets/home/HeartIcon.jsx";
 import StarIcon from "../assets/home/StarIcon.svg";
 import { useFonts } from "../styles";
 
+import useFetchSpecialty from "../hooks/useFetchSpecialty";
+
 const CafeListItem = ({ cafe, isSelected, isLoading }) => {
   const fontsLoaded = useFonts();
-
   const navigation = useNavigation(); // navigation 객체 가져오기
 
+  const { likedCafes } = useContext(AuthContext);
+
+  const [apiData, setApiData] = useState(null);
+  const [cafeDistance, setCafeDistance] = useState(null);
+  const [isLoadingData, setIsLoadingData] = useState(true);
+  const [averageRating, setAverageRating] = useState(null);
+  const [reviewCount, setReviewCount] = useState(null);
+  const [loadingRating, setLoadingRating] = useState(true);
+  const [loadingReviews, setLoadingReviews] = useState(true);
+
+  const [isBothBadges, setIsBothBadges] = useState(false);
+
+  useEffect(() => {
+    setIsBothBadges(cafe.isFavorite && isSpecialty);
+  }, [cafe.isFavorite, isSpecialty]); // ✅ cafe.isFavorite, isSpecialty 변경 시 업데이트
+
+  const [isLiked, setIsLiked] = useState(false);
+
+  useEffect(() => {
+    if (likedCafes.includes(cafe.cafe_id)) {
+      setIsLiked(true);
+    } else {
+      setIsLiked(false);
+    }
+  }, [likedCafes, cafe.cafe_id]);
+
+  const [isSpecialty, setIsSpecialty] = useState(false);
+  const { isSpecialty: fetchedSpecialty, isLoading: isSpecialtyLoading } =
+    useFetchSpecialty(cafe.cafe_id);
+
+  // ✅ useEffect를 사용해 isSpecialty 값을 업데이트
+  useEffect(() => {
+    if (!isSpecialtyLoading) {
+      setIsSpecialty(fetchedSpecialty);
+    }
+  }, [fetchedSpecialty, isSpecialtyLoading]);
+
   const handlePress = () => {
-    navigation.navigate("DetailPage", { cafe }); // DetailPage로 이동
+    console.log("Navigating to DetailPage with cafeId:", cafe.cafe_id);
+    navigation.navigate("DetailPage", { cafeId: cafe.cafe_id }); // DetailPage로 이동
   };
 
-  const isBothBadges = cafe.isFavorite && cafe.isSpecialty;
+  // 대표 이미지 (메인 사진)
+  const thumbnail =
+    cafe.images?.find((img) => img.is_thumbnail) || cafe.images?.[0];
+  // 리뷰 사진 (menu_items에서 가져오기)
+  const reviewImages =
+    cafe.menu_items?.map((menu) => menu.image_url).slice(0, 3) || [];
+  // 현재 카페가 영업 중인지 확인 (null이면 영업 시간 정보 없음)
+  const isClosed = cafe.operating_hour === null;
 
-  if (!fontsLoaded || isLoading) {
+  // ✅ 1. API 호출하여 데이터 가져오기 (DetailPage와 동일한 방식)
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoadingData(true);
+      try {
+        const response = await axios.get(
+          `http://13.124.11.195:3000/cafes/${cafe.cafe_id}`
+        );
+        setApiData(response.data);
+      } catch (error) {
+      } finally {
+        setIsLoadingData(false);
+      }
+    };
+
+    if (cafe.cafe_id) fetchData();
+  }, [cafe.cafe_id]);
+
+  // ✅ 2. 현재 위치 가져오고 거리 계산 (DetailPage와 동일한 방식)
+  useEffect(() => {
+    if (!apiData) return; // ✅ apiData가 로드되지 않으면 실행 안 함
+
+    const fetchDistance = async () => {
+      try {
+        // 위치 권한 요청
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          return;
+        }
+
+        // 현재 위치 가져오기
+        let currentLocation = await Location.getCurrentPositionAsync({});
+        const currentCoords = {
+          latitude: currentLocation.coords.latitude,
+          longitude: currentLocation.coords.longitude,
+        };
+
+        // 카페 위치 정보 확인
+        if (!apiData.latitude || !apiData.longitude) {
+          return;
+        }
+
+        const cafeCoords = {
+          latitude: apiData.latitude,
+          longitude: apiData.longitude,
+        };
+
+        // 거리 계산
+        const distance = calculateDistance(currentCoords, cafeCoords);
+        setCafeDistance(distance.toFixed(1)); // 소수점 한 자리까지 반올림
+      } catch (error) {
+      }
+    };
+
+    fetchDistance();
+  }, [apiData]); // ✅ apiData가 변경될 때 실행
+
+  // ✅ 거리 계산 함수 (Haversine 공식 사용)
+  const calculateDistance = (coord1, coord2) => {
+    const toRad = (value) => (value * Math.PI) / 180;
+    const R = 6371; // 지구 반지름 (km)
+    const dLat = toRad(coord2.latitude - coord1.latitude);
+    const dLon = toRad(coord2.longitude - coord1.longitude);
+    const lat1 = toRad(coord1.latitude);
+    const lat2 = toRad(coord2.latitude);
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c; // 거리 (km)
+  };
+
+  const { accessToken, LoggedPlatform } = useContext(AuthContext);
+
+  useEffect(() => {
+    const fetchCafeData = async () => {
+      if (!accessToken || !LoggedPlatform) {
+        console.error("🚨 인증 정보가 없습니다. API 요청을 취소합니다.");
+        return;
+      }
+
+      try {
+
+        // ✅ 1️⃣ 리뷰 개수 가져오기
+        const fetchReviews = axios.get(
+          `http://13.124.11.195:3000/reviews/${cafe.cafe_id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              Provider: LoggedPlatform,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        // ✅ 2️⃣ 별점 가져오기
+        const fetchRatings = axios.get(
+          `http://13.124.11.195:3000/reviews/${cafe.cafe_id}/ratings`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              Provider: LoggedPlatform,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        // ✅ 3️⃣ **Specialty 여부 가져오기 (직접 API 요청)**
+        const fetchSpecialty = axios.get(
+          `http://13.124.11.195:3000/cafes/${cafe.cafe_id}/specialty`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              Provider: LoggedPlatform,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        // ✅ 모든 API를 순차적으로 실행하고 결과를 받아옴
+        const [reviewsResponse, ratingResponse, specialtyResponse] =
+          await Promise.all([fetchReviews, fetchRatings, fetchSpecialty]);
+
+        // ✅ 상태 업데이트
+        setReviewCount(
+          reviewsResponse.data.result === "Success" &&
+            reviewsResponse.data.data &&
+            reviewsResponse.data.data.reviews
+            ? reviewsResponse.data.data.reviews.length
+            : 0
+        );
+
+        setAverageRating(ratingResponse.data.data.averageRating || "N/A");
+
+        // ✅ **스페셜티 정보 업데이트**
+        const specialtyData = specialtyResponse.data.isSpecialty || false;
+        setIsSpecialty(specialtyData);
+
+        // ✅ **배지 업데이트**
+        setIsBothBadges(cafe.isFavorite && specialtyData);
+      } catch (error) {
+      } finally {
+        setLoadingRating(false);
+        setLoadingReviews(false);
+      }
+    };
+
+    fetchCafeData();
+  }, [cafe.cafe_id, accessToken, LoggedPlatform]);
+
+  // ✅ 좋아요 정보 가져오기
+  useEffect(() => {
+    const fetchLikedCafes = async () => {
+      if (!accessToken || !LoggedPlatform) {
+        console.error("🚨 인증 정보가 없습니다. API 요청을 취소합니다.");
+        return;
+      }
+
+      try {
+        const response = await axios.get("http://13.124.11.195:3000/like", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            Provider: LoggedPlatform,
+          },
+        });
+
+        if (response.data && response.data.cafeList) {
+          const isCafeLiked = response.data.cafeList.some(
+            (likedCafe) => likedCafe.cafe_id === cafe.cafe_id
+          );
+          setIsLiked(isCafeLiked);
+        }
+      } catch (error) {
+      }
+    };
+
+    fetchLikedCafes();
+  }, [cafe.cafe_id, accessToken, LoggedPlatform]);
+
+  // useEffect(() => {
+  //   const fetchCafeData = async () => {
+  //     if (!accessToken || !LoggedPlatform) {
+  //       console.error("🚨 인증 정보가 없습니다. API 요청을 취소합니다.");
+  //       return;
+  //     }
+  //     try {
+  //       console.log("📡 Sending request with headers:", {
+  //         Authorization: `Bearer ${accessToken}`,
+  //         Provider: LoggedPlatform,
+  //       });
+
+  //       // ⭐ 별점 가져오기
+  //       const ratingResponse = await axios.get(
+  //         `http://13.124.11.195:3000/reviews/${cafe.cafe_id}/ratings`,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${accessToken}`,
+  //             Provider: LoggedPlatform,
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       );
+  //       setAverageRating(ratingResponse.data.data.averageRating);
+
+  //       // ⭐ 리뷰 개수 가져오기 (안전한 데이터 접근)
+  //       const reviewsResponse = await axios.get(
+  //         `http://13.124.11.195:3000/reviews/${cafe.cafe_id}`,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${accessToken}`,
+  //             Provider: LoggedPlatform,
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       );
+
+  //       console.log("✅ 리뷰 API 응답:", reviewsResponse.data);
+
+  //       // 📌 응답 데이터에서 리뷰 개수 가져오기
+  //       if (
+  //         reviewsResponse.data.result === "Success" &&
+  //         reviewsResponse.data.data &&
+  //         reviewsResponse.data.data.reviews
+  //       ) {
+  //         setReviewCount(reviewsResponse.data.data.reviews.length);
+  //       } else {
+  //         setReviewCount(0); // ✅ 리뷰가 없으면 0으로 설정
+  //       }
+  //     } catch (error) {
+  //       console.error(`🚨 API 요청 실패 (cafe_id: ${cafe.cafe_id}):`, error);
+  //       if (error.response) {
+  //         console.error("📌 Response Data:", error.response.data);
+  //         console.error("📌 Response Status:", error.response.status);
+  //       }
+
+  //       setReviewCount(0); // ✅ 서버 에러 발생 시에도 안전하게 0으로 설정
+  //     } finally {
+  //       setLoadingRating(false);
+  //       setLoadingReviews(false);
+  //     }
+  //   };
+
+  //   fetchCafeData();
+  // }, [cafe.cafe_id, accessToken, LoggedPlatform]);
+
+  if (
+    !fontsLoaded ||
+    isLoading ||
+    isSpecialtyLoading ||
+    loadingRating ||
+    loadingReviews
+  ) {
     return <CafeListItemSkeleton />;
   }
 
@@ -36,29 +337,30 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
       >
         <ListContainer>
           <ImageContainer>
-            {/* ✅ 배지 컨테이너 (ScrollView 외부) */}
-            {(cafe.isFavorite || cafe.isSpecialty) && (
+            {/* 배지 컨테이너 (ScrollView 외부) */}
+            {(isLiked !== undefined || isSpecialty !== undefined) && (
               <BadgeContainer>
                 {/* 좋아요 배지 */}
-                {cafe.isFavorite && (
+                {isLiked && (
                   <Badge
                     style={{
                       backgroundColor: "#E91111",
-                      borderTopRightRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 오른쪽 위 모서리 제거
-                      borderBottomRightRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 오른쪽 아래 모서리 제거
+                      borderTopRightRadius: isBothBadges ? 0 : 4, // ✅ 스페셜티가 있으면 오른쪽 위 모서리 없앰
+                      borderBottomRightRadius: isBothBadges ? 0 : 4, // ✅ 스페셜티가 있으면 오른쪽 아래 모서리 없앰
                     }}
                   >
                     <HeartIcon color="#FFFFFF" size={responsiveWidth(10)} />
                     <BadgeText>좋아요</BadgeText>
                   </Badge>
                 )}
+
                 {/* Specialty Coffee 배지 */}
-                {cafe.isSpecialty && (
+                {!isSpecialty && (
                   <Badge
                     style={{
                       backgroundColor: "#321900",
-                      borderTopLeftRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 왼쪽 위 모서리 제거
-                      borderBottomLeftRadius: isBothBadges ? 0 : 4, // 두 배지가 있을 때 왼쪽 아래 모서리 제거
+                      borderTopLeftRadius: isBothBadges ? 0 : 4, // ✅ 좋아요가 있으면 왼쪽 위 모서리 없앰
+                      borderBottomLeftRadius: isBothBadges ? 0 : 4, // ✅ 좋아요가 있으면 왼쪽 아래 모서리 없앰
                     }}
                   >
                     <BadgeText>Specialty Coffee</BadgeText>
@@ -76,52 +378,39 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
                 paddingRight: responsiveWidth(16), // 마지막 이미지 오른쪽 여백
               }}
             >
-              {/* 첫 번째 이미지 */}
-              <ImagePlaceholder
-                isClosed={cafe.isClosed}
-                style={{
-                  width: responsiveWidth(150),
-                  height: responsiveHeight(150),
-                  marginRight: responsiveWidth(4),
-                }}
-              >
-                {cafe.isClosed && (
+              {/* ✅ 첫 번째 이미지 (대표 이미지) */}
+              <ThumbnailWrapper>
+                {thumbnail ? (
+                  <CafeImage source={{ uri: "https://ifh.cc/g/1mfJ2p.jpg" }} />
+                ) : (
+                  <CafeImagePlaceholder />
+                )}
+                {/* ✅ 미운영 알림 (영업 전일 때) */}
+                {isClosed && (
                   <ClosedOverlay>
                     <ClosedSubText>미운영 알림</ClosedSubText>
                     <ClosedText>현재 영업</ClosedText>
                     <ClosedText>준비중이에요!</ClosedText>
                   </ClosedOverlay>
                 )}
-              </ImagePlaceholder>
+              </ThumbnailWrapper>
 
-              {/* 두 번째 이미지 */}
-              <ImagePlaceholder
-                isClosed={cafe.isClosed}
-                style={{
-                  width: responsiveWidth(112.5),
-                  height: responsiveHeight(150),
-                  marginRight: responsiveWidth(4),
-                }}
-              />
-
-              {/* 세 번째 이미지 */}
-              <ImagePlaceholder
-                isClosed={cafe.isClosed}
-                style={{
-                  width: responsiveWidth(112.5),
-                  height: responsiveHeight(150),
-                }}
-              />
+              {/* ✅ 두 번째 & 세 번째 이미지 (리뷰 사진) */}
+              {reviewImages.map((img, index) => (
+                <Thumbnail key={index} source={{ uri: img }} />
+              ))}
             </ScrollView>
           </ImageContainer>
 
           <TouchableOpacity onPress={handlePress}>
             <Info>
               <Title>{cafe.name}</Title>
-              <Location>{cafe.location}</Location>
+              <CafeLocation>{cafe.address}</CafeLocation>
               <Details>
                 <DistanceBadge>거리</DistanceBadge>
-                <Distance>{cafe.distance}</Distance>
+                <Distance>
+                  {cafeDistance !== null ? `${cafeDistance} km` : "계산 중..."}
+                </Distance>
                 <HashTag>{cafe.hashtag}</HashTag>
                 <RatingContainer>
                   <StarIcon
@@ -131,10 +420,14 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
                   />
                   <RatingText>
                     <RatingNumber>
-                      {parseFloat(cafe.rating).toFixed(1)}
+                      {averageRating
+                        ? parseFloat(averageRating).toFixed(1)
+                        : "N/A"}
                     </RatingNumber>
                     <RatingSeparator> | </RatingSeparator>
-                    <RatingReviews>{cafe.reviews}</RatingReviews>
+                    <RatingReviews>
+                      {reviewCount !== null ? reviewCount : "0"}
+                    </RatingReviews>
                   </RatingText>
                 </RatingContainer>
               </Details>
@@ -168,6 +461,32 @@ const ListContainer = styled.View`
 
 const ImageContainer = styled.View`
   position: relative; /* 배지와 이미지가 같은 컨텍스트를 공유 */
+`;
+
+const ThumbnailWrapper = styled.View`
+  position: relative;
+`;
+
+const CafeImage = styled.Image`
+  width: ${responsiveWidth(150)}px;
+  height: ${responsiveHeight(150)}px;
+  border-radius: 12px;
+`;
+
+const CafeImagePlaceholder = styled.View`
+  width: ${responsiveWidth(150)}px;
+  height: ${responsiveHeight(150)}px;
+  background-color: #d9d9d9;
+  border-radius: 12px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Thumbnail = styled.Image`
+  width: ${responsiveWidth(112.5)}px;
+  height: ${responsiveHeight(150)}px;
+  border-radius: 8px;
+  margin-left: ${responsiveWidth(4)}px;
 `;
 
 const ImagePlaceholder = styled.View`
@@ -287,7 +606,7 @@ const Title = styled.Text`
   padding-bottom: ${responsiveHeight(8)}px;
 `;
 
-const Location = styled.Text`
+const CafeLocation = styled.Text`
   font-family: PretendardRegular;
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 400;

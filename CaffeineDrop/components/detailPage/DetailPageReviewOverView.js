@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, View } from "react-native";
 
 import {
@@ -17,7 +17,22 @@ const StarIcon = ({ filled }) => {
   return <Icon width={responsiveWidth(20)} height={responsiveHeight(20)} />;
 };
 
-export default function DetailPageReviewOverView() {
+const renderStars = (rating) => {
+  const stars = [];
+  for (let i = 0; i < 5; i++) {
+    stars.push(<StarIcon key={i} filled={i < rating} />);
+  }
+  return stars;
+};
+
+export default function DetailPageReviewOverView({
+  reviews,
+  averageRating,
+  tastingRating,
+  interiorRating,
+  cleanlinessRating,
+  costPerformanceRating,
+}) {
   return (
     <ReviewOverViewContainer>
       <ReviewOverViewTitle>항목별 세부 평점</ReviewOverViewTitle>
@@ -29,7 +44,9 @@ export default function DetailPageReviewOverView() {
             alignItems: "center",
           }}
         >
-          <ReviewOverViewRateText>1.0</ReviewOverViewRateText>
+          <ReviewOverViewRateText>
+            {averageRating.toFixed(1)}
+          </ReviewOverViewRateText>
           <Text
             style={{
               fontSize: responsiveFontSize(12),
@@ -42,35 +59,12 @@ export default function DetailPageReviewOverView() {
           </Text>
         </View>
         <View style={{ gap: responsiveHeight(5) }}>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              gap: responsiveWidth(3),
-              paddingBottom: responsiveHeight(5),
-            }}
-          >
-            <Star width={responsiveWidth(20)} height={responsiveHeight(20)} />
-            <BlankStar
-              width={responsiveWidth(20)}
-              height={responsiveHeight(20)}
-            />
-            <BlankStar
-              width={responsiveWidth(20)}
-              height={responsiveHeight(20)}
-            />
-            <BlankStar
-              width={responsiveWidth(20)}
-              height={responsiveHeight(20)}
-            />
-            <BlankStar
-              width={responsiveWidth(20)}
-              height={responsiveHeight(20)}
-            />
-          </View>
+          <ReviewOverViewDetailRateStars>
+            {renderStars(Math.round(averageRating))}
+          </ReviewOverViewDetailRateStars>
           <View style={{ display: "flex", flexDirection: "row" }}>
             <ReviewCountText>후기 | </ReviewCountText>
-            <ReviewCount>100건</ReviewCount>
+            <ReviewCount>{reviews.data.reviews.length}건</ReviewCount>
           </View>
         </View>
       </ReviewOverViewRate>
@@ -97,14 +91,12 @@ export default function DetailPageReviewOverView() {
                 <Theme>맛</Theme>
               </ReviewOverViewDetailRateTheme>
               <ReviewOverViewDetailRateStars>
-                <StarIcon filled={true} />
-                <StarIcon filled={true} />
-                <StarIcon filled={true} />
-                <StarIcon filled={false} />
-                <StarIcon filled={false} />
+                {renderStars(Math.round(tastingRating))}
               </ReviewOverViewDetailRateStars>
             </View>
-            <ReviewOverViewDetailRateScore>3.0</ReviewOverViewDetailRateScore>
+            <ReviewOverViewDetailRateScore>
+              {tastingRating.toFixed(1)}
+            </ReviewOverViewDetailRateScore>
           </View>
           {/* 여기까지가 하나 */}
           {/* 여기서부터 두 번째 시작 */}
@@ -120,14 +112,12 @@ export default function DetailPageReviewOverView() {
                 <Theme>인테리어</Theme>
               </ReviewOverViewDetailRateTheme>
               <ReviewOverViewDetailRateStars>
-                <StarIcon filled={true} />
-                <StarIcon filled={true} />
-                <StarIcon filled={true} />
-                <StarIcon filled={true} />
-                <StarIcon filled={false} />
+                {renderStars(Math.round(interiorRating))}
               </ReviewOverViewDetailRateStars>
             </View>
-            <ReviewOverViewDetailRateScore>4.0</ReviewOverViewDetailRateScore>
+            <ReviewOverViewDetailRateScore>
+              {interiorRating.toFixed(1)}
+            </ReviewOverViewDetailRateScore>
           </View>
           <View
             style={{
@@ -141,14 +131,12 @@ export default function DetailPageReviewOverView() {
                 <Theme>청결도</Theme>
               </ReviewOverViewDetailRateTheme>
               <ReviewOverViewDetailRateStars>
-                <StarIcon filled={true} />
-                <StarIcon filled={true} />
-                <StarIcon filled={true} />
-                <StarIcon filled={false} />
-                <StarIcon filled={false} />
+                {renderStars(Math.round(cleanlinessRating))}
               </ReviewOverViewDetailRateStars>
             </View>
-            <ReviewOverViewDetailRateScore>3.0</ReviewOverViewDetailRateScore>
+            <ReviewOverViewDetailRateScore>
+              {cleanlinessRating.toFixed(1)}
+            </ReviewOverViewDetailRateScore>
           </View>
           <View
             style={{
@@ -162,14 +150,12 @@ export default function DetailPageReviewOverView() {
                 <Theme>가심비</Theme>
               </ReviewOverViewDetailRateTheme>
               <ReviewOverViewDetailRateStars>
-                <StarIcon filled={true} />
-                <StarIcon filled={true} />
-                <StarIcon filled={true} />
-                <StarIcon filled={false} />
-                <StarIcon filled={false} />
+                {renderStars(Math.round(costPerformanceRating))}
               </ReviewOverViewDetailRateStars>
             </View>
-            <ReviewOverViewDetailRateScore>3.0</ReviewOverViewDetailRateScore>
+            <ReviewOverViewDetailRateScore>
+              {costPerformanceRating.toFixed(1)}
+            </ReviewOverViewDetailRateScore>
           </View>
         </View>
       </ReviewOverViewDetailRate>

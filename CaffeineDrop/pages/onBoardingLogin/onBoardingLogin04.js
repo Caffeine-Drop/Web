@@ -85,25 +85,25 @@ export default function OnBoardingLogin04() {
   async function checkNickname() {
     try {
       const response = await axios.get(
-        `http://13.124.11.195:3000/users/nickname/check/${userNickname}`,
+        `http://13.124.11.195:3000/users/nickname/check?nickname=${userNickname}`,
       );
-      console.log(response.data);
+      setIsDuplicate(response.data.success.isNotOverlap);
       return response.data;
     } catch (error) {
       console.log(
         "Error:",
         error.response ? error.response.data : error.message
       );
+      setIsDuplicate(true);
     }
   }
 
   const handleCheckNickname = async () => {
     const data = await checkNickname();
-    // console.log(data.data.success.isNotOverlap);
-    if (data.success.isNotOverlap) {
-      setIsDuplicate(false);
+    if (!data.success.isNotOverlap) {
+      console.log("닉네임 중복 아님");
     } else {
-      setIsDuplicate(true);
+      console.log("닉네임 중복");
     }
   };
 

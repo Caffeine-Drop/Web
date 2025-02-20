@@ -12,6 +12,7 @@ import DetailPageCategory from "../../components/detailPage/DetailPageCategory";
 import DetailPageReviews from "../../components/detailPage/DetailPageReviews";
 
 export default function DetailPageHome({
+  cafeId,
   onViewMoreImgPress,
   selectedTab,
   onViewMoreReviewPress,

@@ -12,7 +12,7 @@ import {
 // 이미지 임포트
 import RLogo from "../../assets/DetailPage/RLogo.svg";
 
-export default function DetailPageWriteReviewButton({ navigation, apiData, isSpecialty }) {
+export default function DetailPageWriteReviewButton({ navigation, apiData, isSpecialty, cafeId }) {
   return (
     <BlurWrapper>
       <GradientOverlay
@@ -30,6 +30,7 @@ export default function DetailPageWriteReviewButton({ navigation, apiData, isSpe
               cafeName: apiData.name,
               cafeAddress: apiData.address,
               isSpecialty: isSpecialty,
+              cafeId: cafeId,
             })
           }
         >

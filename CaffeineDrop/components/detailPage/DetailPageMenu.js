@@ -29,17 +29,26 @@ import signatureMenuImg4 from "../../assets/DetailPage/signatureMenuImg4.png";
 export default function DetailpageMenu({ images, menuItems }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   // 메뉴판 이미지
-  const menuImage = images.find((image) => image.cafe_image_id === 2);
+  const menuImage = images.find((image) => image.is_menu === true);
+  console.log(menuImage);
+
+  // Check if menuImage is defined
+  const menuImageUrl = menuImage ? menuImage.image_url : null;
+
   // 가게 메뉴 이미지
   const signatureMenuImages = menuItems;
   return (
     <Container>
       <Title>메뉴</Title>
       <MenuImgContainer>
-        <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-          <MenuImg source={{ uri: menuImage.image_url }} />
-        </TouchableOpacity>
-        {isModalVisible && (
+        {menuImageUrl ? (
+          <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+            <MenuImg source={{ uri: menuImageUrl }} />
+          </TouchableOpacity>
+        ) : (
+          <Text>메뉴 이미지가 없습니다.</Text>
+        )}
+        {isModalVisible && menuImageUrl && (
           <Modal
             animationType="slide"
             transparent={true}
@@ -75,7 +84,7 @@ export default function DetailpageMenu({ images, menuItems }) {
                   }}
                 >
                   <Image
-                    source={{ uri: menuImage.image_url }}
+                    source={{ uri: menuImageUrl }}
                     style={{
                       width: responsiveWidth(300),
                       height: responsiveHeight(400),
@@ -154,17 +163,20 @@ const SignatureMenuTitle = styled.Text`
 `;
 
 const SignatureMenuImgContainer = styled.View`
+
   padding-top: ${responsiveHeight(12)}px;
   padding-left: ${responsiveWidth(24)}px;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   gap: 4px;
 `;
 
 const SignatureMenu = styled.View`
+  display: flex;
   flex-direction: column;
-  align-items: left;
+  align-items: flex-start;
   gap: 4px;
+  flex-wrap: wrap;
 `;
 
 const SignatureMenuImg = styled.Image`
@@ -173,7 +185,13 @@ const SignatureMenuImg = styled.Image`
   border-radius: ${responsiveWidth(12)}px;
 `;
 
-const MenuName = styled.Text`
+const MenuName = styled.Text.attrs({
+  numberOfLines: 1,
+  ellipsizeMode: 'tail',
+})`
+  display: flex;
+  flex-wrap: wrap;
+  width: ${responsiveWidth(80)}px;
   font-size: ${responsiveFontSize(14)}px;
   font-family: "PretendardSemiBold";
   line-height: ${responsiveHeight(19.32)}px;

@@ -37,7 +37,7 @@ const StarIcon = ({ filled }) => {
 
 export default function ReviewPage({ navigation, route }) {
   const { accessToken, LoggedPlatform } = useContext(AuthContext);
-  const { cafeName, cafeAddress } = route.params;
+  const { cafeName, cafeAddress, cafeId } = route.params;
   const { isSpecialty } = route.params;
   const [images, setImages] = useState([]);
   const [text, setText] = useState("");
@@ -115,7 +115,7 @@ export default function ReviewPage({ navigation, route }) {
       });
 
       const response = await axios.post(
-        "http://13.124.11.195:3000/reviews/1",
+        `http://13.124.11.195:3000/reviews/${cafeId}`,
         formData,
         {
           headers: {
@@ -127,7 +127,7 @@ export default function ReviewPage({ navigation, route }) {
       );
       console.log(response.data.images);
       console.log(images);
-      navigation.goBack(); // 성공 시 뒤로 가기
+      navigation.navigate("HomeScreen"); // 성공 시 뒤로 가기
     } catch (error) {
       console.error(error.message);
     }

@@ -146,7 +146,7 @@ const OptionButton = styled.TouchableOpacity`
   background-color: #ffffff;
   border-radius: 33px 22px 0px 33px;
   padding: ${responsiveHeight(12)}px;
-  margin-bottom: ${responsiveHeight(8)}px;
+  margin-bottom: ${responsiveHeight(12)}px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 `;
 

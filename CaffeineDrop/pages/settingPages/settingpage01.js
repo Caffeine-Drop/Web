@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { View, Text, Button, TouchableOpacity } from "react-native";
+import { Linking } from "react-native";
+import { WebView } from "react-native-webview";
 import styled from "styled-components/native";
 import {
   responsiveFontSize,
@@ -13,18 +15,26 @@ import NaverIcon from "../../components/settingPage/NaverIcon";
 import NextButton from "../../components/settingPage/NextButton";
 import { useFonts } from "../../styles";
 import { useNavigation } from "@react-navigation/native";
+import {
+  REST_API_KEY,
+  REDIRECT_URI,
+  NAVER_CLIENT_SECRET,
+  NAVER_CLIENT_ID,
+} from "@env";
 
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function SettingPage01({ navigation }) {
   const fontsLoaded = useFonts();
-  const { accessToken, userId, LoggedPlatform } = useContext(AuthContext);
+  const { accessToken, userId, LoggedPlatform, clearRefreshToken } =
+    useContext(AuthContext);
 
   const [nickname, setNickname] = useState("");
   const [profileImageUrl, setProfileImageUrl] = useState("");
+  const [showWebView, setShowWebView] = useState(false);
+  const [webViewUrl, setWebViewUrl] = useState("");
 
-  // 사용자 정보 가져오기
   const getUserInfo = async () => {
     try {
       const response = await axios.get(`http://13.124.11.195:3000/users`, {
@@ -43,10 +53,54 @@ export default function SettingPage01({ navigation }) {
     }
   };
 
-  //사용자 선호 원두 정보 자동으로 가져오기
   useEffect(() => {
     getUserInfo();
   }, []);
+
+  // 로그아웃
+  const handleLogout = () => {
+    if (LoggedPlatform === "kakao") {
+      const kakaoLogout = () => {
+        const logoutUrl = `https://kauth.kakao.com/oauth/logout?client_id=${REST_API_KEY}&logout_redirect_uri=${REDIRECT_URI}`;
+        setWebViewUrl(logoutUrl);
+        setShowWebView(true);
+        clearRefreshToken();
+      };
+      kakaoLogout();
+    } else if (LoggedPlatform === "naver") {
+      const naverLogout = async () => {
+        try {
+          const logoutUrl = `https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=${NAVER_CLIENT_ID}&client_secret=${NAVER_CLIENT_SECRET}&access_token=${accessToken}`;
+          await axios.get(logoutUrl);
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "OnboardingLogin01" }],
+          });
+          clearRefreshToken();
+        } catch (error) {
+          console.error("Error during Naver logout:", error);
+        }
+      };
+      naverLogout();
+    }
+  };
+
+  if (showWebView) {
+    return (
+      <WebView
+        source={{ uri: webViewUrl }}
+        onNavigationStateChange={(navState) => {
+          if (navState.url === REDIRECT_URI) {
+            setShowWebView(false);
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "OnboardingLogin01" }],
+            });
+          }
+        }}
+      />
+    );
+  }
 
   if (!fontsLoaded) {
     return null;
@@ -142,7 +196,9 @@ export default function SettingPage01({ navigation }) {
         <TextBox>
           <TextBoxWrapper>
             <TouchableOpacity
-              onPress={() => navigation.navigate("OnboardingLogin01")}
+              onPress={() => {
+                handleLogout();
+              }}
             >
               <LogoutText>로그아웃</LogoutText>
             </TouchableOpacity>

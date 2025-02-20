@@ -110,7 +110,7 @@ const HomeScreen = ({ navigation }) => {
   // ]); // 카페 리스트 상태 (예시)
 
   // 로그인 이후 사용자의 선호 원두 조회(정보 가져오기)
-  // 선호 원두 생성 아직 안했으면 에러 뜨고, 생성했으면 정보가 가져와짐
+  // 선호 원두 생성 아직 안했으면 정보가 없다고 출력, 생성했으면 정보가 가져와짐
   const getPreference = async () => {
     try {
       const response = await axios.get(
@@ -125,7 +125,26 @@ const HomeScreen = ({ navigation }) => {
       );
       console.log("Response(사용자 선호 원두 정보):", response.data);
     } catch (error) {
-      console.error(error);
+      if (error.response) {
+        const { status, errorCode, message } = error.response.data.error;
+
+        if (errorCode === "NotFoundError") {
+          if (message.includes("유저를 찾을 수 없습니다")) {
+            console.log("사용자 정보를 찾을 수 없습니다. 다시 로그인해주세요.");
+          } else if (
+            message.includes("해당 유저는 아직 선호 원두를 생성하지 않았습니다")
+          ) {
+            console.log("아직 선호 원두를 생성하지 않았습니다.");
+          } else {
+            console.log(`오류 발생: ${message}`);
+          }
+        } else {
+          console.log(`오류 발생: ${message}`);
+        }
+      } else {
+        console.error(error);
+        console.log("오류가 발생했습니다. 다시 시도해주세요.");
+      }
     }
   };
 

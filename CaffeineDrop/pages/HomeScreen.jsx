@@ -35,6 +35,8 @@ import { useFonts } from "../styles";
 
 import axios from "axios";
 import useFetchCafeList from "../hooks/useFetchCafeList";
+import * as Location from "expo-location";
+import { Alert } from "react-native";
 
 const GNB_HEIGHT = responsiveHeight(94); // GNB 높이
 const DEFAULT_POSITION = responsiveHeight(316); // Bottom Sheet 기본 위치
@@ -311,49 +313,48 @@ const HomeScreen = ({ navigation }) => {
     }, 2000);
   };
 
-  const handleCurrentLocationPress = () => {
-    if (isDirectionsPressed) {
-      console.log("🔄 현재 위치 초기화");
+  const handleCurrentLocationPress = async () => {
+    console.log("📍 현재 위치 가져오는 중...");
 
-      // 🔹 다시 누르면 원래 위치로 복귀
-      setIsDirectionsPressed(false);
-
-      Animated.timing(locationTranslateY, {
-        toValue: 0, // 원래 위치로 되돌리기
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert("위치 권한 거부됨", "설정에서 위치 권한을 허용해주세요.");
       return;
     }
 
-    console.log("📍 현재 위치 이동");
+    let location = await Location.getCurrentPositionAsync({});
+    const { latitude, longitude } = location.coords;
 
-    // 🔹 현재 위치 가져오기 (기기 위치 사용 가능할 때)
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
+    console.log("✅ 현재 위치:", latitude, longitude);
 
-        // 🔹 지도 중심을 현재 위치로 이동
-        setRegion({
-          latitude: latitude + 0.002, // 🔹 BottomSheet 고려해서 살짝 위로 이동
-          longitude: longitude,
-          latitudeDelta: 0.01,
-          longitudeDelta: 0.01,
-        });
+    setRegion({
+      latitude: latitude + 0.002, // BottomSheet 고려해서 살짝 위로 이동
+      longitude: longitude,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
+    });
 
-        setIsDirectionsPressed(true);
+    // ✅ 모든 UI를 초기 상태로 되돌리기
+    setSelectedCafe(null); // 선택된 카페 초기화
+    setSelectedLocation(null); // 선택된 위치 초기화
+    setIsDirectionsPressed(false); // 길찾기 UI 초기화
+    setShowBottomContainer(false); // 바텀 컨테이너 숨기기
+    setShowFilters(true); // 필터 다시 보이게 함
+    setShowLogo(true); // 로고 다시 보이게 함
 
-        // 🔹 CurrentLocationIcon 위로 이동 애니메이션
-        Animated.timing(locationTranslateY, {
-          toValue: -66, // 🔹 BottomSheet 올라갈 때와 동일하게 조정
-          duration: 300,
-          useNativeDriver: true,
-        }).start();
-      },
-      (error) => console.error("🚨 위치 정보를 가져올 수 없음:", error),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    );
+    // ✅ 바텀시트를 원래 초기 상태로 되돌리기 (기본 위치로 설정)
+    Animated.timing(translateY, {
+      toValue: DEFAULT_POSITION, // 🔹 카페를 선택하기 전 기본 위치로 복귀
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+
+    // ✅ 현재 위치 아이콘 애니메이션 실행
+    Animated.timing(locationTranslateY, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
   };
 
   const handleSelectLocation = async (id, latitude, longitude) => {
@@ -446,79 +447,6 @@ const HomeScreen = ({ navigation }) => {
       }),
     ]).start();
   };
-
-  // const handleSelectLocation = (id) => {
-  //   setIsLoading(true);
-
-  //   const clickedLocation = animatedLocations.find((loc) => loc.id === id);
-  //   if (!clickedLocation) return;
-
-  //   const centerX = responsiveWidth(160);
-  //   const centerY = responsiveHeight(116);
-
-  //   const deltaY = centerY - clickedLocation.top.__getValue();
-  //   const deltaX = centerX - clickedLocation.left.__getValue();
-
-  //   // Bottom Sheet와 BottomContainer 애니메이션 병렬 실행
-  //   setShowBottomContainer(true); // 먼저 렌더링 활성화
-  //   Animated.parallel([
-  //     // 모든 아이콘 위치 이동
-  //     ...animatedLocations.map((loc) =>
-  //       Animated.timing(loc.top, {
-  //         toValue: loc.top.__getValue() + deltaY,
-  //         duration: 300,
-  //         useNativeDriver: false,
-  //       })
-  //     ),
-  //     ...animatedLocations.map((loc) =>
-  //       Animated.timing(loc.left, {
-  //         toValue: loc.left.__getValue() + deltaX,
-  //         duration: 300,
-  //         useNativeDriver: false,
-  //       })
-  //     ),
-  //     // Bottom Sheet 위로 이동
-  //     Animated.timing(translateY, {
-  //       toValue: DEFAULT_POSITION - responsiveHeight(66),
-  //       duration: 300,
-  //       useNativeDriver: true,
-  //     }),
-  //     // CurrentLocationIcon 이동
-  //     Animated.timing(locationTranslateY, {
-  //       toValue: -66,
-  //       duration: 300,
-  //       useNativeDriver: true,
-  //     }),
-  //     // BottomContainer 위로 이동
-  //     Animated.timing(bottomContainerTranslateY, {
-  //       toValue: 0,
-  //       duration: 300,
-  //       useNativeDriver: true,
-  //     }),
-  //   ]).start();
-
-  //   setSelectedLocation(id);
-  //   setIsCafeLocationSelected(true);
-  //   setShowFilters(false);
-  //   setShowLogo(false);
-
-  //   setTimeout(() => {
-  //     setIsLoading(false);
-  //     setCafeList([
-  //       {
-  //         id: 1,
-  //         name: "언힙커피로스터스",
-  //         location: "인천 미추홀구 인하로67번길 6 2층",
-  //         distance: "600m",
-  //         hashtag: "#24시간",
-  //         rating: 4.0,
-  //         reviews: 605,
-  //         isFavorite: true,
-  //         isSpecialty: true,
-  //       },
-  //     ]);
-  //   }, 2000);
-  // };
 
   const panResponder = useRef(
     PanResponder.create({

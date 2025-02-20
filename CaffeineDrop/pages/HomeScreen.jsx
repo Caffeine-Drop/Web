@@ -73,8 +73,10 @@ const HomeScreen = ({ navigation }) => {
   useEffect(() => {
     if (cafeList.length > 0) {
       setRegion({
-        latitude: cafeList[0].latitude, // 첫 번째 카페 위치로 초기 설정
-        longitude: cafeList[0].longitude,
+        // latitude: cafeList[0].latitude, // 데모데이 장소 ㅋㅋ..
+        // longitude: cafeList[0].longitude,
+        latitude: 37.467340284968,
+        longitude: 127.04073557297,
         latitudeDelta: 0.01,
         longitudeDelta: 0.01,
       });

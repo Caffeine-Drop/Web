@@ -58,8 +58,6 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
     }
   }, [fetchedSpecialty, isSpecialtyLoading]);
 
-  console.log("🔥 isSpecialty in CafeListItem:", isSpecialty); // ✅ 값 확인
-
   const handlePress = () => {
     console.log("Navigating to DetailPage with cafeId:", cafe.cafe_id);
     navigation.navigate("DetailPage", { cafeId: cafe.cafe_id }); // DetailPage로 이동
@@ -83,9 +81,7 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
           `http://13.124.11.195:3000/cafes/${cafe.cafe_id}`
         );
         setApiData(response.data);
-        // console.log("📌 Cafe API Data:", response.data);
       } catch (error) {
-        console.log("🚨 API 요청 실패:", error);
       } finally {
         setIsLoadingData(false);
       }
@@ -103,7 +99,6 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
         // 위치 권한 요청
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== "granted") {
-          console.log("위치 권한이 거부되었습니다.");
           return;
         }
 
@@ -116,7 +111,6 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
 
         // 카페 위치 정보 확인
         if (!apiData.latitude || !apiData.longitude) {
-          console.log("📌 카페의 위도/경도 정보가 없습니다.");
           return;
         }
 
@@ -128,9 +122,7 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
         // 거리 계산
         const distance = calculateDistance(currentCoords, cafeCoords);
         setCafeDistance(distance.toFixed(1)); // 소수점 한 자리까지 반올림
-        console.log(`🔥 카페까지의 거리: ${distance.toFixed(1)} km`);
       } catch (error) {
-        console.log(error);
       }
     };
 
@@ -154,8 +146,6 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
   };
 
   const { accessToken, LoggedPlatform } = useContext(AuthContext);
-  console.log("🔥 Token:", accessToken);
-  console.log("🔥 Provider:", LoggedPlatform);
 
   useEffect(() => {
     const fetchCafeData = async () => {
@@ -165,10 +155,6 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
       }
 
       try {
-        console.log("📡 Sending request with headers:", {
-          Authorization: `Bearer ${accessToken}`,
-          Provider: LoggedPlatform,
-        });
 
         // ✅ 1️⃣ 리뷰 개수 가져오기
         const fetchReviews = axios.get(
@@ -228,7 +214,6 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
         // ✅ **배지 업데이트**
         setIsBothBadges(cafe.isFavorite && specialtyData);
       } catch (error) {
-        console.error(`🚨 API 요청 실패 (cafe_id: ${cafe.cafe_id}):`, error);
       } finally {
         setLoadingRating(false);
         setLoadingReviews(false);

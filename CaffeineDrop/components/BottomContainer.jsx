@@ -18,7 +18,6 @@ const BottomContainer = ({
   setIsDirectionsPressed,
   cafe,
 }) => {
-  console.log("📥 BottomContainer가 받은 cafe:", cafe ? cafe.name : "❌ NULL");
 
   const fontsLoaded = useFonts();
 
@@ -35,7 +34,6 @@ const BottomContainer = ({
 
   // ✅ 네이버 지도 연결
   const openNaverMap = () => {
-    console.log("🔍 cafe 데이터 확인:", cafe);
 
     if (!cafe) {
       Alert.alert("오류", "카페 정보를 찾을 수 없습니다.");
@@ -54,8 +52,6 @@ const BottomContainer = ({
 
   // ✅ 카카오 지도 연결
   const openKakaoMap = () => {
-    console.log("🔍 cafe 데이터 확인:", cafe);
-
     if (!cafe) {
       Alert.alert("오류", "카페 정보를 찾을 수 없습니다.");
       return;

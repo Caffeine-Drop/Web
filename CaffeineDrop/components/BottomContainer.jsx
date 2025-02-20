@@ -30,7 +30,7 @@ const BottomContainer = ({
       Alert.alert("오류", "카페 정보를 찾을 수 없습니다.");
       return;
     }
-    navigation.navigate("DetailPage", { cafe });
+    navigation.navigate("DetailPage", { cafeId: cafe.cafe_id });
   };
 
   // ✅ 네이버 지도 연결

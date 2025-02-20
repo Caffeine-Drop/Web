@@ -56,6 +56,33 @@ export default function SettingPage05({ navigation }) {
     }
   };
 
+  async function checkNickname() {
+    try {
+      const response = await axios.get(
+        `http://13.124.11.195:3000/users/nickname/check?nickname=${nickname}`,
+      );
+      console.log("닉네임 중복 확인 결과:", response.data);
+      console.log("닉네임", nickname);
+      setIsDuplicate(response.data.success.isNotOverlap);
+      setHasChecked(true);
+      return response.data;
+    } catch (error) {
+      console.log(
+        "Error:",
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+
+  const handleCheckNickname = async () => {
+    const data = await checkNickname();
+    if (data.success.isNotOverlap === false) {
+      console.log("닉네임 중복 아님");
+    } else {
+      console.log("닉네임 중복");
+    }
+  };
+
   // 프로필 사진 변경
   const updateProfileImage = async (imageUri) => {
     const formData = new FormData();
@@ -295,10 +322,7 @@ export default function SettingPage05({ navigation }) {
             )}
           </View>
           <DuplicateButton
-            onPress={() => {
-              setHasChecked(true);
-              setIsDuplicate(!isDuplicate);
-            }}
+            onPress={handleCheckNickname}
             disabled={!nickname}
           >
             <Text

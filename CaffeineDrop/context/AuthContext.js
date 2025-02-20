@@ -106,6 +106,16 @@ export const AuthProvider = ({ children }) => {
       console.error("Error saving logged platform to AsyncStorage:", error);
     }
   };
+
+  const clearRefreshToken = async () => {
+    try {
+      await AsyncStorage.removeItem("RefreshToken");
+      setRefreshToken(null);
+    } catch (error) {
+      console.error("Error clearing refresh token from AsyncStorage:", error);
+    }
+  };
+
   // AuthContext로 값 제공
   return (
     <AuthContext.Provider
@@ -120,6 +130,7 @@ export const AuthProvider = ({ children }) => {
         storeRefreshToken,
         storeNickname,
         storeLoggedPlatform,
+        clearRefreshToken,
       }}
     >
       {children}

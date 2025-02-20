@@ -22,6 +22,33 @@ export default function NaverLogin() {
 
   const authUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&state=${STATE}`;
 
+  const requestUserInfo = async (accessToken, platform) => {
+    try {
+      const response = await axios.get("http://13.124.11.195:3000/users", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          provider: platform,
+        },
+      });
+      console.log(response.data);
+      if (response.data.success.nickname) {
+        console.log("닉네임 있음 페이지 이동 : HomeScreen");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "HomeScreen" }],
+        });
+      } else {
+        console.log("닉네임 없음 페이지 이동 : OnboardingLogin04");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "OnboardingLogin04" }],
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  };
+
   const requestToken = async (code) => {
     var AccessToken = "none";
     var userId = "none";
@@ -54,10 +81,9 @@ export default function NaverLogin() {
       storeUserId(userId);
       storeRefreshToken(RefreshToken);
       storeLoggedPlatform("naver");
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "OnboardingLogin04" }],
-      });
+
+      // Check user info after storing tokens
+      await requestUserInfo(AccessToken, "naver");
     } catch (error) {
       if (error.response) {
         console.log("Error Response Data:", error.response.data);

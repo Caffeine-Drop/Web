@@ -15,6 +15,7 @@ import {
   responsiveHeight,
 } from "../../utils/responsive";
 import * as ImagePicker from "expo-image-picker";
+import * as ImageManipulator from "expo-image-manipulator";
 import { useFonts } from "../../styles";
 // 이미지 임포트
 import DefaultProfileImg from "../../assets/OnBoardingLogin/DefaultProfileImg.svg";
@@ -58,31 +59,27 @@ export default function SettingPage05({ navigation }) {
   // 프로필 사진 변경
   const updateProfileImage = async (imageUri) => {
     const formData = new FormData();
-    formData.append("profileImage", {
+    formData.append("file", {
       uri: imageUri,
-      name: "profileImage.jpg",
+      name: "profile.jpg",
       type: "image/jpeg",
     });
 
     try {
-      const response = await axios.post(
-        // 근데 프사 등록이 아니라 '변경'인데 post로 보내면 안돼지 않나요?
-        // patch나 put으로 해봤는데 안돼요
-        // ERROR  [AxiosError: Request failed with status code 400]
+      const response = await axios.patch(
         `http://13.124.11.195:3000/users/profile-image`,
         formData,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${accessToken}`,
             Provider: LoggedPlatform,
           },
         }
       );
-      console.log("Response(프로필 사진 변경):", response.data);
-      setProfileImageUrl(response.data.success.profileImageUrl);
+      console.log("Response(프로필 사진 변경 성공):", response.data);
     } catch (error) {
-      console.error(error);
+      console.error("Response(프로필 사진 변경 실패):" + error);
     }
   };
 
@@ -126,10 +123,17 @@ export default function SettingPage05({ navigation }) {
 
     if (!result.canceled) {
       const newImageUri = result.assets[0].uri;
-      setProfileImage(newImageUri); // 새 이미지 미리보기
+
+      const manipulatedImage = await ImageManipulator.manipulateAsync(
+        newImageUri,
+        [],
+        { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
+      );
+
+      setProfileImage(manipulatedImage.uri); // 새 이미지 미리보기
 
       // 서버에 업로드 후 새로운 이미지 URL 반영
-      await updateProfileImage(newImageUri);
+      await updateProfileImage(manipulatedImage.uri);
     }
   };
 

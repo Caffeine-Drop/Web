@@ -190,73 +190,6 @@ const HomeScreen = ({ navigation }) => {
       setIsLoading(false); // 로딩 종료
     }, 500);
   };
-  //   setTimeout(() => {
-  //     // 2초 후 초기 리스트로 복원
-  //     setCafeList([
-  //       {
-  //         id: 2,
-  //         name: "언힙커피로스터스",
-  //         location: "인천 미추홀구 인하로67번길 6 2층",
-  //         distance: "600m",
-  //         hashtag: "#24시간",
-  //         rating: 4.0,
-  //         reviews: 605,
-  //         isFavorite: true,
-  //         isSpecialty: true,
-  //       },
-  //       {
-  //         id: 1,
-  //         name: "언힙커피로스터스",
-  //         location: "인천 미추홀구 인하로67번길 6 2층",
-  //         distance: "600m",
-  //         hashtag: "#24시간",
-  //         rating: 4.0,
-  //         reviews: 605,
-  //         isSpecialty: true,
-  //         isClosed: true,
-  //       },
-  //     ]);
-  //     setIsLoading(false); // 로딩 종료
-  //   }, 2000); // 2초 후 로딩 종료
-  // } else {
-  //   // 새로운 필터 클릭 시 선택
-  //   setSelectedFilter(filterName);
-
-  //     setTimeout(() => {
-  //       if (filterName === "unmanned") {
-  //         setCafeList([]); // 무인 카페 필터 시 리스트 없음
-  //       } else if (filterName === "specialty") {
-  //         setCafeList([
-  //           {
-  //             id: 3,
-  //             name: "블루보틀",
-  //             location: "서울 성동구 왕십리로 8",
-  //             distance: "800m",
-  //             hashtag: "#스페셜티 #핸드드립",
-  //             rating: 4.7,
-  //             reviews: 900,
-  //             isFavorite: true,
-  //             isSpecialty: true,
-  //           },
-  //         ]);
-  //       } else {
-  //         // 기본 필터일 때 리스트
-  //         setCafeList([
-  //           {
-  //             id: 4,
-  //             name: "카페 라떼아트",
-  //             location: "서울 마포구 서교동 123",
-  //             distance: "1.5km",
-  //             hashtag: "#라떼아트 #디저트맛집",
-  //             rating: 4.2,
-  //             reviews: 310,
-  //           },
-  //         ]);
-  //       }
-  //       setIsLoading(false); // 필터 적용 후 로딩 종료
-  //     }, 2000);
-  //   }
-  // };
 
   const handleBackgroundPress = () => {
     if (selectedLocation) {
@@ -378,7 +311,52 @@ const HomeScreen = ({ navigation }) => {
     }, 2000);
   };
 
-  const handleSelectLocation = async (id) => {
+  const handleCurrentLocationPress = () => {
+    if (isDirectionsPressed) {
+      console.log("🔄 현재 위치 초기화");
+
+      // 🔹 다시 누르면 원래 위치로 복귀
+      setIsDirectionsPressed(false);
+
+      Animated.timing(locationTranslateY, {
+        toValue: 0, // 원래 위치로 되돌리기
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+
+      return;
+    }
+
+    console.log("📍 현재 위치 이동");
+
+    // 🔹 현재 위치 가져오기 (기기 위치 사용 가능할 때)
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+
+        // 🔹 지도 중심을 현재 위치로 이동
+        setRegion({
+          latitude: latitude + 0.002, // 🔹 BottomSheet 고려해서 살짝 위로 이동
+          longitude: longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        });
+
+        setIsDirectionsPressed(true);
+
+        // 🔹 CurrentLocationIcon 위로 이동 애니메이션
+        Animated.timing(locationTranslateY, {
+          toValue: -66, // 🔹 BottomSheet 올라갈 때와 동일하게 조정
+          duration: 300,
+          useNativeDriver: true,
+        }).start();
+      },
+      (error) => console.error("🚨 위치 정보를 가져올 수 없음:", error),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
+  };
+
+  const handleSelectLocation = async (id, latitude, longitude) => {
     if (selectedLocation === id) {
       console.log("🔄 동일한 카페를 다시 클릭: 초기 상태로 복귀");
 
@@ -419,6 +397,14 @@ const HomeScreen = ({ navigation }) => {
     setShowFilters(false);
     setShowLogo(false);
     setShowBottomContainer(true);
+
+    // ✅ 지도 중앙을 선택한 카페 위치로 이동
+    setRegion({
+      latitude: latitude, // 선택된 카페의 위도
+      longitude: longitude, // 선택된 카페의 경도
+      latitudeDelta: 0.01, // 확대 수준 유지
+      longitudeDelta: 0.01,
+    });
 
     try {
       // ✅ API 요청: 특정 카페 정보 가져오기
@@ -604,7 +590,9 @@ const HomeScreen = ({ navigation }) => {
                   latitude: cafe.latitude,
                   longitude: cafe.longitude,
                 }}
-                onPress={() => handleSelectLocation(cafe.id)}
+                onPress={() =>
+                  handleSelectLocation(cafe.id, cafe.latitude, cafe.longitude)
+                } // ✅ 좌표 추가
               >
                 <CafeLocation
                   isSelected={selectedLocation === cafe.id}
@@ -614,11 +602,17 @@ const HomeScreen = ({ navigation }) => {
             ))}
           </MapView>
 
-          <CurrentLocationButton onPress={() => setRegion(region)}>
-            <CurrentLocationIcon
-              width={responsiveWidth(50)}
-              height={responsiveHeight(50)}
-            />
+          <CurrentLocationButton onPress={handleCurrentLocationPress}>
+            <Animated.View
+              style={{
+                transform: [{ translateY: locationTranslateY }],
+              }}
+            >
+              <CurrentLocationIcon
+                width={responsiveWidth(50)}
+                height={responsiveHeight(50)}
+              />
+            </Animated.View>
           </CurrentLocationButton>
         </MapWrapper>
 

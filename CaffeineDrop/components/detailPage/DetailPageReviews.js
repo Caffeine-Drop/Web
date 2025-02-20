@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 
@@ -24,9 +24,11 @@ export default function DetailPageReviews({
   onViewMoreReviewPress,
   reviews = { data: { reviews: [] } },
 }) {
-  console.log("reviews: ", reviews.data.reviews[1].images);
-  // console.log(reviews.data.reviews[0].evaluations);
-
+  const [userReviews, setUserReviews] = useState([]);
+  useEffect(() => {
+    setUserReviews(reviews);
+  }, [reviews]);
+  console.log(reviews.data.reviews[0].images[0].image_url);
   return (
     <Container>
       <Header>
@@ -108,7 +110,11 @@ export default function DetailPageReviews({
                     {review.images.map((image, index) => (
                       <ReviewPictureImage
                         key={index}
-                        source={{ uri: image }}
+                        source={{ uri: image.image_url }}
+                        style={{
+                          width: responsiveWidth(120),
+                          height: responsiveWidth(80),
+                        }}
                         resizeMode="stretch"
                       />
                     ))}

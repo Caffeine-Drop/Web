@@ -102,17 +102,17 @@ export default function ReviewPage({ navigation, route }) {
         ])
       );
 
-      // images.forEach((imageUri, index) => {
-      //   if (!imageUri.startsWith("http")) {
-      //     // 이미지 URI를 파일로 처리하기 위해 `name`과 `type`을 지정
-      //     const file = {
-      //       uri: imageUri,
-      //       type: "image/jpeg",  // 이미지 형식에 맞게 지정
-      //       name: `image_${index}.jpeg`,  // 각 이미지마다 이름을 고유하게 설정
-      //     };
-      //     formData.append("images", file); // "images"라는 이름으로 이미지 파일을 첨부
-      //   }
-      // });
+      images.forEach((imageUri, index) => {
+        if (!imageUri.startsWith("http")) {
+          // 이미지 URI를 파일로 처리하기 위해 `name`과 `type`을 지정
+          const file = {
+            uri: imageUri,
+            type: "image/jpeg",  // 이미지 형식에 맞게 지정
+            name: `image_${index}.jpeg`,  // 각 이미지마다 이름을 고유하게 설정
+          };
+          formData.append("images", file); // "images"라는 이름으로 이미지 파일을 첨부
+        }
+      });
 
       const response = await axios.post(
         "http://13.124.11.195:3000/reviews/1",
@@ -125,11 +125,10 @@ export default function ReviewPage({ navigation, route }) {
           },
         }
       );
-      console.log(response.data);
-      navigation.goBack(); // 성공 시 뒤로 가기
-      scrollViewRef.current.scrollTo({ x: 0, y: 0 }); // 스크롤 위치 초기화
-    } catch (error) {
+      console.log(response.data.images);
       console.log(images);
+      navigation.goBack(); // 성공 시 뒤로 가기
+    } catch (error) {
       console.error(error.message);
     }
   };

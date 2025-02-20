@@ -112,10 +112,10 @@ export default function DetailPageReviews({
                         key={index}
                         source={{ uri: image.image_url }}
                         style={{
-                          width: responsiveWidth(120),
+                          width: responsiveWidth(80),
                           height: responsiveWidth(80),
                         }}
-                        resizeMode="stretch"
+                        resizeMode="contain"
                       />
                     ))}
                   </ReviewPictures>
@@ -312,7 +312,7 @@ const ReviewPictures = styled.View`
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  padding: 12px 0 0 ${responsiveWidth(24)}px;
+  padding: 12px 0 0 ${responsiveWidth(12)}px;
   gap: ${responsiveWidth(4)}px;
 `;
 

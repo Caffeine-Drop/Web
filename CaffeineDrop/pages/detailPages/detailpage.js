@@ -38,6 +38,7 @@ export default function DetailPage({ navigation, route }) {
   const [isSpecialty, setIsSpecialty] = useState(null);
   const [reviews, setReviews] = useState(null);
   const [ratings, setRatings] = useState(null);
+  const [isLiked, setIsLiked] = useState(null);
   const [selectedTab, setSelectedTab] = useState("home");
   const fadeAnim = useState(new Animated.Value(1))[0];
   const [cafeDistance, setCafeDistance] = useState(0);
@@ -53,7 +54,7 @@ export default function DetailPage({ navigation, route }) {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const [cafeResponse, beansResponse, specialtyResponse, reviewsResponse, ratingsResponse] = await Promise.all([
+        const [cafeResponse, beansResponse, specialtyResponse, reviewsResponse, ratingsResponse, likeResponse] = await Promise.all([
           axios.get("http://13.124.11.195:3000/cafes/1"),
           axios.get("http://13.124.11.195:3000/cafes/1/beans"),
           axios.get("http://13.124.11.195:3000/cafes/1/specialty"),
@@ -64,6 +65,12 @@ export default function DetailPage({ navigation, route }) {
             },
           }),
           axios.get("http://13.124.11.195:3000/reviews/1/ratings"),
+          // axios.get("http://13.124.11.195:3000/like"),{
+          //   headers : {
+          //     Authorization: `Bearer ${accessToken}`,
+          //     Provider: LoggedPlatform,
+          //   }
+          // }
         ]);
         // console.log(cafeResponse.data);
         // console.log(beansResponse.data.success);
@@ -75,6 +82,7 @@ export default function DetailPage({ navigation, route }) {
         setIsSpecialty(specialtyResponse.data.success);
         setReviews(reviewsResponse.data);
         setRatings(ratingsResponse.data);
+        // setIsLiked(likeResponse.data);
         setLatitude(cafeResponse.data.latitude);
         setLongitude(cafeResponse.data.longitude);
         setBeansInfo(beansResponse.data.success);
@@ -93,11 +101,12 @@ export default function DetailPage({ navigation, route }) {
     if (!apiData) return; // Ensure apiData is available
     console.log("로그인 플랫폼: ", LoggedPlatform);
     console.log("엑세스토큰: ", accessToken);
-    console.log("위도: ", latitude);
-    console.log("경도: ", longitude);
-    console.log("리뷰: ", reviews);
-    console.log("메뉴: ", menuItems);
-    console.log("평점: ", ratings);
+    // console.log("위도: ", latitude);
+    // console.log("경도: ", longitude);
+    // console.log("리뷰: ", reviews);
+    // console.log("메뉴: ", menuItems);
+    // console.log("평점: ", ratings);
+    console.log("좋아요 상태: ", isLiked);
     const fetchData = async () => {
       try {
         // 위치 권한 요청
@@ -267,6 +276,7 @@ export default function DetailPage({ navigation, route }) {
           apiData={apiData}
           images={images}
           distance={cafeDistance}
+          isLiked={isLiked}
         />
         <View>
           <Container>

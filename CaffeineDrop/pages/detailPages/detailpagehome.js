@@ -32,6 +32,7 @@ export default function DetailPageHome({
           onViewMoreImgPress={onViewMoreImgPress}
           navigation={navigation}
           images={images}
+          reviews={reviews}
         />
         <DetailpageMenu apiData={apiData} images={images} menuItems={menuItems}/>
         <DetailPageMap

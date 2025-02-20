@@ -13,9 +13,14 @@ import { responsiveWidth, responsiveHeight } from "../../utils/responsive";
 // import DetailPageMainImg from "../assets/DetailPage/DetailPageMainImg.svg";
 import DetailPageMainImg from "../../assets/DetailPage/DetailPageMainImg.png";
 
-export default function DetailPageImage({ selectedTab, navigation }) {
+export default function DetailPageImage({
+  selectedTab,
+  navigation,
+  reviews,
+  ratings,
+}) {
   const [loading, setLoading] = useState(true);
-
+  console.log(reviews.data.reviews);
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -35,34 +40,41 @@ export default function DetailPageImage({ selectedTab, navigation }) {
               gap: responsiveWidth(1),
             }}
           >
-            {Array.from({ length: 9 }).map((_, index) => (
-              <TouchableOpacity
-                key={index}
-                onPress={() =>
-                  !loading && navigation.navigate("DetailPageImageDetail")
-                }
-              >
-                {loading ? (
-                  <View
-                    style={{
-                      backgroundColor: "#d9d9d9",
-                      width: responsiveWidth(119),
-                      height: responsiveWidth(119),
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  />
-                ) : (
-                  <Image
-                    style={{
-                      width: responsiveWidth(119),
-                      height: responsiveWidth(119),
-                    }}
-                    source={DetailPageMainImg}
-                  />
-                )}
-              </TouchableOpacity>
-            ))}
+            {reviews.data.reviews.map((review, index) =>
+              review.images && review.images.length > 0 ? (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() =>
+                    !loading &&
+                    navigation.navigate("DetailPageImageDetail", {
+                      reviews,
+                      ratings,
+                      review,
+                    })
+                  }
+                >
+                  {loading ? (
+                    <View
+                      style={{
+                        backgroundColor: "#d9d9d9",
+                        width: responsiveWidth(119),
+                        height: responsiveWidth(119),
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    />
+                  ) : (
+                    <Image
+                      style={{
+                        width: responsiveWidth(119),
+                        height: responsiveWidth(119),
+                      }}
+                      source={{ uri: review.images[0].image_url }}
+                    />
+                  )}
+                </TouchableOpacity>
+              ) : null
+            )}
           </View>
         </Container>
       </ScrollView>

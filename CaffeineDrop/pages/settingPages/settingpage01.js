@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { View, Text, Button, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import {
@@ -7,14 +7,46 @@ import {
   responsiveHeight,
 } from "../../utils/responsive";
 import BackIcon from "../../components/BackIcon";
-import DefaultSettingImage from "../../components/DefaultSettingImage";
-import KaKaoIcon from "../../components/KaKaoIcon";
-import NextButton from "../../components/NextButton";
+import DefaultSettingImage from "../../components/settingPage/DefaultSettingImage";
+import KaKaoIcon from "../../components/settingPage/KaKaoIcon";
+import NaverIcon from "../../components/settingPage/NaverIcon";
+import NextButton from "../../components/settingPage/NextButton";
 import { useFonts } from "../../styles";
 import { useNavigation } from "@react-navigation/native";
 
+import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
+
 export default function SettingPage01({ navigation }) {
   const fontsLoaded = useFonts();
+  const { accessToken, userId, LoggedPlatform } = useContext(AuthContext);
+
+  const [nickname, setNickname] = useState("");
+  const [profileImageUrl, setProfileImageUrl] = useState("");
+
+  // 사용자 정보 가져오기
+  const getUserInfo = async () => {
+    try {
+      const response = await axios.get(`http://13.124.11.195:3000/users`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+          Provider: LoggedPlatform,
+        },
+      });
+      console.log("Response(사용자 정보 가져오기):", response.data);
+      const { nickname, profileImageUrl } = response.data.success;
+      setNickname(nickname);
+      setProfileImageUrl(profileImageUrl);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  //사용자 선호 원두 정보 자동으로 가져오기
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   if (!fontsLoaded) {
     return null;
@@ -33,21 +65,37 @@ export default function SettingPage01({ navigation }) {
         {/* 프사 부분 /////////////////// */}
         <Box1>
           <ImageBox>
-            <DefaultSettingImage />
+            {profileImageUrl ? (
+              <ProfileImage source={{ uri: profileImageUrl }} />
+            ) : (
+              <DefaultSettingImage />
+            )}
           </ImageBox>
           <NameBox>
-            <NameText>다니엘</NameText>
+            <NameText>{nickname}</NameText>
           </NameBox>
           <LoginBox>
             <LoginButton>
               <LoginInnerBox>
+                {/* 아이콘 공간 */}
                 <IconSpace>
                   <IconBox>
-                    <KaKaoIcon />
+                    {LoggedPlatform === "kakao" ? (
+                      <KaKaoIcon />
+                    ) : LoggedPlatform === "naver" ? (
+                      <NaverIcon />
+                    ) : null}
                   </IconBox>
                 </IconSpace>
+
                 <TextSpace>
-                  <LoginText>카카오 소셜 로그인</LoginText>
+                  <Text>
+                    {LoggedPlatform === "kakao"
+                      ? "카카오 소셜 로그인"
+                      : LoggedPlatform === "naver"
+                      ? "네이버 소셜 로그인"
+                      : "로그인"}
+                  </Text>
                 </TextSpace>
               </LoginInnerBox>
             </LoginButton>
@@ -149,6 +197,11 @@ const ImageBox = styled.View`
   margin-top: ${responsiveHeight(16)}px;
   margin-left: ${responsiveWidth(130)}px;
 `;
+const ProfileImage = styled.Image`
+  width: ${responsiveWidth(100)}px;
+  height: ${responsiveHeight(100)}px;
+  border-radius: 55px;
+`;
 const NameBox = styled.View`
   justify-content: center;
   margin-top: ${responsiveHeight(24)}px;
@@ -184,20 +237,19 @@ const LoginButton = styled.View`
   align-items: center;
   justify-content: center;
   gap: ${responsiveWidth(4)}px;
-  width: ${responsiveWidth(122)}px;
+  width: ${responsiveWidth(135)}px;
   height: ${responsiveHeight(25)}px;
   border-radius: 24px;
   background: #e5e3e1;
 `;
 const LoginInnerBox = styled.View`
   flex-direction: row;
-  gap: ${responsiveWidth(4)}px;
+  gap: ${responsiveWidth(10)}px;
 `;
 const IconSpace = styled.View`
   justify-content: center;
   align-text: center;
   border-radius: 16px;
-  background: #fee500;
   width: ${responsiveWidth(16)}px;
   height: ${responsiveHeight(16)}px;
 `;

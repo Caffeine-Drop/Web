@@ -343,10 +343,13 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const handleSelectLocation = async (cafe_id, latitude, longitude) => {
+    console.log("📍 선택한 카페 ID:", cafe_id);
+    console.log("🔄 기존 선택된 카페 ID:", selectedLocation);
+
     if (selectedLocation === cafe_id) {
       console.log("🔄 동일한 카페를 다시 클릭: 초기 상태로 복귀");
 
-      // 🔹 선택 해제 & 초기 상태 복구
+      // 🔹 초기 상태로 복귀
       setSelectedLocation(null);
       setSelectedCafe(null);
       setShowFilters(true);
@@ -354,7 +357,15 @@ const HomeScreen = ({ navigation }) => {
       setShowBottomContainer(false);
       setIsCafeLocationSelected(false);
 
-      // 🔹 Bottom Sheet와 애니메이션 초기 위치로 복귀
+      // ✅ 기존 리스트에서 모든 `isSelected`를 false로 변경
+      setCafeList((prevList) =>
+        prevList.map((cafe) => ({
+          ...cafe,
+          isSelected: cafe.cafe_id === cafe_id,
+        }))
+      );
+
+      // 🔹 애니메이션 초기 위치로 복귀
       Animated.parallel([
         Animated.timing(translateY, {
           toValue: DEFAULT_POSITION,
@@ -373,28 +384,44 @@ const HomeScreen = ({ navigation }) => {
         }),
       ]).start();
 
-      return; // ✅ 여기서 종료 (초기화 모드)
+      return; // ✅ 여기서 종료
     }
 
-    console.log("📍 선택된 카페 ID:", cafe_id);
-    setIsLoading(true);
+    // ✅ 선택한 카페를 `selectedLocation`으로 즉시 반영
     setSelectedLocation(cafe_id);
+
+    // ✅ `setSelectedLocation`이 반영된 후 `cafeList` 업데이트
+    setTimeout(() => {
+      setCafeList((prevList) =>
+        prevList.map((cafe) => ({
+          ...cafe,
+          isSelected: cafe.cafe_id === cafe_id,
+        }))
+      );
+    }, 0);
+
     setIsCafeLocationSelected(true);
     setShowFilters(false);
     setShowLogo(false);
     setShowBottomContainer(true);
+    setIsLoading(true);
 
     // ✅ 지도 중앙을 선택한 카페 위치로 이동
     setRegion({
-      latitude: latitude, // 선택된 카페의 위도
-      longitude: longitude, // 선택된 카페의 경도
-      latitudeDelta: 0.01, // 확대 수준 유지
+      latitude,
+      longitude,
+      latitudeDelta: 0.01,
       longitudeDelta: 0.01,
     });
 
     try {
-      // ✅ API 요청: 특정 카페 정보 가져오기
-      const response = await fetch(`http://13.124.11.195:3000/cafe/${cafe_id}`);
+      console.log(
+        "🌐 API 요청 시작:",
+        `http://13.124.11.195:3000/cafes/${cafe_id}`
+      );
+      const response = await fetch(
+        `http://13.124.11.195:3000/cafes/${cafe_id}`
+      );
       const data = await response.json();
 
       if (!response.ok) {
@@ -404,14 +431,14 @@ const HomeScreen = ({ navigation }) => {
       console.log("📡 불러온 카페 데이터:", data);
 
       if (data) {
-        setSelectedCafe(data); // ✅ 선택한 카페 정보 저장
-        setCafeList([data]); // ✅ 리스트도 업데이트
+        setSelectedCafe(data);
       } else {
-        setSelectedCafe(null);
+        console.warn("🚨 API 응답 데이터가 유효하지 않음:", data);
+        // ✅ 데이터가 유효하지 않으면 기존 selectedCafe 유지
       }
     } catch (error) {
       console.error("🚨 카페 데이터 불러오기 오류:", error);
-      setSelectedCafe(null);
+      // ✅ 기존 selectedCafe 유지 (null로 설정하지 않음)
     } finally {
       setIsLoading(false);
     }
@@ -501,7 +528,10 @@ const HomeScreen = ({ navigation }) => {
           >
             {cafeList.map((cafe) => (
               <Marker
-                key={cafe.cafe_id}
+                key={JSON.stringify({
+                  id: cafe.cafe_id,
+                  selected: cafe.isSelected,
+                })}
                 coordinate={{
                   latitude: cafe.latitude,
                   longitude: cafe.longitude,
@@ -512,9 +542,10 @@ const HomeScreen = ({ navigation }) => {
                     cafe.latitude,
                     cafe.longitude
                   )
-                } // ✅ 좌표 추가
+                }
               >
                 <CafeLocation
+                  key={`location-${cafe.cafe_id}-${cafe.isSelected}`} // ✅ 강제 리렌더링 유도
                   isSelected={selectedLocation === cafe.cafe_id}
                   cafeName={cafe.name}
                 />
@@ -788,20 +819,20 @@ const Container = styled.View`
   margin-bottom: ${responsiveHeight(42)}px;
 `;
 
-/* ImageBackground를 이용한 MapView */
-const MapBackground = styled(ImageBackground)`
-  width: ${responsiveWidth(360)}px;
-  height: ${responsiveHeight(349)}px;
-  top: ${responsiveHeight(GNB_HEIGHT)}px;
-  flex-shrink: 0;
-  align-self: center;
-`;
+// /* ImageBackground를 이용한 MapView */
+// const MapBackground = styled(ImageBackground)`
+//   width: ${responsiveWidth(360)}px;
+//   height: ${responsiveHeight(349)}px;
+//   top: ${responsiveHeight(GNB_HEIGHT)}px;
+//   flex-shrink: 0;
+//   align-self: center;
+// `;
 
-const MapContainer = styled.View`
-  position: relative;
-  width: ${responsiveWidth(360)}px;
-  height: ${responsiveHeight(349)}px;
-`;
+// const MapContainer = styled.View`
+//   position: relative;
+//   width: ${responsiveWidth(360)}px;
+//   height: ${responsiveHeight(349)}px;
+// `;
 
 const MapWrapper = styled.View`
   position: absolute;

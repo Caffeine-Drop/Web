@@ -4,8 +4,8 @@ import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
-import { useFonts } from ".././styles";
+} from "../../utils/responsive";
+import { useFonts } from "../../styles";
 
 const Container = styled.View`
   height: ${responsiveHeight(200)}px;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -22,12 +22,96 @@ import EditIcon from "../../assets/OnBoardingLogin/EditIcon.svg";
 import DeleteIcon from "../../assets/OnBoardingLogin/DeleteIcon.svg";
 import BackIcon from "../../components/BackIcon";
 
+import axios from "axios";
+import { AuthContext } from "../../context/AuthContext"; //context 가져오기
+
 export default function SettingPage05({ navigation }) {
   const fontsLoaded = useFonts();
+  const { accessToken, userId, storeNickname, LoggedPlatform } =
+    useContext(AuthContext);
+
   const [profileImage, setProfileImage] = useState(null);
   const [nickname, setNickname] = useState("");
+  const [profileImageUrl, setProfileImageUrl] = useState("");
   const [isDuplicate, setIsDuplicate] = useState(false);
   const [hasChecked, setHasChecked] = useState(false);
+
+  // 사용자 정보 가져오기
+  const getUserInfo = async () => {
+    try {
+      const response = await axios.get(`http://13.124.11.195:3000/users`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+          Provider: LoggedPlatform,
+        },
+      });
+      console.log("Response(사용자 정보 가져오기):", response.data);
+      const { nickname, profileImageUrl } = response.data.success;
+      setNickname(nickname);
+      setProfileImageUrl(profileImageUrl);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // 프로필 사진 변경
+  const updateProfileImage = async (imageUri) => {
+    const formData = new FormData();
+    formData.append("profileImage", {
+      uri: imageUri,
+      name: "profileImage.jpg",
+      type: "image/jpeg",
+    });
+
+    try {
+      const response = await axios.post(
+        // 근데 프사 등록이 아니라 '변경'인데 post로 보내면 안돼지 않나요?
+        // patch나 put으로 해봤는데 안돼요
+        // ERROR  [AxiosError: Request failed with status code 400]
+        `http://13.124.11.195:3000/users/profile-image`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "multipart/form-data",
+            Provider: LoggedPlatform,
+          },
+        }
+      );
+      console.log("Response(프로필 사진 변경):", response.data);
+      setProfileImageUrl(response.data.success.profileImageUrl);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // 닉네임 변경
+  const EditUserNickname = async () => {
+    try {
+      const response = await axios.patch(
+        `http://13.124.11.195:3000/users/nickname`,
+        { nickname: nickname },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+            Provider: LoggedPlatform,
+          },
+        }
+      );
+      console.log("Response(닉네임 변경):", response.data);
+      setNickname(response.data.success.nickname);
+      navigation.navigate("HomeScreen");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  //사용자 선호 원두 정보 자동으로 가져오기
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   if (!fontsLoaded) {
     return null; // 폰트 로딩이 안되면 아무것도 렌더링하지 않음
@@ -41,7 +125,11 @@ export default function SettingPage05({ navigation }) {
     });
 
     if (!result.canceled) {
-      setProfileImage(result.assets[0].uri);
+      const newImageUri = result.assets[0].uri;
+      setProfileImage(newImageUri); // 새 이미지 미리보기
+
+      // 서버에 업로드 후 새로운 이미지 URL 반영
+      await updateProfileImage(newImageUri);
     }
   };
 
@@ -93,24 +181,15 @@ export default function SettingPage05({ navigation }) {
                   marginBottom: responsiveHeight(8),
                 }}
               >
-                {profileImage ? (
-                  <Image
-                    source={{ uri: profileImage }}
-                    style={{
-                      width: responsiveWidth(110),
-                      height: responsiveHeight(110),
-                      borderRadius: 100,
-                      zIndex: 1,
-                    }}
-                  />
-                ) : (
-                  <DefaultProfileImg
-                    style={{
-                      width: responsiveWidth(110),
-                      height: responsiveHeight(110),
-                    }}
-                  />
-                )}
+                <Image
+                  source={{ uri: profileImage || profileImageUrl }} // 로컬에서 선택한 이미지가 없으면 서버 이미지 사용
+                  style={{
+                    width: responsiveWidth(110),
+                    height: responsiveHeight(110),
+                    borderRadius: 100,
+                    zIndex: 1,
+                  }}
+                />
                 <EditIcon
                   style={{
                     position: "absolute",
@@ -235,9 +314,7 @@ export default function SettingPage05({ navigation }) {
           hasChecked={hasChecked}
           isDuplicate={isDuplicate}
           disabled={!hasChecked || isDuplicate}
-          onPress={() => {
-            navigation.navigate("HomeScreen");
-          }}
+          onPress={EditUserNickname}
         >
           <Text
             style={{

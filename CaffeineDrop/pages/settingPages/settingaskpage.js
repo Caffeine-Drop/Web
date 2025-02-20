@@ -15,14 +15,14 @@ import {
   responsiveHeight,
 } from "../../utils/responsive";
 import BackIcon from "../../components/BackIcon";
-import DropdownIcon from "../../components/DropDownIcon";
+import DropdownIcon from "../../components/settingPage/DropDownIcon";
 import { useFonts } from "../../styles";
-import InputText from "../../components/InputText";
+import InputText from "../../components/settingPage/InputText";
 import { ScrollView } from "react-native";
-import CheckIcon from "../../components/CheckIcon";
-import CheckedIcon from "../../components/CheckedIcon";
+import CheckIcon from "../../components/settingPage/CheckIcon";
+import CheckedIcon from "../../components/settingPage/CheckedIcon";
 import Modal from "react-native-modal";
-import CloseIcon from "../../components/CloseIcon";
+import CloseIcon from "../../components/settingPage/CloseIcon";
 
 import { Dimensions } from "react-native";
 
@@ -170,7 +170,7 @@ export default function SettingAskPage({ navigation }) {
                     )}
                   </ListText>
                 </PressableBox>
-              ),
+              )
             )}
           </ModalContent>
         </Modal>
@@ -374,7 +374,7 @@ const EmailContent = styled.Text`
 `;
 //하단 버튼/////////////////////////////////////////////
 const AnimatedSubmitButton = styled(
-  Animated.createAnimatedComponent(TouchableOpacity),
+  Animated.createAnimatedComponent(TouchableOpacity)
 )`
   margin-top: ${responsiveHeight(42)}px;
   margin-bottom: ${responsiveHeight(16)}px;

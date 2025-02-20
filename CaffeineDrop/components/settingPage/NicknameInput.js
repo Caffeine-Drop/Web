@@ -4,8 +4,8 @@ import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
-import { useFonts } from ".././styles";
+} from "../../utils/responsive";
+import { useFonts } from "../../styles";
 
 import { TouchableOpacity } from "react-native";
 

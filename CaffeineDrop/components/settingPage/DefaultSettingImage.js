@@ -4,7 +4,7 @@ import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 
 export default function CustomIcon(props) {
   return (

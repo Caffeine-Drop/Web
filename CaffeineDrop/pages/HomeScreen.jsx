@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   View,
   ScrollView,
@@ -37,6 +37,7 @@ import axios from "axios";
 import useFetchCafeList from "../hooks/useFetchCafeList";
 import * as Location from "expo-location";
 import { Alert } from "react-native";
+import { AuthContext } from "../context/AuthContext"; //context 가져오기
 
 const GNB_HEIGHT = responsiveHeight(94); // GNB 높이
 const DEFAULT_POSITION = responsiveHeight(316); // Bottom Sheet 기본 위치
@@ -49,6 +50,8 @@ const HomeScreen = ({ navigation }) => {
     longitudeDelta: 0.01,
   });
 
+  const { accessToken, userId, storeNickname, LoggedPlatform } =
+    useContext(AuthContext);
   const fontsLoaded = useFonts();
   const translateY = useRef(new Animated.Value(DEFAULT_POSITION)).current;
   const locationTranslateY = useRef(new Animated.Value(0)).current; // CurrentLocationIcon 이동용
@@ -161,6 +164,50 @@ const HomeScreen = ({ navigation }) => {
   //     getFilteredCafes(selectedFilter); // 초기 필터 적용 시 데이터 가져오기
   //   }
   // }, [selectedFilter]);
+
+  // 로그인 이후 사용자의 선호 원두 조회(정보 가져오기)
+  // 선호 원두 생성 아직 안했으면 정보가 없다고 출력, 생성했으면 정보가 가져와짐
+  const getPreference = async () => {
+    try {
+      const response = await axios.get(
+        `http://13.124.11.195:3000/users/preferred-bean`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+            Provider: LoggedPlatform,
+          },
+        }
+      );
+      console.log("Response(사용자 선호 원두 정보):", response.data);
+    } catch (error) {
+      if (error.response) {
+        const { status, errorCode, message } = error.response.data.error;
+
+        if (errorCode === "NotFoundError") {
+          if (message.includes("유저를 찾을 수 없습니다")) {
+            console.log("사용자 정보를 찾을 수 없습니다. 다시 로그인해주세요.");
+          } else if (
+            message.includes("해당 유저는 아직 선호 원두를 생성하지 않았습니다")
+          ) {
+            console.log("아직 선호 원두를 생성하지 않았습니다.");
+          } else {
+            console.log(`오류 발생: ${message}`);
+          }
+        } else {
+          console.log(`오류 발생: ${message}`);
+        }
+      } else {
+        console.error(error);
+        console.log("오류가 발생했습니다. 다시 시도해주세요.");
+      }
+    }
+  };
+
+  //사용자 선호 원두 정보 자동으로 가져오기
+  useEffect(() => {
+    getPreference();
+  }, []);
 
   // 필터 클릭 시 처리
   const handleFilterSelect = (filterName) => {

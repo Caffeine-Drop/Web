@@ -10,6 +10,7 @@ import { AuthProvider } from "./context/AuthContext";
 import OnboardingLogin01 from "./pages/onBoardingLogin/onBoardingLogin01";
 import OnboardingLogin03 from "./pages/onBoardingLogin/onBoardingLogin03";
 import KakaoLogin from "./pages/onBoardingLogin/kakaoLogin";
+import NaverLogin from "./pages/onBoardingLogin/naverLogin";
 import OnboardingLogin04 from "./pages/onBoardingLogin/onBoardingLogin04";
 import SpecialtyOptions from "./components/SpecialtyOptions";
 import DetailPage from "./pages/detailPages/detailpage";
@@ -51,11 +52,12 @@ export default function App() {
           <Stack.Screen name="OnboardingLogin01" component={OnboardingLogin01} />
           <Stack.Screen name="OnboardingLogin03" component={OnboardingLogin03} />
           <Stack.Screen name="KakaoLogin" component={KakaoLogin} />
-        <Stack.Screen name="OnboardingLogin04" component={OnboardingLogin04} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
-        <Stack.Screen name="SearchPage" component={SearchPage} />
-        <Stack.Screen name="DetailPage" component={DetailPage} />
-        <Stack.Screen name="DetailPageImage" component={DetailPageImage} />
+          <Stack.Screen name="NaverLogin" component={NaverLogin} />
+          <Stack.Screen name="OnboardingLogin04" component={OnboardingLogin04} />
+          <Stack.Screen name="HomeScreen" component={HomeScreen} />
+          <Stack.Screen name="SearchPage" component={SearchPage} />
+          <Stack.Screen name="DetailPage" component={DetailPage} />
+          <Stack.Screen name="DetailPageImage" component={DetailPageImage} />
         <Stack.Screen
           name="DetailPageImageDetail"
           component={DetailPageImageDetail}
@@ -79,6 +81,8 @@ export default function App() {
         <Stack.Screen name="SettingPage03" component={SettingPage03} />
         <Stack.Screen name="SettingPage04" component={SettingPage04} />
         <Stack.Screen name="SettingPage05" component={SettingPage05} />
+        <Stack.Screen name="PrivatePolicyPage" component={PrivatePolicyPage} />
+        <Stack.Screen name="TermsOfServicePage" component={TermsOfServicePage} />
         </Stack.Navigator>
         </NavigationContainer>
       </AuthProvider>

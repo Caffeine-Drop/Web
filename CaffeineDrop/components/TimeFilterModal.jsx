@@ -16,6 +16,7 @@ const TimeFilterModal = ({
   onClose,
   selectedTime,
   setSelectedTime,
+  handleTimeSelect,
 }) => {
   const fontsLoaded = useFonts();
 
@@ -46,6 +47,7 @@ const TimeFilterModal = ({
               key={option}
               onPress={() => {
                 setSelectedTime(option);
+                handleTimeSelect(option);
                 onClose();
               }}
             >

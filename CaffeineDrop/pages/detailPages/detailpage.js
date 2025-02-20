@@ -15,7 +15,7 @@ import {
   responsiveWidth,
   responsiveHeight,
 } from "../../utils/responsive";
-import * as Location from 'expo-location';
+import * as Location from "expo-location";
 import { AuthContext } from "../../context/AuthContext";
 
 // 컴포넌트
@@ -54,7 +54,14 @@ export default function DetailPage({ navigation, route }) {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const [cafeResponse, beansResponse, specialtyResponse, reviewsResponse, ratingsResponse, likeResponse] = await Promise.all([
+        const [
+          cafeResponse,
+          beansResponse,
+          specialtyResponse,
+          reviewsResponse,
+          ratingsResponse,
+          likeResponse,
+        ] = await Promise.all([
           axios.get(`http://13.124.11.195:3000/cafes/${cafeId}`),
           axios.get(`http://13.124.11.195:3000/cafes/${cafeId}/beans`),
           axios.get(`http://13.124.11.195:3000/cafes/${cafeId}/specialty`),
@@ -207,7 +214,14 @@ export default function DetailPage({ navigation, route }) {
           />
         );
       case "review":
-        return <DetailPageReview selectedTab={selectedTab} apiData={apiData} reviews={reviews} ratings={ratings} />;
+        return (
+          <DetailPageReview
+            selectedTab={selectedTab}
+            apiData={apiData}
+            reviews={reviews}
+            ratings={ratings}
+          />
+        );
       case "image":
         return (
           <DetailPageImage
@@ -308,7 +322,11 @@ export default function DetailPage({ navigation, route }) {
           </Container>
         </View>
       </ScrollView>
-      <DetailPageWriteReviewButton navigation={navigation} apiData={apiData} isSpecialty={isSpecialty}/>
+      <DetailPageWriteReviewButton
+        navigation={navigation}
+        apiData={apiData}
+        isSpecialty={isSpecialty}
+      />
     </View>
   );
 }

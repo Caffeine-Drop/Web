@@ -401,7 +401,7 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
                 ) : (
                   <CafeImagePlaceholder />
                 )}
-                {/* ✅ 미운영 알림 (영업 전일 때) */}
+                {/* ✅ 미운영 알림 (영업 전일 때) 
                 {isClosed && (
                   <ClosedOverlay>
                     <ClosedSubText>미운영 알림</ClosedSubText>
@@ -409,6 +409,7 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
                     <ClosedText>준비중이에요!</ClosedText>
                   </ClosedOverlay>
                 )}
+                  */}
               </ThumbnailWrapper>
 
               {/* ✅ 두 번째 & 세 번째 이미지 (리뷰 사진) */}

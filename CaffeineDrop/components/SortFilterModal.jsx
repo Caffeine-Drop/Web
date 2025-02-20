@@ -24,6 +24,7 @@ const SortFilterModal = ({
   onClose,
   selectedSort,
   setSelectedSort,
+  handleSortSelect,
 }) => {
   const fontsLoaded = useFonts();
 
@@ -54,6 +55,7 @@ const SortFilterModal = ({
               key={option}
               onPress={() => {
                 setSelectedSort(option);
+                handleSortSelect(option);
                 onClose();
               }}
             >

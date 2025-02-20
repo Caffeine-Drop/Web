@@ -45,7 +45,7 @@ const Title = styled.Text`
   font-size: ${responsiveFontSize(20)}px;
   font-weight: 600;
   line-height: ${responsiveHeight(27.6)}px;
-  letter-spacing: -0.5;
+  letter-spacing: -0.5px;
   color: #000;
 `;
 
@@ -54,7 +54,7 @@ const Subtitle = styled.Text`
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 500;
   line-height: ${responsiveHeight(19.32)}px;
-  letter-spacing: -0.35;
+  letter-spacing: -0.35px;
   color: #666;
   margin-top: ${responsiveHeight(16)}px;
 `;

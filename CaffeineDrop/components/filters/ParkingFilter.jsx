@@ -42,5 +42,5 @@ const FilterText = styled.Text`
   color: ${({ selected }) => (selected ? "#FFF" : "#000")};
   font-style: normal;
   line-height: ${responsiveHeight(19.32)}px;
-  letter-spacing: -0.35;
+  letter-spacing: -0.35px;
 `;

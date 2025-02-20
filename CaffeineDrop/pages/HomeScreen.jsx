@@ -115,16 +115,16 @@ const HomeScreen = ({ navigation }) => {
         }
       );
 
-      console.log("✅ 백엔드 응답 데이터:", response.data);
+      // console.log("✅ 백엔드 응답 데이터:", response.data);
 
       if (response.data && Array.isArray(response.data.cafeList)) {
         setCafeList(response.data.cafeList);
       } else {
-        console.warn("🚨 데이터가 올바른 형식이 아닙니다:", response.data);
+        // console.warn("🚨 데이터가 올바른 형식이 아닙니다:", response.data);
         setCafeList([]);
       }
     } catch (error) {
-      console.error("🚨 카페 리스트 불러오기 실패:", error);
+      // console.error("🚨 카페 리스트 불러오기 실패:", error);
       setCafeList([]);
     } finally {
       setIsLoading(false);
@@ -146,7 +146,7 @@ const HomeScreen = ({ navigation }) => {
       const data = await response.json();
       setCafeData(data.cafeList);
     } catch (error) {
-      console.error("카페 데이터 로딩 오류:", error);
+      // console.error("카페 데이터 로딩 오류:", error);
     } finally {
       setLoading(false);
     }
@@ -183,7 +183,7 @@ const HomeScreen = ({ navigation }) => {
     }
 
     try {
-      console.log(`📡 API 요청: ${apiUrl}`);
+      // console.log(`📡 API 요청: ${apiUrl}`);
 
       const response = await axios.get(apiUrl, {
         headers: {
@@ -193,17 +193,17 @@ const HomeScreen = ({ navigation }) => {
         },
       });
 
-      console.log(`✅ API 응답 데이터:`, response.data);
+      // console.log(`✅ API 응답 데이터:`, response.data);
 
       if (!response.data || !Array.isArray(response.data)) {
-        console.warn("🚨 API 응답이 올바르지 않습니다:", response.data);
+        // console.warn("🚨 API 응답이 올바르지 않습니다:", response.data);
         setCafeList([]);
         return;
       }
 
       setCafeList(response.data);
     } catch (error) {
-      console.error("🚨 API 요청 실패:", error);
+      // console.error("🚨 API 요청 실패:", error);
       setCafeList([]);
     } finally {
       setIsLoading(false);
@@ -226,16 +226,16 @@ const HomeScreen = ({ navigation }) => {
         }
       );
 
-      console.log("✅ 필터링된 카페 데이터:", response.data);
+      // console.log("✅ 필터링된 카페 데이터:", response.data);
 
       if (response.data && Array.isArray(response.data)) {
         setCafeList(response.data);
       } else {
-        console.warn("🚨 올바른 데이터 형식이 아닙니다:", response.data);
+        // console.warn("🚨 올바른 데이터 형식이 아닙니다:", response.data);
         setCafeList([]);
       }
     } catch (error) {
-      console.error("🚨 영업 시간 필터 데이터 불러오기 실패:", error);
+      // console.error("🚨 영업 시간 필터 데이터 불러오기 실패:", error);
       setCafeList([]);
     } finally {
       setIsLoading(false);
@@ -361,7 +361,7 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const handleCurrentLocationPress = async () => {
-    console.log("📍 현재 위치 가져오는 중...");
+    // console.log("📍 현재 위치 가져오는 중...");
 
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -405,12 +405,12 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const handleSelectLocation = async (cafe_id, latitude, longitude) => {
-    console.log("📍 선택한 카페 ID:", cafe_id);
-    console.log("🔄 기존 선택된 카페 ID:", selectedLocation);
+    // console.log("📍 선택한 카페 ID:", cafe_id);
+    // console.log("🔄 기존 선택된 카페 ID:", selectedLocation);
     setIsLoading(true);
 
     if (selectedLocation === cafe_id) {
-      console.log("🔄 동일한 카페를 다시 클릭: 초기 상태로 복귀");
+      // console.log("🔄 동일한 카페를 다시 클릭: 초기 상태로 복귀");
 
       // 🔹 초기 상태로 복귀
       setSelectedLocation(null);
@@ -478,10 +478,10 @@ const HomeScreen = ({ navigation }) => {
     });
 
     try {
-      console.log(
-        "🌐 API 요청 시작:",
-        `http://13.124.11.195:3000/cafes/${cafe_id}`
-      );
+      // console.log(
+      //   "🌐 API 요청 시작:",
+      //   `http://13.124.11.195:3000/cafes/${cafe_id}`
+      // );
 
       const response = await axios.get(
         `http://13.124.11.195:3000/cafes/${cafe_id}`,
@@ -494,16 +494,16 @@ const HomeScreen = ({ navigation }) => {
         }
       );
 
-      console.log("📡 불러온 카페 데이터:", response.data);
+      // console.log("📡 불러온 카페 데이터:", response.data);
 
       if (response.data) {
         setSelectedCafe(response.data);
       } else {
-        console.warn("🚨 API 응답 데이터가 유효하지 않음:", response.data);
+        // console.warn("🚨 API 응답 데이터가 유효하지 않음:", response.data);
         setSelectedCafe(null); // ✅ 유효하지 않은 경우 초기화
       }
     } catch (error) {
-      console.error("🚨 카페 데이터 불러오기 오류:", error);
+      // console.error("🚨 카페 데이터 불러오기 오류:", error);
       setSelectedCafe(null); // ✅ 오류 발생 시 초기화
     } finally {
       setIsLoading(false);
@@ -965,7 +965,7 @@ const SortText = styled.Text`
   font-size: ${responsiveFontSize(12)}px;
   font-weight: ${(props) => (props.selected ? "600" : "400")};
   line-height: ${responsiveHeight(16.56)}px;
-  letter-spacing: -0.3;
+  letter-spacing: -0.3px;
   color: #000;
 `;
 

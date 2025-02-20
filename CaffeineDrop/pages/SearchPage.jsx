@@ -364,7 +364,7 @@ const CurrentLocationText = styled.Text`
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 500;
   line-height: ${responsiveHeight(16.56)}px;
-  letter-spacing: -0.3;
+  letter-spacing: -0.3px;
   margin-left: ${responsiveWidth(6)}px;
   justify-content: center;
 `;
@@ -403,7 +403,7 @@ const MoveMapText = styled.Text`
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 500;
   line-height: ${responsiveHeight(16.56)}px;
-  letter-spacing: -0.3;
+  letter-spacing: -0.3px;
 `;
 
 const MoveMapWrapper = styled.View`

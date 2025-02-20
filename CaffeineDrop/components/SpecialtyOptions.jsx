@@ -64,7 +64,7 @@ const OptionText = styled.Text`
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 600;
   line-height: ${responsiveHeight(19.32)}px;
-  letter-spacing: -0.35;
+  letter-spacing: -0.35px;
   color: #fafafa;
   margin-left: ${responsiveWidth(8)}px;
 `;

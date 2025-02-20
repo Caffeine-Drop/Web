@@ -93,7 +93,7 @@ const Title = styled.Text`
   font-size: ${responsiveFontSize(16)}px;
   font-weight: 600;
   line-height: ${responsiveHeight(24)}px;
-  letter-spacing: -0.4;
+  letter-spacing: -0.4px;
 `;
 
 const Option = styled.TouchableOpacity`
@@ -109,7 +109,7 @@ const OptionText = styled.Text`
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 500;
   line-height: ${responsiveHeight(19.32)}px;
-  letter-spacing: -0.35;
+  letter-spacing: -0.35px;
   color: ${(props) => (props.selected ? "#000" : "#666")};
 `;
 
@@ -118,5 +118,5 @@ const CheckMark = styled.Text`
   font-size: ${responsiveFontSize(16)}px;
   font-weight: 600;
   line-height: ${responsiveHeight(24)}px;
-  letter-spacing: -0.4;
+  letter-spacing: -0.4px;
 `;

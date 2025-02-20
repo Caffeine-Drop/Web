@@ -18,7 +18,6 @@ const BottomContainer = ({
   setIsDirectionsPressed,
   cafe,
 }) => {
-
   const fontsLoaded = useFonts();
 
   const navigation = useNavigation();
@@ -34,7 +33,6 @@ const BottomContainer = ({
 
   // ✅ 네이버 지도 연결
   const openNaverMap = () => {
-
     if (!cafe) {
       Alert.alert("오류", "카페 정보를 찾을 수 없습니다.");
       return;
@@ -145,7 +143,7 @@ const CafeInfoText = styled.Text`
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 600;
   line-height: ${responsiveHeight(19.32)}px;
-  letter-spacing: -0.35;
+  letter-spacing: -0.35px;
   color: #000000;
 `;
 
@@ -164,7 +162,7 @@ const DirectionsText = styled.Text`
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 600;
   line-height: ${responsiveHeight(19.32)}px;
-  letter-spacing: -0.35;
+  letter-spacing: -0.35px;
   color: ${(props) => (props.pressed ? "#666" : "#fafafa")};
   margin-left: ${responsiveWidth(8)}px;
 `;
@@ -193,7 +191,7 @@ const OptionText = styled.Text`
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 600;
   line-height: ${responsiveHeight(19.32)}px;
-  letter-spacing: -0.35;
+  letter-spacing: -0.35px;
   color: #000000;
   margin-left: ${responsiveWidth(8)}px;
 `;

@@ -1,20 +1,21 @@
 import React from "react";
 import Svg, { Rect, Path } from "react-native-svg";
 import styled from "styled-components/native";
+import { TouchableOpacity } from "react-native";
 import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 
-const CheckIconWrapper = styled.View`
+const CheckedIconWrapper = styled.View`
   width: ${responsiveWidth(20)}px;
   height: ${responsiveHeight(20)}px;
   flex-shrink: 0;
 `;
 
-const CheckIcon = () => (
-  <CheckIconWrapper>
+const CheckedIcon = () => (
+  <CheckedIconWrapper>
     <Svg
       xmlns="http://www.w3.org/2000/svg"
       width={`${responsiveWidth(20)}px`}
@@ -26,17 +27,18 @@ const CheckIcon = () => (
         width={`${responsiveWidth(20)}px`}
         height={`${responsiveHeight(20)}px`}
         rx="4"
-        fill="#F1F1F1"
+        fill="#756555"
       />
+      <Path d="M5.5 10L8.40559 13L14 6" fill="#756555" />
       <Path
         d="M5.5 10L8.40559 13L14 6"
-        stroke="#756555"
+        stroke="#FAFAFA"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
     </Svg>
-  </CheckIconWrapper>
+  </CheckedIconWrapper>
 );
 
-export default CheckIcon;
+export default CheckedIcon;

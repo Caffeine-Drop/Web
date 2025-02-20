@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   View,
   ScrollView,
@@ -31,11 +31,15 @@ import CurrentLocationIcon from "../assets/home/CurrentLocationIcon.svg";
 import DownIcon from "../assets/home/DownIcon.svg";
 import UpIcon from "../assets/home/UpIcon.svg";
 import { useFonts } from "../styles";
+import axios from "axios";
+import { AuthContext } from "../context/AuthContext"; //context 가져오기
 
 const GNB_HEIGHT = responsiveHeight(94); // GNB 높이
 const DEFAULT_POSITION = responsiveHeight(316); // Bottom Sheet 기본 위치
 
 const HomeScreen = ({ navigation }) => {
+  const { accessToken, userId, storeNickname, LoggedPlatform } =
+    useContext(AuthContext);
   const fontsLoaded = useFonts();
   const translateY = useRef(new Animated.Value(DEFAULT_POSITION)).current;
   const locationTranslateY = useRef(new Animated.Value(0)).current; // CurrentLocationIcon 이동용
@@ -104,6 +108,31 @@ const HomeScreen = ({ navigation }) => {
   //   { id: 1, name: "카페1" },
   //   { id: 2, name: "카페2" },
   // ]); // 카페 리스트 상태 (예시)
+
+  // 로그인 이후 사용자의 선호 원두 조회(정보 가져오기)
+  // 선호 원두 생성 아직 안했으면 에러 뜨고, 생성했으면 정보가 가져와짐
+  const getPreference = async () => {
+    try {
+      const response = await axios.get(
+        `http://13.124.11.195:3000/users/preferred-bean`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+            Provider: LoggedPlatform,
+          },
+        }
+      );
+      console.log("Response(사용자 선호 원두 정보):", response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  //사용자 선호 원두 정보 자동으로 가져오기
+  useEffect(() => {
+    getPreference();
+  }, []);
 
   // 필터 클릭 시 처리
   const handleFilterSelect = (filterName) => {

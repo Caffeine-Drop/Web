@@ -11,8 +11,12 @@ const INJECTED_JAVASCRIPT = `window.ReactNativeWebView.postMessage('message from
 const KaKaoLogin = () => {
   console.log("카카오 로그인 실행");
   const navigation = useNavigation();
-  const { storeAccessToken, storeUserId, storeRefreshToken, storeLoggedPlatform } =
-    useContext(AuthContext);
+  const {
+    storeAccessToken,
+    storeUserId,
+    storeRefreshToken,
+    storeLoggedPlatform,
+  } = useContext(AuthContext);
 
   function KakaoLoginWebView(data) {
     const exp = "code=";
@@ -25,6 +29,33 @@ const KaKaoLogin = () => {
       console.log("Authorization code not found in the URL");
     }
   }
+
+  const requestUserInfo = async (accessToken, platform) => {
+    try {
+      const response = await axios.get("http://13.124.11.195:3000/users", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          provider: platform,
+        },
+      });
+      console.log(response.data);
+      if (!response.data.success.nickname) {
+        console.log("닉네임 있음 페이지 이동 : homeScreen");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "HomeScreen" }],
+        });
+      } else {
+        console.log("닉네임 없음 페이지 이동 : OnboardingLogin04");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "OnboardingLogin04" }],
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  };
 
   const requestToken = async (code) => {
     var AccessToken = "none";
@@ -55,10 +86,9 @@ const KaKaoLogin = () => {
       storeUserId(userId);
       storeRefreshToken(RefreshToken);
       storeLoggedPlatform("kakao");
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'OnboardingLogin04' }],
-      });
+
+      // Check user info after storing tokens
+      await requestUserInfo(AccessToken, "kakao");
     } catch (error) {
       if (error.response) {
         console.log("Error Response Data:", error.response.data);
@@ -86,10 +116,10 @@ const KaKaoLogin = () => {
         // 1안 이거 안될 경우 2안 주석 해제
         onMessage={(event) => {
           KakaoLoginWebView(event.nativeEvent["url"]);
-        // }}
-        // 2안
-        // onNavigationStateChange={(event) => {
-        //   KakaoLoginWebView(event.url);
+          // }}
+          // 2안
+          // onNavigationStateChange={(event) => {
+          //   KakaoLoginWebView(event.url);
         }}
       />
     </View>

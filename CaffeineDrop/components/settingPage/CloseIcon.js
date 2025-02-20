@@ -6,7 +6,7 @@ import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 
 const CloseIconWrapper = styled(TouchableOpacity)`
   width: ${responsiveWidth(24)}px;

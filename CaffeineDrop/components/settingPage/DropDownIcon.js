@@ -6,7 +6,7 @@ import {
   responsiveFontSize,
   responsiveWidth,
   responsiveHeight,
-} from "../utils/responsive";
+} from "../../utils/responsive";
 
 const DropdownIconWrapper = styled(TouchableOpacity)`
   width: ${responsiveWidth(18)}px;

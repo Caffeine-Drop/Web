@@ -10,6 +10,7 @@ import LargeCafeFilter from "./filters/LargeCafeFilter";
 import OpenNowFilter from "./filters/OpenNowFilter";
 import SpecialtyCoffeeFilter from "./filters/SpecialtyCoffeeFilter";
 import DripCoffeeFilter from "./filters/DripCoffeeFilter";
+import NoResults from "../components/NoResults";
 
 const TopFilter = ({ panHandlers, onFilterSelect, selectedFilter }) => {
   return (

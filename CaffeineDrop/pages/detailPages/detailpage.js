@@ -15,7 +15,7 @@ import {
   responsiveWidth,
   responsiveHeight,
 } from "../../utils/responsive";
-import * as Location from 'expo-location';
+import * as Location from "expo-location";
 
 // 컴포넌트
 import DetailPageHeader from "../../components/detailPage/DetailPageHeader";
@@ -25,14 +25,14 @@ import DetailPageReview from "../../pages/detailPages/detailpagereview";
 import DetailPageImage from "../../pages/detailPages/detailpageimage";
 import DetailPageBeansInfo from "../../pages/detailPages/detailpagebeansinfo";
 import BackButton from "../../components/BackButton";
-import { CalculateDistance } from '../../components/CalculateDistance';
+import { CalculateDistance } from "../../components/CalculateDistance";
 
 export default function DetailPage({ navigation, route }) {
-  const { cafe } = route.params || {};
+  const { cafeId } = route.params || {};
   const [isLoading, setIsLoading] = useState(true);
   const [apiData, setApiData] = useState(null);
-  const [images, setImages] = useState(null);
-  const [menuItems, setMenuItems] = useState(null);
+  const [images, setImages] = useState([]);
+  const [menuItems, setMenuItems] = useState([]);
   const [beansInfo, setBeansInfo] = useState(null);
   const [selectedTab, setSelectedTab] = useState("home");
   const fadeAnim = useState(new Animated.Value(1))[0];
@@ -49,22 +49,22 @@ export default function DetailPage({ navigation, route }) {
       setIsLoading(true);
       try {
         const [cafeResponse, beansResponse] = await Promise.all([
-          axios.get("http://13.124.11.195:3000/cafes/1"),
-          axios.get("http://13.124.11.195:3000/cafes/1/beans"),
+          axios.get(`http://13.124.11.195:3000/cafes/${cafeId}`),
+          axios.get(`http://13.124.11.195:3000/cafes/${cafeId}/beans`),
         ]);
         // console.log(cafeResponse.data);
         // console.log(beansResponse.data.success);
         setApiData(cafeResponse.data);
         // images는 상세페이지 메인 이미지랑 메뉴판 사진 들어있는 곳
-        setImages(cafeResponse.data.images);
+        setImages(cafeResponse.data.images || []);
         // MenuItems는 시그니처 메뉴 사진 들어있는 곳곳
-        setMenuItems(cafeResponse.data.menu_items);
+        setMenuItems(cafeResponse.data.menu_items || []);
         console.log("menuItems: ", menuItems);
         setLatitude(cafeResponse.data.latitude);
         setLongitude(cafeResponse.data.longitude);
         console.log("위도: ", latitude);
         console.log("경도: ", longitude);
-        setBeansInfo(beansResponse.data.success);
+        setBeansInfo(beansResponse.data.success || []);
         // console.log(beansInfo);
         setIsLoading(false);
       } catch (error) {
@@ -73,8 +73,8 @@ export default function DetailPage({ navigation, route }) {
       }
     };
 
-    fetchData();
-  }, []);
+    if (cafeId) fetchData();
+  }, [cafeId]);
 
   useEffect(() => {
     if (!apiData) return; // Ensure apiData is available
@@ -83,11 +83,11 @@ export default function DetailPage({ navigation, route }) {
       try {
         // 위치 권한 요청
         let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          console.log('위치 권한이 거부되었습니다.');
+        if (status !== "granted") {
+          console.log("위치 권한이 거부되었습니다.");
           return;
         }
-  
+
         // 현재 위치 가져오기
         let currentLocation = await Location.getCurrentPositionAsync({});
         const currentCoords = {
@@ -105,10 +105,10 @@ export default function DetailPage({ navigation, route }) {
         console.log(error);
       }
     };
-  
+
     fetchData();
   }, [apiData]);
-  
+
   if (isLoading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -158,10 +158,10 @@ export default function DetailPage({ navigation, route }) {
       case "home":
         return (
           <DetailPageHome
-            cafe={cafe}
+            cafe={apiData}
             selectedTab={selectedTab}
             navigation={navigation}
-            distance={cafeDistance}           
+            distance={cafeDistance}
             apiData={apiData}
             images={images}
             menuItems={menuItems}
@@ -187,7 +187,12 @@ export default function DetailPage({ navigation, route }) {
           />
         );
       case "beansinfo":
-        return <DetailPageBeansInfo selectedTab={selectedTab} beansInfo={beansInfo} />;
+        return (
+          <DetailPageBeansInfo
+            selectedTab={selectedTab}
+            beansInfo={beansInfo}
+          />
+        );
     }
   };
 

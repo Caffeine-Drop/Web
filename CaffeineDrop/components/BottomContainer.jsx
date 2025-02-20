@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { Linking, Alert } from "react-native";
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -15,16 +16,57 @@ import { useFonts } from "../styles";
 const BottomContainer = ({
   isDirectionsPressed,
   setIsDirectionsPressed,
-  handleNaverDirections,
-  handleKakaoDirections,
   cafe,
 }) => {
+  console.log("📥 BottomContainer가 받은 cafe:", cafe ? cafe.name : "❌ NULL");
+
   const fontsLoaded = useFonts();
 
   const navigation = useNavigation();
 
+  // ✅ 카페 정보 페이지로 이동
   const handleCafeInfoPress = () => {
-    navigation.navigate("DetailPage", { cafe }); // DetailPage로 이동
+    if (!cafe) {
+      Alert.alert("오류", "카페 정보를 찾을 수 없습니다.");
+      return;
+    }
+    navigation.navigate("DetailPage", { cafeId: cafe.cafe_id });
+  };
+
+  // ✅ 네이버 지도 연결
+  const openNaverMap = () => {
+    console.log("🔍 cafe 데이터 확인:", cafe);
+
+    if (!cafe) {
+      Alert.alert("오류", "카페 정보를 찾을 수 없습니다.");
+      return;
+    }
+
+    const { latitude, longitude, name } = cafe;
+    const url = `nmap://route/public?dlat=${latitude}&dlng=${longitude}&dname=${encodeURIComponent(
+      name
+    )}`;
+
+    Linking.openURL(url).catch(() => {
+      Alert.alert("네이버 지도", "네이버 지도 앱이 설치되어 있지 않습니다.");
+    });
+  };
+
+  // ✅ 카카오 지도 연결
+  const openKakaoMap = () => {
+    console.log("🔍 cafe 데이터 확인:", cafe);
+
+    if (!cafe) {
+      Alert.alert("오류", "카페 정보를 찾을 수 없습니다.");
+      return;
+    }
+
+    const { latitude, longitude } = cafe;
+    const url = `kakaomap://route?ep=${latitude},${longitude}&by=CAR`;
+
+    Linking.openURL(url).catch(() => {
+      Alert.alert("카카오 지도", "카카오 지도 앱이 설치되어 있지 않습니다.");
+    });
   };
 
   if (!fontsLoaded) {
@@ -35,14 +77,14 @@ const BottomContainer = ({
     <>
       {isDirectionsPressed && (
         <OptionsContainer>
-          <OptionButton onPress={handleNaverDirections}>
+          <OptionButton onPress={openNaverMap}>
             <NaverIcon
               width={`${responsiveWidth(24)}px`}
               height={`${responsiveHeight(24)}px`}
             />
             <OptionText>네이버 길찾기</OptionText>
           </OptionButton>
-          <OptionButton onPress={handleKakaoDirections}>
+          <OptionButton onPress={openKakaoMap}>
             <KakaoIcon
               width={`${responsiveWidth(24)}px`}
               height={`${responsiveHeight(24)}px`}
@@ -82,7 +124,7 @@ const BottomContainerWrapper = styled.View`
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: ${responsiveHeight(67)}px;
+  height: ${responsiveHeight(109)}px;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
@@ -133,7 +175,7 @@ const DirectionsText = styled.Text`
 
 const OptionsContainer = styled.View`
   position: absolute;
-  bottom: ${responsiveHeight(76)}px;
+  bottom: ${responsiveHeight(110)}px;
   right: ${responsiveWidth(24)}px;
   align-items: flex-end;
   z-index: 2000;
@@ -146,7 +188,7 @@ const OptionButton = styled.TouchableOpacity`
   background-color: #ffffff;
   border-radius: 33px 22px 0px 33px;
   padding: ${responsiveHeight(12)}px;
-  margin-bottom: ${responsiveHeight(8)}px;
+  margin-bottom: ${responsiveHeight(12)}px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 `;
 

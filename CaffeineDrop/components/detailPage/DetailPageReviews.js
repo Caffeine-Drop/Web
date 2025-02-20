@@ -28,7 +28,7 @@ export default function DetailPageReviews({
   useEffect(() => {
     setUserReviews(reviews);
   }, [reviews]);
-  console.log(reviews.data.reviews[0].images[0].image_url);
+  console.log(reviews.data);
   return (
     <Container>
       <Header>

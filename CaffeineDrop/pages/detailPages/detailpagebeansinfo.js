@@ -5,9 +5,9 @@ import DetailPageEmpty from "../../components/detailPage/DetailPageEmpty";
 export default function DetailPageBeansInfo({ selectedTab, beansInfo }) {
   return (
     <>
-      {beansInfo.bean.length > 0 ? (
+      {/* {beansInfo.bean.length > 0 && beansInfo.bean.length !== null ? (
         <DetailPageCoffeeBeanInfo beansInfo={beansInfo} />
-      ) : (
+      ) : ( */}
         <DetailPageEmpty
           mainText1="원두 정보를"
         mainText2="찾을 수 없어요"
@@ -15,7 +15,7 @@ export default function DetailPageBeansInfo({ selectedTab, beansInfo }) {
         subText2="카페예요"
           selectedTab={selectedTab}
         />
-      )}
+      {/* )} */}
     </>
   );
 }

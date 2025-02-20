@@ -5,9 +5,13 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
+  Modal,
+  Text,
+  Pressable,
 } from "react-native";
 import styled from "styled-components/native";
 import { responsiveWidth, responsiveHeight } from "../../utils/responsive";
+import { PanGestureHandler } from "react-native-gesture-handler";
 
 // 이미지 파일 경로
 // import DetailPageMainImg from "../assets/DetailPage/DetailPageMainImg.svg";
@@ -18,8 +22,12 @@ export default function DetailPageImage({
   navigation,
   reviews,
   ratings,
+  images,
 }) {
   const [loading, setLoading] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
   console.log(reviews.data.reviews);
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -31,6 +39,37 @@ export default function DetailPageImage({
 
   return (
     <View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <PanGestureHandler
+          onGestureEvent={({ nativeEvent }) => {
+            if (nativeEvent.translationY > 100) {
+              setModalVisible(false);
+            }
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "rgba(0,0,0,0.5)",
+            }}
+          >
+            <Image
+              source={{ uri: selectedImage }}
+              style={{ width: "80%", height: "80%", borderRadius: 10 }}
+              resizeMode="contain"
+            />
+          </View>
+        </PanGestureHandler>
+      </Modal>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Container>
           <View
@@ -75,6 +114,23 @@ export default function DetailPageImage({
                 </TouchableOpacity>
               ) : null
             )}
+            {images.map((image, index) => (
+              <TouchableOpacity
+                key={`image-${index}`}
+                onPress={() => {
+                  setSelectedImage(image.image_url);
+                  setModalVisible(true);
+                }}
+              >
+                <Image
+                  source={{ uri: image.image_url }}
+                  style={{
+                    width: responsiveWidth(119),
+                    height: responsiveWidth(119),
+                  }}
+                />
+              </TouchableOpacity>
+            ))}
           </View>
         </Container>
       </ScrollView>

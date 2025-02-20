@@ -54,95 +54,55 @@ export default function DetailPage({ navigation, route }) {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const [
-          cafeResponse,
-          beansResponse,
-          specialtyResponse,
-          reviewsResponse,
-          ratingsResponse,
-          likeResponse,
-        ] = await Promise.all([
-          axios.get(`http://13.124.11.195:3000/cafes/${cafeId}`),
-          axios.get(`http://13.124.11.195:3000/cafes/${cafeId}/beans`),
-          axios.get(`http://13.124.11.195:3000/cafes/${cafeId}/specialty`),
-          axios.get(`http://13.124.11.195:3000/reviews/${cafeId}`, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              Provider: LoggedPlatform,
-            },
-          }),
-          axios.get(`http://13.124.11.195:3000/reviews/${cafeId}/ratings`),
-          // axios.get("http://13.124.11.195:3000/like"),{
-          //   headers : {
-          //     Authorization: `Bearer ${accessToken}`,
-          //     Provider: LoggedPlatform,
-          //   }
-          // }
-        ]);
-        // console.log(cafeResponse.data);
-        // console.log(beansResponse.data.success);
+        const cafeResponse = await axios.get(
+          `http://13.124.11.195:3000/cafes/${cafeId}`
+        );
         setApiData(cafeResponse.data);
-        // images는 상세페이지 메인 이미지랑 메뉴판 사진 들어있는 곳
         setImages(cafeResponse.data.images || []);
-        // MenuItems는 시그니처 메뉴 사진 들어있는 곳곳
-        setMenuItems(cafeResponse.data.menu_items);
-        setIsSpecialty(specialtyResponse.data.success);
-        setReviews(reviewsResponse.data);
-        setRatings(ratingsResponse.data);
-        // setIsLiked(likeResponse.data);
         setLatitude(cafeResponse.data.latitude);
         setLongitude(cafeResponse.data.longitude);
-        setBeansInfo(beansResponse.data.success);
-        // console.log(beansInfo);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-        setIsLoading(false);
-      }
-    };
+        setMenuItems(cafeResponse.data.menu_items || []);
 
-    if (cafeId) fetchData();
-  }, [cafeId]);
+        const specialtyResponse = await axios.get(
+          `http://13.124.11.195:3000/cafes/${cafeId}/specialty`
+        );
+        setIsSpecialty(specialtyResponse.data.success);
 
-  useEffect(() => {
-    if (!apiData) return; // Ensure apiData is available
-    console.log("로그인 플랫폼: ", LoggedPlatform);
-    console.log("엑세스토큰: ", accessToken);
-    // console.log("위도: ", latitude);
-    // console.log("경도: ", longitude);
-    // console.log("리뷰: ", reviews);
-    // console.log("메뉴: ", menuItems);
-    // console.log("평점: ", ratings);
-    console.log("좋아요 상태: ", isLiked);
-    const fetchData = async () => {
-      try {
-        // 위치 권한 요청
+        const reviewsResponse = await axios.get(
+          `http://13.124.11.195:3000/reviews/${cafeId}`
+        );
+        setReviews(reviewsResponse.data);
+
+        const ratingsResponse = await axios.get(
+          `http://13.124.11.195:3000/reviews/${cafeId}/ratings`
+        );
+        setRatings(ratingsResponse.data);
+
+        // Fetch location and calculate distance after all data is loaded
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== "granted") {
-          console.log("위치 권한이 거부되었습니다.");
           return;
         }
 
-        // 현재 위치 가져오기
         let currentLocation = await Location.getCurrentPositionAsync({});
         const currentCoords = {
           latitude: currentLocation.coords.latitude,
           longitude: currentLocation.coords.longitude,
         };
         const cafeCoords = {
-          latitude: apiData.latitude,
-          longitude: apiData.longitude,
+          latitude: cafeResponse.data.latitude,
+          longitude: cafeResponse.data.longitude,
         };
         const distance = CalculateDistance(currentCoords, cafeCoords);
         setCafeDistance(distance.toFixed(1));
-        console.log(`카페까지의 거리: ${distance.toFixed(1)} km`);
+        setIsLoading(false);
       } catch (error) {
-        console.log(error);
+        setIsLoading(false);
       }
     };
 
-    fetchData();
-  }, [apiData]);
+    if (cafeId) fetchData();
+  }, [cafeId]);
 
   if (isLoading) {
     return (
@@ -193,7 +153,7 @@ export default function DetailPage({ navigation, route }) {
       case "home":
         return (
           <DetailPageHome
-            cafe={apiData}
+            cafeId={cafeId}
             selectedTab={selectedTab}
             navigation={navigation}
             distance={cafeDistance}
@@ -230,13 +190,14 @@ export default function DetailPage({ navigation, route }) {
             apiData={apiData}
             reviews={reviews}
             ratings={ratings}
+            images={images}
           />
         );
       case "beansinfo":
         return (
           <DetailPageBeansInfo
             selectedTab={selectedTab}
-            beansInfo={beansInfo}
+            // beansInfo={beansInfo}
           />
         );
     }
@@ -294,8 +255,11 @@ export default function DetailPage({ navigation, route }) {
           isScrolled={isScrolled}
           apiData={apiData}
           images={images}
+          cafeId={cafeId}
           distance={cafeDistance}
           isLiked={isLiked}
+          isSpecialty={isSpecialty}
+          ratings={ratings}
         />
         <View>
           <Container>
@@ -326,6 +290,7 @@ export default function DetailPage({ navigation, route }) {
         navigation={navigation}
         apiData={apiData}
         isSpecialty={isSpecialty}
+        cafeId={cafeId}
       />
     </View>
   );

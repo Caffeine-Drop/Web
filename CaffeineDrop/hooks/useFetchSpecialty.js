@@ -14,7 +14,6 @@ const useFetchSpecialty = (cafeId) => {
         const response = await axios.get(
           `http://13.124.11.195:3000/cafes/${cafeId}/specialty`
         );
-        console.log("🔍 Fetched Specialty Status:", response.data.success); // ✅ API 응답 값 확인
         setIsSpecialty(response.data.success ?? false); // ✅ 백엔드 값이 없으면 false로 설정
       } catch (err) {
         console.error("스페셜티 인증 여부 조회 실패:", err);

@@ -34,7 +34,15 @@ export default function DetailPageImg({
   const fontsLoaded = useFonts();
   const [isLoading, setIsLoading] = useState(true);
   const thumbnailImage = images.find((image) => image.is_thumbnail === true);
-  console.log(reviews.data.reviews);
+
+  // 예외 처리 추가
+  if (!thumbnailImage) {
+    console.warn("Thumbnail image is not available.");
+  }
+
+  const reviewData = reviews?.data?.reviews || [];
+  console.log(reviewData);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false); // 2초 후 로딩 상태를 false로 변경
@@ -46,7 +54,6 @@ export default function DetailPageImg({
   if (!fontsLoaded) {
     return null;
   }
-
   return (
     <Container>
       <View style={{ gap: responsiveHeight(8) }}>
@@ -80,7 +87,9 @@ export default function DetailPageImg({
             }
           >
             <Image
-              source={{ uri: thumbnailImage.image_url }}
+              source={{
+                uri: thumbnailImage?.image_url || DetailPageLoadingImg,
+              }}
               style={{
                 width: responsiveWidth(156),
                 height: responsiveHeight(156),
@@ -90,24 +99,19 @@ export default function DetailPageImg({
           </TouchableOpacity>
         )}
         <SmallImgContainer>
-          {reviews.data.reviews.map((review, reviewIndex) =>
-            review.images.length > 0 ? (
+          {reviewData.slice(0, 4).map((review, index) => {
+            const hasImage = review && review.images.length > 0;
+            return (
               <TouchableOpacity
-                key={review.id || reviewIndex}
+                key={review?.id || index}
                 onPress={() =>
+                  hasImage &&
                   navigation.navigate("DetailPageImageDetail", {
                     review: review,
                   })
                 }
               >
-                {isLoading ? (
-                  <LoadingView
-                    style={{
-                      width: responsiveWidth(78),
-                      height: responsiveHeight(78),
-                    }}
-                  />
-                ) : (
+                {hasImage ? (
                   <Image
                     source={{ uri: review.images[0].image_url }}
                     style={{
@@ -115,17 +119,19 @@ export default function DetailPageImg({
                       height: responsiveHeight(78),
                     }}
                   />
-                )}
+                ) : null}
               </TouchableOpacity>
-            ) : (
-              <LoadingView
-                style={{
-                  width: responsiveWidth(78),
-                  height: responsiveHeight(78),
-                }}
-              />
-            )
-          )}
+            );
+          })}
+          {Array.from({ length: 4 - reviewData.length }).map((_, index) => (
+            <LoadingView
+              key={`loading-${index}`}
+              style={{
+                width: responsiveWidth(78),
+                height: responsiveHeight(78),
+              }}
+            />
+          ))}
         </SmallImgContainer>
       </ImgContainer>
     </Container>

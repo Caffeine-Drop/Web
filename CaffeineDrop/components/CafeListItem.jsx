@@ -122,7 +122,9 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
         // 거리 계산
         const distance = calculateDistance(currentCoords, cafeCoords);
         setCafeDistance(distance.toFixed(1)); // 소수점 한 자리까지 반올림
-      } catch (error) {}
+
+      } catch (error) {
+      }
     };
 
     fetchDistance();
@@ -243,7 +245,8 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
           );
           setIsLiked(isCafeLiked);
         }
-      } catch (error) {}
+      } catch (error) {
+      }
     };
 
     fetchLikedCafes();

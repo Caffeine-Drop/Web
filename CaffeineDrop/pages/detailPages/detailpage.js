@@ -286,12 +286,7 @@ export default function DetailPage({ navigation, route }) {
           </Container>
         </View>
       </ScrollView>
-      <DetailPageWriteReviewButton
-        navigation={navigation}
-        apiData={apiData}
-        isSpecialty={isSpecialty}
-        cafeId={cafeId}
-      />
+      <DetailPageWriteReviewButton navigation={navigation} apiData={apiData} isSpecialty={isSpecialty} cafeId={cafeId}/>
     </View>
   );
 }

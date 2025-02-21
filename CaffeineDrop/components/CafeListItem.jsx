@@ -122,9 +122,7 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
         // 거리 계산
         const distance = calculateDistance(currentCoords, cafeCoords);
         setCafeDistance(distance.toFixed(1)); // 소수점 한 자리까지 반올림
-
-      } catch (error) {
-      }
+      } catch (error) {}
     };
 
     fetchDistance();
@@ -245,8 +243,7 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
           );
           setIsLiked(isCafeLiked);
         }
-      } catch (error) {
-      }
+      } catch (error) {}
     };
 
     fetchLikedCafes();
@@ -381,7 +378,7 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
               {/* ✅ 첫 번째 이미지 (대표 이미지) */}
               <ThumbnailWrapper>
                 {thumbnail ? (
-                  <CafeImage source={{ uri: "https://ifh.cc/g/1mfJ2p.jpg" }} />
+                  <CafeImage source={{ uri: thumbnail.image_url }} />
                 ) : (
                   <CafeImagePlaceholder />
                 )}

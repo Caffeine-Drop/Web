@@ -70,7 +70,7 @@ const Title = styled.Text`
   font-size: ${responsiveFontSize(18)}px;
   font-weight: 600;
   line-height: ${responsiveHeight(24.84)}px;
-  letter-spacing: -0.45;
+  letter-spacing: -0.45px;
   margin-right: ${responsiveWidth(12)}px;
 `;
 
@@ -79,7 +79,7 @@ const CurrentTime = styled.Text`
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 500;
   line-height: ${responsiveHeight(16.56)}px;
-  letter-spacing: -0.3;
+  letter-spacing: -0.3px;
   color: #999;
 `;
 
@@ -105,7 +105,7 @@ const Index = styled.Text`
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 500;
   line-height: ${responsiveHeight(19.32)}px;
-  letter-spacing: -0.35;
+  letter-spacing: -0.35px;
   color: #666;
   margin-right: ${responsiveWidth(14)}px;
 `;
@@ -115,5 +115,5 @@ const SearchText = styled.Text`
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 500;
   line-height: ${responsiveHeight(19.32)}px;
-  letter-spacing: -0.35;
+  letter-spacing: -0.35px;
 `;

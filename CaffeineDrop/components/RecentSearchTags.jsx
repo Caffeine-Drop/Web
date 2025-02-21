@@ -72,7 +72,7 @@ const Title = styled.Text`
   font-size: ${responsiveFontSize(18)}px;
   font-weight: 600;
   line-height: ${responsiveHeight(24.84)}px;
-  letter-spacing: -0.45;
+  letter-spacing: -0.45px;
 `;
 
 const ClearText = styled.Text`
@@ -80,7 +80,7 @@ const ClearText = styled.Text`
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 500;
   line-height: ${responsiveHeight(16.56)}px;
-  letter-spacing: -0.3;
+  letter-spacing: -0.3px;
   color: #999;
 `;
 
@@ -108,7 +108,7 @@ const TagText = styled.Text`
   font-family: PretendardMedium;
   font-size: ${responsiveFontSize(14)}px;
   line-height: ${responsiveHeight(19.32)}px;
-  letter-spacing: -0.35;
+  letter-spacing: -0.35px;
   margin-right: 2px;
 `;
 

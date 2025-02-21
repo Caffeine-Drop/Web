@@ -284,7 +284,7 @@ const SortText = styled.Text`
   font-size: ${responsiveFontSize(12)}px;
   font-weight: ${(props) => (props.selected ? "600" : "400")};
   line-height: ${responsiveHeight(16.56)}px;
-  letter-spacing: -0.3;
+  letter-spacing: -0.3px;
   color: #000;
 `;
 

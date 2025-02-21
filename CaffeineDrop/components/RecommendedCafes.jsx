@@ -89,7 +89,7 @@ const Title = styled.Text`
   font-size: ${responsiveFontSize(20)}px;
   font-weight: 600;
   line-height: ${responsiveHeight(27.6)}px;
-  letter-spacing: -0.5;
+  letter-spacing: -0.5px;
   margin-right: ${responsiveWidth(12)}px;
 `;
 
@@ -98,7 +98,7 @@ const AdText = styled.Text`
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 500;
   line-height: ${responsiveHeight(16.56)}px;
-  letter-spacing: -0.3;
+  letter-spacing: -0.3px;
   color: #999;
 `;
 
@@ -123,7 +123,7 @@ const CafeText = styled.Text`
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 600;
   line-height: ${responsiveHeight(19.32)}px;
-  letter-spacing: -0.35;
+  letter-spacing: -0.35px;
   color: #fafafa;
 `;
 
@@ -138,7 +138,7 @@ const DistanceLabel = styled.Text`
   font-size: ${responsiveFontSize(10)}px;
   font-weight: 400;
   line-height: ${responsiveHeight(13.8)}px;
-  letter-spacing: -0.25;
+  letter-spacing: -0.25px;
   background-color: #f1f1f1;
   border-radius: 8px;
   display: flex;
@@ -153,7 +153,7 @@ const DistanceValue = styled.Text`
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 400;
   line-height: ${responsiveHeight(16.56)}px;
-  letter-spacing: -0.3;
+  letter-spacing: -0.3px;
   color: #fafafa;
 `;
 
@@ -168,7 +168,7 @@ const RatingText = styled.Text`
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 400;
   line-height: ${responsiveHeight(16.56)}px;
-  letter-spacing: -0.3;
+  letter-spacing: -0.3px;
   color: #fafafa;
   margin-left: ${responsiveWidth(4)}px;
 `;

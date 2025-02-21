@@ -59,7 +59,7 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
   }, [fetchedSpecialty, isSpecialtyLoading]);
 
   const handlePress = () => {
-    console.log("Navigating to DetailPage with cafeId:", cafe.cafe_id);
+    // console.log("Navigating to DetailPage with cafeId:", cafe.cafe_id);
     navigation.navigate("DetailPage", { cafeId: cafe.cafe_id }); // DetailPage로 이동
   };
 
@@ -122,6 +122,7 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
         // 거리 계산
         const distance = calculateDistance(currentCoords, cafeCoords);
         setCafeDistance(distance.toFixed(1)); // 소수점 한 자리까지 반올림
+
       } catch (error) {
       }
     };
@@ -150,12 +151,11 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
   useEffect(() => {
     const fetchCafeData = async () => {
       if (!accessToken || !LoggedPlatform) {
-        console.error("🚨 인증 정보가 없습니다. API 요청을 취소합니다.");
+        // console.error("🚨 인증 정보가 없습니다. API 요청을 취소합니다.");
         return;
       }
 
       try {
-
         // ✅ 1️⃣ 리뷰 개수 가져오기
         const fetchReviews = axios.get(
           `http://13.124.11.195:3000/reviews/${cafe.cafe_id}`,
@@ -227,7 +227,7 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
   useEffect(() => {
     const fetchLikedCafes = async () => {
       if (!accessToken || !LoggedPlatform) {
-        console.error("🚨 인증 정보가 없습니다. API 요청을 취소합니다.");
+        // console.error("🚨 인증 정보가 없습니다. API 요청을 취소합니다.");
         return;
       }
 
@@ -385,7 +385,7 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
                 ) : (
                   <CafeImagePlaceholder />
                 )}
-                {/* ✅ 미운영 알림 (영업 전일 때) */}
+                {/* ✅ 미운영 알림 (영업 전일 때) 
                 {isClosed && (
                   <ClosedOverlay>
                     <ClosedSubText>미운영 알림</ClosedSubText>
@@ -393,6 +393,7 @@ const CafeListItem = ({ cafe, isSelected, isLoading }) => {
                     <ClosedText>준비중이에요!</ClosedText>
                   </ClosedOverlay>
                 )}
+                  */}
               </ThumbnailWrapper>
 
               {/* ✅ 두 번째 & 세 번째 이미지 (리뷰 사진) */}
@@ -552,7 +553,7 @@ const ClosedSubText = styled.Text`
   font-weight: 400;
   padding-bottom: ${responsiveHeight(8)}px;
   line-height: ${responsiveHeight(16.56)}px;
-  letter-spacing: -0.3;
+  letter-spacing: -0.3px;
 `;
 
 const ClosedText = styled.Text`
@@ -562,7 +563,7 @@ const ClosedText = styled.Text`
   font-style: normal;
   font-weight: 700;
   line-height: ${responsiveHeight(22.08)}px;
-  letter-spacing: -0.4;
+  letter-spacing: -0.4px;
 `;
 
 /* ✅ 배지 컨테이너: 항상 고정 */
@@ -587,7 +588,7 @@ const BadgeText = styled.Text`
   font-size: ${responsiveFontSize(10)}px;
   font-weight: 500;
   line-height: ${responsiveHeight(13.8)}px;
-  letter-spacing: -0.25;
+  letter-spacing: -0.25px;
   margin-left: ${responsiveWidth(4)}px;
   color: #fafafa;
 `;
@@ -602,7 +603,7 @@ const Title = styled.Text`
   font-size: ${responsiveFontSize(18)}px;
   font-weight: 600;
   line-height: ${responsiveHeight(24.84)}px;
-  letter-spacing: -0.45;
+  letter-spacing: -0.45px;
   padding-bottom: ${responsiveHeight(8)}px;
 `;
 
@@ -611,7 +612,7 @@ const CafeLocation = styled.Text`
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 400;
   line-height: ${responsiveHeight(19.32)}px;
-  letter-spacing: -0.35;
+  letter-spacing: -0.35px;
   padding-bottom: ${responsiveHeight(8)}px;
 `;
 
@@ -624,7 +625,7 @@ const DistanceBadge = styled.Text`
   font-size: ${responsiveFontSize(10)}px;
   font-weight: 400;
   line-height: ${responsiveHeight(13.8)}px;
-  letter-spacing: -0.25;
+  letter-spacing: -0.25px;
   padding: ${responsiveHeight(2)}px ${responsiveWidth(4)}px;
   margin-right: ${responsiveWidth(4)}px;
   border-radius: 8px;
@@ -636,7 +637,7 @@ const Distance = styled.Text`
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 400;
   line-height: ${responsiveHeight(16.56)}px;
-  letter-spacing: -0.3;
+  letter-spacing: -0.3px;
   margin-right: ${responsiveWidth(12)}px;
 `;
 
@@ -645,7 +646,7 @@ const HashTag = styled.Text`
   font-size: ${responsiveFontSize(12)}px;
   font-weight: 400;
   line-height: ${responsiveHeight(16.56)}px;
-  letter-spacing: -0.3;
+  letter-spacing: -0.3px;
   color: #666;
 `;
 const RatingContainer = styled.View`
@@ -659,7 +660,7 @@ const RatingText = styled.Text`
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 400;
   line-height: ${responsiveHeight(19.32)}px;
-  letter-spacing: -0.35;
+  letter-spacing: -0.35px;
   color: #666;
 `;
 
@@ -668,7 +669,7 @@ const RatingNumber = styled.Text`
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 400;
   line-height: ${responsiveHeight(19.32)}px;
-  letter-spacing: -0.35;
+  letter-spacing: -0.35px;
   color: #000;
 `;
 
@@ -677,7 +678,7 @@ const RatingSeparator = styled.Text`
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 400;
   line-height: ${responsiveHeight(19.32)}px;
-  letter-spacing: -0.35;
+  letter-spacing: -0.35px;
   color: #666;
 `;
 
@@ -686,6 +687,6 @@ const RatingReviews = styled.Text`
   font-size: ${responsiveFontSize(14)}px;
   font-weight: 400;
   line-height: ${responsiveHeight(19.32)}px;
-  letter-spacing: -0.35;
+  letter-spacing: -0.35px;
   color: #666;
 `;
